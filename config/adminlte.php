@@ -14,8 +14,8 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
-    'title_prefix' => '',
+    'title' => '',
+    'title_prefix' => 'Sistema Tickets | ',
     'title_postfix' => '',
 
     /*
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Sistema </b>Tickets',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'AdminLTE',
+    'logo_img_alt' => 'Sistema Tickets',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,11 +65,11 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
-    'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
-    'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_header' => true,
+    'usermenu_header_class' => 'bg-info',
+    'usermenu_image' => true,
+    'usermenu_desc' => true,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -85,8 +85,8 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_sidebar' => true,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -102,13 +102,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
-    'classes_auth_header' => '',
-    'classes_auth_body' => '',
-    'classes_auth_footer' => '',
-    'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
-
+    'classes_auth_card' => 'bg-gradient-dark' ,
+    'classes_auth_header' => '' ,
+    'classes_auth_body' => 'bg-gradient-dark' ,
+    'classes_auth_footer' => 'text-center' ,
+    'classes_auth_icon' => 'fa-fw text-light' ,
+    'classes_auth_btn' => 'btn-flat btn-light' ,
     /*
     |--------------------------------------------------------------------------
     | Admin Panel Classes
@@ -147,7 +146,7 @@ return [
 
     'sidebar_mini' => 'lg',
     'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => false,
+    'sidebar_collapse_auto_size' => true,
     'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
@@ -226,98 +225,149 @@ return [
 
     'menu' => [
         // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
+
+        
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
+
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
         [
-            'text'        => 'pages',
+            'text'        => 'Tablero',
+            'route'       => 'home',
+            'icon'           =>'fas fa-fw fa-home          '
+        ],
+
+                [
+            'text'        => 'Gestión',
             'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
+            'icon'        => 'fas fa-bolt',
             'label'       => 4,
-            'label_color' => 'success',
+            'label_color' => 'info',
         ],
-        ['header' => 'account_settings'],
+    
+
         [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
+            'text'    => 'Reuniones',
+            'icon'        => 'fas fa-calendar-day',
+            'label'       => 4,
+            'label_color' => 'info',
+
             'submenu' => [
+
                 [
-                    'text' => 'level_one',
+                    'text' => 'Crear',
+                    'route' => 'calendario',
+                ],
+
+                [
+                    'text' => 'Pendientes',
                     'url'  => '#',
                 ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
+
             ],
         ],
-        ['header' => 'labels'],
+
+
         [
-            'text'       => 'important',
-            'icon_color' => 'red',
+            'text'    => 'Tickets',
+            'icon'        => 'fas fa-ticket-alt',
+            'label'       => 4,
+            'label_color' => 'success',
+
+            'submenu' => [
+
+                [
+                    'text' => 'Crear',
+                    'url'  => '#',
+                ],
+
+                [
+                    'text' => 'Sin asignar',
+                    'url'  => '#',
+                ],
+                [
+                    'text'    => 'Pendientes',
+                    'url'     => '#',
+     
+                ],
+     
+            ],
+        ],
+
+
+
+        
+        ['header' => 'CONFIGURACIÓN'],
+        [
+            'text' => 'Tipos ',
+            'url'  => 'admin/settings', 
+            'icon' => 'fas fa-fw fa-users',
+        ],
+
+        [
+            'text' => 'Prioridades',
+            'url'  => 'admin/settings',
+            'icon' => ' fas fa-thermometer-half',
+        ],
+
+
+        ['header' => 'REPORTES'],
+        [
+            'text'       => 'Nuevos creados',
+            'icon'       => 'fas fa-business-time',
             'url'        => '#',
         ],
+        
         [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
+            'text'       => 'Tickets Pendientes',
+            'icon'       =>'fas fa-clock',
             'url'        => '#',
         ],
+
+        ['header' => 'EMPRESA'],
+
         [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
+            'text' => 'Empresas ',
+            'url'  => 'admin/settings', 
+            'icon' => 'fas fa-fw fa-users',
+        ],
+
+        [
+            'text' => 'Áreas',
+            'url'  => 'admin/settings', 
+            'icon' => 'fas fa-fw fa-users',
+        ],
+
+        [
+            'text' => 'Oficinas',
+            'url'  => 'admin/settings', 
+            'icon' => 'fas fa-fw fa-users',
+        ],
+    
+        ['header' => 'ADMINISTRACIÓN'],
+        [
+            'text'       => 'Usuarios',
+            'icon'       => 'fas fa-fw fa-users',
             'url'        => '#',
         ],
+
+        [
+            'text'       => 'Roles',
+            'icon'       => 'fas fa-lock',
+            'url'        => '#',
+        ],
+
+        [
+            'text'       => 'Permisos',
+            'icon'       => 'fas fa-key',
+            'url'        => '#',
+        ],
+
+
     ],
 
     /*

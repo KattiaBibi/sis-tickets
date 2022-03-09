@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+<!-- @section('title', 'Dashboard') -->
 
 @section('content_header')
     <h1>Dashboard</h1>
@@ -9,6 +9,130 @@
 @section('content')
  
 
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+  <h1 class="card-title">Special title treatment</h1>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+  </div>
+</div>
 <div class="card">
   <div class="card-header">
   <h1 class="card-title">Special title treatment</h1>
