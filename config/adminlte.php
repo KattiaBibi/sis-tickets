@@ -332,7 +332,7 @@ return [
 
         [
             'text' => 'Empresas ',
-            'url'  => 'admin/settings', 
+            'url'  => 'empresa', 
             'icon' => 'fas fa-fw fa-users',
         ],
 

@@ -19,6 +19,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::resource('empresa','EmpresaController');
+
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/calendario','CalendarioController@index')->name('calendario');
