@@ -16,10 +16,8 @@ class EmpresaController extends Controller
     {
         //
 
-        $empresa = Empresa::latest()->paginate(5);
-  
-        return view('empresa.index',compact('empresa'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $empresas = Empresa::all();
+        return view('empresa.index', compact('empresas','empresas'));
     }
 
     /**
@@ -29,8 +27,9 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        return view('empresa.crear');
+        //
 
+        return view('empresa.crear');
     }
 
     /**
@@ -40,18 +39,25 @@ class EmpresaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'nombre' => 'required',
-            'direccion' => 'required',
-            'telefono' => 'required',
-        ]);
-  
-        Empresa::create($request->all());
    
-        return redirect()->route('empresa.index')
-                        ->with('success','Empresa creada satisfactoriamente.');
-    }
+    {
+        //
+        $request->validate([
+            'txtNombre'=>'required',
+            'txtDireccion'=> 'required',
+            'txtTelefono' => 'required'
+        ]);
+ 
+        $empresa = new Empresa([
+            'nombre' => $request->get('txtNombre'),
+            'direccion'=> $request->get('txtDireccion'),
+            'telefono'=> $request->get('txtTelefono')
+        ]);
+ 
+        $empresa->save();
+        return redirect('/empresa')->with('success', 'Registro correctamente agregado.');
+    }  
+
 
     /**
      * Display the specified resource.
