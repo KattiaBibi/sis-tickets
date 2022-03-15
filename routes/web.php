@@ -20,8 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('empresa','EmpresaController');
-
+Route::get('datatable/empresas', 'DatatableController@empresa')->name('datatable.empresa');
 
 Route::get('/home', 'HomeController@index')->name('home');
+/* Route::get('/empresa/store', 'EmpresaController@store')->name('/empresa/store'); */
 
-Route::get('/calendario','CalendarioController@index')->name('calendario');
+//  Route::get('/calendario','CalendarioController@index')->name('calendario');

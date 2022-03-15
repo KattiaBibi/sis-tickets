@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Empresa;
 use Illuminate\Http\Request;
+use App\Http\Requests\EmpresaRequest;
 
 class EmpresaController extends Controller
 {
@@ -12,11 +13,17 @@ class EmpresaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         //
 
         $empresas = Empresa::all();
+        
         return view('empresa.index', compact('empresas','empresas'));
     }
 
@@ -38,24 +45,14 @@ class EmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmpresaRequest $request)
    
     {
-        //
-        $request->validate([
-            'txtNombre'=>'required',
-            'txtDireccion'=> 'required',
-            'txtTelefono' => 'required'
-        ]);
- 
-        $empresa = new Empresa([
-            'nombre' => $request->get('txtNombre'),
-            'direccion'=> $request->get('txtDireccion'),
-            'telefono'=> $request->get('txtTelefono')
-        ]);
- 
-        $empresa->save();
-        return redirect('/empresa')->with('success', 'Registro correctamente agregado.');
+     
+      /*   dd($request->all()); */
+        $empresa = Empresa::create($request->all());
+
+        return $empresa?1:0;
     }  
 
 

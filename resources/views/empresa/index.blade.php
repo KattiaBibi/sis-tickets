@@ -3,8 +3,15 @@
 @section('content_header')
     <h1>Empresas</h1>
     @section('title', 'Empresas')
-@stop
+@endsection
 
+@section('css')
+    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/> --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"/>
+
+    
+@endsection
 
 @section('content')
 
@@ -32,15 +39,20 @@
         </div>
     @endif
  
-    <table class="table table-bordered">
-        <tr>
-            <th>ID</th>
-            <th>NOMBRE</th>
-            <th>DIRECCIÓN</th>
-            <th>TELÉFONO</th>
-            <th width="280px" class="text-center">ACCIÓN</th>
-        </tr>
-        @php
+
+    <table id="empresas" class="table table-striped table-bordered" style="">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NOMBRE</th>
+                <th>DIRECCIÓN</th>
+                <th>TELÉFONO</th>
+                <th width="280px" class="text-center">ACCIÓN</th>
+          
+            </tr>
+        </thead>
+        {{-- <tbody>
+            @php
             $i = 0;
         @endphp
         @foreach ($empresas as $e)
@@ -60,14 +72,22 @@
                 </td>
             </tr>
         @endforeach
+
+        </tbody> --}}
+        <tfoot>
+            <tr>
+      <th>ID</th>
+            <th>NOMBRE</th>
+            <th>DIRECCIÓN</th>
+            <th>TELÉFONO</th>
+            <th width="280px" class="text-center">ACCIÓN</th>
+              
+            </tr>
+        </tfoot>
     </table>
 
   </div>
 </div>
-
-
-@endsection
-
 
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -91,47 +111,125 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('empresa.store') }}" method="POST">
+    <form action="{{ route('empresa.store') }}" id="frmguardar" >
         @csrf
         <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="txtNombre">
+            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
         </div>
         <div class="form-group">
             <label for="">Dirección:</label>
-            <input type="text" class="form-control" id="txtDireccion" placeholder="Ingrese la dirección" name="txtDireccion">
+            <input type="text" class="form-control" id="txtDireccion" placeholder="Ingrese la dirección" name="direccion">
         </div>
         <div class="form-group">
             <label for="">Teléfono:</label>
-            <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="txtTelefono">
+            <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="telefono">
         </div>
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-        <button type="submit" class="btn btn-primary">GUARDAR</button>
+        <button  id="btnguardar" class="btn btn-primary">GUARDAR</button>
       </div>
     </form>
-
+    
     </div>
   </div>
 </div>
 
 
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
+@endsection
+
+
+
 
 @section('js')
-    <script> console.log('Hi!'); </script>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<script type="text/javascript">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>   
+<script> console.log('¡HOLA!'); </script>
+
+
+<script>
+
 $(document).ready(function() {
     setTimeout(function() {
         $("#mensaje").fadeOut(1500);
     },3000);
 
+
+    $('#empresas').DataTable( {
+        "ajax": "{{route(datatable.empresa)}}",
+        "columns":[
+
+        {data: 'nombre'},
+        {data: 'direccion'},
+        {data: 'telefono'},
+
+        ]
+    } );
+
 });
+
+
+
+let _token="{{csrf_token() }}"
+$('#btnguardar').on("click" ,(event)=>{
+    event.preventDefault();
+ 
+let route=$('#frmguardar').attr("action");
+let dataArray=$('#frmguardar').serialize();
+console.log(_token)
+let data={
+    _token:_token,
+}
+
+$.ajax({
+    "method":'POST',
+    "url": route,
+    "data": dataArray,
+   
+
+    "success":function(Response){
+
+        if(Response==1){
+            $('#frmguardar')[0].reset()
+   
+        Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Datos Guardados correctamente',
+        showConfirmButton: false,
+        timer: 1500
+        })
+
+        }
+            else{
+
+                alert("no guardado");
+            }
+
+       
+    },'error':(response)=>{
+        console.log(response)
+       $.each(response.responseJSON.errors, function (key, value){
+        response.responseJSON.errors[key].forEach(element => {
+
+            console.log(element);
+            toastr.error(element);
+           
+           });
+       });
+    }
+})
+
+})
+
+
+
 </script>
-@stop
+@endsection
