@@ -80,7 +80,7 @@
             <th>NOMBRE</th>
             <th>DIRECCIÓN</th>
             <th>TELÉFONO</th>
-            <th width="280px" class="text-center">ACCIÓN</th>
+       
               
             </tr>
         </tfoot>
@@ -163,7 +163,7 @@ $(document).ready(function() {
 
 
     $('#empresas').DataTable( {
-        "ajax": "{{route(datatable.empresa)}}",
+        "ajax": "{{route('datatable.empresa')}}",
         "columns":[
 
         {data: 'nombre'},
