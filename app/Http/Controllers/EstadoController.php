@@ -2,38 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Empresa;
+use App\Estado;
 use Illuminate\Http\Request;
-use App\Http\Requests\EmpresaRequest;
 
-class EmpresaController extends Controller
+class EstadoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
-    public function empresa()
-    {
 
-        $empresas=Empresa::select('id','nombre', 'direccion', 'telefono')->get();
+     public function estado(){
 
-        return datatables()->of($empresas)->toJson();
-    }
-    
+        $estados=Estado::select('id','nombre')->get();
 
+        return datatables()->of($estados)->toJson();
+
+     }
     public function index()
     {
         //
 
-        $empresas = Empresa::all();
-
-        return view('empresa.index', compact('empresas','empresas'));
+        $estados = Estado::all();
+        
+        return view('estado.index', compact('estados','estados'));
     }
 
     /**
@@ -44,8 +38,6 @@ class EmpresaController extends Controller
     public function create()
     {
         //
-
-        return view('empresa.crear');
     }
 
     /**
@@ -54,24 +46,22 @@ class EmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EmpresaRequest $request)
-   
+    public function store(Request $request)
     {
-     
-      /*   dd($request->all()); */
-        $empresa = Empresa::create($request->all());
+        //
 
-        return $empresa?1:0;
-    }  
+        $estado =  Estado::create($request->all());
 
+        return $estado?1:0;
+    }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Empresa  $empresa
+     * @param  \App\Estado  $estado
      * @return \Illuminate\Http\Response
      */
-    public function show(Empresa $empresa)
+    public function show(Estado $estado)
     {
         //
     }
@@ -79,10 +69,10 @@ class EmpresaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Empresa  $empresa
+     * @param  \App\Estado  $estado
      * @return \Illuminate\Http\Response
      */
-    public function edit(Empresa $empresa)
+    public function edit(Estado $estado)
     {
         //
     }
@@ -91,10 +81,10 @@ class EmpresaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Empresa  $empresa
+     * @param  \App\Estado  $estado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empresa $empresa)
+    public function update(Request $request, Estado $estado)
     {
         //
     }
@@ -102,10 +92,10 @@ class EmpresaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Empresa  $empresa
+     * @param  \App\Estado  $estado
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Empresa $empresa)
+    public function destroy(Estado $estado)
     {
         //
     }

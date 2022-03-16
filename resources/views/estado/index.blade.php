@@ -1,8 +1,8 @@
 @extends('adminlte::page')
 
 @section('content_header')
-    <h1>Empresas</h1>
-    @section('title', 'Empresas')
+    <h1>Estados</h1>
+    @section('title', 'Estados')
 @endsection
 
 @section('css')
@@ -40,13 +40,12 @@
     @endif
  
 
-    <table id="empresas" class="table table-striped table-bordered" style="">
+    <table id="estados" class="table table-striped table-bordered" style="">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>NOMBRE</th>
-                <th>DIRECCIÓN</th>
-                <th>TELÉFONO</th>
+
                 {{-- <th width="280px" class="text-center">ACCIÓN</th> --}}
           
             </tr>
@@ -55,12 +54,11 @@
             @php
             $i = 0;
         @endphp
-        @foreach ($empresas as $e)
+        @foreach ($estados as $e)
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $e->nombre }}</td>
-                <td>{{ $e->direccion }}</td>
-                <td>{{ $e->telefono }}</td>
+
                 <td class="text-center">
                     <form action="{{ route('empresa.destroy',$e->id) }}" method="POST">
                    
@@ -78,8 +76,6 @@
             <tr>
             <th>ID</th>
             <th>NOMBRE</th>
-            <th>DIRECCIÓN</th>
-            <th>TELÉFONO</th>
             {{-- <th width="280px" class="text-center">ACCIÓN</th>
                --}}
             </tr>
@@ -111,22 +107,12 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('empresa.store') }}" id="frmguardar" >
+    <form action="{{ route('estado.store') }}" id="frmguardar" >
         @csrf
         <div class="form-group">
             <label for="">Nombre:</label>
             <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
         </div>
-        <div class="form-group">
-            <label for="">Dirección:</label>
-            <input type="text" class="form-control" id="txtDireccion" placeholder="Ingrese la dirección" name="direccion">
-        </div>
-        <div class="form-group">
-            <label for="">Teléfono:</label>
-            <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="telefono">
-        </div>
-
-
 
       </div>
       <div class="modal-footer">
@@ -167,14 +153,14 @@ $(document).ready(function() {
     },3000);
 
 
-    $('#empresas').DataTable( {
+    $('#estados').DataTable( {
         responsive: true,
         autoWidth: false,
 
         "language": {
 		  "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
 		  },
-        "ajax": "{{route('datatable.empresa')}}",
+        "ajax": "{{route('datatable.estado')}}",
         "columns":[
 
         {data: 'id',
@@ -182,9 +168,6 @@ $(document).ready(function() {
         return meta.row+1;}},
 
         {data: 'nombre'},
-        {data: 'direccion'},
-        {data: 'telefono'},
-
 
         ]
     } );
@@ -222,7 +205,7 @@ $.ajax({
         timer: 1500
         })
 
-        $('#empresas').DataTable().ajax.reload();
+        $('#estados').DataTable().ajax.reload();
         $('#frmguardar')[0].reset()
      
 

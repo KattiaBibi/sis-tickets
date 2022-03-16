@@ -18,6 +18,7 @@ class CreateEmpresasTable extends Migration
             $table->string('nombre');
             $table->text('direccion');
             $table->text('telefono');
+            $table->unsignedBigInteger('estado_id')->after('id')->default(1);
             $table->timestamps();
         });
     }

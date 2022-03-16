@@ -18,11 +18,14 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('empresa','EmpresaController');
-Route::get('datatable/empresas', 'DatatableController@empresa')->name('datatable.empresa');
+Route::get('datatable/empresas', 'EmpresaController@empresa')->name('datatable.empresa');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('estado','EstadoController');
+Route::get('datatable/estados', 'EstadoController@estado')->name('datatable.estado');
+
 /* Route::get('/empresa/store', 'EmpresaController@store')->name('/empresa/store'); */
 
 //  Route::get('/calendario','CalendarioController@index')->name('calendario');

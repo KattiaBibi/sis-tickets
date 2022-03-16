@@ -314,6 +314,12 @@ return [
             'icon' => ' fas fa-thermometer-half',
         ],
 
+        [
+            'text' => 'Estados',
+            'url'  => 'admin/settings',
+            'icon' => ' fas fa-thermometer-half',
+            'url'        => 'estado',
+        ],
 
         ['header' => 'REPORTES'],
         [
@@ -366,7 +372,6 @@ return [
             'icon'       => 'fas fa-key',
             'url'        => '#',
         ],
-
 
     ],
 
