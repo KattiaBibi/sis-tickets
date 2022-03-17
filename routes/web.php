@@ -21,7 +21,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('empresa','EmpresaController');
-Route::get('datatable/empresas', 'EmpresaController@empresa')->name('datatable.empresa');
+Route::post('datatable/empresas', 'EmpresaController@empresa')->name('datatable.empresa');
+
+
 
 Route::resource('estado','EstadoController');
 Route::get('datatable/estados', 'EstadoController@estado')->name('datatable.estado');

@@ -18,7 +18,9 @@ class CreateEmpresasTable extends Migration
             $table->string('nombre');
             $table->text('direccion');
             $table->text('telefono');
-            $table->unsignedBigInteger('estado_id')->after('id')->default(1);
+            $table->unsignedBigInteger('estado_id')->nullable()->default(1);
+            $table->foreign('estado_id','fk_empresa_estado')->references('id')->on('estados')->onDelete('restrict')->onUpdate('restrict');
+
             $table->timestamps();
         });
     }
@@ -32,4 +34,5 @@ class CreateEmpresasTable extends Migration
     {
         Schema::dropIfExists('empresas');
     }
+
 }

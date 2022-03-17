@@ -18,18 +18,30 @@ class EmpresaController extends Controller
         $this->middleware('auth');
     }
 
-    public function empresa()
+    public function empresa(Request $request)
     {
 
-        $empresas=Empresa::select('id','nombre', 'direccion', 'telefono')->get();
+        // $empresas=Empresa::select('id','nombre', 'direccion', 'telefono','estado_id')->get();
 
-        return datatables()->of($empresas)->toJson();
+        // return datatables()->of($empresas)->toJson();
+
+      return datatables()->of(Empresa::all())->toJson();
+
+        // $data["data"]=Empresa::select('id',
+        // 'nombre',
+        // 'direccion',
+        // 'telefono',
+        // 'estado_id',)->get();
+
+        // return $data;
+
+
     }
-    
+
 
     public function index()
     {
-        //
+        //get
 
         $empresas = Empresa::all();
 
@@ -43,7 +55,7 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        //
+        //get
 
         return view('empresa.crear');
     }
@@ -55,14 +67,14 @@ class EmpresaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(EmpresaRequest $request)
-   
+
     {
-     
-      /*   dd($request->all()); */
+
+      /*   dd($request->all()); post */
         $empresa = Empresa::create($request->all());
 
         return $empresa?1:0;
-    }  
+    }
 
 
     /**
@@ -73,7 +85,7 @@ class EmpresaController extends Controller
      */
     public function show(Empresa $empresa)
     {
-        //
+        //get
     }
 
     /**
@@ -84,7 +96,9 @@ class EmpresaController extends Controller
      */
     public function edit(Empresa $empresa)
     {
-        //
+        //get
+
+
     }
 
     /**
@@ -94,9 +108,17 @@ class EmpresaController extends Controller
      * @param  \App\Empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empresa $empresa)
+    public function update(EmpresaRequest $request, Empresa $empresa, $id)
     {
-        //
+        //put o patach no recuerdo bien , pero todo uso solo get y post :v
+
+        $empresa = Empresa::find($id);
+        $empresa->nombre = Input::get('nombre');
+        $empresa->direccion = Input::get('direccion');
+        $empresa->telefono = Input::get('telefono');
+        $empresa->save();
+        return $empresa?1:0;
+
     }
 
     /**
@@ -107,6 +129,6 @@ class EmpresaController extends Controller
      */
     public function destroy(Empresa $empresa)
     {
-        //
+        //delete
     }
 }
