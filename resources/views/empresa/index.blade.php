@@ -96,7 +96,7 @@
         </div>
     @endif
     <form action="{{ route('empresa.store') }}" id="frmguardar" >
-        @csrf
+        {{-- @csrf --}}
         <div class="form-group">
             <label for="">Nombre:</label>
             <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">

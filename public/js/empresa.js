@@ -61,9 +61,9 @@ $('#btnguardar').on("click" ,(event)=>{
 
 let route=$('#frmguardar').attr("action");
 let dataArray=$('#frmguardar').serialize();
-console.log(_token)
+console.log(token_)
 let data={
-    _token:_token,
+    _token:token_,
 }
 
 $.ajax({
@@ -79,7 +79,7 @@ $.ajax({
         Swal.fire({
         position: 'top-end',
         icon: 'success',
-        title: 'Datos Guardados correctamente',
+        title: 'Datos guardados correctamente',
         showConfirmButton: false,
         timer: 1500
         })
