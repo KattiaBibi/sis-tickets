@@ -96,7 +96,7 @@
         </div>
     @endif
     <form action="{{ route('empresa.store') }}" id="frmguardar" >
-        {{-- @csrf --}}
+        @csrf
         <div class="form-group">
             <label for="">Nombre:</label>
             <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
@@ -150,15 +150,15 @@
           @csrf
           <div class="form-group">
               <label for="">Nombre:</label>
-              <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
+              <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="nombre">
           </div>
           <div class="form-group">
               <label for="">Dirección:</label>
-              <input type="text" class="form-control" id="txtDireccion" placeholder="Ingrese la dirección" name="direccion">
+              <input type="text" class="form-control" id="editarDireccion" placeholder="Ingrese la dirección" name="direccion">
           </div>
           <div class="form-group">
               <label for="">Teléfono:</label>
-              <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="telefono">
+              <input type="text" class="form-control" id="editarTelefono" placeholder="Ingrese la dirección" name="telefono">
           </div>
 
 
@@ -195,8 +195,10 @@
 </script>
 <script src="{{asset('js/empresa.js')}}"></script>
 
+
+
 <script>
 
-listar()
+// listar()
 </script>
 @endsection

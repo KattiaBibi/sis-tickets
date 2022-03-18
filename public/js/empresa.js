@@ -1,9 +1,8 @@
-var tabla;
-/* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
-function listar(){
 
-   tabla= $('#empresas').DataTable( {
-            "pageLength": 10,
+/* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
+
+        var datatable= $('#empresas').DataTable( {
+            "pageLength": 5,
             "destroy": true,
         "async": false,
         responsive: true,
@@ -16,13 +15,13 @@ function listar(){
             }
         ],
         "language": {
-		  "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-		  },
+        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        },
         "ajax": {
-          "url": "/datatable/empresas",
-          "method": "post",
-          'data' : { '_token' : token_ },
-      },
+        "url": "/datatable/empresas",
+        "method": "post",
+        'data' : { '_token' : token_ },
+        },
         "columns":[
 
         {data: 'id',
@@ -43,18 +42,42 @@ function listar(){
             return "<button type='button' class='btn btn-success btn-sm'>ACTIVAR</button>";
             }
         }
-         },
+        },
 
         {data:'id', render: function (data) {
 
-                return "<button type='button' class='btn btn-success'  id="+data+" data-toggle='modal' data-target='#modaleditar'>"+data+"</button>"
+            return '<button type="button" id="ButtonEditar" class="editar edit-modal btn btn-warning botonEditar"><span class="fa fa-edit"></span><span class="hidden-xs"> Editar</span></button>';
             }
         },
 
 
-        ]
-    } );
-}
+]
+} );
+
+var editar = function(tbody, table){
+    $(tbody).on("click","button.editar", function(){
+      if(table.row(this).child.isShown()){
+          var data = table.row(this).data();
+      }else{
+          var data = table.row($(this).parents("tr")).data();
+      }
+
+
+      $('#editarNombre').val(data['nombre']);
+      $('#editarDireccion').val(data['direccion']);
+      $('#editarTelefono').val(data['telefono']);
+      jQuery.noConflict();
+      $('#modaleditar').modal('show');
+
+
+    })
+  }
+
+editar("#empresas tbody",datatable);
+
+
+
+
 
 $('#btnguardar').on("click" ,(event)=>{
     event.preventDefault();
@@ -84,7 +107,7 @@ $.ajax({
         timer: 1500
         })
 
-        $('#empresas').DataTable().ajax.reload();
+        $('#empresas').DataTable().ajax.reload(null,false);
         $('#frmguardar')[0].reset()
 
 
@@ -109,3 +132,22 @@ $.ajax({
 })
 
 })
+
+
+
+// $("a.abrirmodal").clic(function(){
+//     //Capturamos el valor del id para enviarlo al modal
+//     let id = $(this).attr('id');
+//     //Pasamos el id al campo input hiddien del modal.
+//     $("input#idmodal").val(id);
+//     });
+
+
+
+    $("#botoon").on("click" ,(event)=>{
+       event.preventDefault();
+
+        console.log("gf");
+
+
+    });
