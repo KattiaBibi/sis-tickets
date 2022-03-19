@@ -35,18 +35,19 @@
         render: function(data){
 
             if(data=="1"){
-            return "<button type='button' class='btn btn-danger btn-sm'>DESACTIVAR</button>";
+            return "<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>";
+
             }
 
             if(data=="2"){
-            return "<button type='button' class='btn btn-success btn-sm'>ACTIVAR</button>";
+                return "<button type='button'  id='ButtonActivar' class='aesactivar edit-modal btn btn-danger botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
             }
         }
         },
 
         {data:'id', render: function (data) {
 
-            return '<button type="button" id="ButtonEditar" class="editar edit-modal btn btn-warning botonEditar"><span class="fa fa-edit"></span><span class="hidden-xs"> Editar</span></button>';
+            return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
             }
         },
 
@@ -74,9 +75,6 @@ var editar = function(tbody, table){
   }
 
 editar("#empresas tbody",datatable);
-
-
-
 
 
 $('#btnguardar').on("click" ,(event)=>{
@@ -135,19 +133,56 @@ $.ajax({
 
 
 
-// $("a.abrirmodal").clic(function(){
-//     //Capturamos el valor del id para enviarlo al modal
-//     let id = $(this).attr('id');
-//     //Pasamos el id al campo input hiddien del modal.
-//     $("input#idmodal").val(id);
-//     });
+$('#btnactualizar').on("click" ,(event)=>{
+    event.preventDefault();
+
+let route=$('#frmguardar').attr("action");
+let dataArray=$('#frmguardar').serialize();
+console.log(token_)
+let data={
+    _token:token_,
+}
+
+$.ajax({
+    "method":'POST',
+    "url": route,
+    "data": dataArray,
 
 
+    "success":function(Response){
 
-    $("#botoon").on("click" ,(event)=>{
-       event.preventDefault();
+        if(Response==1){
 
-        console.log("gf");
+        Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Datos guardados correctamente',
+        showConfirmButton: false,
+        timer: 1500
+        })
+
+        $('#empresas').DataTable().ajax.reload(null,false);
+        $('#frmguardar')[0].reset()
 
 
-    });
+        }
+            else{
+
+                alert("no guardado");
+            }
+
+
+    },'error':(response)=>{
+        console.log(response)
+       $.each(response.responseJSON.errors, function (key, value){
+        response.responseJSON.errors[key].forEach(element => {
+
+            console.log(element);
+            toastr.error(element);
+
+           });
+       });
+    }
+})
+
+})

@@ -46,10 +46,7 @@
                 <th>NOMBRE</th>
                 <th>DIRECCIÓN</th>
                 <th>TELÉFONO</th>
-                <th>ACCIÓN</th>
-                <th >ACCIÓN 2</th>
-
-
+                <th colspan="2" style="text-align: center;">ACCIÓN</th>
 
             </tr>
         </thead>
@@ -63,9 +60,8 @@
                 <th>NOMBRE</th>
                 <th>DIRECCIÓN</th>
                 <th>TELÉFONO</th>
-                <th>ACCIÓN</th>
-                <th>ACCIÓN 2</th>
-
+                <th colspan="2">ACCIÓN</th>
+             
             </tr>
         </tfoot>
     </table>
@@ -146,7 +142,7 @@
               </ul>
           </div>
       @endif
-      <form action="" id="frmeditar" >
+      <form action="{{ route('products.update',$empresas->id) }}" id="frmeditar" >
           @csrf
           <div class="form-group">
               <label for="">Nombre:</label>
@@ -166,7 +162,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-          <button  id="btnguardar" class="btn btn-primary">EDITAR</button>
+          <button type="submit" id="btnactualizar" class="btn btn-primary">EDITAR</button>
         </div>
       </form>
 

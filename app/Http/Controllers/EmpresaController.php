@@ -112,11 +112,8 @@ class EmpresaController extends Controller
     {
         //put o patach no recuerdo bien , pero todo uso solo get y post :v
 
-        $empresa = Empresa::find($id);
-        $empresa->nombre = Input::get('nombre');
-        $empresa->direccion = Input::get('direccion');
-        $empresa->telefono = Input::get('telefono');
-        $empresa->save();
+        $empresa->update($request->all());
+
         return $empresa?1:0;
 
     }
