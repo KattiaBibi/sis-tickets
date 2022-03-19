@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('empresa','EmpresaController');
 Route::post('datatable/empresas', 'EmpresaController@empresa')->name('datatable.empresa');
-
+Route::post('empresa/{id_estado}', 'EmpresaController@destroy');
 
 
 Route::resource('estado','EstadoController');

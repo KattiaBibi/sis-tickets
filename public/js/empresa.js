@@ -43,7 +43,7 @@ function listar(){
         }
 
         if(data=="2"){
-            return "<button type='button'  id='ButtonActivar' class='aesactivar edit-modal btn btn-danger botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
+            return "<button type='button'  id='ButtonActivar' class='activar edit-modal btn btn-danger botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
         }
     }
     },
@@ -62,7 +62,7 @@ function listar(){
 
 $('#empresas').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
-    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsivo
+    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
         var data = datatable.row(this).data();
     }
     $('#idregistro').val(data['id']);
@@ -74,31 +74,6 @@ $('#empresas').on('click','.editar',function(){
 
 })
 
-
-
-
-
-
-var editar = function(tbody, table){
-    $(tbody).on("click","button.editar", function(){
-      if(table.row(this).child.isShown()){
-          var data = table.row(this).data();
-      }else{
-          var data = table.row($(this).parents("tr")).data();
-      }
-
-      $('#idregistro').val(data['id']);
-      $('#editarNombre').val(data['nombre']);
-      $('#editarDireccion').val(data['direccion']);
-      $('#editarTelefono').val(data['telefono']);
-      jQuery.noConflict();
-      $('#modaleditar').modal('show');
-
-
-    })
-  }
-/*
-editar("#empresas tbody",datatable); */
 
 
 $('#btnguardar').on("click" ,(event)=>{
@@ -210,9 +185,73 @@ $.ajax({
 });
 
 
-$('#btnactualizar').on("click" ,(event)=>{
-    event.preventDefault();
+
+    $('#empresas').on('click','.desactivar',function(){
+
+        Swal.fire({
+            title: '¿Estás seguro(a)?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, bórralo!',
+            cancelButtonText: 'Cancelar',
+          }).then((result) => {
+            if (result.isConfirmed) {
 
 
 
-});
+                var data = datatable.row($(this).parents('tr')).data();
+                if(datatable.row(this).child.isShown()){
+                    var data = datatable.row(this).data();
+                }
+
+
+                let route="/empresa/"+data['id'];
+
+
+                $.ajax({
+                    "method":'put',
+                    "url": route,
+                    "data": data['estado_id'],
+
+
+                    "success":function(Response){
+
+                        if(Response==1){
+
+                            Swal.fire(
+                                '¡Desactivado!',
+                                'Su registro ha sido desactivado.',
+                                'success'
+                              )
+
+                      datatable.ajax.reload(null,false);
+
+                        }
+                            else{
+
+                                alert("no editado");
+                            }
+
+
+                    },'error':(response)=>{
+                        console.log(response)
+                       $.each(response.responseJSON.errors, function (key, value){
+                        response.responseJSON.errors[key].forEach(element => {
+
+                            console.log(element);
+                            toastr.error(element);
+
+                           });
+                       });
+                    }
+                })
+
+
+            }
+          })
+
+    })
+

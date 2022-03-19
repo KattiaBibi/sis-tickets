@@ -124,8 +124,14 @@ class EmpresaController extends Controller
      * @param  \App\Empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Empresa $empresa)
+    public function destroy(EmpresaRequest $request, $id)
     {
         //delete
+        $empresa=Empresa::findOrfail($id);
+        $empresa->estado_id = 2;
+        $save();
+
+
+
     }
 }
