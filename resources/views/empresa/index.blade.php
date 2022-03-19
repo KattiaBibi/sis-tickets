@@ -61,7 +61,7 @@
                 <th>DIRECCIÓN</th>
                 <th>TELÉFONO</th>
                 <th colspan="2">ACCIÓN</th>
-             
+
             </tr>
         </tfoot>
     </table>
@@ -92,7 +92,7 @@
         </div>
     @endif
     <form action="{{ route('empresa.store') }}" id="frmguardar" >
-        @csrf
+
         <div class="form-group">
             <label for="">Nombre:</label>
             <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
@@ -142,10 +142,12 @@
               </ul>
           </div>
       @endif
-      <form action="{{ route('products.update',$empresas->id) }}" id="frmeditar" >
-          @csrf
+      <form  id="frmeditar">
+
           <div class="form-group">
               <label for="">Nombre:</label>
+              <input type="hidden" class="form-control" id="idregistro"  name="id">
+
               <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="nombre">
           </div>
           <div class="form-group">
@@ -195,6 +197,6 @@
 
 <script>
 
-// listar()
+listar()
 </script>
 @endsection

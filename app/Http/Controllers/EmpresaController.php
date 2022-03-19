@@ -108,10 +108,10 @@ class EmpresaController extends Controller
      * @param  \App\Empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function update(EmpresaRequest $request, Empresa $empresa, $id)
+    public function update(EmpresaRequest $request, $id)
     {
         //put o patach no recuerdo bien , pero todo uso solo get y post :v
-
+        $empresa=Empresa::findOrfail($id);
         $empresa->update($request->all());
 
         return $empresa?1:0;
