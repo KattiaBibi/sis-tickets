@@ -344,7 +344,7 @@ return [
 
         [
             'text' => 'Áreas',
-            'url'  => 'admin/settings', 
+            'url'  => 'area', 
             'icon' => 'fas fa-fw fa-users',
         ],
 

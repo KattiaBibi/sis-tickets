@@ -20,13 +20,14 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('empresa','EmpresaController');
-Route::post('datatable/empresas', 'EmpresaController@empresa')->name('datatable.empresa');
-Route::post('empresa/{id_estado}', 'EmpresaController@destroy');
-
-
 Route::resource('estado','EstadoController');
 Route::get('datatable/estados', 'EstadoController@estado')->name('datatable.estado');
+
+Route::resource('empresa','EmpresaController');
+Route::post('datatable/empresas', 'EmpresaController@empresa')->name('datatable.empresa');
+
+Route::resource('area','AreaController');
+Route::post('datatable/areas', 'AreaController@area')->name('datatable.area');
 
 /* Route::get('/empresa/store', 'EmpresaController@store')->name('/empresa/store'); */
 
