@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Estado;
+use App\User;
 use Illuminate\Http\Request;
 
-class EstadoController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,20 +14,21 @@ class EstadoController extends Controller
      */
 
 
-     public function estado(){
+    public function usuario(Request $request){
 
-        $estados=Estado::select('id','nombre')->get();
+        $usuarios = User::all();
 
-        return datatables()->of($estados)->toJson();
+        return datatables()->of($usuarios)->toJson();
 
      }
+
     public function index()
     {
         //
 
-        $estados = Estado::all();
+        $usuarios = User::all();
 
-        return view('estado.index', compact('estados','estados'));
+        return view('usuario.index', compact('usuarios','usuarios'));
     }
 
     /**
@@ -50,18 +51,18 @@ class EstadoController extends Controller
     {
         //
 
-        $estado =  Estado::create($request->all());
+        $usuario =  User::create($request->all());
 
-        return $estado?1:0;
+        return $usuario?1:0;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Estado $estado)
+    public function show(User $user)
     {
         //
     }
@@ -69,10 +70,10 @@ class EstadoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Estado $estado)
+    public function edit(User $user)
     {
         //
     }
@@ -81,21 +82,26 @@ class EstadoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Estado  $estado
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estado $estado)
+    public function update(UserRequest $request, $id)
     {
         //
+
+        $usuario=User::findOrfail($id);
+        $usuario->update($request->all());
+
+        return $usuario?1:0;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estado $estado)
+    public function destroy(User $user)
     {
         //
     }

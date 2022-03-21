@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Estado;
+use App\Colaborador;
 use Illuminate\Http\Request;
 
-class EstadoController extends Controller
+class ColaboradorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,20 +14,20 @@ class EstadoController extends Controller
      */
 
 
-     public function estado(){
+    public function colaborador(){
 
-        $estados=Estado::select('id','nombre')->get();
 
-        return datatables()->of($estados)->toJson();
+        $colaboradores = Colaborador::all();
+        return datatables()->of($colaboradores)->toJson();
+
 
      }
+
     public function index()
     {
         //
-
-        $estados = Estado::all();
-
-        return view('estado.index', compact('estados','estados'));
+        $colaboradores = Colaborador::all();
+        return view('colaborador.index', compact('colaboradores','colaboradores'));
     }
 
     /**
@@ -50,18 +50,18 @@ class EstadoController extends Controller
     {
         //
 
-        $estado =  Estado::create($request->all());
+        $colaborador =  Colaborador::create($request->all());
 
-        return $estado?1:0;
+        return $colaborador?1:0;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\Colaborador  $colaborador
      * @return \Illuminate\Http\Response
      */
-    public function show(Estado $estado)
+    public function show(Colaborador $colaborador)
     {
         //
     }
@@ -69,10 +69,10 @@ class EstadoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\Colaborador  $colaborador
      * @return \Illuminate\Http\Response
      */
-    public function edit(Estado $estado)
+    public function edit(Colaborador $colaborador)
     {
         //
     }
@@ -81,10 +81,10 @@ class EstadoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Estado  $estado
+     * @param  \App\Colaborador  $colaborador
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estado $estado)
+    public function update(Request $request, Colaborador $colaborador)
     {
         //
     }
@@ -92,10 +92,10 @@ class EstadoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\Colaborador  $colaborador
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estado $estado)
+    public function destroy(Colaborador $colaborador)
     {
         //
     }

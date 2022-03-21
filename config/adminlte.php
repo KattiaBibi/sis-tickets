@@ -15,7 +15,7 @@ return [
     */
 
     'title' => '',
-    'title_prefix' => 'Sistema Tickets | ',
+    'title_prefix' => 'Sistema Compusistel | ',
     'title_postfix' => '',
 
     /*
@@ -226,7 +226,7 @@ return [
     'menu' => [
         // Navbar items:
 
-        
+
 
         // Sidebar items:
 
@@ -248,7 +248,7 @@ return [
             'label'       => 4,
             'label_color' => 'info',
         ],
-    
+
 
         [
             'text'    => 'Reuniones',
@@ -292,19 +292,19 @@ return [
                 [
                     'text'    => 'Pendientes',
                     'url'     => '#',
-     
+
                 ],
-     
+
             ],
         ],
 
 
 
-        
+
         ['header' => 'CONFIGURACIÓN'],
         [
             'text' => 'Tipos ',
-            'url'  => 'admin/settings', 
+            'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-users',
         ],
 
@@ -316,10 +316,17 @@ return [
 
         [
             'text' => 'Estados',
-            'url'  => 'admin/settings',
             'icon' => ' fas fa-thermometer-half',
             'url'        => 'estado',
         ],
+
+
+        [
+            'text' => 'Colaborador',
+            'icon' => ' fas fa-thermometer-half',
+            'url'  => 'colaborador',
+        ],
+
 
         ['header' => 'REPORTES'],
         [
@@ -327,7 +334,7 @@ return [
             'icon'       => 'fas fa-business-time',
             'url'        => '#',
         ],
-        
+
         [
             'text'       => 'Tickets Pendientes',
             'icon'       =>'fas fa-clock',
@@ -338,27 +345,27 @@ return [
 
         [
             'text' => 'Empresas ',
-            'url'  => 'empresa', 
+            'url'  => 'empresa',
             'icon' => 'fas fa-fw fa-users',
         ],
 
         [
             'text' => 'Áreas',
-            'url'  => 'area', 
+            'url'  => 'area',
             'icon' => 'fas fa-fw fa-users',
         ],
 
         [
             'text' => 'Oficinas',
-            'url'  => 'admin/settings', 
+            'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-users',
         ],
-    
+
         ['header' => 'ADMINISTRACIÓN'],
         [
             'text'       => 'Usuarios',
             'icon'       => 'fas fa-fw fa-users',
-            'url'        => '#',
+            'url'        => 'usuario',
         ],
 
         [
@@ -414,7 +421,7 @@ return [
             'active' => true,
             'files' => [
                 [
-                
+
                     'type' => 'js',
                     'asset' => true,
                     'location' => '//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js',

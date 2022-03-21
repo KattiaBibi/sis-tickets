@@ -2,32 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Estado;
+use App\EmpresaArea;
 use Illuminate\Http\Request;
 
-class EstadoController extends Controller
+class EmpresaAreaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-
-     public function estado(){
-
-        $estados=Estado::select('id','nombre')->get();
-
-        return datatables()->of($estados)->toJson();
-
-     }
     public function index()
     {
         //
-
-        $estados = Estado::all();
-
-        return view('estado.index', compact('estados','estados'));
     }
 
     /**
@@ -49,19 +36,15 @@ class EstadoController extends Controller
     public function store(Request $request)
     {
         //
-
-        $estado =  Estado::create($request->all());
-
-        return $estado?1:0;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\EmpresaArea  $empresaArea
      * @return \Illuminate\Http\Response
      */
-    public function show(Estado $estado)
+    public function show(EmpresaArea $empresaArea)
     {
         //
     }
@@ -69,10 +52,10 @@ class EstadoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\EmpresaArea  $empresaArea
      * @return \Illuminate\Http\Response
      */
-    public function edit(Estado $estado)
+    public function edit(EmpresaArea $empresaArea)
     {
         //
     }
@@ -81,10 +64,10 @@ class EstadoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Estado  $estado
+     * @param  \App\EmpresaArea  $empresaArea
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estado $estado)
+    public function update(Request $request, EmpresaArea $empresaArea)
     {
         //
     }
@@ -92,10 +75,10 @@ class EstadoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\EmpresaArea  $empresaArea
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estado $estado)
+    public function destroy(EmpresaArea $empresaArea)
     {
         //
     }
