@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEstadosTable extends Migration
+class CreateTicketsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class CreateEstadosTable extends Migration
      */
     public function up()
     {
-        Schema::create('estados', function (Blueprint $table) {
+        Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->char('nombre', 25);
+            $table->string('problema',200);
+            $table->string('detalle',500);
+            $table->unsignedBigInteger('usuario_id');
+            $table->foreign('usuario_id','fk_ticket_user')->references('id')->on('users');
+
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ class CreateEstadosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estados');
+        Schema::dropIfExists('tickets');
     }
 }

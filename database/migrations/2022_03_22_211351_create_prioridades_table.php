@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEmpresasTable extends Migration
+class CreatePrioridadesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateEmpresasTable extends Migration
      */
     public function up()
     {
-        Schema::create('empresas', function (Blueprint $table) {
+        Schema::create('prioridades', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 50);
-            $table->text('direccion', 150);
-            $table->text('telefono', 12);
+            $table->string('nombre',50);
             $table->unsignedBigInteger('estado_id')->nullable()->default(1);
-            $table->foreign('estado_id','fk_empresa_estado')->references('id')->on('estados')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('estado_id','fk_prioridad_estado')->references('id')->on('estados')->onDelete('restrict')->onUpdate('restrict');
 
             $table->timestamps();
+
         });
     }
 
@@ -32,7 +31,6 @@ class CreateEmpresasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('empresas');
+        Schema::dropIfExists('prioridades');
     }
-
 }

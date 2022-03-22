@@ -45,7 +45,7 @@ class EmpresaController extends Controller
 
         $empresas = Empresa::all();
 
-        return view('empresa.index', compact('empresas','empresas'));
+        return view('empresa.index', compact('empresas'));
     }
 
     /**
@@ -126,7 +126,7 @@ class EmpresaController extends Controller
      */
 
 
-     
+
     public function destroy(Request $request, $id)
     {
         //delete
@@ -135,11 +135,11 @@ class EmpresaController extends Controller
 
         /*  dd($request->nombre); */
         if( $empresa->estado_id==1){
-            $empresa->estado_id=2; 
+            $empresa->estado_id=2;
         }else{
          $empresa->estado_id=1;
         }
- 
+
          $empresa->update();
 
          return $empresa?1:0;

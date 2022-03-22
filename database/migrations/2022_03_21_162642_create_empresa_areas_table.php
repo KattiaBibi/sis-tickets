@@ -16,9 +16,9 @@ class CreateEmpresaAreasTable extends Migration
         Schema::create('empresa_areas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('empresa_id');
-            $table->foreign('empresa_id','fk_empresa')->references('id')->on('empresas');
+            $table->foreign('empresa_id','fk_empresa_area_empresa')->references('id')->on('empresas');
             $table->unsignedBigInteger('area_id');
-            $table->foreign('area_id','fk_area')->references('id')->on('areas');
+            $table->foreign('area_id','fk_empresa_area_area')->references('id')->on('areas');
 
             $table->timestamps();
         });

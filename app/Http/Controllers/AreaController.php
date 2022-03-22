@@ -33,7 +33,7 @@ class AreaController extends Controller
 
         $areas = Area::all();
 
-        return view('area.index', compact('areas','areas'));
+        return view('area.index', compact('areas'));
     }
 
     /**
@@ -114,11 +114,11 @@ class AreaController extends Controller
         $area=Area::findOrfail($id);
 
         if( $area->estado_id==1){
-            $area->estado_id=2; 
+            $area->estado_id=2;
         }else{
          $area->estado_id=1;
         }
- 
+
          $area->update();
 
          return $area?1:0;

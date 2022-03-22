@@ -4,15 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EmpresaArea extends Model
+class DetalleAtencion extends Model
 {
     //
 
-    protected $table ='empresa_areas';
+
+    protected $table ='detalle_atenciones';
     protected $primaryKey = 'id';
 
     protected $fillable = [
-       'empresa_id',
-       'area_id'
+
+      'usuario_colab_id',
+      'atencion_id',
+
     ];
+
 }

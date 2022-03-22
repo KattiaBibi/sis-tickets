@@ -8,7 +8,10 @@ class Area extends Model
 {
     //
 
+    protected $table ='areas';
+    protected $primaryKey = 'id';
+
     protected $fillable = [
-        'id','nombre','estado_id'
+      'nombre','estado_id'
     ];
 }

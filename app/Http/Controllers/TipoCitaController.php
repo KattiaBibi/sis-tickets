@@ -2,34 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Colaborador;
+use App\TipoCita;
 use Illuminate\Http\Request;
 
-class ColaboradorController extends Controller
+class TipoCitaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-
-    public function colaborador(Request $request)
-    {
-
-        return datatables()->of(Colaborador::all())->toJson();
-
-     }
-
     public function index()
     {
-
-        $colaboradores = Colaborador::all();
-        return view('colaborador.index', compact('colaboradores'));
+        //
     }
 
     /**
@@ -51,19 +36,15 @@ class ColaboradorController extends Controller
     public function store(Request $request)
     {
         //
-
-        $colaborador =  Colaborador::create($request->all());
-
-        return $colaborador?1:0;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Colaborador  $colaborador
+     * @param  \App\TipoCita  $tipoCita
      * @return \Illuminate\Http\Response
      */
-    public function show(Colaborador $colaborador)
+    public function show(TipoCita $tipoCita)
     {
         //
     }
@@ -71,10 +52,10 @@ class ColaboradorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Colaborador  $colaborador
+     * @param  \App\TipoCita  $tipoCita
      * @return \Illuminate\Http\Response
      */
-    public function edit(Colaborador $colaborador)
+    public function edit(TipoCita $tipoCita)
     {
         //
     }
@@ -83,10 +64,10 @@ class ColaboradorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Colaborador  $colaborador
+     * @param  \App\TipoCita  $tipoCita
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Colaborador $colaborador)
+    public function update(Request $request, TipoCita $tipoCita)
     {
         //
     }
@@ -94,10 +75,10 @@ class ColaboradorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Colaborador  $colaborador
+     * @param  \App\TipoCita  $tipoCita
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Colaborador $colaborador)
+    public function destroy(TipoCita $tipoCita)
     {
         //
     }
