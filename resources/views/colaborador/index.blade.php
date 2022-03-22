@@ -39,14 +39,20 @@
     @endif
 
 
-    <table id="empresas" class="table table-striped table-bordered" style="">
+    <table id="colaboradores" class="table table-striped table-bordered" style="">
         <thead>
             <tr>
-                <th></th>
-                <th>NOMBRES</th>
-                <th>DIRECCIÓN</th>
-                <th>TELÉFONO</th>
-                <th colspan="2" style="text-align: center;">ACCIÓN</th>
+              <th colspan="2" style="text-align: center;">ACCIÓN</th>
+              <th>ID</th>
+              <th>N° DOCUMENTO</th>
+              <th>NOMBRES</th>
+              <th>APELLIDOS</th>
+              <th>FECHA DE NACIMIENTO</th>
+              <th>DIRECCIÓN</th>
+              <th>TELÉFONO</th>
+              <th>EMPRESA</th>
+              <th>ÁREA</th>
+
 
             </tr>
         </thead>
@@ -54,16 +60,7 @@
 
 
         </tbody>
-        <tfoot>
-            <tr>
-                <th></th>
-                <th>NOMBRE</th>
-                <th>DIRECCIÓN</th>
-                <th>TELÉFONO</th>
-                <th colspan="2">ACCIÓN</th>
 
-            </tr>
-        </tfoot>
     </table>
 
   </div>
@@ -91,12 +88,30 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('empresa.store') }}" id="frmguardar" >
 
+    
+    <form action="{{ route('colaborador.store') }}" id="frmguardar" >
+
+      <div class="form-group">
+        <label for="">N° DE DOCUMENTO:</label>
+        <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
+    </div>
+    
         <div class="form-group">
-            <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
+            <label for="">Nombres:</label>
+            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombres">
         </div>
+        
+        <div class="form-group">
+          <label for="">Apellidos:</label>
+          <input type="text" class="form-control" id="txtApellido" placeholder="Ingrese el nombre" name="apellidos">
+      </div>
+
+      <div class="form-group">
+        <label for="">Fecha de nacimiento:</label>
+        <input type="date" class="form-control" id="txtFechanac" placeholder="" name="fechanacimiento">
+    </div>
+
         <div class="form-group">
             <label for="">Dirección:</label>
             <input type="text" class="form-control" id="txtDireccion" placeholder="Ingrese la dirección" name="direccion">
@@ -106,7 +121,17 @@
             <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="telefono">
         </div>
 
+        <div class="form-group">
+            <label for="">Empresa y área:</label>
 
+            <select class="form-control">
+              <option selected>Elegir</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+
+        </div>
 
       </div>
       <div class="modal-footer">
@@ -144,21 +169,49 @@
       @endif
       <form  id="frmeditar">
 
-          <div class="form-group">
-              <label for="">Nombre:</label>
-              <input type="hidden" class="form-control" id="idregistro"  name="id">
+     <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-              <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="nombre">
+          
+          <div class="form-group">
+            <label for="">N° DOCUMENTO:</label>
+          <input type="text" class="form-control" id="editarNrodoc" placeholder="Ingrese su DNI" name="nrodocumento">
+        </div>
+
+          <div class="form-group">
+            <label for="">Nombres:</label>
+            <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese su(s) nombre(s)" name="nombres">
+        </div>
+
+          <div class="form-group">
+              <label for="">Apellidos:</label>
+              <input type="text" class="form-control" id="editarApellido" placeholder="Ingrese sus apellidos" name="apellidos">
           </div>
+
+          <div class="form-group">
+            <label for="">Fecha de nacimiento:</label>
+            <input type="date" class="form-control" id="editarFechanac" placeholder="" name="fechanacimiento">
+        </div>
+
           <div class="form-group">
               <label for="">Dirección:</label>
-              <input type="text" class="form-control" id="editarDireccion" placeholder="Ingrese la dirección" name="direccion">
+              <input type="text" class="form-control" id="editarDireccion" placeholder="Ingrese su dirección" name="direccion">
           </div>
           <div class="form-group">
               <label for="">Teléfono:</label>
-              <input type="text" class="form-control" id="editarTelefono" placeholder="Ingrese la dirección" name="telefono">
+              <input type="text" class="form-control" id="editarTelefono" placeholder="Ingrese su teléfono" name="telefono">
           </div>
 
+          <div class="form-group">
+            <label for="">Empresa y área:</label>
+
+            <select class="form-control" aria-label="Default select example">
+              <option selected>Elegir</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+
+        </div>
 
 
         </div>
@@ -191,7 +244,7 @@
 <script> console.log('¡HOLA!');
 
 </script>
-<script src="{{asset('js/empresa.js')}}"></script>
+<script src="{{asset('js/colaborador.js')}}"></script>
 
 
 

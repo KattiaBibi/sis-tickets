@@ -12,14 +12,15 @@ class ColaboradorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
 
-    public function colaborador(){
+    public function colaborador(Request $request){
 
-
-        $colaboradores = Colaborador::all();
-        return datatables()->of($colaboradores)->toJson();
-
+        return datatables()->of(Colaborador::all())->toJson();
 
      }
 

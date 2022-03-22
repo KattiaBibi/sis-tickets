@@ -18,8 +18,9 @@ class CreateColaboradoresTable extends Migration
             $table->char('nrodocumento', 8);
             $table->string('nombres',50);
             $table->string('apellidos',50);
-            $table->text('direccion');
-            $table->text('telefono');
+            $table->date('fechanacimiento');
+            $table->string('direccion', 50);
+            $table->char('telefono', 12);
             $table->unsignedBigInteger('empresa_area_id');
             $table->foreign('empresa_area_id','fk_empresa_area')->references('id')->on('empresa_areas');
 
