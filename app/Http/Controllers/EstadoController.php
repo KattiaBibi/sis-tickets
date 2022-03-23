@@ -16,18 +16,13 @@ class EstadoController extends Controller
 
      public function estado(){
 
-        $estados=Estado::select('id','nombre')->get();
-
-        return datatables()->of($estados)->toJson();
+        return datatables()->of(Estado::all())->toJson();
 
      }
     public function index()
     {
         //
-
-        $estados = Estado::all();
-
-        return view('estado.index', compact('estados','estados'));
+        return view('estado.index');
     }
 
     /**

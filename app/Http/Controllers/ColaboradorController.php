@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Colaborador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ColaboradorController extends Controller
 {
@@ -20,16 +21,25 @@ class ColaboradorController extends Controller
 
     public function colaborador(Request $request)
     {
+        
+        // SELECT c.estado_id,c.id,c.nrodocumento,c.nombres,c.apellidos,c.fechanacimiento,c.direccion,c.telefono,e.nombre,a.nombre FROM colaboradores as c INNER JOIN empresa_areas as ea on c.empresa_area_id=ea.id INNER JOIN empresas as e on ea.empresa_id=e.id INNER JOIN areas as a on ea.area_id=a.id;
 
-        return datatables()->of(Colaborador::all())->toJson();
+
+        $colaboradores = DB::table('colaboradores as c')
+        ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
+        ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
+        ->join('areas as a', 'ea.area_id', '=', 'a.id')
+        ->select('c.estado_id','c.id','c.nrodocumento','c.nombres','c.apellidos','c.fechanacimiento','c.direccion','c.telefono','e.nombre','a.nombre')->get();
+
+        return datatables()->of($colaboradores)->toJson();
 
      }
 
     public function index()
     {
 
-        $colaboradores = Colaborador::all();
-        return view('colaborador.index', compact('colaboradores'));
+        return view('colaborador.index');
+
     }
 
     /**

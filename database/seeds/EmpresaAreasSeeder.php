@@ -20,6 +20,5 @@ class EmpresaAreasSeeder extends Seeder
             'area_id'=>'1',
 
         ]);
-
     }
 }

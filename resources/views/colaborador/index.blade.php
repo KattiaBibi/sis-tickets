@@ -51,7 +51,7 @@
               <th>DIRECCIÓN</th>
               <th>TELÉFONO</th>
               <th>EMPRESA</th>
-              <th>ÁREA</th>
+              <th>ÁREA</th> 
 
 
             </tr>

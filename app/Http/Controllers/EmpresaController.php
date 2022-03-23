@@ -42,10 +42,7 @@ class EmpresaController extends Controller
     public function index()
     {
         //get
-
-        $empresas = Empresa::all();
-
-        return view('empresa.index', compact('empresas'));
+        return view('empresa.index');
     }
 
     /**

@@ -47,7 +47,6 @@ function listar(){
         }
     },
 
-    
     {data: 'id',
     render: function(data, type, row, meta) {
     return meta.row+1;}},
@@ -57,8 +56,8 @@ function listar(){
     {data: 'fechanacimiento'},
     {data: 'direccion'},
     {data: 'telefono'},
-    {data: 'empresa_area_id'},
-    {data: 'empresa_area_id'},
+    {data: 'nombre'},
+    {data: 'nombre'},
 
 
 ]

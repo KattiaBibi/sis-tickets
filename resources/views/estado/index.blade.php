@@ -46,38 +46,20 @@
                 <th>ID</th>
                 <th>NOMBRE</th>
 
-                {{-- <th width="280px" class="text-center">ACCIÓN</th> --}}
+               <th width="280px" class="text-center">ACCIÓN</th>
           
             </tr>
         </thead>
-        {{-- <tbody>
-            @php
-            $i = 0;
-        @endphp
-        @foreach ($estados as $e)
-            <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $e->nombre }}</td>
+       <tbody>
+   
 
-                <td class="text-center">
-                    <form action="{{ route('empresa.destroy',$e->id) }}" method="POST">
-                   
-                        <a class="btn btn-primary btn-sm" href="{{ route('empresa.edit',$e->id) }}">EDITAR</a>
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">ELIMINAR</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-
-        </tbody> --}}
+        </tbody> 
         <tfoot>
             <tr>
             <th>ID</th>
             <th>NOMBRE</th>
-            {{-- <th width="280px" class="text-center">ACCIÓN</th>
-               --}}
+           <th width="280px" class="text-center">ACCIÓN</th>
+              
             </tr>
         </tfoot>
     </table>
@@ -145,93 +127,12 @@
 <script> console.log('¡HOLA!'); </script>
 
 
+<script src="{{asset('js/estado.js')}}"></script>
+
+
+
 <script>
 
-$(document).ready(function() {
-    setTimeout(function() {
-        $("#mensaje").fadeOut(1500);
-    },3000);
-
-
-    $('#estados').DataTable( {
-        responsive: true,
-        autoWidth: false,
-
-        "language": {
-		  "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-		  },
-        "ajax": "{{route('datatable.estado')}}",
-        "columns":[
-
-        {data: 'id',
-        render: function(data, type, row, meta) {
-        return meta.row+1;}},
-
-        {data: 'nombre'},
-
-        ]
-    } );
-
-});
-
-
-
-let _token="{{csrf_token() }}"
-$('#btnguardar').on("click" ,(event)=>{
-    event.preventDefault();
- 
-let route=$('#frmguardar').attr("action");
-let dataArray=$('#frmguardar').serialize();
-console.log(_token)
-let data={
-    _token:_token,
-}
-
-$.ajax({
-    "method":'POST',
-    "url": route,
-    "data": dataArray,
-   
-
-    "success":function(Response){
-
-        if(Response==1){
-           
-        Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Datos Guardados correctamente',
-        showConfirmButton: false,
-        timer: 1500
-        })
-
-        $('#estados').DataTable().ajax.reload();
-        $('#frmguardar')[0].reset()
-     
-
-        }
-            else{
-
-                alert("no guardado");
-            }
-
-       
-    },'error':(response)=>{
-        console.log(response)
-       $.each(response.responseJSON.errors, function (key, value){
-        response.responseJSON.errors[key].forEach(element => {
-
-            console.log(element);
-            toastr.error(element);
-           
-           });
-       });
-    }
-})
-
-})
-
-
-
+listar()
 </script>
 @endsection
