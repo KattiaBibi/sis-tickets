@@ -124,22 +124,14 @@
         <div class="form-group">
             <label for="">Empresa y área:</label>
 
-            {{-- @foreach ($datatable.empresa as $e)
-            <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $e->nombre }}</td>
-                <td>{{ $e->direccion }}</td>
-                <td>{{ $e->telefono }}</td>
-
-            </tr>
-        @endforeach --}}
 
 
             <select class="form-control">
               <option selected>Elegir</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+
+              @foreach ($empresa_areas as $e)
+              <option value="{{ $e->eaid }}">{{$e->enombre}} - {{$e->anombre}}</option>
+            @endforeach
             </select>
 
         </div>
@@ -210,17 +202,24 @@
           <div class="form-group">
               <label for="">Teléfono:</label>
               <input type="text" class="form-control" id="editarTelefono" placeholder="Ingrese su teléfono" name="telefono">
+
+
+
           </div>
 
           <div class="form-group">
             <label for="">Empresa y área:</label>
 
-            <select class="form-control" aria-label="Default select example">
-              <option selected>Elegir</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+
+
+            <select class="form-control" id="editarEmpresaArea">
+                <option selected>Elegir</option>
+
+                @foreach ($empresa_areas as $e)
+                <option value="{{ $e->eaid }}">{{$e->enombre}} - {{$e->anombre}}</option>
+              @endforeach
+              </select>
+
 
         </div>
 

@@ -41,9 +41,9 @@ function listar(){
     }
     },
 
-    {data:null, render: function () {
+    {data: null, render: function (data) {
 
-        return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
+        return "<button type='button'  id='ButtonEditar'  class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
         }
     },
 
@@ -68,8 +68,10 @@ function listar(){
 $('#colaboradores').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
+
         var data = datatable.row(this).data();
     }
+    console.log(data);
     $('#idregistro').val(data['id']);
     $('#editarNrodoc').val(data['nrodocumento']);
     $('#editarNombre').val(data['nombres']);
@@ -77,6 +79,10 @@ $('#colaboradores').on('click','.editar',function(){
     $('#editarFechanac').val(data['fechanacimiento']);
     $('#editarDireccion').val(data['direccion']);
     $('#editarTelefono').val(data['telefono']);
+
+    console.log(data.idea);
+    $("#editarEmpresaArea").val(data.idea);
+
 
     jQuery.noConflict();
     $('#modaleditar').modal('show');

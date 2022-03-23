@@ -20,14 +20,6 @@ class ColaboradorController extends Controller
         $this->middleware('auth');
     }
 
-    public function empresa(Request $request)
-    {
-
-       $empresas=Empresa::select(all())->get();
-
-       return $empresas;
-
-    }
 
 
     public function colaborador(Request $request)
@@ -40,16 +32,32 @@ class ColaboradorController extends Controller
         ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
         ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
         ->join('areas as a', 'ea.area_id', '=', 'a.id')
-        ->select('c.estado_id','c.id','c.nrodocumento','c.nombres','c.apellidos','c.fechanacimiento','c.direccion','c.telefono','e.nombre as e.nombre','a.nombre as a.nombre')->get();
+        ->select('c.estado_id','c.id','c.nrodocumento','c.nombres','c.apellidos','c.fechanacimiento','c.direccion','c.telefono','e.nombre as e.nombre','a.nombre as a.nombre','ea.id as idea');
+
+
+
 
         return datatables()->of($colaboradores)->toJson();
 
      }
 
+
     public function index()
     {
 
-        return view('colaborador.index');
+     // $empresas= Empresa::all();
+
+    //   SELECT ea.id,e.id, a.id, e.nombre, a.nombre FROM empresa_areas as ea join empresas as e on ea.empresa_id=e.id join areas as a on ea.area_id=a.id;
+
+
+      $empresa_areas=DB::table('empresa_areas as ea')
+      ->join('empresas as e','ea.empresa_id','=','e.id')
+      ->join('areas as a','ea.area_id','=','a.id')
+      ->select('ea.id as eaid','e.id as eid','a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre')->get();
+
+
+        return view('colaborador.index', compact('empresa_areas'));
+
 
     }
 
