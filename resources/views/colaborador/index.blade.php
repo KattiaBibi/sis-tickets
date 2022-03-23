@@ -51,7 +51,7 @@
               <th>DIRECCIÓN</th>
               <th>TELÉFONO</th>
               <th>EMPRESA</th>
-              <th>ÁREA</th> 
+              <th>ÁREA</th>
 
 
             </tr>
@@ -89,19 +89,19 @@
         </div>
     @endif
 
-    
+
     <form action="{{ route('colaborador.store') }}" id="frmguardar" >
 
       <div class="form-group">
         <label for="">N° DE DOCUMENTO:</label>
         <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
     </div>
-    
+
         <div class="form-group">
             <label for="">Nombres:</label>
             <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombres">
         </div>
-        
+
         <div class="form-group">
           <label for="">Apellidos:</label>
           <input type="text" class="form-control" id="txtApellido" placeholder="Ingrese el nombre" name="apellidos">
@@ -123,6 +123,17 @@
 
         <div class="form-group">
             <label for="">Empresa y área:</label>
+
+            {{-- @foreach ($datatable.empresa as $e)
+            <tr>
+                <td>{{ ++$i }}</td>
+                <td>{{ $e->nombre }}</td>
+                <td>{{ $e->direccion }}</td>
+                <td>{{ $e->telefono }}</td>
+
+            </tr>
+        @endforeach --}}
+
 
             <select class="form-control">
               <option selected>Elegir</option>
@@ -171,7 +182,7 @@
 
      <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-          
+
           <div class="form-group">
             <label for="">N° DOCUMENTO:</label>
           <input type="text" class="form-control" id="editarNrodoc" placeholder="Ingrese su DNI" name="nrodocumento">

@@ -56,8 +56,8 @@ function listar(){
     {data: 'fechanacimiento'},
     {data: 'direccion'},
     {data: 'telefono'},
-    {data: 'nombre'},
-    {data: 'nombre'},
+    {data: 'e.nombre'},
+    {data: 'a.nombre'},
 
 
 ]

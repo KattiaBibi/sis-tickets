@@ -26,6 +26,7 @@ Route::post('datatable/usuarios', 'UserController@usuario')->name('datatable.usu
 Route::resource('colaborador','ColaboradorController');
 Route::post('datatable/colaboradores', 'ColaboradorController@colaborador')->name('datatable.colaborador');
 
+
 Route::resource('estado','EstadoController');
 Route::post('datatable/estados', 'EstadoController@estado')->name('datatable.estado');
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Colaborador;
+use App\Empresa;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,10 +20,19 @@ class ColaboradorController extends Controller
         $this->middleware('auth');
     }
 
+    public function empresa(Request $request)
+    {
+
+       $empresas=Empresa::select(all())->get();
+
+       return $empresas;
+
+    }
+
 
     public function colaborador(Request $request)
     {
-        
+
         // SELECT c.estado_id,c.id,c.nrodocumento,c.nombres,c.apellidos,c.fechanacimiento,c.direccion,c.telefono,e.nombre,a.nombre FROM colaboradores as c INNER JOIN empresa_areas as ea on c.empresa_area_id=ea.id INNER JOIN empresas as e on ea.empresa_id=e.id INNER JOIN areas as a on ea.area_id=a.id;
 
 
@@ -29,7 +40,7 @@ class ColaboradorController extends Controller
         ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
         ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
         ->join('areas as a', 'ea.area_id', '=', 'a.id')
-        ->select('c.estado_id','c.id','c.nrodocumento','c.nombres','c.apellidos','c.fechanacimiento','c.direccion','c.telefono','e.nombre','a.nombre')->get();
+        ->select('c.estado_id','c.id','c.nrodocumento','c.nombres','c.apellidos','c.fechanacimiento','c.direccion','c.telefono','e.nombre as e.nombre','a.nombre as a.nombre')->get();
 
         return datatables()->of($colaboradores)->toJson();
 
