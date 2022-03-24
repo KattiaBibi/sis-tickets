@@ -281,8 +281,8 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'Crear',
-                    'url'  => '#',
+                    'text' => 'Listar',
+                    'url'  => 'ticket',
                 ],
 
                 [
