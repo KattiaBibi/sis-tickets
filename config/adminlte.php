@@ -356,8 +356,8 @@ return [
         ],
 
         [
-            'text' => 'Oficinas',
-            'url'  => 'admin/settings',
+            'text' => 'Empresa y Áreas',
+            'url'  => 'empresa_area',
             'icon' => 'fas fa-fw fa-users',
         ],
 

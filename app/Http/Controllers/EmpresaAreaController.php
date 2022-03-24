@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\EmpresaArea;
+use App\Empresa;
+use App\Area;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmpresaAreaController extends Controller
 {
@@ -12,9 +15,30 @@ class EmpresaAreaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function empresa_area(Request $request)
+    {
+
+
+        $empresa_areas=DB::table('empresa_areas as ea')
+        ->join('empresas as e','ea.empresa_id','=','e.id')
+        ->join('areas as a','ea.area_id','=','a.id')
+        ->select('ea.id as eaid','e.id as eid','a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre');
+
+        return datatables()->of($empresa_areas)->toJson();
+
+
+
+
+    }
     public function index()
     {
         //
+  
+        $empresas = Empresa::all();
+        $areas = Area::all();
+        
+        return view('empresa_area.index', compact('empresas','areas'));
     }
 
     /**
@@ -36,6 +60,10 @@ class EmpresaAreaController extends Controller
     public function store(Request $request)
     {
         //
+
+        $empresa_area = EmpresaArea::create($request->all());
+
+        return $empresa_area?1:0;
     }
 
     /**
