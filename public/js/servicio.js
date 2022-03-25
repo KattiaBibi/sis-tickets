@@ -1,10 +1,9 @@
 
-/* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
 var datatable ;
 function listar(){
 
 
-    datatable= $('#empresas').DataTable( {
+    datatable= $('#servicios').DataTable( {
         "pageLength": 5,
         "destroy": true,
     "async": false,
@@ -21,7 +20,7 @@ function listar(){
     "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
     },
     "ajax": {
-    "url": "/datatable/empresas",
+    "url": "/datatable/servicios",
     "method": "post",
     'data' : { '_token' : token_ },
     },
@@ -32,8 +31,6 @@ function listar(){
     return meta.row+1;}},
 
     {data: 'nombre'},
-    {data: 'direccion'},
-    {data: 'telefono'},
     {data: 'estado_id',
     render: function(data){
 
@@ -60,15 +57,14 @@ function listar(){
 }
 
 
-$('#empresas').on('click','.editar',function(){
+$('#servicios').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
         var data = datatable.row(this).data();
     }
     $('#idregistro').val(data['id']);
     $('#editarNombre').val(data['nombre']);
-    $('#editarDireccion').val(data['direccion']);
-    $('#editarTelefono').val(data['telefono']);
+
     jQuery.noConflict();
     $('#modaleditar').modal('show');
 
@@ -134,9 +130,8 @@ $.ajax({
 $('#btnactualizar').on("click" ,(event)=>{
     event.preventDefault();
 
-
     let dataArray=$('#frmeditar').serializeArray();
-    let route="/empresa/"+dataArray[0].value;
+    let route="/area/"+dataArray[0].value;
 dataArray.push({name:'_token',value:token_})
 console.log(dataArray[0].value)
 
@@ -187,7 +182,7 @@ $.ajax({
 
 
 
-    $('#empresas').on('click','.desactivar',function(){
+    $('#servicios').on('click','.desactivar',function(){
 
         Swal.fire({
             title: '¿Estás seguro(a)?',
@@ -209,7 +204,7 @@ $.ajax({
                 }
 
                 console.log(data)
-                let route="/empresa/"+data['id'];
+                let route="/area/"+data['id'];
                 let data2={
                     id:data.id,
                     _token:token_
@@ -226,8 +221,8 @@ $.ajax({
                         if(Response==1){
 
                             Swal.fire(
-                                '¡Desactivado!',
-                                'Su registro ha sido desactivado.',
+                                '¡Hecho!',
+                                'Su registro ha sido actualizado.',
                                 'success'
                               )
 

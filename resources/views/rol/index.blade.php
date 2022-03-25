@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('content_header')
-    <h1>Prioridades</h1>
-    @section('title', 'Prioridades')
+    <h1>Roles</h1>
+    @section('title', 'Roles')
 @endsection
 
 @section('css')
@@ -39,13 +39,13 @@
     @endif
 
 
-    <table id="prioridades" class="table table-striped table-bordered" style="">
+    <table id="roles" class="table table-striped table-bordered" style="">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>NOMBRE</th>
 
-                <th colspan="2" style="text-align: center;">ACCIÓN</th>
+                <th colspan="" style="text-align: center;">ACCIÓN</th>
 
             </tr>
         </thead>
@@ -58,7 +58,7 @@
                 <th>ID</th>
                 <th>NOMBRE</th>
 
-                <th colspan="2">ACCIÓN</th>
+                <th colspan="" style="text-align: center;">ACCIÓN</th>
 
             </tr>
         </tfoot>
@@ -89,11 +89,28 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('prioridad.store') }}" id="frmguardar" >
+    <form action="{{ route('rol.store') }}" id="frmguardar" >
 
         <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
+            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="name">
+        </div>
+
+        <div class="form-group">
+            <label for="">Permisos:</label>
+
+            @foreach ($permissions as $p)
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="{{$p->id}}" name="permissions" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">{{$p->description}}.</label>
+              </div>
+
+          @endforeach
+
+
+
+
         </div>
 
 
@@ -137,7 +154,7 @@
               <label for="">Nombre:</label>
               <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-              <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="nombre">
+              <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="name">
           </div>
 
 
@@ -171,7 +188,7 @@
 <script> console.log('¡HOLA!');
 
 </script>
-<script src="{{asset('js/prioridad.js')}}"></script>
+<script src="{{asset('js/rol.js')}}"></script>
 
 
 

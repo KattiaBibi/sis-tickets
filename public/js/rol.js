@@ -4,7 +4,7 @@ var datatable ;
 function listar(){
 
 
-    datatable= $('#empresas').DataTable( {
+    datatable= $('#roles').DataTable( {
         "pageLength": 5,
         "destroy": true,
     "async": false,
@@ -21,7 +21,7 @@ function listar(){
     "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
     },
     "ajax": {
-    "url": "/datatable/empresas",
+    "url": "/datatable/roles",
     "method": "post",
     'data' : { '_token' : token_ },
     },
@@ -31,24 +31,22 @@ function listar(){
     render: function(data, type, row, meta) {
     return meta.row+1;}},
 
-    {data: 'nombre'},
-    {data: 'direccion'},
-    {data: 'telefono'},
-    {data: 'estado_id',
-    render: function(data){
+    {data: 'name'},
+    // {data: 'estado_id',
+    // render: function(data){
 
-        if(data=="1"){
-        return "<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>";
+    //     if(data=="1"){
+    //     return "<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>";
 
-        }
+    //     }
 
-        if(data=="2"){
-            return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
-        }
-    }
-    },
+    //     if(data=="2"){
+    //         return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
+    //     }
+    // }
+    // },
 
-    {data:'id', render: function (data) {
+    {data: null, render: function (data) {
 
         return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
         }
@@ -60,15 +58,14 @@ function listar(){
 }
 
 
-$('#empresas').on('click','.editar',function(){
+$('#roles').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
         var data = datatable.row(this).data();
     }
     $('#idregistro').val(data['id']);
-    $('#editarNombre').val(data['nombre']);
-    $('#editarDireccion').val(data['direccion']);
-    $('#editarTelefono').val(data['telefono']);
+    $('#editarNombre').val(data['name']);
+
     jQuery.noConflict();
     $('#modaleditar').modal('show');
 
@@ -136,7 +133,7 @@ $('#btnactualizar').on("click" ,(event)=>{
 
 
     let dataArray=$('#frmeditar').serializeArray();
-    let route="/empresa/"+dataArray[0].value;
+    let route="/rol/"+dataArray[0].value;
 dataArray.push({name:'_token',value:token_})
 console.log(dataArray[0].value)
 
@@ -187,7 +184,7 @@ $.ajax({
 
 
 
-    $('#empresas').on('click','.desactivar',function(){
+    $('#roles').on('click','.desactivar',function(){
 
         Swal.fire({
             title: '¿Estás seguro(a)?',
@@ -209,7 +206,7 @@ $.ajax({
                 }
 
                 console.log(data)
-                let route="/empresa/"+data['id'];
+                let route="/rol/"+data['id'];
                 let data2={
                     id:data.id,
                     _token:token_

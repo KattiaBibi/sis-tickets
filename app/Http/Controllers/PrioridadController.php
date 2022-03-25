@@ -12,9 +12,26 @@ class PrioridadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
+    public function prioridad(Request $request)
+    {
+
+        return datatables()->of(Prioridad::all())->toJson();
+
+    }
+
     public function index()
     {
         //
+
+        return view('prioridad.index');
+
     }
 
     /**
@@ -36,6 +53,11 @@ class PrioridadController extends Controller
     public function store(Request $request)
     {
         //
+
+        $prioridad = Prioridad::create($request->all());
+
+        return $prioridad?1:0;
+
     }
 
     /**

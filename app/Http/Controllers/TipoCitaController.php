@@ -12,9 +12,26 @@ class TipoCitaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
+    public function tipo(Request $request)
+    {
+
+      return datatables()->of(TipoCita::all())->toJson();
+
+    }
+
     public function index()
     {
         //
+
+
+        return view('tipo.index');
     }
 
     /**
@@ -36,6 +53,12 @@ class TipoCitaController extends Controller
     public function store(Request $request)
     {
         //
+
+
+        $tipo= TipoCita::create($request->all());
+
+        return $tipo?1:0;
+
     }
 
     /**

@@ -40,6 +40,18 @@ Route::post('datatable/empresas', 'EmpresaController@empresa')->name('datatable.
 Route::resource('area','AreaController');
 Route::post('datatable/areas', 'AreaController@area')->name('datatable.area');
 
+Route::resource('rol','RolController');
+Route::post('datatable/roles', 'RolController@rol')->name('datatable.rol');
+
+Route::resource('servicio','ServicioController');
+Route::post('datatable/servicios', 'ServicioController@servicio')->name('datatable.servicio');
+
+Route::resource('tipo','TipoCitaController');
+Route::post('datatable/tipos', 'TipoCitaController@tipo')->name('datatable.tipo');
+
+Route::resource('prioridad','PrioridadController');
+Route::post('datatable/prioridades', 'PrioridadController@prioridad')->name('datatable.prioridad');
+
 Route::resource('empresa_area','EmpresaAreaController');
 Route::post('datatable/empresa_areas', 'EmpresaAreaController@empresa_area')->name('datatable.empresa_area');
 //  Route::get('/calendario','CalendarioController@index')->name('calendario');

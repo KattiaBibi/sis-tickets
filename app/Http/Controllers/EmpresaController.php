@@ -111,6 +111,8 @@ class EmpresaController extends Controller
         $empresa=Empresa::findOrfail($id);
         $empresa->update($request->all());
 
+
+
         return $empresa?1:0;
 
     }

@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Servicio;
-use Illuminate\Http\Request;
 
-class ServicioController extends Controller
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+use Illuminate\Http\Request;
+use App\Http\Requests\RolRequest;
+
+
+
+class RolController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,17 +19,16 @@ class ServicioController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
     public function __construct()
     {
         $this->middleware('auth');
     }
 
 
-    public function servicio(Request $request)
+    public function rol(Request $request)
     {
 
-      return datatables()->of(Servicio::all())->toJson();
+      return datatables()->of(Role::all())->toJson();
 
     }
 
@@ -31,7 +36,9 @@ class ServicioController extends Controller
     {
         //
 
-        return view('servicio.index');
+        $permissions= Permission::all();
+
+        return view('rol.index',compact('permissions'));
     }
 
     /**
@@ -50,22 +57,25 @@ class ServicioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RolRequest $request)
     {
         //
 
-        $servicio = Servicio::create($request->all());
+        $rol = Role::create($request->all());
 
-        return $servicio?1:0;
+    //    $rol->permissions()->sync($request->permissions);
+        return $rol?1:0;
+
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Servicio  $servicio
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(Servicio $servicio)
+    public function show(Role $role)
     {
         //
     }
@@ -73,10 +83,10 @@ class ServicioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Servicio  $servicio
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Servicio $servicio)
+    public function edit(Role $role)
     {
         //
     }
@@ -85,21 +95,31 @@ class ServicioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Servicio  $servicio
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Servicio $servicio)
+
+
+    public function update(RolRequest $request, Role $id)
     {
-        //
+        //put o patach no recuerdo bien , pero todo uso solo get y post :v
+        $rol=Role::findOrfail($id);
+        $rol->update($request->all());
+
+
+
+        return $rol?1:0;
+
     }
+
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Servicio  $servicio
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Servicio $servicio)
+    public function destroy(Role $role)
     {
         //
     }

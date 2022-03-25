@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('content_header')
-    <h1>Prioridades</h1>
-    @section('title', 'Prioridades')
+    <h1>Tipo Citas</h1>
+    @section('title', 'Tipos Cita')
 @endsection
 
 @section('css')
@@ -39,7 +39,7 @@
     @endif
 
 
-    <table id="prioridades" class="table table-striped table-bordered" style="">
+    <table id="tipos" class="table table-striped table-bordered" style="">
         <thead>
             <tr>
                 <th>ID</th>
@@ -89,7 +89,7 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('prioridad.store') }}" id="frmguardar" >
+    <form action="{{ route('tipo.store') }}" id="frmguardar" >
 
         <div class="form-group">
             <label for="">Nombre:</label>
@@ -171,7 +171,7 @@
 <script> console.log('¡HOLA!');
 
 </script>
-<script src="{{asset('js/prioridad.js')}}"></script>
+<script src="{{asset('js/tipo.js')}}"></script>
 
 
 

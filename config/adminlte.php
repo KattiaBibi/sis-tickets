@@ -302,16 +302,24 @@ return [
 
 
         ['header' => 'CONFIGURACIÓN'],
+
         [
-            'text' => 'Tipos ',
-            'url'  => 'admin/settings',
+            'text' => 'Servicios',
+            'url'  => 'servicio',
+            'icon' => 'fas fa-fw fa-users',
+        ],
+
+        [
+            'text' => 'Tipos',
+            'url'  => 'tipo',
             'icon' => 'fas fa-fw fa-users',
         ],
 
         [
             'text' => 'Prioridades',
-            'url'  => 'admin/settings',
             'icon' => ' fas fa-thermometer-half',
+            'url'  => 'prioridad',
+
         ],
 
         [
@@ -371,7 +379,7 @@ return [
         [
             'text'       => 'Roles',
             'icon'       => 'fas fa-lock',
-            'url'        => '#',
+            'url'        => 'rol',
         ],
 
         [

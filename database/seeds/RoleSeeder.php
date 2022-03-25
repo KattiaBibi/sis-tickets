@@ -19,17 +19,17 @@ class RoleSeeder extends Seeder
         $role2=Role::create(['name'=>'AdminGerente']);
         $role3=Role::create(['name'=>'Trabajador']);
 
-        Permission::create(['name'=>'home'])->syncRoles([$role1]);
-        Permission::create(['name'=>'empresa.listado'])->syncRoles([$role1]);
-        Permission::create(['name'=>'empresa.crear'])->syncRoles([$role1]);
-        Permission::create(['name'=>'empresa.editar'])->syncRoles([$role1]);
-        Permission::create(['name'=>'empresa.desactivar'])->syncRoles([$role1]);
+        Permission::create(['name'=>'home','description'=>'Ver el tablero'])->syncRoles([$role1]);
+        Permission::create(['name'=>'empresa.listado','description'=>'Listar empresas'])->syncRoles([$role1]);
+        Permission::create(['name'=>'empresa.crear','description'=>'Crear empresa'])->syncRoles([$role1]);
+        Permission::create(['name'=>'empresa.editar','description'=>'Editar empresa'])->syncRoles([$role1]);
+        Permission::create(['name'=>'empresa.desactivar','description'=>'Desactivar empresa'])->syncRoles([$role1]);
 
 
-        Permission::create(['name'=>'area.listado'])->syncRoles([$role1]);
-        Permission::create(['name'=>'area.crear'])->syncRoles([$role1]);
-        Permission::create(['name'=>'area.editar'])->syncRoles([$role1]);
-        Permission::create(['name'=>'area.desactivar'])->syncRoles([$role1]);
+        Permission::create(['name'=>'area.listado','description'=>'Listar áreas'])->syncRoles([$role1]);
+        Permission::create(['name'=>'area.crear','description'=>'Crear área'])->syncRoles([$role1]);
+        Permission::create(['name'=>'area.editar','description'=>'Editar área'])->syncRoles([$role1]);
+        Permission::create(['name'=>'area.desactivar','description'=>'Desactivar área'])->syncRoles([$role1]);
 
 
     }
