@@ -46,12 +46,12 @@
               <th>ID</th>
               <th>USUARIO SOLICITANTE</th>
               <th>PROBLEMA</th>
-
+              <th>CREADO</th>
 
             </tr>
         </thead>
        <tbody>
-
+{{-- CONTENIDO EN TICKET.JS --}}
 
         </tbody>
 
@@ -62,7 +62,7 @@
 
 
 <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="modalagregar" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
@@ -95,17 +95,22 @@
       <div class="form-group">
         <label for="">PROBLEMA:</label>
 
-        <input type="hidden" name="" value="{{ auth()->user()->id }}" id="">
-        <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
+        <input type="hidden" name="usuario_id" value="{{ auth()->user()->id}}" id="">
+
+        <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese la descripción de la atención." rows="4" name="problema"></textarea>
+  
+        <div id="contador">0/200</div>
+
     </div>
 
         <div class="form-group">
             <label for="">DETALLE:</label>
-            <textarea class="form-control" id="txtDetalle" placeholder="Ingrese el detalle de su problema" rows="10" name="nombres"></textarea>
+
+            <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del problema." rows="12" name="detalle"></textarea>
+  
+            <div id="contador2">0/600</div>
 
         </div>
-
-
 
       </div>
       <div class="modal-footer">
@@ -120,20 +125,36 @@
 
 
 
-
-
   <!-- Modal -->
   <div class="modal fade"  id="modalver" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Ver Detalle de Ticket</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Ver Detalle de Ticket - Usuario responsable : </h5>&nbsp; <h5 class="modal-title" id="vernb"></h5>
+
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          ...
+         
+
+          <div class="form-row">
+              
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">PROBLEMA</label>
+              <textarea class="form-control" id="verProblema" rows="10" readonly></textarea>
+
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="inputAddress">DETALLE</label>
+              <textarea class="form-control" id="verDetalle" rows="10" readonly></textarea>
+            </div>
+
+
+          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
@@ -143,16 +164,11 @@
     </div>
   </div>
 
-
-
-
   <!-- Modal detalle -->
-
-
 
   <!-- Modal -->
   <div class="modal fade bd-example-modal-xl"  id="modalatender" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Generar atención</h5>
@@ -162,48 +178,83 @@
         </div>
         <div class="modal-body">
 
-
             <form>
+
+              <input type="hidden" name="usuarioadmin_id" value="{{ auth()->user()->id}}" id="">
+
                 <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+              
+                  <div class="form-group col-md-3">
+                    <label for="inputEmail4">PROBLEMA</label>
+                    <textarea class="form-control" id="mostrarProblema" rows="8" readonly></textarea>
+
                   </div>
+
                   <div class="form-group col-md-6">
-                    <label for="inputPassword4">Password</label>
-                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                    <label for="inputAddress">DETALLE</label>
+                    <textarea class="form-control" id="mostrarDetalle" rows="8" readonly></textarea>
                   </div>
+
+                  <div class="form-group text-center col-md-3">
+                    <p>
+                     <img src="{{ asset('vendor/adminlte/dist/img/reparacion.png') }}" alt=""  style="height: 200px; width: 200px;">
+                    </p>
+              
+                  </div>
+
                 </div>
-                <div class="form-group">
-                  <label for="inputAddress">Address</label>
-                  <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                </div>
-                <div class="form-group">
-                  <label for="inputAddress2">Address 2</label>
-                  <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-                </div>
+                      
                 <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input type="text" class="form-control" id="inputCity">
-                  </div>
+              
                   <div class="form-group col-md-4">
-                    <label for="inputState">State</label>
-                    <select id="inputState" class="form-control">
-                      <option selected>Choose...</option>
-                      <option>...</option>
+                    <label for="inputState">Servicio</label>
+                    
+                <select class="form-control">
+                  <option selected>Elegir</option>
+
+                  @foreach ($servicios as $s)
+                  <option value="{{ $s->id }}">{{$s->nombre}}</option>
+                @endforeach
+                </select>
+                
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label for="inputState">Prioridad</label>
+
+                    <select class="form-control">
+                      <option selected>Elegir</option>
+    
+                      @foreach ($prioridades as $p)
+                      <option value="{{ $p->id }}">{{$p->nombre}}</option>
+                    @endforeach
                     </select>
                   </div>
-                  <div class="form-group col-md-2">
-                    <label for="inputZip">Zip</label>
-                    <input type="text" class="form-control" id="inputZip">
+                  <div class="form-group col-md-4">
+                    <label for="inputState">Estado</label>
+                  <select class="form-control">
+                  <option selected>Elegir</option>
+
+                  @foreach ($estados as $e)
+                  <option value="{{ $e->id }}">{{$e->nombre}}</option>
+                @endforeach
+                </select>
                   </div>
                 </div>
-      
-
-              </form>
+              
 
 
+                <div class="form-row">
+              
+                  <div class="form-group col-md-12">
+                    <label for="inputAddress2">Descripción</label>
+                    <textarea maxlength="200" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción de la atención." rows="3" name="descripcion"></textarea>
+  
+                    <div id="contador3">0/200</div>
+                  </div>
+
+                </div>
+               </form>
 
         </div>
         <div class="modal-footer">
@@ -212,6 +263,8 @@
           <button  id="btnguardar" class="btn btn-primary">GUARDAR</button>
 
         </div>
+     
+        
       </div>
     </div>
   </div>
@@ -219,7 +272,7 @@
   <!-- Modal detalle -->
 
 <div class="modal fade" id="modaleditar" tabindex="-1" role="dialog" aria-labelledby="modaleditar" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Actualiza registro de ticket</h5>
@@ -247,12 +300,16 @@
 
         <div class="form-group">
            <label for="">PROBLEMA:</label>
-           <input type="text" class="form-control" id="editarProblema" placeholder="Ingrese el nombre" name="problema">
+
+           <textarea maxlength="200" class="form-control" id="editarProblema" placeholder="Ingrese el problema." rows="4" name="problema"></textarea>
+  
+           
        </div>
 
            <div class="form-group">
                <label for="">DETALLE:</label>
-               <textarea class="form-control" id="editarDetalle" placeholder="Ingrese el detalle de su problema" rows="10" name="detalle"></textarea>
+               <textarea maxlength="600" class="form-control" id="editarDetalle" placeholder="Ingrese el detalle de su problema." rows="12" name="detalle"></textarea>
+        
 
            </div>
 

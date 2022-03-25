@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
+use App\Servicio;
+use App\Prioridad;
+use App\Estado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,7 +28,7 @@ class TicketController extends Controller
 
         $tickets = DB::table('tickets as t')
         ->join('users as u', 't.usuario_id', '=', 'u.id')
-        ->select('t.id as tid','t.problema as tproblema','t.detalle as tdetalle','t.usuario_id as tsuarioid','u.name as uname');
+        ->select('t.id as tid','t.problema as tproblema','t.detalle as tdetalle','t.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at');
 
 
         return datatables()->of($tickets)->toJson();
@@ -39,8 +42,12 @@ class TicketController extends Controller
     {
         //
 
+        $servicios = Servicio::all();
+        $prioridades = Prioridad::all();
+        $estados = Estado::all();
 
-    return view('ticket.index');
+        return view('ticket.index', compact('servicios','prioridades','estados'));
+
     }
 
     /**

@@ -1,3 +1,35 @@
+   
+
+    const mensaje = document.getElementById('txtProblema');
+    const mensaje2 = document.getElementById('txtDetalle');
+    const mensaje3 = document.getElementById('txtDescripcion');
+
+    const contador = document.getElementById('contador');
+    const contador2 = document.getElementById('contador2');
+    const contador3 = document.getElementById('contador3');
+
+    mensaje.addEventListener('input', function(e) {
+        const target = e.target;
+        const longitudMax = target.getAttribute('maxlength');
+        const longitudAct = target.value.length;
+        contador.innerHTML = `${longitudAct}/${longitudMax}`;
+    });
+
+    mensaje2.addEventListener('input', function(e) {
+        const target = e.target;
+        const longitudMax = target.getAttribute('maxlength');
+        const longitudAct = target.value.length;
+        contador2.innerHTML = `${longitudAct}/${longitudMax}`;
+    });
+
+    mensaje3.addEventListener('input', function(e) {
+        const target = e.target;
+        const longitudMax = target.getAttribute('maxlength');
+        const longitudAct = target.value.length;
+        contador3.innerHTML = `${longitudAct}/${longitudMax}`;
+    });
+
+
 
 /* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
 var datatable ;
@@ -63,6 +95,7 @@ function listar(){
     return meta.row+1;}},
     {data: 'uname'},
     {data: 'tproblema'},
+    {data: 'tcreated_at'},
 
     // {data: 'detalle'},
 
@@ -84,6 +117,7 @@ $('#tickets').on('click','.ver',function(){
     $('#idregistro').val(data['id']);
     $('#verProblema').val(data['tproblema']);
     $('#verDetalle').val(data['tdetalle']);
+    $('#vernb').text(data['uname']);
 
     jQuery.noConflict();
     $('#modalver').modal('show');
@@ -100,9 +134,11 @@ $('#tickets').on('click','.atender',function(){
         var data = datatable.row(this).data();
     }
     console.log(data);
+ 
     $('#idregistro').val(data['id']);
-    $('#verProblema').val(data['tproblema']);
-    $('#verDetalle').val(data['tdetalle']);
+    $('#mostrarProblema').text(data['tproblema']);
+    $('#mostrarDetalle').text(data['tdetalle']);
+
 
     jQuery.noConflict();
     $('#modalatender').modal('show');
