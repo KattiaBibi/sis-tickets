@@ -65,7 +65,7 @@
   <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo ticket</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -98,7 +98,7 @@
         <input type="hidden" name="usuario_id" value="{{ auth()->user()->id}}" id="">
 
         <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese la descripción de la atención." rows="4" name="problema"></textarea>
-  
+
         <div id="contador">0/200</div>
 
     </div>
@@ -107,7 +107,7 @@
             <label for="">DETALLE:</label>
 
             <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del problema." rows="12" name="detalle"></textarea>
-  
+
             <div id="contador2">0/600</div>
 
         </div>
@@ -137,10 +137,10 @@
           </button>
         </div>
         <div class="modal-body">
-         
+
 
           <div class="form-row">
-              
+
             <div class="form-group col-md-6">
               <label for="inputEmail4">PROBLEMA</label>
               <textarea class="form-control" id="verProblema" rows="10" readonly></textarea>
@@ -183,7 +183,7 @@
               <input type="hidden" name="usuarioadmin_id" value="{{ auth()->user()->id}}" id="">
 
                 <div class="form-row">
-              
+
                   <div class="form-group col-md-3">
                     <label for="inputEmail4">PROBLEMA</label>
                     <textarea class="form-control" id="mostrarProblema" rows="8" readonly></textarea>
@@ -199,16 +199,16 @@
                     <p>
                      <img src="{{ asset('vendor/adminlte/dist/img/reparacion.png') }}" alt=""  style="height: 200px; width: 200px;">
                     </p>
-              
+
                   </div>
 
                 </div>
-                      
+
                 <div class="form-row">
-              
+
                   <div class="form-group col-md-4">
                     <label for="inputState">Servicio</label>
-                    
+
                 <select class="form-control">
                   <option selected>Elegir</option>
 
@@ -216,7 +216,7 @@
                   <option value="{{ $s->id }}">{{$s->nombre}}</option>
                 @endforeach
                 </select>
-                
+
                   </div>
 
                   <div class="form-group col-md-4">
@@ -224,7 +224,7 @@
 
                     <select class="form-control">
                       <option selected>Elegir</option>
-    
+
                       @foreach ($prioridades as $p)
                       <option value="{{ $p->id }}">{{$p->nombre}}</option>
                     @endforeach
@@ -241,15 +241,15 @@
                 </select>
                   </div>
                 </div>
-              
+
 
 
                 <div class="form-row">
-              
+
                   <div class="form-group col-md-12">
                     <label for="inputAddress2">Descripción</label>
                     <textarea maxlength="200" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción de la atención." rows="3" name="descripcion"></textarea>
-  
+
                     <div id="contador3">0/200</div>
                   </div>
 
@@ -263,8 +263,8 @@
           <button  id="btnguardar" class="btn btn-primary">GUARDAR</button>
 
         </div>
-     
-        
+
+
       </div>
     </div>
   </div>
@@ -302,14 +302,14 @@
            <label for="">PROBLEMA:</label>
 
            <textarea maxlength="200" class="form-control" id="editarProblema" placeholder="Ingrese el problema." rows="4" name="problema"></textarea>
-  
-           
+
+
        </div>
 
            <div class="form-group">
                <label for="">DETALLE:</label>
                <textarea maxlength="600" class="form-control" id="editarDetalle" placeholder="Ingrese el detalle de su problema." rows="12" name="detalle"></textarea>
-        
+
 
            </div>
 

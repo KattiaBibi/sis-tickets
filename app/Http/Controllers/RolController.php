@@ -61,9 +61,11 @@ class RolController extends Controller
     {
         //
 
-        $rol = Role::create($request->all());
+      /*   dd($request->all()); */
+        $rol = Role::create(['name'=>$request->name]);
 
-    //    $rol->permissions()->sync($request->permissions);
+
+        $rol->permissions()->sync($request->permission);
         return $rol?1:0;
 
 
