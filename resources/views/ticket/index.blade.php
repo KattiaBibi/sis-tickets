@@ -5,10 +5,6 @@
 @endsection
 
 @section('css')
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"/>
-    <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" rel="stylesheet"/>
 
 @endsection
 
@@ -169,6 +165,7 @@
   <!-- Modal -->
   <div class="modal fade bd-example-modal-xl"  id="modalatender" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+     
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Generar atención</h5>
@@ -178,7 +175,7 @@
         </div>
         <div class="modal-body">
 
-            <form>
+          <form  id="frmguardaratencion" >
 
               <input type="hidden" name="usuarioadmin_id" value="{{ auth()->user()->id}}" id="">
 
@@ -209,7 +206,7 @@
                   <div class="form-group col-md-4">
                     <label for="inputState">Servicio</label>
 
-                <select class="form-control">
+                <select class="form-control" name="servicio_id">
                   <option selected>Elegir</option>
 
                   @foreach ($servicios as $s)
@@ -222,7 +219,7 @@
                   <div class="form-group col-md-4">
                     <label for="inputState">Prioridad</label>
 
-                    <select class="form-control">
+                    <select class="form-control" name="prioridad_id">
                       <option selected>Elegir</option>
 
                       @foreach ($prioridades as $p)
@@ -232,7 +229,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputState">Estado</label>
-                  <select class="form-control">
+                  <select class="form-control" name="estado_id">
                   <option selected>Elegir</option>
 
                   @foreach ($estados as $e)
@@ -254,15 +251,15 @@
                   </div>
 
                 </div>
-               </form>
-
+               
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
 
-          <button  id="btnguardar" class="btn btn-primary">GUARDAR</button>
+          <button  id="btnguardaratencion" class="btn btn-primary">GUARDAR</button>
 
         </div>
+</form>
 
 
       </div>
@@ -333,15 +330,6 @@
 
 @section('js')
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
-
-<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <script> console.log('¡HOLA!');
 
 </script>

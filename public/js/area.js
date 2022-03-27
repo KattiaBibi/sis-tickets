@@ -6,19 +6,36 @@ function listar(){
     datatable= $('#areas').DataTable( {
         "pageLength": 5,
         "destroy": true,
-    "async": false,
-    responsive: true,
-    autoWidth: false,
-    "columnDefs": [
+        "async": false,
+        responsive: true,
+        autoWidth: false,
+        dom: 'Bfrtip',
+        lengthChange: false,
+    
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+    
+        buttons: [{
+            extend: 'copy',
+            text: 'Copiar'
+        },
+    
         {
-        "searchable": false,
-        "orderable": false,
-        "targets": 0
-        }
-    ],
-    "language": {
-    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-    },
+            extend: 'colvis',
+            text: 'Visibilidad'
+        },
+    
+             'excel', 'pdf'
+            ],
+    
+        "columnDefs": [
+            {
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+            }
+        ],
     "ajax": {
     "url": "/datatable/areas",
     "method": "post",

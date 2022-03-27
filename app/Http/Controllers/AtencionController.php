@@ -12,9 +12,25 @@ class AtencionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function atencion(Request $request)
+    {
+
+      return datatables()->of(Atencion::all())->toJson();
+
+    }
+
     public function index()
     {
         //
+
+    
     }
 
     /**
@@ -36,6 +52,10 @@ class AtencionController extends Controller
     public function store(Request $request)
     {
         //
+
+        $atencion = Atencion::create($request->all());
+
+        return $atencion?1:0;
     }
 
     /**

@@ -5,8 +5,8 @@ function listar(){
 
 
     datatable= $('#roles').DataTable( {
-        "pageLength": 5,
-        "destroy": true,
+    "pageLength": 5,
+    "destroy": true,
     "async": false,
     responsive: true,
     autoWidth: false,

@@ -37,21 +37,38 @@ function listar(){
 
 
     datatable= $('#tickets').DataTable( {
-    "pageLength": 5,
-    "destroy": true,
-    "async": false,
-    responsive: true,
-    autoWidth: false,
-    "columnDefs": [
+        "pageLength": 5,
+        "destroy": true,
+        "async": false,
+        responsive: true,
+        autoWidth: false,
+        dom: 'Bfrtip',
+        lengthChange: false,
+    
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+    
+        buttons: [{
+            extend: 'copy',
+            text: 'Copiar'
+        },
+    
         {
-        "searchable": false,
-        "orderable": false,
-        "targets": 0
-        }
-    ],
-    "language": {
-    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-    },
+            extend: 'colvis',
+            text: 'Visibilidad'
+        },
+    
+             'excel', 'pdf'
+            ],
+    
+        "columnDefs": [
+            {
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+            }
+        ],
     "ajax": {
     "url": "/datatable/tickets",
     "method": "post",
@@ -77,9 +94,12 @@ function listar(){
         },
 
 
-        {data: null, render: function (data) {
+        {data: 'tid', render: function (data) {
 
-            return "<button type='button'  id='ButtonAtender'  class='atender edit-modal btn btn-warning botonAtender'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></button>";
+            // return "<button type='button'  id='ButtonAtender'  class='atender edit-modal btn btn-warning botonAtender'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></button>";
+
+           
+            return "<a class='atender  btn btn-warning botonAtender' href='/ticket/"+data+"'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></a>"
             }
         },
 
@@ -105,8 +125,6 @@ function listar(){
 }
 
 
-
-
 $('#tickets').on('click','.ver',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
@@ -127,25 +145,25 @@ $('#tickets').on('click','.ver',function(){
 })
 
 
-$('#tickets').on('click','.atender',function(){
-    var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
-    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
+// $('#tickets').on('click','.atender',function(){
+//     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
+//     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
 
-        var data = datatable.row(this).data();
-    }
-    console.log(data);
+//         var data = datatable.row(this).data();
+//     }
+//     console.log(data);
  
-    $('#idregistro').val(data['id']);
-    $('#mostrarProblema').text(data['tproblema']);
-    $('#mostrarDetalle').text(data['tdetalle']);
+//     $('#idregistro').val(data['id']);
+//     $('#mostrarProblema').text(data['tproblema']);
+//     $('#mostrarDetalle').text(data['tdetalle']);
 
 
-    jQuery.noConflict();
-    $('#modalatender').modal('show');
+//     jQuery.noConflict();
+//     $('#modalatender').modal('show');
 
 
 
-})
+// })
 
 
 $('#tickets').on('click','.editar',function(){
@@ -275,7 +293,6 @@ $.ajax({
 })
 
 });
-
 
 
     $('#colaboradores').on('click','.desactivar',function(){

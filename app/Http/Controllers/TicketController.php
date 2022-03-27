@@ -84,6 +84,12 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         //
+        
+        $servicios = Servicio::all();
+        $prioridades = Prioridad::all();
+        $estados = Estado::all();
+
+        return view('ticket.atencion', compact('servicios','prioridades','estados'));
     }
 
     /**
@@ -92,9 +98,12 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ticket $ticket)
+    public function edit(Request $request,Ticket $ticket)
     {
         //
+
+
+
     }
 
     /**
@@ -107,6 +116,9 @@ class TicketController extends Controller
     public function update(Request $request, Ticket $ticket)
     {
         //
+
+
+
     }
 
     /**
