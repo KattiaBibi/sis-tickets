@@ -38,7 +38,7 @@
     <table id="empresas" class="table table-striped table-bordered" style="">
         <thead>
             <tr>
-                <th></th>
+                <th>ID</th>
                 <th>RUC</th>
                 <th>NOMBRE</th>
                 <th>DIRECCIÓN</th>
@@ -53,7 +53,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <th></th>
+                <th>ID</th>
                 <th>RUC</th>
                 <th>NOMBRE</th>
                 <th>DIRECCIÓN</th>
@@ -95,6 +95,7 @@
         <label for="">RUC:</label>
         <input type="text" class="form-control" id="txtRuc" maxlength="11" placeholder="Ingrese el nombre" name="ruc">
 
+        </div>
         <div class="form-group">
             <label for="">Nombre:</label>
             <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
@@ -123,7 +124,7 @@
 
 
 
-<div class="modal fade" id="modaleditar1" tabindex="-1" role="dialog" aria-labelledby="modaleditar" aria-hidden="true">
+<div class="modal fade" id="modaleditar" tabindex="-1" role="dialog" aria-labelledby="modaleditar" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -150,7 +151,7 @@
           <label for="">RUC:</label>
           <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-          <input type="text" class="form-control" maxlength="11" id="editarRuc" placeholder="Ingrese el nombre" name="nombre">
+          <input type="text" class="form-control" maxlength="11" id="editarRuc" placeholder="Ingrese el nombre" name="ruc">
       </div>
 
 
@@ -182,8 +183,6 @@
   </div>
 
 @endsection
-
-
 
 
 @section('js')

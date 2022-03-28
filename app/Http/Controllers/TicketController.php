@@ -7,6 +7,7 @@ use App\Servicio;
 use App\Prioridad;
 use App\Estado;
 use App\Colaborador;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,17 +25,15 @@ class TicketController extends Controller
     }
 
     public function ticket(Request $request)
-    {
 
+
+    {
 
         $tickets = DB::table('tickets as t')
         ->join('users as u', 't.usuario_id', '=', 'u.id')
         ->select('t.id as tid','t.problema as tproblema','t.detalle as tdetalle','t.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at');
 
-
         return datatables()->of($tickets)->toJson();
-
-
 
     }
 
@@ -82,15 +81,25 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
+    public function show(Request $request,$id)
     {
         //
-        
+        $registro=Ticket::findOrfail($id);
+
+
         $servicios = Servicio::all();
         $prioridades = Prioridad::all();
         $estados = Estado::all();
         $colaboradores = Colaborador::all();
-        return view('ticket.atencion', compact('servicios','prioridades','estados','colaboradores'));
+
+
+
+        $users=DB::table('users as u')
+        ->join('colaboradores as c','u.colaborador_id','=','c.id')
+        ->select('u.id as id','c.nombres as nombres','c.apellidos as apellidos')->get();
+
+
+        return view('ticket.atencion', compact('servicios','prioridades','estados','users','registro','id'));
     }
 
     /**

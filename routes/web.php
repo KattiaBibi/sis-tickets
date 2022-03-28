@@ -54,4 +54,8 @@ Route::post('datatable/prioridades', 'PrioridadController@prioridad')->name('dat
 
 Route::resource('empresa_area','EmpresaAreaController');
 Route::post('datatable/empresa_areas', 'EmpresaAreaController@empresa_area')->name('datatable.empresa_area');
+
+Route::resource('atencion','AtencionController');
+Route::post('datatable/atenciones', 'Atenciones@atencion')->name('datatable.atencion');
+
 //  Route::get('/calendario','CalendarioController@index')->name('calendario');

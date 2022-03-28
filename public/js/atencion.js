@@ -1,8 +1,8 @@
-$('#btnguardaratencion').on("click" ,(event)=>{
+$('#btnguardar').on("click" ,(event)=>{
     event.preventDefault();
 
-let route=$('#frmguardaratencion').attr("action");
-let dataArray=$('#frmguardaratencion').serializeArray()
+let route=$('#frmguardar').attr("action");
+let dataArray=$('#frmguardar').serializeArray()
 dataArray.push({name:'_token',value:token_})
 console.log(dataArray)
 
@@ -25,9 +25,8 @@ $.ajax({
         })
 
        datatable.ajax.reload(null,false);
-        $('#frmguardaratencion')[0].reset()
-        jQuery.noConflict();
-        $('#modalatender').modal('hide');
+        $('#frmguardar')[0].reset()
+
 
         }
             else{

@@ -12,10 +12,12 @@
 @section('content')
 
 <div class="card text-center">
+
+    <form action="{{ route('atencion.store') }}" id="frmguardar">
   <div class="card-header text-right">
-   
-    <button type="submit" class="btn btn-dark">REGISTRAR LA ATENCIÓN</button>
- 
+
+    <button type="submit" id="btnguardar" class="btn btn-dark">REGISTRAR LA ATENCIÓN</button>
+
   </div>
 
   <div class="card-body">
@@ -23,19 +25,19 @@
     <p class="card-text"></p>
 
 
-    <input type="hidden" name="usuarioadmin_id" value="{{ auth()->user()->id}}" id="">
+    <input type="hidden" name="ticket_id" value="{{ $id}}" id="">
 
-    <div class="form-row">
+    <div class="form-row pb-4">
 
       <div class="form-group col-md-3">
         <label for="inputEmail4">PROBLEMA</label>
-        <textarea class="form-control" id="mostrarProblema" rows="8" readonly></textarea>
+        <textarea class="form-control" id="mostrarProblema" rows="8"  readonly>{{ $registro->problema}}</textarea>
 
       </div>
 
       <div class="form-group col-md-6">
         <label for="inputAddress">DETALLE</label>
-        <textarea class="form-control" id="mostrarDetalle" rows="8" readonly></textarea>
+        <textarea class="form-control" id="mostrarDetalle" rows="8" readonly>{{ $registro->detalle}}</textarea>
       </div>
 
       <div class="form-group text-center col-md-3">
@@ -48,7 +50,7 @@
     </div>
 
 
-    <div class="form-row">
+    <div class="form-row pb-4">
 
       <div class="form-group col-md-4">
         <label for="inputState">Servicio</label>
@@ -87,45 +89,40 @@
     </div>
 
 
-    <div class="form-row">
+    <div class="form-row pb-4">
 
 
       <div class="form-group col-md-4">
         <label for="inputState">Colaboradores a cargo</label>
 
-        @foreach ($colaboradores as $c)
+        @foreach ($users as $u)
 
         <div class="form-check">
-  
-            <input class="form-check-input" type="checkbox" value="{{$c->id}}" name="permission[]" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">{{$c->nombres}} {{$c->apellidos}}.</label>
+
+            <input class="form-check-input" type="checkbox" value="{{$u->id}}" name="usuario_colab_id[]" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">{{$u->nombres}} {{$u->apellidos}}.</label>
           </div>
    @endforeach
       </div>
 
 
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-8">
 
         <label for="inputAddress2">Descripción</label>
-        <textarea maxlength="200" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción de la atención." rows="7" name="descripcion"></textarea>
+        <textarea maxlength="200" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción de la atención." rows="5" name="descripcion"></textarea>
 
         <div id="contador3">0/200</div>
       </div>
 
-      <div class="form-group col-md-4">
-
-      
-
-      </div>
-
-
     </div>
 
 
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+
   </div>
+
+</form>
   <div class="card-footer text-muted">
-    2 days ago
+    COMPUSISTEL SAC.
   </div>
 </div>
 
@@ -141,12 +138,11 @@
 <script> console.log('¡HOLA!');
 
 </script>
-{{-- <script src="{{asset('js/rol.js')}}"></script> --}}
+<script src="{{asset('js/atencion.js')}}"></script>
 
 
 
 <script>
 
-listar()
 </script>
 @endsection

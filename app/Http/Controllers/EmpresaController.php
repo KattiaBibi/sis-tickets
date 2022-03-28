@@ -21,9 +21,6 @@ class EmpresaController extends Controller
     public function empresa(Request $request)
     {
 
-        // $empresas=Empresa::select('id','nombre', 'direccion', 'telefono','estado_id')->get();
-
-        // return datatables()->of($empresas)->toJson();
 
       return datatables()->of(Empresa::all())->toJson();
 
@@ -42,6 +39,7 @@ class EmpresaController extends Controller
     public function index()
     {
         //get
+
         return view('empresa.index');
     }
 

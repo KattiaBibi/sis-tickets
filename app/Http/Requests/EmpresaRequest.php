@@ -25,7 +25,7 @@ class EmpresaRequest extends FormRequest
     {
         return [
             //
-            'ruc'=>'required',
+            'ruc'=>'required|unique:empresas|min:11',
             'nombre' => 'required',
             'direccion' => 'required',
             'telefono' => 'required',
@@ -36,10 +36,12 @@ class EmpresaRequest extends FormRequest
     public function messages()
 {
     return [
+        'ruc.unique'=>'¡Empresa con este RUC ya registrada!',
+        'ruc.min'=>'Debe ingresar 11 números para RUC.',
         'ruc.required'=>'El ruc es un campo requerido',
         'nombre.required' => 'El nombre es un campo requerido',
         'direccion.required' => 'La dirección es un campo requerido',
-        'telefono.required' => 'El teléfono es un campo requerido', 
+        'telefono.required' => 'El teléfono es un campo requerido',
 
 ];
 }

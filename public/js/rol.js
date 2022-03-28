@@ -27,7 +27,7 @@ function listar(){
         text: 'Visibilidad'
     },
 
-         'excel', 'pdf'
+         'excel', 'pdf' 
         ],
 
     "columnDefs": [
