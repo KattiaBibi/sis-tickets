@@ -105,7 +105,7 @@ function listar(){
 
         {data: null, render: function (data) {
 
-            return "<button type='button'  id='ButtonEditar'  class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
+            return "<button type='button'  id='ButtonEditar'  class='editar1 edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
             }
         },
 
@@ -166,7 +166,7 @@ $('#tickets').on('click','.ver',function(){
 // })
 
 
-$('#tickets').on('click','.editar',function(){
+$('#tickets').on('click','.editar1',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
 
@@ -180,7 +180,7 @@ $('#tickets').on('click','.editar',function(){
 
 
     jQuery.noConflict();
-    $('#modaleditar').modal('show');
+    $('#modaleditar1').modal('show');
 
 })
 

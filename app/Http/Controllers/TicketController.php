@@ -6,6 +6,7 @@ use App\Ticket;
 use App\Servicio;
 use App\Prioridad;
 use App\Estado;
+use App\Colaborador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -88,8 +89,8 @@ class TicketController extends Controller
         $servicios = Servicio::all();
         $prioridades = Prioridad::all();
         $estados = Estado::all();
-
-        return view('ticket.atencion', compact('servicios','prioridades','estados'));
+        $colaboradores = Colaborador::all();
+        return view('ticket.atencion', compact('servicios','prioridades','estados','colaboradores'));
     }
 
     /**

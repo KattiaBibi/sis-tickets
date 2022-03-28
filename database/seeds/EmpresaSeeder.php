@@ -15,6 +15,7 @@ class EmpresaSeeder extends Seeder
         //
         Empresa::create([
             'id'=>'1',
+            'ruc'=>'10408842889',
             'nombre'=>'COMPUSISTEL',
             'direccion'=>'EJEMPLO',
             'telefono'=>'45334534',

@@ -12,6 +12,7 @@ class Empresa extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+    'ruc',
     'nombre',
     'direccion',
     'telefono',

@@ -25,7 +25,7 @@ class EmpresaRequest extends FormRequest
     {
         return [
             //
-
+            'ruc'=>'required',
             'nombre' => 'required',
             'direccion' => 'required',
             'telefono' => 'required',
@@ -36,6 +36,7 @@ class EmpresaRequest extends FormRequest
     public function messages()
 {
     return [
+        'ruc.required'=>'El ruc es un campo requerido',
         'nombre.required' => 'El nombre es un campo requerido',
         'direccion.required' => 'La dirección es un campo requerido',
         'telefono.required' => 'El teléfono es un campo requerido', 

@@ -47,7 +47,7 @@ function listar(){
     {data: 'id',
     render: function(data, type, row, meta) {
     return meta.row+1;}},
-
+    {data: 'ruc'},
     {data: 'nombre'},
     {data: 'direccion'},
     {data: 'telefono'},
@@ -65,7 +65,7 @@ function listar(){
     }
     },
 
-    {data:'id', render: function (data) {
+    {data:null, render: function (data) {
 
         return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
         }
@@ -79,13 +79,16 @@ function listar(){
 
 $('#empresas').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
+
+    alert("g");
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
         var data = datatable.row(this).data();
     }
-    $('#idregistro').val(data['id']);
-    $('#editarNombre').val(data['nombre']);
-    $('#editarDireccion').val(data['direccion']);
-    $('#editarTelefono').val(data['telefono']);
+    // $('#idregistro').val(data['id']);
+    // $('#editarRuc').val(data['ruc']);
+    // $('#editarNombre').val(data['nombre']);
+    // $('#editarDireccion').val(data['direccion']);
+    // $('#editarTelefono').val(data['telefono']);
     jQuery.noConflict();
     $('#modaleditar').modal('show');
 
