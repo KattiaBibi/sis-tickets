@@ -1,4 +1,4 @@
-   
+
 
     const mensaje = document.getElementById('txtProblema');
     const mensaje2 = document.getElementById('txtDetalle');
@@ -44,48 +44,37 @@ function listar(){
         autoWidth: false,
         dom: 'Bfrtip',
         lengthChange: false,
-    
+
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
-    
+
         buttons: [{
             extend: 'copy',
             text: 'Copiar'
         },
-    
+
         {
             extend: 'colvis',
             text: 'Visibilidad'
         },
-    
+
              'excel', 'pdf'
             ],
-    
+
         "columnDefs": [
             {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
+            "className": "text-center", targets: [ 0, 1, 2 ],
+
             }
         ],
-    "ajax": {
-    "url": "/datatable/tickets",
-    "method": "post",
-    'data' : { '_token' : token_ },
-    },
-
-    // "columnDefs": [
-    //     { width: 550, targets: 2 }
-    // ],
-
-    "columnDefs": [
-        { "className": "text-center", targets: [ 0, 1, 2 ]}
-    ],
-
+        "ajax": {
+        "url": "/datatable/tickets",
+        "method": "post",
+        'data' : { '_token' : token_ },
+        },
 
     "columns":[
-
 
         {data: null, render: function (data) {
 
@@ -93,12 +82,10 @@ function listar(){
             }
         },
 
-
         {data: 'tid', render: function (data) {
 
             // return "<button type='button'  id='ButtonAtender'  class='atender edit-modal btn btn-warning botonAtender'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></button>";
 
-           
             return "<a class='atender  btn btn-warning botonAtender' href='/ticket/"+data+"'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></a>"
             }
         },
@@ -109,12 +96,19 @@ function listar(){
             }
         },
 
+        
 
     {data: 'tid',
     render: function(data, type, row, meta) {
     return meta.row+1;}},
     {data: 'uname'},
-    {data: 'tproblema'},
+    {data: 'tproblema', render:function(data){
+
+        $prob = data.substring(0,120);
+
+        return  $prob ;
+
+    }},
     {data: 'tcreated_at'},
 
     // {data: 'detalle'},
@@ -152,7 +146,7 @@ $('#tickets').on('click','.ver',function(){
 //         var data = datatable.row(this).data();
 //     }
 //     console.log(data);
- 
+
 //     $('#idregistro').val(data['id']);
 //     $('#mostrarProblema').text(data['tproblema']);
 //     $('#mostrarDetalle').text(data['tdetalle']);

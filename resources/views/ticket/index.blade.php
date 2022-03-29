@@ -34,8 +34,7 @@
         </div>
     @endif
 
-
-    <table id="tickets" class="table table-striped table-bordered" style="">
+    <table id="tickets" class="table table-striped table-bordered" style="overflow-x:auto;">
         <thead>
             <tr>
               <th colspan="3" style="text-align: center;">ACCIÓN</th>
@@ -165,7 +164,7 @@
   <!-- Modal -->
   <div class="modal fade bd-example-modal-xl"  id="modalatender" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
-     
+
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Generar atención</h5>
@@ -251,7 +250,7 @@
                   </div>
 
                 </div>
-               
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
