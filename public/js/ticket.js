@@ -33,6 +33,94 @@
 
 /* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
 var datatable ;
+
+
+function listarasignados(){
+
+
+    datatable= $('#tickets').DataTable( {
+        "pageLength": 5,
+        "destroy": true,
+        "async": false,
+        responsive: true,
+        autoWidth: false,
+        dom: 'Bfrtip',
+        lengthChange: false,
+
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+
+        buttons: [{
+            extend: 'copy',
+            text: 'Copiar'
+        },
+
+        {
+            extend: 'colvis',
+            text: 'Visibilidad'
+        },
+
+             'excel', 'pdf'
+            ],
+
+        "columnDefs": [
+            {
+            "className": "text-center", targets: [ 0, 1, 2 ],
+
+            }
+        ],
+        "ajax": {
+        "url": "/datatable/tickets",
+        "method": "post",
+        'data' : { '_token' : token_ },
+        },
+
+    "columns":[
+
+        {data: null, render: function (data) {
+
+            return "<button type='button'  id='ButtonVer'  class='ver edit-modal btn btn-warning botonVer'><span class='fa fa-edit'></span><span class='hidden-xs'> Ver completo</span></button>";
+            }
+        },
+
+        {data: 'tid', render: function (data) {
+
+            // return "<button type='button'  id='ButtonAtender'  class='atender edit-modal btn btn-warning botonAtender'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></button>";
+
+            return "hola"
+            }
+        },
+
+        {data: null, render: function (data) {
+
+            return "<button type='button'  id='ButtonEditar'  class='editar1 edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
+            }
+        },
+
+
+
+    {data: 'tid',
+    render: function(data, type, row, meta) {
+    return meta.row+1;}},
+    {data: 'uname'},
+    {data: 'tproblema', render:function(data){
+
+        $prob = data.substring(0,120);
+
+        return  $prob ;
+
+    }},
+    {data: 'tcreated_at'},
+
+    // {data: 'detalle'},
+
+
+]
+} );
+}
+
+
 function listar(){
 
 
@@ -96,7 +184,7 @@ function listar(){
             }
         },
 
-        
+
 
     {data: 'tid',
     render: function(data, type, row, meta) {

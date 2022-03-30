@@ -24,11 +24,9 @@ $.ajax({
         timer: 1500
         })
 
-       datatable.ajax.reload(null,false);
-        $('#frmguardar')[0].reset()
-
-
+        window.location.replace("/ticket");
         }
+
             else{
 
                 alert("no guardado");

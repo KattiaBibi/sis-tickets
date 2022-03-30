@@ -281,16 +281,18 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'Listar',
+                    'text' => 'Pendientes',
                     'url'  => 'ticket',
                 ],
 
                 [
-                    'text' => 'Sin asignar',
-                    'url'  => '#',
+                    'text'    => 'Asignados',
+                    'url'     => '#',
+
                 ],
+
                 [
-                    'text'    => 'Pendientes',
+                    'text'    => 'En proceso',
                     'url'     => '#',
 
                 ],

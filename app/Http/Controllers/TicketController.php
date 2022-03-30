@@ -76,7 +76,7 @@ class TicketController extends Controller
 
 
 
-        return view('ticket.index', compact('servicios','prioridades','estados'));
+        return view('ticket.template', compact('servicios','prioridades','estados'));
 
     }
 
