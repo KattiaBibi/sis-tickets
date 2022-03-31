@@ -47,6 +47,8 @@ function listarasignados(){
         dom: 'Bfrtip',
         lengthChange: false,
 
+        "order": [[ 6, "desc" ]],
+
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
@@ -71,7 +73,7 @@ function listarasignados(){
             }
         ],
         "ajax": {
-        "url": "/datatable/tickets",
+        "url": "/datatable/ticketsasignados",
         "method": "post",
         'data' : { '_token' : token_ },
         },
@@ -84,11 +86,27 @@ function listarasignados(){
             }
         },
 
-        {data: 'tid', render: function (data) {
+        {data: 'estnb', render: function (data) {
 
             // return "<button type='button'  id='ButtonAtender'  class='atender edit-modal btn btn-warning botonAtender'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></button>";
 
-            return "hola"
+            if  (data=="PENDIENTE"){
+
+              return "<button type='button' class='descripcion edit-modal btn btn-danger botonDescripcion'>Procesar</button>"
+            }
+
+            else if(data=="EN PROCESO"){
+
+                return "<button type='button' class='btn btn-success'>Resuelto</button>"
+            }
+
+            else if(data=="RESUELTO"){
+
+                return "CULMINADO";
+            }
+
+
+
             }
         },
 
@@ -100,7 +118,7 @@ function listarasignados(){
 
 
 
-    {data: 'tid',
+    {data: 'idate',
     render: function(data, type, row, meta) {
     return meta.row+1;}},
     {data: 'uname'},
@@ -111,7 +129,7 @@ function listarasignados(){
         return  $prob ;
 
     }},
-    {data: 'tcreated_at'},
+    {data: 'acreated_at'},
 
     // {data: 'detalle'},
 
@@ -119,6 +137,24 @@ function listarasignados(){
 ]
 } );
 }
+
+
+$('#tickets').on('click','.descripcion',function(){
+    var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
+    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
+
+        var data = datatable.row(this).data();
+    }
+    console.log(data);
+    $('#idregistro').val(data['idate']);
+    $('#txtDescripcion').val(data['adescripcion']);
+
+    jQuery.noConflict();
+    $('#modaldescripcion').modal('show');
+
+})
+
+
 
 
 function listar(){
@@ -205,6 +241,7 @@ function listar(){
 ]
 } );
 }
+
 
 
 $('#tickets').on('click','.ver',function(){

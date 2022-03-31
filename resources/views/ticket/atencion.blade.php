@@ -52,7 +52,7 @@
 
     <div class="form-row pb-4">
 
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-6">
         <label for="inputState">Servicio</label>
 
     <select class="form-control" name="servicio_id">
@@ -65,7 +65,7 @@
 
       </div>
 
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-6">
         <label for="inputState">Prioridad</label>
 
         <select class="form-control" name="prioridad_id">
@@ -76,20 +76,11 @@
         @endforeach
         </select>
       </div>
-      <div class="form-group col-md-4">
-        <label for="inputState">Estado</label>
-      <select class="form-control" name="estado_id">
-      <option selected>Elegir</option>
 
-      @foreach ($estados as $e)
-      <option value="{{ $e->id }}">{{$e->nombre}}</option>
-    @endforeach
-    </select>
-      </div>
     </div>
 
 
-    <div class="form-row pb-4">
+    <div class="form-row pb-4 ">
 
 
       <div class="form-group col-md-4">
@@ -108,7 +99,7 @@
 
       <div class="form-group col-md-8">
 
-        <label for="inputAddress2">Descripción</label>
+        <label for="inputAddress2">Descripción o notas</label>
         <textarea maxlength="200" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción de la atención." rows="5" name="descripcion"></textarea>
 
         <div id="contador3">0/200</div>

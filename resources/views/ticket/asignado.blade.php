@@ -15,14 +15,14 @@
   <div class="card-header">
 
   <div class="row">
-        <div class="col-lg-10">
-                <h2>Tickets asignados</h2>
+        <div class="col-lg-12">
+                <h2>Atenciones pendientes</h2>
         </div>
-        <div class="col-lg-2">
+        {{-- <div class="col-lg-2">
 
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
 
-        </div>
+        </div> --}}
     </div>
     </div>
 
@@ -44,7 +44,6 @@
               <th>CREADO</th>
 
             </tr>
-        </thead>
        <tbody>
 {{-- CONTENIDO EN TICKET.JS --}}
 
@@ -162,108 +161,45 @@
   <!-- Modal detalle -->
 
   <!-- Modal -->
-  <div class="modal fade bd-example-modal-xl"  id="modalatender" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
 
+
+  <div class="modal fade bd-example-modal-xl"  id="modaldescripcion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Generar atención</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Ingrese alguna descripción de la atención</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
 
-          <form  id="frmguardaratencion" >
 
-              <input type="hidden" name="usuarioadmin_id" value="{{ auth()->user()->id}}" id="">
-
-                <div class="form-row">
-
-                  <div class="form-group col-md-3">
-                    <label for="inputEmail4">PROBLEMA</label>
-                    <textarea class="form-control" id="mostrarProblema" rows="8" readonly></textarea>
-
-                  </div>
-
-                  <div class="form-group col-md-6">
-                    <label for="inputAddress">DETALLE</label>
-                    <textarea class="form-control" id="mostrarDetalle" rows="8" readonly></textarea>
-                  </div>
-
-                  <div class="form-group text-center col-md-3">
-                    <p>
-                     <img src="{{ asset('vendor/adminlte/dist/img/reparacion.png') }}" alt=""  style="height: 200px; width: 200px;">
-                    </p>
-
-                  </div>
-
-                </div>
-
-                <div class="form-row">
-
-                  <div class="form-group col-md-4">
-                    <label for="inputState">Servicio</label>
-
-                <select class="form-control" name="servicio_id">
-                  <option selected>Elegir</option>
-
-                  @foreach ($servicios as $s)
-                  <option value="{{ $s->id }}">{{$s->nombre}}</option>
-                @endforeach
-                </select>
-
-                  </div>
-
-                  <div class="form-group col-md-4">
-                    <label for="inputState">Prioridad</label>
-
-                    <select class="form-control" name="prioridad_id">
-                      <option selected>Elegir</option>
-
-                      @foreach ($prioridades as $p)
-                      <option value="{{ $p->id }}">{{$p->nombre}}</option>
-                    @endforeach
-                    </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputState">Estado</label>
-                  <select class="form-control" name="estado_id">
-                  <option selected>Elegir</option>
-
-                  @foreach ($estados as $e)
-                  <option value="{{ $e->id }}">{{$e->nombre}}</option>
-                @endforeach
-                </select>
-                  </div>
-                </div>
+      <form action="{{ route('estado.store') }}" id="frmguardar" >
+          @csrf
+          <div class="form-group">
 
 
+            <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-                <div class="form-row">
+        <label for="inputAddress2">Descripción o notas</label>
+        <textarea maxlength="200" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción de la atención." rows="5" name="descripcion"></textarea>
 
-                  <div class="form-group col-md-12">
-                    <label for="inputAddress2">Descripción</label>
-                    <textarea maxlength="200" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción de la atención." rows="3" name="descripcion"></textarea>
+        <div id="contador3">0/200</div>
 
-                    <div id="contador3">0/200</div>
-                  </div>
-
-                </div>
+          </div>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-
-          <button  id="btnguardaratencion" class="btn btn-primary">GUARDAR</button>
-
+          <button  id="btnguardar" class="btn btn-primary">PROCESAR ATENCIÓN</button>
         </div>
-</form>
-
+      </form>
 
       </div>
     </div>
   </div>
+
 
   <!-- Modal detalle -->
 

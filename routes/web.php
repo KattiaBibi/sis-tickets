@@ -23,6 +23,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('ticket','TicketController');
 Route::post('datatable/tickets', 'TicketController@ticket')->name('datatable.ticket');
+Route::post('datatable/ticketsasignados', 'TicketController@ticketasignado')->name('datatable.ticketasignado');
+Route::get('tickets_asignados', 'TicketController@asignado')->name('ticket.asignado');
+
+
+
 
 Route::resource('usuario','UserController');
 Route::post('datatable/usuarios', 'UserController@usuario')->name('datatable.usuario');

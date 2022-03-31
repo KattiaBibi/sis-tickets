@@ -281,18 +281,50 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'Pendientes',
+                    'text' => 'Sin atención',
                     'url'  => 'ticket',
                 ],
 
                 [
-                    'text'    => 'Asignados',
-                    'url'     => '#',
+                    'text'    => 'Con atención',
+
+
+                    'submenu' => [
+
+
+                        [
+                            'text' => 'Pendiente',
+                            'url'  => 'tickets_asignados',
+                        ],
+
+
+                        [
+                            'text' => 'En proceso',
+                            // 'url'  => 'ticket',
+                        ],
+
+
+                        [
+                            'text' => 'Resuelto',
+                            // 'url'  => 'ticket',
+                        ],
+
+
+
+
+                    ],
 
                 ],
 
                 [
                     'text'    => 'En proceso',
+                    'url'     => '#',
+
+                ],
+
+
+                [
+                    'text'    => 'Todos',
                     'url'     => '#',
 
                 ],

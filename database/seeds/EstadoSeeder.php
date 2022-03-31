@@ -23,5 +23,20 @@ class EstadoSeeder extends Seeder
             'id'=>'2',
             'nombre'=>'INACTIVO',
         ]);
+
+        Estado::create([
+            'id'=>'3',
+            'nombre'=>'PENDIENTE',
+        ]);
+
+        Estado::create([
+            'id'=>'4',
+            'nombre'=>'EN PROCESO',
+        ]);
+
+        Estado::create([
+            'id'=>'5',
+            'nombre'=>'RESUELTO',
+        ]);
     }
 }

@@ -29,7 +29,7 @@ class CreateAtencionesTable extends Migration
             $table->unsignedBigInteger('prioridad_id');
             $table->foreign('prioridad_id','fk_atencion_prioridad')->references('id')->on('prioridades');
 
-            $table->unsignedBigInteger('estado_id')->nullable()->default(1);
+            $table->unsignedBigInteger('estado_id')->nullable()->default(3);
             $table->foreign('estado_id','fk_atencion_estado')->references('id')->on('estados')->onDelete('restrict')->onUpdate('restrict');
 
             $table->timestamps();

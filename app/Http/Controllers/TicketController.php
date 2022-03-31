@@ -24,6 +24,30 @@ class TicketController extends Controller
         $this->middleware('auth');
     }
 
+
+
+
+    public function ticketasignado(Request $request)
+
+
+    {
+
+
+        $ejemplo=DB::table('atenciones as a')
+        ->join('tickets as t','a.ticket_id','=','t.id')
+        ->join('estados as e','a.estado_id','=','e.id')
+        ->join('users as u','t.usuario_id', '=', 'u.id')
+        ->select('a.id as idate','a.descripcion as adescripcion', 't.id as idtic', 'a.created_at as acreated_at','t.problema as tproblema', 't.detalle as tdetalle', 't.usuario_id', 'u.name as uname','e.id as esid', 'e.nombre as estnb');
+
+
+
+    return datatables()->of($ejemplo)->toJson();
+
+
+    }
+
+
+
     public function ticket(Request $request)
 
 
@@ -66,7 +90,8 @@ class TicketController extends Controller
     }
 
 
-    public function index()
+
+    public function asignado()
     {
         //
 
@@ -75,8 +100,19 @@ class TicketController extends Controller
         $estados = Estado::all();
 
 
+        return view('ticket.asignado', compact('servicios','prioridades','estados'));
+    }
 
-        return view('ticket.template', compact('servicios','prioridades','estados'));
+
+    public function index()
+    {
+        //
+
+        $servicios = Servicio::all();
+        $prioridades = Prioridad::all();
+        $estados = Estado::all();
+
+        return view('ticket.index', compact('servicios','prioridades','estados'));
 
     }
 
