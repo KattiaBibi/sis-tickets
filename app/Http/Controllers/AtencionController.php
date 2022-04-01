@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Atencion;
 use App\DetalleAtencion;
 use Illuminate\Http\Request;
+use App\Http\Requests\AtencionRequest;
+
 
 class AtencionController extends Controller
 {
@@ -50,7 +52,7 @@ class AtencionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AtencionRequest $request)
     {
         //aca creas la atencionn
         $idu=Auth()->user()->id;

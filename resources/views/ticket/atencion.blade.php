@@ -56,7 +56,7 @@
         <label for="inputState">Servicio</label>
 
     <select class="form-control" name="servicio_id">
-      <option selected>Elegir</option>
+      <option value="a" >Elegir</option>
 
       @foreach ($servicios as $s)
       <option value="{{ $s->id }}">{{$s->nombre}}</option>
@@ -69,7 +69,7 @@
         <label for="inputState">Prioridad</label>
 
         <select class="form-control" name="prioridad_id">
-          <option selected>Elegir</option>
+          <option value="a" >Elegir</option>
 
           @foreach ($prioridades as $p)
           <option value="{{ $p->id }}">{{$p->nombre}}</option>
@@ -99,7 +99,7 @@
 
       <div class="form-group col-md-8">
 
-        <label for="inputAddress2">Descripción o notas</label>
+        <label for="inputAddress2">Descripción o notas (opcional)</label>
         <textarea maxlength="200" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción de la atención." rows="5" name="descripcion"></textarea>
 
         <div id="contador3">0/200</div>

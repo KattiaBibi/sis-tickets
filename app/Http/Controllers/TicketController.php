@@ -53,38 +53,18 @@ class TicketController extends Controller
 
     {
 
-        $tickets = DB::table('tickets as t')
-        ->join('users as u', 't.usuario_id', '=', 'u.id')
-        ->select('t.id as tid','t.problema as tproblema','t.detalle as tdetalle','t.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at');
 
 
 
-        $ejemplo=DB::table('tickets as t')->join('users as u', 't.usuario_id', '=', 'u.id')->select('t.id as tid','t.problema as tproblema','t.detalle as tdetalle','t.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at')
+        $tickets=DB::table('tickets as t')->join('users as u', 't.usuario_id', '=', 'u.id')->select('t.id as tid','t.problema as tproblema','t.detalle as tdetalle','t.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at')
         ->whereNotExists(function ($query) {
             $query->select("a.ticket_id")
                   ->from('atenciones as a')
                   ->whereRaw('a.ticket_id = t.id');
         });
 
-     //dd($ejemplo);
 
-
-    return datatables()->of($ejemplo)->toJson();
-
-
-//        SELECT *
-// FROM `items`
-// WHERE EXISTS
-//     (SELECT `items_city`.`id`
-//      FROM `items_city`
-//      WHERE items_city.item_id = items.id)
-
-
-        // SELECT * FROM tickets WHERE EXISTS (SELECT * FROM atenciones WHERE tickets.id = atenciones.ticket_id);
-
-        // return DB::table('orders')->where('finalized', 1)->exists();
-
-        // return DB::table('orders')->where('finalized', 1)->doesntExist();
+    return datatables()->of($tickets)->toJson();
 
 
     }

@@ -16,6 +16,11 @@ class EmpresaAreaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function empresa_area(Request $request)
     {
 
@@ -34,10 +39,10 @@ class EmpresaAreaController extends Controller
     public function index()
     {
         //
-  
+
         $empresas = Empresa::all();
         $areas = Area::all();
-        
+
         return view('empresa_area.index', compact('empresas','areas'));
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Colaborador;
 use App\Empresa;
+use App\Http\Requests\AtencionRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -77,7 +78,7 @@ class ColaboradorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ColaboradorRequest $request)
     {
         //
 

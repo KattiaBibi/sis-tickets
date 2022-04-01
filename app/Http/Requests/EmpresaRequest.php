@@ -25,6 +25,7 @@ class EmpresaRequest extends FormRequest
     {
         return [
             //
+
             'ruc'=>'required|unique:empresas|min:11',
             'nombre' => 'required',
             'direccion' => 'required',

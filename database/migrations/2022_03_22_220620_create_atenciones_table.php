@@ -15,7 +15,7 @@ class CreateAtencionesTable extends Migration
     {
         Schema::create('atenciones', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion',200);
+            $table->string('descripcion',200)->nullable();
 
             $table->unsignedBigInteger('usuarioadmin_id');
             $table->foreign('usuarioadmin_id','fk_atencion_user')->references('id')->on('users');
