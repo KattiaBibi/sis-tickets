@@ -7,6 +7,8 @@ use App\Colaborador;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller
 {
@@ -60,9 +62,17 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        //
+     
+        // $request->except('password');
 
-        $usuario =  User::create($request->all());
+        $usuario =  User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'colaborador_id' => $request->colaborador_id,
+
+        ]);
+
 
         return $usuario?1:0;
 
@@ -100,6 +110,8 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         //
+
+        $usuario = $request->except(['password']);
 
         $usuario=User::findOrfail($id);
         $usuario->update($request->all());
