@@ -12,24 +12,24 @@ function listar(){
         autoWidth: false,
         dom: 'Bfrtip',
         lengthChange: false,
-    
+
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
-    
+
         buttons: [{
             extend: 'copy',
             text: 'Copiar'
         },
-    
+
         {
             extend: 'colvis',
             text: 'Visibilidad'
         },
-    
+
              'excel', 'pdf'
             ],
-    
+
         "columnDefs": [
             {
             "searchable": false,
@@ -44,12 +44,12 @@ function listar(){
     },
     "columns":[
 
-    {data: 'id',
+    {data: 'uid',
     render: function(data, type, row, meta) {
     return meta.row+1;}},
 
-    {data: 'name'},
-    {data: 'email'},
+    {data: 'uname'},
+    {data: 'uemail'},
 
     {data: null, render: function (data) {
 
@@ -68,9 +68,11 @@ $('#usuarios').on('click','.editar',function(){
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
         var data = datatable.row(this).data();
     }
-    $('#idregistro').val(data['id']);
-    $('#editarNombre').val(data['name']);
-    $('#editarEmail').val(data['email']);
+    $('#idregistro').val(data['uid']);
+    $('#editarNombre').val(data['uname']);
+    $('#editarEmail').val(data['uemail']);
+
+    $("#editarColaborador").val(data.ucolaborador_id);
 
     jQuery.noConflict();
     $('#modaleditar').modal('show');

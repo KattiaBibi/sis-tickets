@@ -13,7 +13,7 @@ class ColaboradorRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,37 @@ class ColaboradorRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             //
+            'nrodocumento' => 'required|min:8|max:8|unique:colaboradores,nrodocumento,'.$this->id,
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'fechanacimiento' => 'required',
+            'direccion' => 'required',
+            'telefono' => 'required',
+            'empresa_area_id' => 'required|integer',
+        ];
+    }
+
+
+    public function messages(){
+
+        return[
+
+
+            'nrodocumento.unique'=>'¡Colaborador con este DNI ya registrado!',
+            'nrodocumento.required'=>'Campo nro. documento (DNI) obligatorio.',
+            'nrodocumento.min'=>'Debe ingresar 8 números para DNI.',
+            'nrodocumento.max'=>'Debe ingresar 8 números para DNI.',
+            'nombres.required' => 'Nombre es un campo requerido.',
+            'apellidos.required' => 'Apellidos es un campo requerido.',
+            'fechanacimiento.required' => 'Fecha de nacimiento es un campo requerido.',
+            'direccion.required' => 'La dirección es un campo requerido.',
+            'telefono.required' => 'El teléfono es un campo requerido.',
+            'empresa_area_id.integer' => 'Debe seleccionar una ampresa con área.',
+
+
         ];
     }
 }

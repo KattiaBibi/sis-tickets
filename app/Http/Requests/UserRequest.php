@@ -28,7 +28,7 @@ class UserRequest extends FormRequest
 
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required',
+            // 'password' => 'required',
         ];
     }
 
@@ -39,7 +39,7 @@ class UserRequest extends FormRequest
     return [
         'name.required' => 'El nombre es un campo requerido',
         'email.required' => 'El email es un campo requerido',
-        'password.required' => 'La contraseña es un campo requerido',
+        // 'password.required' => 'La contraseña es un campo requerido',
 
 ];
 }

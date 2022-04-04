@@ -103,6 +103,18 @@
             <input type="password" class="form-control" id="txtPassword" placeholder="Ingrese una contraseña" name="password">
         </div>
 
+        <div class="form-group">
+            <label for="">Colaborador:</label>
+
+            <select name="colaborador_id" id="txtColaboradorId" class="form-control">
+              <option selected>Elegir</option>
+
+              @foreach ($colaboradores as $c)
+              <option value="{{ $c->id }}">{{$c->nombres}}</option>
+            @endforeach
+            </select>
+
+        </div>
 
       </div>
       <div class="modal-footer">
@@ -144,7 +156,7 @@
               <label for="">Nombre:</label>
               <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-              <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="nombre">
+              <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="name">
           </div>
           <div class="form-group">
               <label for="">Email:</label>
@@ -156,6 +168,18 @@
             <input type="text" class="form-control" id="editarContraseña" placeholder="Ingrese la dirección" name="password">
         </div>
 
+        <div class="form-group">
+            <label for="">Colaborador:</label>
+
+            <select name="colaborador_id" id="editarColaborador" class="form-control">
+              <option selected>Elegir</option>
+
+              @foreach ($colaboradores as $c)
+              <option value="{{ $c->id }}">{{$c->nombres}}</option>
+            @endforeach
+            </select>
+
+        </div>
 
 
         </div>

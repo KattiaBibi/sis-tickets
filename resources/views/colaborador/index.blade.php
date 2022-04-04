@@ -90,7 +90,7 @@
 
       <div class="form-group">
         <label for="">N° DE DOCUMENTO:</label>
-        <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
+        <input type="text" class="form-control" id="txtNroDocumento" placeholder="Ingrese el nombre" name="nrodocumento">
     </div>
 
         <div class="form-group">
@@ -122,8 +122,8 @@
 
 
 
-            <select class="form-control">
-              <option selected>Elegir</option>
+            <select class="form-control" name="empresa_area_id">
+              <option value="a" selected>Elegir</option>
 
               @foreach ($empresa_areas as $e)
               <option value="{{ $e->eaid }}">{{$e->enombre}} - {{$e->anombre}}</option>

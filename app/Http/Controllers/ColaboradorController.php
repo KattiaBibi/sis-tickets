@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Colaborador;
 use App\Empresa;
-use App\Http\Requests\AtencionRequest;
+use App\Http\Requests\ColaboradorRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

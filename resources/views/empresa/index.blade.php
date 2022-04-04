@@ -109,8 +109,6 @@
             <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="telefono">
         </div>
 
-
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>

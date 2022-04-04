@@ -25,7 +25,7 @@ class EmpresaRequest extends FormRequest
     {
         return [
             //
-            'ruc' => 'required|min:11|unique:empresas,ruc,'.$this->id,
+            'ruc' => 'required|min:11|max:11|unique:empresas,ruc,'.$this->id,
             'nombre' => 'required',
             'direccion' => 'required',
             'telefono' => 'required',
@@ -38,6 +38,7 @@ class EmpresaRequest extends FormRequest
     return [
         'ruc.unique'=>'¡Empresa con este RUC ya registrada!',
         'ruc.min'=>'Debe ingresar 11 números para RUC.',
+        'ruc.max'=>'Debe ingresar 11 números para RUC.',
         'ruc.required'=>'El ruc es un campo requerido',
         'nombre.required' => 'El nombre es un campo requerido',
         'direccion.required' => 'La dirección es un campo requerido',

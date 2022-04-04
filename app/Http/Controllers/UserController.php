@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Colaborador;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -20,7 +23,11 @@ class UserController extends Controller
 
     public function usuario(Request $request){
 
-        $usuarios = User::all();
+       //$usuarios = User::all();
+
+        $usuarios=DB::table('users as u')
+        ->join('colaboradores as c','u.colaborador_id','=','c.id')
+        ->select('u.id as uid','u.name as uname','u.email as uemail','u.password as upassword', 'u.colaborador_id as ucolaborador_id', 'c.nombres as cnombres')->get();
 
         return datatables()->of($usuarios)->toJson();
 
@@ -30,9 +37,9 @@ class UserController extends Controller
     {
         //
 
-        $usuarios = User::all();
+        $colaboradores= Colaborador::all();
 
-        return view('usuario.index', compact('usuarios'));
+        return view('usuario.index', compact('colaboradores'));
     }
 
     /**
@@ -51,13 +58,14 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         //
 
         $usuario =  User::create($request->all());
 
         return $usuario?1:0;
+
     }
 
     /**
@@ -95,6 +103,8 @@ class UserController extends Controller
 
         $usuario=User::findOrfail($id);
         $usuario->update($request->all());
+
+
 
         return $usuario?1:0;
     }
