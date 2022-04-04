@@ -110,7 +110,6 @@ class EmpresaController extends Controller
         $empresa->update($request->all());
 
 
-
         return $empresa?1:0;
 
     }

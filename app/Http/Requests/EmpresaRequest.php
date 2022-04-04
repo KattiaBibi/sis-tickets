@@ -25,8 +25,7 @@ class EmpresaRequest extends FormRequest
     {
         return [
             //
-
-            'ruc'=>'required|unique:empresas|min:11',
+            'ruc' => 'required|min:11|unique:empresas,ruc,'.$this->id,
             'nombre' => 'required',
             'direccion' => 'required',
             'telefono' => 'required',
