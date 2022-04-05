@@ -62,8 +62,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-     
-        // $request->except('password');
 
         $usuario =  User::create([
             'name' => $request->name,
@@ -111,14 +109,23 @@ class UserController extends Controller
     {
         //
 
-        $usuario = $request->except(['password']);
+        $hola= User::where("id","=",$id);
 
-        $usuario=User::findOrfail($id);
-        $usuario->update($request->all());
+        dd($hola->password);
 
+        // $usuario=User::findOrfail($id);
 
+        // $usuario->update($request->all());
+        // return $usuario?1:0;
 
-        return $usuario?1:0;
+        // $usuario = User::findOrfail($id)->update(['password'=> 'Lorem ipsum']);
+
+        // $usuario = request()->all();
+        // $usuario['password'] = bcrypt($usuario['password']);
+        // $usuario->update($usuario);
+
+        // return $usuario?1:0;
+
     }
 
     /**

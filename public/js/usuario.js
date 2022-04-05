@@ -72,6 +72,8 @@ $('#usuarios').on('click','.editar',function(){
     $('#editarNombre').val(data['uname']);
     $('#editarEmail').val(data['uemail']);
 
+    // $("#editarContrasena").val(data.upassword);
+
     $("#editarColaborador").val(data.ucolaborador_id);
 
     jQuery.noConflict();

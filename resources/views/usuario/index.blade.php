@@ -165,7 +165,7 @@
 
           <div class="form-group">
             <label for="">Contraseña:</label>
-            <input type="text" class="form-control" id="editarContraseña" placeholder="Ingrese la dirección" name="password">
+            <input type="text" class="form-control" id="editarContrasena" placeholder="Ingrese la dirección" name="password">
         </div>
 
         <div class="form-group">
