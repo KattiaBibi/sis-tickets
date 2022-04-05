@@ -41,7 +41,7 @@
                 <th></th>
                 <th>NOMBRE</th>
                 <th>EMAIL</th>
-
+                <th>CONTRASEÑA</th>
                 <th  style="text-align: center;">ACCIÓN</th>
 
             </tr>
@@ -55,6 +55,7 @@
                 <th></th>
                 <th>NOMBRE</th>
                 <th>EMAIL</th>
+                <th>CONTRASEÑA</th>
 
                 <th >ACCIÓN</th>
 
@@ -209,6 +210,7 @@
 
 <script>
 
-listar()
+listar();
+decrypt();
 </script>
 @endsection

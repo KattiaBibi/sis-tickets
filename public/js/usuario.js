@@ -51,6 +51,8 @@ function listar(){
     {data: 'uname'},
     {data: 'uemail'},
 
+    {data: 'upassword'},
+
     {data: null, render: function (data) {
 
         return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
@@ -63,6 +65,13 @@ function listar(){
 }
 
 
+function decrypt() {
+
+   alert(btoa(decodedStringBtoA));
+
+ }
+
+
 $('#usuarios').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
@@ -72,7 +81,8 @@ $('#usuarios').on('click','.editar',function(){
     $('#editarNombre').val(data['uname']);
     $('#editarEmail').val(data['uemail']);
 
-    // $("#editarContrasena").val(data.upassword);
+
+    $("#editarContrasena").val(data.upassword);
 
     $("#editarColaborador").val(data.ucolaborador_id);
 

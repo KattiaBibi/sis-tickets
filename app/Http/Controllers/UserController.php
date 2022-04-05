@@ -9,6 +9,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class UserController extends Controller
 {
@@ -23,13 +24,13 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function usuario(Request $request){
+    public function usuario(){
 
-       //$usuarios = User::all();
 
         $usuarios=DB::table('users as u')
         ->join('colaboradores as c','u.colaborador_id','=','c.id')
         ->select('u.id as uid','u.name as uname','u.email as uemail','u.password as upassword', 'u.colaborador_id as ucolaborador_id', 'c.nombres as cnombres')->get();
+
 
         return datatables()->of($usuarios)->toJson();
 
@@ -38,6 +39,11 @@ class UserController extends Controller
     public function index()
     {
         //
+
+        $encrypted = Crypt::encryptString('123456');
+        $decrypted = Crypt::decryptString($encrypted);
+
+
 
         $colaboradores= Colaborador::all();
 
