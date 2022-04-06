@@ -6,6 +6,7 @@ use App\User;
 use App\Colaborador;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserActualizarRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
@@ -111,18 +112,41 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserActualizarRequest $request, $id)
     {
         //
 
-        $hola= User::where("id","=",$id);
+        $usuario=User::findOrfail($id);
 
-        dd($hola->password);
 
-        // $usuario=User::findOrfail($id);
+        $valor=$usuario->password; // VALOR DE LA CONSULTA
+        $valo2=$request->password; // VALOR DE FORMULARIO
 
-        // $usuario->update($request->all());
-        // return $usuario?1:0;
+        if($valo2=='null'){
+ 
+            $usuario->update([           
+                
+                'name'   => $request->name,
+                'email' => $request->email,
+                $valor,
+                'colaborador_id' => $request->colaborador_id,
+            ]);
+
+        };
+
+        if($valo2 != 'null'){
+ 
+            $usuario->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'colaborador_id' => $request->colaborador_id,
+    
+            ]);
+
+        };
+     
+        return $usuario?1:0;
 
         // $usuario = User::findOrfail($id)->update(['password'=> 'Lorem ipsum']);
 

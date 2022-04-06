@@ -48,6 +48,9 @@ Route::post('datatable/areas', 'AreaController@area')->name('datatable.area');
 Route::resource('rol','RolController');
 Route::post('datatable/roles', 'RolController@rol')->name('datatable.rol');
 
+Route::resource('permiso','PermisoController');
+Route::post('datatable/permisos', 'PermisoController@permiso')->name('datatable.permiso');
+
 Route::resource('servicio','ServicioController');
 Route::post('datatable/servicios', 'ServicioController@servicio')->name('datatable.servicio');
 

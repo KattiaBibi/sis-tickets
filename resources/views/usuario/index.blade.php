@@ -41,7 +41,7 @@
                 <th></th>
                 <th>NOMBRE</th>
                 <th>EMAIL</th>
-                <th>CONTRASEÑA</th>
+                {{-- <th>CONTRASEÑA</th> --}}
                 <th  style="text-align: center;">ACCIÓN</th>
 
             </tr>
@@ -55,7 +55,7 @@
                 <th></th>
                 <th>NOMBRE</th>
                 <th>EMAIL</th>
-                <th>CONTRASEÑA</th>
+                {{-- <th>CONTRASEÑA</th> --}}
 
                 <th >ACCIÓN</th>
 
@@ -108,7 +108,7 @@
             <label for="">Colaborador:</label>
 
             <select name="colaborador_id" id="txtColaboradorId" class="form-control">
-              <option selected>Elegir</option>
+              <option value="a">Elegir</option>
 
               @foreach ($colaboradores as $c)
               <option value="{{ $c->id }}">{{$c->nombres}}</option>
@@ -173,7 +173,7 @@
             <label for="">Colaborador:</label>
 
             <select name="colaborador_id" id="editarColaborador" class="form-control">
-              <option selected>Elegir</option>
+              <option value="a">Elegir</option>
 
               @foreach ($colaboradores as $c)
               <option value="{{ $c->id }}">{{$c->nombres}}</option>

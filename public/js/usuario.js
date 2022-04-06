@@ -51,7 +51,7 @@ function listar(){
     {data: 'uname'},
     {data: 'uemail'},
 
-    {data: 'upassword'},
+    // {data: 'upassword'},
 
     {data: null, render: function (data) {
 
@@ -82,7 +82,7 @@ $('#usuarios').on('click','.editar',function(){
     $('#editarEmail').val(data['uemail']);
 
 
-    $("#editarContrasena").val(data.upassword);
+    // $("#editarContrasena").val(data.upassword);
 
     $("#editarColaborador").val(data.ucolaborador_id);
 
@@ -175,7 +175,8 @@ $.ajax({
         })
 
       datatable.ajax.reload(null,false);
-        $('#frmguardar')[0].reset();
+        $('#frmeditar')[0].reset();
+        
         jQuery.noConflict();
         $('#modaleditar').modal('hide');
 

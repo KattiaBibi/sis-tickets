@@ -419,7 +419,7 @@ return [
         [
             'text'       => 'Permisos',
             'icon'       => 'fas fa-key',
-            'url'        => '#',
+            'url'        => 'permiso',
         ],
 
     ],
