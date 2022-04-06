@@ -4,7 +4,7 @@ var datatable ;
 function listar(){
 
 
-    datatable= $('#roles').DataTable( {
+    datatable= $('#roles').DataTable({
     "pageLength": 5,
     "destroy": true,
     "async": false,
@@ -27,7 +27,7 @@ function listar(){
         text: 'Visibilidad'
     },
 
-         'excel', 'pdf' 
+         'excel', 'pdf'
         ],
 
     "columnDefs": [
@@ -72,8 +72,9 @@ function listar(){
 
 
 ]
-} );
+});
 }
+
 
 
 $('#roles').on('click','.editar',function(){
@@ -83,6 +84,8 @@ $('#roles').on('click','.editar',function(){
     }
     $('#idregistro').val(data['id']);
     $('#editarNombre').val(data['name']);
+
+    $("#editarPermisos").val(data.permission);
 
     jQuery.noConflict();
     $('#modaleditar').modal('show');

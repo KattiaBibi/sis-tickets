@@ -100,7 +100,7 @@
 
             <div class="form-check">
 
-                <input class="form-check-input" type="checkbox" value="{{$p->id}}" name="permission[]" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" value="{{$p->id}}" name="permission[]" id="checkPermisos">
                 <label class="form-check-label" for="flexCheckDefault">{{$p->description}}.</label>
               </div>
 
@@ -160,7 +160,9 @@
 
             <div class="form-check">
 
-                <input class="form-check-input" type="checkbox" value="{{$p->id}}" name="permission[]" id="flexCheckDefault">
+
+
+                <input class="form-check-input" type="checkbox" value="{{$p->id}}" name="permission[]" id="editarPermisos">
                 <label class="form-check-label" for="flexCheckDefault">{{$p->description}}.</label>
               </div>
 
