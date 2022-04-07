@@ -85,7 +85,7 @@ $('#roles').on('click','.editar',function(){
     $('#idregistro').val(data['id']);
     $('#editarNombre').val(data['name']);
 
-    $("#editarPermisos").val(data.permission);
+    $("#editarPermisos").val(data);
 
     jQuery.noConflict();
     $('#modaleditar').modal('show');

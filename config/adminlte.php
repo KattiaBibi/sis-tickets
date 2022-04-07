@@ -236,9 +236,9 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text'        => 'Tablero',
+            'text'        => 'Tableroooooo',
             'route'       => 'home',
-            'icon'           =>'fas fa-fw fa-home          '
+            'icon'           =>'fas fa-fw fa-home'
         ],
 
                 [
@@ -260,7 +260,7 @@ return [
 
                 [
                     'text' => 'Crear',
-                    // 'route' => 'calendario',
+                    'url' => 'cita',
                 ],
 
                 [

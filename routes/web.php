@@ -66,4 +66,4 @@ Route::post('datatable/empresa_areas', 'EmpresaAreaController@empresa_area')->na
 Route::resource('atencion','AtencionController');
 // Route::post('datatable/atenciones', 'Atenciones@atencion')->name('datatable.atencion');
 
-//  Route::get('/calendario','CalendarioController@index')->name('calendario');
+Route::resource('cita','CitaController');

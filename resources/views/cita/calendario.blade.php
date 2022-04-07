@@ -1,10 +1,35 @@
 @extends('adminlte::page')
 
-<!-- @section('title', 'Dashboard') -->
+<!-- @section('title', 'Calendario') -->
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Reuniones</h1>
 @stop
+
+
+@section('css')
+
+<link rel="stylesheet" href="{{ asset('fullcalendar/main.css') }}">
+
+
+<style>
+
+    body {
+      margin: 40px 10px;
+      padding: 0;
+      font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+      font-size: 14px;
+    }
+
+    #calendar {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+  </style>
+
+@stop
+
 
 @section('content')
 
@@ -14,16 +39,21 @@
   <h1 class="card-title">Calendario</h1>
   </div>
   <div class="card-body">
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    {{-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
 
 
 <div class="container">
 
 
-    <div class="response"></div>
+    <div class="response">
+
+   <div id='calendar'></div>
 
 
-    <div id='calendar'></div>
+    </div>
+
+
+
 
 
     </div>
@@ -35,285 +65,108 @@
 
 @stop
 
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
-
-@stop
-
 @section('js')
-    <script> console.log('Hi!'); </script>
 
-
-
-    <script>
-
-
-        $(document).ready(function () {
-
-
-
-
-
-              var SITEURL = "{{url('/')}}";
-
-
-              $.ajaxSetup({
-
-
-                headers: {
-
-
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-
-                }
-
-
-              });
-
-
-
-
-              var calendar = $('#calendar').fullCalendar({
-
-
-                  editable: true,
-
-
-                  events: SITEURL + "booking",
-
-
-                  displayEventTime: true,
-
-
-                  editable: true,
-
-
-                  eventRender: function (event, element, view) {
-
-
-                      if (event.allDay === 'true') {
-
-
-                          event.allDay = true;
-
-
-                      } else {
-
-
-                          event.allDay = false;
-
-
-                      }
-
-
-                  },
-
-
-                  selectable: true,
-
-
-                  selectHelper: true,
-
-
-                  select: function (start, end, allDay) {
-
-
-                      var title = prompt('Event Title:');
-
-
-
-
-                      if (title) {
-
-
-                          var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
-
-
-                          var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
-
-
-
-
-                          $.ajax({
-
-
-                              url: SITEURL + "booking/create",
-
-
-                              data: 'title=' + title + '&amp;start=' + start + '&amp;end=' + end,
-
-
-                              type: "POST",
-
-
-                              success: function (data) {
-
-
-                                  displayMessage("Added Successfully");
-
-
-                              }
-
-
-                          });
-
-
-                          calendar.fullCalendar('renderEvent',
-
-
-                                  {
-
-
-                                      title: title,
-
-
-                                      start: start,
-
-
-                                      end: end,
-
-
-                                      allDay: allDay
-
-
-                                  },
-
-
-                          true
-
-
-                                  );
-
-
-                      }
-
-
-                      calendar.fullCalendar('unselect');
-
-
-                  },
-
-
-
-
-
-                  eventDrop: function (event, delta) {
-
-
-                              var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-
-
-                              var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-
-
-                              $.ajax({
-
-
-                                  url: SITEURL + 'booking/update',
-
-
-                                  data: 'title=' + event.title + '&amp;start=' + start + '&amp;end=' + end + '&amp;id=' + event.id,
-
-
-                                  type: "POST",
-
-
-                                  success: function (response) {
-
-
-                                      displayMessage("Updated Successfully");
-
-
-                                  }
-
-
-                              });
-
-
-                          },
-
-
-                  eventClick: function (event) {
-
-
-                      var deleteMsg = confirm("Do you really want to delete?");
-
-
-                      if (deleteMsg) {
-
-
-                          $.ajax({
-
-
-                              type: "POST",
-
-
-                              url: SITEURL + 'booking/delete',
-
-
-                              data: "&amp;id=" + event.id,
-
-
-                              success: function (response) {
-
-
-                                  if(parseInt(response) > 0) {
-
-
-                                      $('#calendar').fullCalendar('removeEvents', event.id);
-
-
-                                      displayMessage("Deleted Successfully");
-
-
-                                  }
-
-
-                              }
-
-
-                          });
-
-
-                      }
-
-
-                  }
-
-
-
-
-              });
-
-
-        });
-
-
-
-
-        function displayMessage(message) {
-
-
-          $(".response").html("<div class='success'>"+message+"</div>");
-
-
-          setInterval(function() { $(".success").fadeOut(); }, 1000);
-
-
-        }
-
-
-      </script>
+<script src="{{ asset('fullcalendar/main.js') }}"></script>
+<script src="{{ asset('fullcalendar/locales/es.js') }}"></script>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'es',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        initialDate: '2020-09-12',
+        navLinks: true, // can click day/week names to navigate views
+        selectable: true,
+        selectMirror: true,
+        select: function(arg) {
+          var title = prompt('Event Title:');
+          if (title) {
+            calendar.addEvent({
+              title: title,
+              start: arg.start,
+              end: arg.end,
+              allDay: arg.allDay
+            })
+          }
+          calendar.unselect()
+        },
+        eventClick: function(arg) {
+          if (confirm('Are you sure you want to delete this event?')) {
+            arg.event.remove()
+          }
+        },
+        editable: true,
+        dayMaxEvents: true, // allow "more" link when too many events
+        events: [
+          {
+            title: 'All Day Event',
+            start: '2020-09-01'
+          },
+          {
+            title: 'Long Event',
+            start: '2020-09-07',
+            end: '2020-09-10'
+          },
+          {
+            groupId: 999,
+            title: 'Repeating Event',
+            start: '2020-09-09T16:00:00'
+          },
+          {
+            groupId: 999,
+            title: 'Repeating Event',
+            start: '2020-09-16T16:00:00'
+          },
+          {
+            title: 'Conference',
+            start: '2020-09-11',
+            end: '2020-09-13'
+          },
+          {
+            title: 'Meeting',
+            start: '2020-09-12T10:30:00',
+            end: '2020-09-12T12:30:00'
+          },
+          {
+            title: 'Lunch',
+            start: '2020-09-12T12:00:00'
+          },
+          {
+            title: 'Meeting',
+            start: '2020-09-12T14:30:00'
+          },
+          {
+            title: 'Happy Hour',
+            start: '2020-09-12T17:30:00'
+          },
+          {
+            title: 'Dinner',
+            start: '2020-09-12T20:00:00'
+          },
+          {
+            title: 'Birthday Party',
+            start: '2020-09-13T07:00:00'
+          },
+          {
+            title: 'Click for Google',
+            url: 'http://google.com/',
+            start: '2020-09-28'
+          }
+        ]
+      });
+
+      calendar.render();
+    });
+
+  </script>
 @stop
 
 
