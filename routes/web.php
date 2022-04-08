@@ -46,6 +46,7 @@ Route::resource('area','AreaController');
 Route::post('datatable/areas', 'AreaController@area')->name('datatable.area');
 
 Route::resource('rol','RolController');
+Route::get('/rol/permiso/{id}','RolController@permiso');
 Route::post('datatable/roles', 'RolController@rol')->name('datatable.rol');
 
 Route::resource('permiso','PermisoController');

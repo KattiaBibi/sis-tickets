@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Roll_Permiso;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\RolRequest;
@@ -25,7 +26,15 @@ class RolController extends Controller
     }
 
 
-    public function rol(Request $request)
+    public function permiso($idrol){
+
+        $permiso= Roll_Permiso::where('role_id',$idrol)->get();
+
+        return $permiso;
+
+    }
+
+    public function rol()
     {
 
       return datatables()->of(Role::all())->toJson();
@@ -72,7 +81,7 @@ class RolController extends Controller
     }
 
     /**
-     * 
+     *
      * Display the specified resource.
      *
      * @param  \App\Role  $role
@@ -103,13 +112,13 @@ class RolController extends Controller
      */
 
 
-    public function update(RolRequest $request, Role $id)
+    public function update(RolRequest $request, Role $rol)
     {
         //put o patach no recuerdo bien , pero todo uso solo get y post :v
-        $rol=Role::findOrfail($id);
-        $rol->update($request->all());
+        // $rol=Role::findOrfail($id);
+        $rol->update(['name'=>$request->name]);
 
-
+        $rol->permissions()->sync($request->permission);
 
         return $rol?1:0;
 

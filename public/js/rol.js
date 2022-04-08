@@ -78,6 +78,16 @@ function listar(){
 
 
 $('#roles').on('click','.editar',function(){
+    
+
+    alert("hola");
+
+
+    let miCheckbox = document.querySelector(".form-check-input")
+
+    miCheckbox.checked = false;
+
+
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
         var data = datatable.row(this).data();
@@ -85,10 +95,26 @@ $('#roles').on('click','.editar',function(){
     $('#idregistro').val(data['id']);
     $('#editarNombre').val(data['name']);
 
-    $("#editarPermisos").val(data);
 
-    jQuery.noConflict();
-    $('#modaleditar').modal('show');
+
+
+    $.ajax({
+        "url":"/rol/permiso/"+ data['id'],
+        "method": "get",
+
+        'success': function(response){
+         $.each(response, (key, value)=>{
+
+            $("#editarPermisos-"+ value.permission_id).prop('checked','true')
+
+            jQuery.noConflict();
+            $('#modaleditar').modal('show');
+
+        })
+
+}
+
+    })
 
 })
 
@@ -149,6 +175,8 @@ $.ajax({
 
 
 
+
+
 $('#btnactualizar').on("click" ,(event)=>{
     event.preventDefault();
 
@@ -177,9 +205,14 @@ $.ajax({
         })
 
       datatable.ajax.reload(null,false);
-        $('#frmguardar')[0].reset();
+
         jQuery.noConflict();
+
         $('#modaleditar').modal('hide');
+        limpiarcheck(dataArray[0].value);
+
+
+
 
         }
             else{
