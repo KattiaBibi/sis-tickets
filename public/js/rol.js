@@ -75,18 +75,20 @@ function listar(){
 });
 }
 
+function desmarcar(){
+    var check = document.getElementsByName('permissions[]');
+    
+    for (i=0; i<check.length; i++){
+    if(check[i].checked = true){
+    check[i].checked = false;
+    }
+    }
 
+    }
 
 $('#roles').on('click','.editar',function(){
-    
 
-    alert("hola");
-
-
-    let miCheckbox = document.querySelector(".form-check-input")
-
-    miCheckbox.checked = false;
-
+    desmarcar();
 
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive

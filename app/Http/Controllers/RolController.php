@@ -118,7 +118,7 @@ class RolController extends Controller
         // $rol=Role::findOrfail($id);
         $rol->update(['name'=>$request->name]);
 
-        $rol->permissions()->sync($request->permission);
+        $rol->permissions()->sync($request->permissions);
 
         return $rol?1:0;
 

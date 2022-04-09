@@ -160,7 +160,7 @@
 
             <div class="form-check">
 
-                <input class="form-check-input" type="checkbox" value="{{$p->id}}" name="permission[]" id="editarPermisos-{{$p->id}}">
+                <input class="form-check-input" type="checkbox" value="{{$p->id}}" name="permissions[]" id="editarPermisos-{{$p->id}}">
                 <label class="form-check-label" for="flexCheckDefault">{{$p->description}}.</label>
               </div>
 

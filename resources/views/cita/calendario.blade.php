@@ -44,6 +44,29 @@
 
 <div class="container">
 
+{{-- modal  --}}
+
+<div class="modal" id="citamodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">AGENDAR REUNIÓN</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Registre su reunión</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm">Guardar</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- modal cerrar --}}
 
     <div class="response">
 
@@ -51,10 +74,6 @@
 
 
     </div>
-
-
-
-
 
     </div>
 
@@ -82,20 +101,16 @@
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        initialDate: '2020-09-12',
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
         select: function(arg) {
-          var title = prompt('Event Title:');
-          if (title) {
-            calendar.addEvent({
-              title: title,
-              start: arg.start,
-              end: arg.end,
-              allDay: arg.allDay
-            })
-          }
+
+          console.log(arg);
+
+          jQuery.noConflict();
+          $('#citamodal').modal('show');
+
           calendar.unselect()
         },
         eventClick: function(arg) {
@@ -106,60 +121,13 @@
         editable: true,
         dayMaxEvents: true, // allow "more" link when too many events
         events: [
-          {
-            title: 'All Day Event',
-            start: '2020-09-01'
-          },
-          {
-            title: 'Long Event',
-            start: '2020-09-07',
-            end: '2020-09-10'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2020-09-09T16:00:00'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2020-09-16T16:00:00'
-          },
+
           {
             title: 'Conference',
             start: '2020-09-11',
             end: '2020-09-13'
           },
-          {
-            title: 'Meeting',
-            start: '2020-09-12T10:30:00',
-            end: '2020-09-12T12:30:00'
-          },
-          {
-            title: 'Lunch',
-            start: '2020-09-12T12:00:00'
-          },
-          {
-            title: 'Meeting',
-            start: '2020-09-12T14:30:00'
-          },
-          {
-            title: 'Happy Hour',
-            start: '2020-09-12T17:30:00'
-          },
-          {
-            title: 'Dinner',
-            start: '2020-09-12T20:00:00'
-          },
-          {
-            title: 'Birthday Party',
-            start: '2020-09-13T07:00:00'
-          },
-          {
-            title: 'Click for Google',
-            url: 'http://google.com/',
-            start: '2020-09-28'
-          }
+ 
         ]
       });
 
