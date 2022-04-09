@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Cita;
+use App\TipoCita;
+use App\Empresa;
 use Illuminate\Http\Request;
 
 class CitaController extends Controller
@@ -22,7 +24,11 @@ class CitaController extends Controller
     {
         //
 
-        return view('cita.calendario');
+        $empresas= Empresa::all();
+        $tipos= TipoCita::all();
+
+
+        return view('cita.calendario', compact('empresas','tipos'));
     }
 
     /**

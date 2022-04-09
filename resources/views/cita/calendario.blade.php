@@ -47,7 +47,7 @@
 {{-- modal  --}}
 
 <div class="modal" id="citamodal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">AGENDAR REUNIÓN</h5>
@@ -56,12 +56,79 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Registre su reunión</p>
+
+    <form action="" name="formulario">
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="inputEmail4">Título</label>
+                <input type="text" class="form-control" id="" name="titulo" placeholder="Escriba el título de su reunión">
+              </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputEmail4">Hora inicio</label>
+                  <input type="time" class="form-control" id="" value="08:30:00"  min="08:30:00" max="18:00:00" step="1" name="titulo">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="inputEmail4">Duración</label>
+
+                    <select id="inputState" class="form-control">
+                        <option selected>Elegir...</option>
+                        <option>...</option>
+                      </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label for="inputState">Tipo reunión</label>
+                    <select id="inputState" class="form-control">
+                      <option selected>Elegir...</option>
+                      @foreach ($tipos as $t)
+                      <option value="{{ $t->id }}">{{$t->nombre}}</option>
+                    @endforeach
+                    </select>
+                  </div>
+
+              </div>
+
+
+            <div class="form-group">
+              <label for="inputAddress">Link zoom</label>
+              <input type="text" class="form-control" id="inputAddress" placeholder="Inserte el link de la reunión">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">City</label>
+                <input type="text" class="form-control" id="inputCity">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputState">Oficina</label>
+                <select id="inputState" class="form-control">
+                  <option selected>Elegir...</option>
+
+                @foreach ($empresas as $e)
+                <option value="{{ $e->id }}">{{$e->nombre}} - {{$e->direccion}}</option>
+              @endforeach
+
+                </select>
+              </div>
+
+            </div>
+
+
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+              </div>
+
+          </form>
+
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-sm">Guardar</button>
-        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
-      </div>
+
     </div>
   </div>
 </div>
@@ -127,7 +194,7 @@
             start: '2020-09-11',
             end: '2020-09-13'
           },
- 
+
         ]
       });
 

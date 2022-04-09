@@ -90,9 +90,15 @@ class TipoCitaController extends Controller
      * @param  \App\TipoCita  $tipoCita
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TipoCita $tipoCita)
+    public function update(Request $request, $id)
     {
         //
+
+        $tipoCita=TipoCita::findOrfail($id);
+        $tipoCita->update($request->all());
+
+        return $tipoCita?1:0;
+
     }
 
     /**

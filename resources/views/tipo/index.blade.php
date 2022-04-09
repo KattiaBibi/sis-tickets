@@ -158,7 +158,7 @@
 <script> console.log('¡HOLA!');
 
 </script>
-<script src="{{asset('js/tipo.js')}}"></script>
+<script src="{{asset('js/tipo_cita.js')}}"></script>
 
 <script>
 

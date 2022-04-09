@@ -75,9 +75,9 @@ function listar(){
 });
 }
 
-function desmarcar(){
+function desmarcar(){  
     var check = document.getElementsByName('permissions[]');
-    
+
     for (i=0; i<check.length; i++){
     if(check[i].checked = true){
     check[i].checked = false;
