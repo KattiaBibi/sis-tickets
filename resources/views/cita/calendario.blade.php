@@ -11,8 +11,13 @@
 
 <link rel="stylesheet" href="{{ asset('fullcalendar/main.css') }}">
 
-
 <style>
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+
+    color: rgb(27, 25, 25) !important;
+
+}
 
     body {
       margin: 40px 10px;
@@ -100,11 +105,7 @@
             </div>
 
             <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control" id="inputCity">
-              </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-3">
                 <label for="inputState">Oficina</label>
                 <select id="inputState" class="form-control">
                   <option selected>Elegir...</option>
@@ -115,6 +116,23 @@
 
                 </select>
               </div>
+
+
+              <div class="form-group col-md-9">
+
+                <label for="inputState">Colaboradores que asistirán:</label>
+                
+
+                <select style="width:100%" class="js-example-basic-multiple" name="states[]"multiple="multiple" lang="es">
+                  @foreach ($colaboradores as $c)
+                  <option value="{{ $e->id }}">{{$c->nombres}} {{$c->apellidos}}</option>
+                @endforeach
+              </select>
+
+        
+              </div>
+
+
 
             </div>
 
@@ -157,6 +175,10 @@
 <script src="{{ asset('fullcalendar/locales/es.js') }}"></script>
 
 <script>
+
+
+  $('.js-example-basic-multiple').select2();
+
 
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
