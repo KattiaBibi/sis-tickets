@@ -15,10 +15,12 @@
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice{
 
-    color: rgb(27, 25, 25) !important;
+    color: rgb(172, 30, 30) !important;
 
 }
-
+.fc-past {
+        background-color: #0c0c0c;
+    }
     body {
       margin: 40px 10px;
       padding: 0;
@@ -74,18 +76,19 @@
              <div class="form-row">
               <div class="form-group col-md-12">
                 <label for="inputEmail4">Descripción (Opcional)</label>
-                
+
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
               </div>
 
             </div>
-  
+
             <div class="form-row">
                 <div class="form-group col-md-4">
                   <label for="inputEmail4">Hora inicio</label>
 
                   <select id="horainicio" class="form-control">
                   </select>
+
                 </div>
 
                 <div class="form-group col-md-4">
@@ -131,7 +134,7 @@
               <div class="form-group col-md-9">
 
                 <label for="inputState">Colaboradores que asistirán:</label>
-                
+
 
                 <select style="width:100%" class="js-example-basic-multiple" name="states[]"multiple="multiple" lang="es">
                   @foreach ($colaboradores as $c)
@@ -139,7 +142,7 @@
                 @endforeach
               </select>
 
-        
+
               </div>
 
 
@@ -184,25 +187,61 @@
 <script src="{{ asset('fullcalendar/main.js') }}"></script>
 <script src="{{ asset('fullcalendar/locales/es.js') }}"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js" integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg==" crossorigin="anonymous"></script>
+
+
 <script>
 
-for (let i = 1; i < 9; i += 1) {
+var a = moment([08,00,00], "HH:mm:ss")
 
-     $("#horainicio").append(`<option value="${i}">${i} hora</option>`);
+var valor=30;
 
+ for (let i = valor; i <= 570; i += valor) {
+
+  let valor2=moment(a).add(i, 'm');
+  let valor3=valor2.format("HH:mm");
+
+
+ if(valor3=='13:00' || valor3=='13:30'){
+
+      $("#horainicio").append(`<option style="display: none;" value="${valor3}">almuerzo</option>`);
 
 }
 
-for (let i = 1; i < 9; i += 1) {
+else{
 
-  if(i==1){
-     $("#duracion").append(`<option value="${i}">${i} hora</option>`);
-  }
- 
-  else{
-    $("#duracion").append(`<option value="${i}">${i} horas</option>`);
-  }
+   $("#horainicio").append(`<option value="${valor3}">${valor3}</option>`);
 }
+
+}
+
+
+ $("#horainicio").change(function(e){
+
+  let valor=e.target.value;
+    console.log(valor);
+
+    var a = moment([08,00,00], "HH:mm:ss")
+
+    $("#duracion").append(`<option value="${valor}">${valor}</option>`);
+
+});
+
+
+// for (let i = 1; i < 9; i += 1) {
+
+//   if(i==1){
+//      $("#duracion").append(`<option value="${i}">${i} hora</option>`);
+//   }
+
+//   if(i==8){
+//      $("#duracion").append(`<option value="${i}">Toda la jornada</option>`);
+//   }
+
+//   else{
+//     $("#duracion").append(`<option value="${i}">${i} horas</option>`);
+//   }
+// }
 
 
   $('.js-example-basic-multiple').select2();
@@ -221,15 +260,32 @@ for (let i = 1; i < 9; i += 1) {
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
-        select: function(arg) {
 
-          console.log(arg);
 
-          jQuery.noConflict();
+        select: function(start, end) {
+
+      // leemos las fechas de inicio de evento y hoy
+      var check = moment(start).format('YYYY-MM-DD');
+      var today = moment(new Date()).format('YYYY-MM-DD');
+
+      console.log(check);
+      console.log(today);
+
+      // si el inicio de evento ocurre hoy o en el futuro mostramos el modal
+      if (check >= today) {
+
+        jQuery.noConflict();
           $('#citamodal').modal('show');
 
           calendar.unselect()
-        },
+
+      }
+      // si no, mostramos una alerta de error
+      else {
+          alert("No se pueden crear eventos en el pasado!");
+      }
+      },
+
         eventClick: function(arg) {
           if (confirm('Are you sure you want to delete this event?')) {
             arg.event.remove()

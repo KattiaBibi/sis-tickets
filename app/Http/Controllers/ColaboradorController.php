@@ -26,8 +26,6 @@ class ColaboradorController extends Controller
     public function colaborador(Request $request)
     {
 
-        // SELECT c.estado_id,c.id,c.nrodocumento,c.nombres,c.apellidos,c.fechanacimiento,c.direccion,c.telefono,e.nombre,a.nombre FROM colaboradores as c INNER JOIN empresa_areas as ea on c.empresa_area_id=ea.id INNER JOIN empresas as e on ea.empresa_id=e.id INNER JOIN areas as a on ea.area_id=a.id;
-
 
         $colaboradores = DB::table('colaboradores as c')
         ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
@@ -46,9 +44,6 @@ class ColaboradorController extends Controller
     public function index()
     {
 
-     // $empresas= Empresa::all();
-
-    //   SELECT ea.id,e.id, a.id, e.nombre, a.nombre FROM empresa_areas as ea join empresas as e on ea.empresa_id=e.id join areas as a on ea.area_id=a.id;
 
 
       $empresa_areas=DB::table('empresa_areas as ea')
