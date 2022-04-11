@@ -49,10 +49,10 @@
 
 <div class="container">
 
-{{-- modal  --}}
+{{-- modal   modal-lg --}}
 
 <div class="modal" id="citamodal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">AGENDAR REUNIÓN</h5>
@@ -71,18 +71,28 @@
 
             </div>
 
+             <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="inputEmail4">Descripción (Opcional)</label>
+                
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              </div>
+
+            </div>
+  
             <div class="form-row">
                 <div class="form-group col-md-4">
                   <label for="inputEmail4">Hora inicio</label>
-                  <input type="time" class="form-control" id="" value="08:30:00"  min="08:30:00" max="18:00:00" step="1" name="titulo">
+
+                  <select id="horainicio" class="form-control">
+                  </select>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="inputEmail4">Duración</label>
 
-                    <select id="inputState" class="form-control">
+                    <select id="duracion" class="form-control">
                         <option selected>Elegir...</option>
-                        <option>...</option>
                       </select>
                   </div>
 
@@ -175,6 +185,24 @@
 <script src="{{ asset('fullcalendar/locales/es.js') }}"></script>
 
 <script>
+
+for (let i = 1; i < 9; i += 1) {
+
+     $("#horainicio").append(`<option value="${i}">${i} hora</option>`);
+
+
+}
+
+for (let i = 1; i < 9; i += 1) {
+
+  if(i==1){
+     $("#duracion").append(`<option value="${i}">${i} hora</option>`);
+  }
+ 
+  else{
+    $("#duracion").append(`<option value="${i}">${i} horas</option>`);
+  }
+}
 
 
   $('.js-example-basic-multiple').select2();
