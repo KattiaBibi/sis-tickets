@@ -23,7 +23,7 @@ class ColaboradorController extends Controller
 
 
 
-    public function colaborador(Request $request)
+    public function colaborador()
     {
 
 
@@ -32,8 +32,6 @@ class ColaboradorController extends Controller
         ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
         ->join('areas as a', 'ea.area_id', '=', 'a.id')
         ->select('c.estado_id','c.id','c.nrodocumento','c.nombres','c.apellidos','c.fechanacimiento','c.direccion','c.telefono','e.nombre as e.nombre','a.nombre as a.nombre','ea.id as idea');
-
-
 
 
         return datatables()->of($colaboradores)->toJson();
