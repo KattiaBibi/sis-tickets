@@ -64,6 +64,9 @@ Route::post('datatable/prioridades', 'PrioridadController@prioridad')->name('dat
 Route::resource('empresa_area','EmpresaAreaController');
 Route::post('datatable/empresa_areas', 'EmpresaAreaController@empresa_area')->name('datatable.empresa_area');
 
+Route::resource('empresa_servicio','EmpresaServicioController');
+Route::post('datatable/empresa_servicios', 'EmpresaServicioController@empresa_servicio')->name('datatable.empresa_servicio');
+
 Route::resource('atencion','AtencionController');
 // Route::post('datatable/atenciones', 'Atenciones@atencion')->name('datatable.atencion');
 

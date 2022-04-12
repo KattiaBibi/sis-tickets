@@ -4,7 +4,7 @@ var datatable ;
 function listar(){
 
 
-    datatable= $('#colaboradores').DataTable( {
+    datatable= $('#empresas_servicios').DataTable( {
         "pageLength": 5,
         "destroy": true,
         "async": false,
@@ -37,46 +37,25 @@ function listar(){
             "targets": 0
             }
         ],
-        
-        "ajax": {
-        "url": "/datatable/colaboradores",
-        "method": "post",
-        'data' : { '_token' : token_ },
-        },
-
-        "columns":[
-
-        {data: 'estado_id',
-    render: function(data){
-
-        if(data=="1"){
-        return "<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>";
-
-        }
-
-        if(data=="2"){
-            return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
-        }
-    }
+    "ajax": {
+    "url": "/datatable/empresa_servicios",
+    "method": "post",
+    'data' : { '_token' : token_ },
     },
+    "columns":[
 
-    {data: null, render: function (data) {
-
-        return "<button type='button'  id='ButtonEditar'  class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
-        }
-    },
-
-    {data: 'id',
+    {data: 'esid',
     render: function(data, type, row, meta) {
     return meta.row+1;}},
-    {data: 'nrodocumento'},
-    {data: 'nombres'},
-    {data: 'apellidos'},
-    {data: 'fechanacimiento'},
-    {data: 'direccion'},
-    {data: 'telefono'},
-    {data: 'e.nombre'},
-    {data: 'a.nombre'},
+
+    {data: 'enombre'},
+    {data: 'snombre'},
+
+    {data:null, render: function (data) {
+
+        return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
+        }
+    },
 
 
 ]
@@ -84,23 +63,13 @@ function listar(){
 }
 
 
-$('#colaboradores').on('click','.editar',function(){
+$('#empresas_servicios').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
-
         var data = datatable.row(this).data();
     }
-    console.log(data);
-    $('#idregistro').val(data['id']);
-    $('#editarNrodoc').val(data['nrodocumento']);
-    $('#editarNombre').val(data['nombres']);
-      $('#editarApellido').val(data['apellidos']);
-    $('#editarFechanac').val(data['fechanacimiento']);
-    $('#editarDireccion').val(data['direccion']);
-    $('#editarTelefono').val(data['telefono']);
-
-    console.log(data.idea);
-    $("#editarEmpresaArea").val(data.idea);
+    $('#editarEmpresa').val(data.eid);
+    $('#editarArea').val(data.aid);
 
 
     jQuery.noConflict();
@@ -169,7 +138,7 @@ $('#btnactualizar').on("click" ,(event)=>{
     event.preventDefault();
 
     let dataArray=$('#frmeditar').serializeArray();
-    let route="/colaborador/"+dataArray[0].value;
+    let route="/empresa/"+dataArray[0].value;
 dataArray.push({name:'_token',value:token_})
 console.log(dataArray[0].value)
 
@@ -220,7 +189,7 @@ $.ajax({
 
 
 
-    $('#colaboradores').on('click','.desactivar',function(){
+    $('#empresas').on('click','.desactivar',function(){
 
         Swal.fire({
             title: '¿Estás seguro(a)?',
@@ -242,7 +211,7 @@ $.ajax({
                 }
 
                 console.log(data)
-                let route="/colaborador/"+data['id'];
+                let route="/empresa/"+data['id'];
                 let data2={
                     id:data.id,
                     _token:token_

@@ -105,7 +105,7 @@ class EmpresaController extends Controller
      */
     public function update(EmpresaRequest $request, $id)
     {
-        //put o patach no recuerdo bien , pero todo uso solo get y post :v
+
         $empresa=Empresa::findOrfail($id);
         $empresa->update($request->all());
 

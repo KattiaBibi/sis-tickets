@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Servicio;
 use Illuminate\Http\Request;
+use App\Http\Requests\ServicioRequest;
 
 class ServicioController extends Controller
 {
@@ -50,7 +51,7 @@ class ServicioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ServicioRequest $request)
     {
         //
 
@@ -61,7 +62,7 @@ class ServicioController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     * 
      * @param  \App\Servicio  $servicio
      * @return \Illuminate\Http\Response
      */
@@ -88,9 +89,14 @@ class ServicioController extends Controller
      * @param  \App\Servicio  $servicio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Servicio $servicio)
+    public function update(ServicioRequest $request, $id)
     {
         //
+
+        $servicio=Servicio::findOrfail($id);
+        $servicio->update($request->all());
+
+        return $servicio?1:0;
     }
 
     /**

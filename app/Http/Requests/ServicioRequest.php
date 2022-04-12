@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EstadoRequest extends FormRequest
+class ServicioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,6 @@ class EstadoRequest extends FormRequest
     {
         return [
             //
-
             'nombre' => 'required'
         ];
     }
@@ -33,7 +32,7 @@ class EstadoRequest extends FormRequest
     public function messages()
     {
         return [
-            'nombre.required'=>'Ingrese el nombre del estado.'
+            'nombre.required'=>'Ingrese el nombre del servicio.'
 
     ];
     }

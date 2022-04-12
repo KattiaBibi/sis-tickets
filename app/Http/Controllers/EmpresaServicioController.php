@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\EmpresaArea;
+use App\EmpresaServicio;
 use App\Empresa;
-use App\Area;
+use App\Servicio;
 use Illuminate\Http\Request;
+use App\Http\Requests\EmpresaServicioRequest;
 use Illuminate\Support\Facades\DB;
 
-class EmpresaAreaController extends Controller
+class EmpresaServicioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,27 +22,28 @@ class EmpresaAreaController extends Controller
         $this->middleware('auth');
     }
 
-    public function empresa_area()
+    public function empresa_servicio()
     {
 
 
-        $empresa_areas=DB::table('empresa_areas as ea')
-        ->join('empresas as e','ea.empresa_id','=','e.id')
-        ->join('areas as a','ea.area_id','=','a.id')
-        ->select('ea.id as eaid','e.id as eid','a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre');
+        $empresa_servicios=DB::table('empresa_servicios as es')
+        ->join('empresas as e','es.empresa_id','=','e.id')
+        ->join('servicios as s','es.servicio_id','=','s.id')
+        ->select('es.id as esid','e.id as eid','s.id as sid', 'e.nombre as enombre', 's.nombre as snombre');
 
-        return datatables()->of($empresa_areas)->toJson();
+        return datatables()->of($empresa_servicios)->toJson();
 
     }
+
 
     public function index()
     {
         //
-
         $empresas = Empresa::all();
-        $areas = Area::all();
+        $servicios = Servicio::all();
 
-        return view('empresa_area.index', compact('empresas','areas'));
+        return view('empresa_servicio.index', compact('empresas','servicios'));
+
     }
 
     /**
@@ -60,22 +62,22 @@ class EmpresaAreaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmpresaServicioRequest $request)
     {
         //
 
-        $empresa_area = EmpresaArea::create($request->all());
+        $empresa_servicio = EmpresaServicio::create($request->all());
 
-        return $empresa_area?1:0;
+        return $empresa_servicio?1:0;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\EmpresaArea  $empresaArea
+     * @param  \App\EmpresaServicio  $empresaServicio
      * @return \Illuminate\Http\Response
      */
-    public function show(EmpresaArea $empresaArea)
+    public function show(EmpresaServicio $empresaServicio)
     {
         //
     }
@@ -83,10 +85,10 @@ class EmpresaAreaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\EmpresaArea  $empresaArea
+     * @param  \App\EmpresaServicio  $empresaServicio
      * @return \Illuminate\Http\Response
      */
-    public function edit(EmpresaArea $empresaArea)
+    public function edit(EmpresaServicio $empresaServicio)
     {
         //
     }
@@ -95,10 +97,10 @@ class EmpresaAreaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\EmpresaArea  $empresaArea
+     * @param  \App\EmpresaServicio  $empresaServicio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EmpresaArea $empresaArea)
+    public function update(EmpresaServicioRequest $request, $id)
     {
         //
     }
@@ -106,10 +108,10 @@ class EmpresaAreaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\EmpresaArea  $empresaArea
+     * @param  \App\EmpresaServicio  $empresaServicio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EmpresaArea $empresaArea)
+    public function destroy(EmpresaServicio $empresaServicio)
     {
         //
     }

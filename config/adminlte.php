@@ -403,6 +403,13 @@ return [
             'icon' => 'fas fa-fw fa-users',
         ],
 
+        [
+            'text' => 'Empresa y Servicios',
+            'url'  => 'empresa_servicio',
+            'icon' => 'fas fa-fw fa-users',
+        ],
+
+
         ['header' => 'ADMINISTRACIÓN'],
         [
             'text'       => 'Usuarios',

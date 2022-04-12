@@ -11,24 +11,24 @@ function listar(){
         autoWidth: false,
         dom: 'Bfrtip',
         lengthChange: false,
-    
+
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
-    
+
         buttons: [{
             extend: 'copy',
             text: 'Copiar'
         },
-    
+
         {
             extend: 'colvis',
             text: 'Visibilidad'
         },
-    
+
              'excel', 'pdf'
             ],
-    
+
         "columnDefs": [
             {
             "searchable": false,
@@ -148,7 +148,7 @@ $('#btnactualizar').on("click" ,(event)=>{
     event.preventDefault();
 
     let dataArray=$('#frmeditar').serializeArray();
-    let route="/area/"+dataArray[0].value;
+    let route="/servicio/"+dataArray[0].value;
 dataArray.push({name:'_token',value:token_})
 console.log(dataArray[0].value)
 

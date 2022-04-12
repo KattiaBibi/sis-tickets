@@ -42,8 +42,6 @@ class ColaboradorController extends Controller
     public function index()
     {
 
-
-
       $empresa_areas=DB::table('empresa_areas as ea')
       ->join('empresas as e','ea.empresa_id','=','e.id')
       ->join('areas as a','ea.area_id','=','a.id')
