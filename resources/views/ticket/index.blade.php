@@ -87,6 +87,20 @@
             <img src="{{ asset('vendor/adminlte/dist/img/soporte.png') }}" alt=""  style="height: 200px; width: 200px;">
         </div>
 
+    <div class="form-group">
+        <label for="">EMPRESA</label>
+
+        <select class="form-control" id="empresa" name="servicio_id">
+            <option selected>Elegir</option>
+
+            @foreach ($empresas as $e)
+            <option value="{{ $e->id }}">{{$e->nombre}}</option>
+          @endforeach
+          </select>
+
+
+    </div>
+
       <div class="form-group">
         <label for="">PROBLEMA:</label>
 
@@ -332,10 +346,9 @@
 
 <script> console.log('¡HOLA!');
 
+
 </script>
 <script src="{{asset('js/ticket.js')}}"></script>
-
-
 
 <script>
 

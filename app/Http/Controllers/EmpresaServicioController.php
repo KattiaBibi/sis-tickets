@@ -101,8 +101,15 @@ class EmpresaServicioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(EmpresaServicioRequest $request, $id)
+
     {
         //
+     
+        $empresaservicio=EmpresaServicio::findOrfail($id);
+        $empresaservicio->update($request->all());
+
+        return $empresaservicio?1:0;
+
     }
 
     /**

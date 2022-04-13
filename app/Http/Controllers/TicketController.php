@@ -6,6 +6,7 @@ use App\Ticket;
 use App\Servicio;
 use App\Prioridad;
 use App\Estado;
+use App\Empresa;
 use App\Colaborador;
 use App\User;
 use Illuminate\Http\Request;
@@ -84,6 +85,9 @@ class TicketController extends Controller
     }
 
 
+    public function listarservicios($id){
+        return Servicios::where('id',$id)->get();
+    }
     public function index()
     {
         //
@@ -91,8 +95,9 @@ class TicketController extends Controller
         $servicios = Servicio::all();
         $prioridades = Prioridad::all();
         $estados = Estado::all();
+        $empresas = Empresa::all();
 
-        return view('ticket.index', compact('servicios','prioridades','estados'));
+        return view('ticket.index', compact('servicios','prioridades','estados','empresas'));
 
     }
 

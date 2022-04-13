@@ -150,11 +150,14 @@
       @endif
       <form  id="frmeditar">
 
+
+     <input type="hidden" class="form-control" id="idregistro"  name="id">
+     
         <div class="form-group">
           <label for="">Empresa:</label>
 
           <select name="empresa_id" id="editarEmpresa" class="form-control">
-            <option selected>Elegir</option>
+            <option value="a">Elegir</option>
 
             @foreach ($empresas as $e)
             <option value="{{ $e->id }}">{{$e->nombre}}</option>
@@ -166,8 +169,8 @@
       <div class="form-group">
         <label for="">Servicio:</label>
 
-        <select name="area_id" id="editarArea" class="form-control">
-          <option selected>Elegir</option>
+        <select name="servicio_id" id="editarServicio" class="form-control">
+          <option value="a">Elegir</option>
 
           @foreach ($servicios as $s)
           <option value="{{ $s->id }}">{{$s->nombre}}</option>

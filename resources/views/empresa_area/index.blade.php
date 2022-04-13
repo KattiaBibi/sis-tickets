@@ -89,7 +89,7 @@
 
         <div class="form-group">
             <label for="">Empresa:</label>
-  
+
             <select name="empresa_id" class="form-control">
               <option selected>Elegir</option>
 
@@ -149,6 +149,9 @@
           </div>
       @endif
       <form  id="frmeditar">
+
+
+     <input type="hidden" class="form-control" id="idregistro"  name="id">
 
         <div class="form-group">
           <label for="">Empresa:</label>

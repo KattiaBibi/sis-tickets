@@ -13,7 +13,7 @@ class EmpresaAreaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,21 @@ class EmpresaAreaRequest extends FormRequest
     {
         return [
             //
+
+            'empresa_id' => 'required|integer',
+            'area_id' => 'required|integer',
+        ];
+    }
+
+    public function messages(){
+
+        return[
+
+            'empresa_id.required' => '¡Debe elegir una empresa!',
+            'area_id.required' => '¡Debe elegir una área!',
+            'empresa_id.integer' => 'Debe seleccionar una ampresa.',
+            'area_id.integer' => 'Debe seleccionar una área.',
+
         ];
     }
 }

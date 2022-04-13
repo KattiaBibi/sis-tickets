@@ -13,7 +13,7 @@ class EmpresaServicioRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,21 @@ class EmpresaServicioRequest extends FormRequest
     {
         return [
             //
+
+            'empresa_id' => 'required|integer',
+            'servicio_id' => 'required|integer',
+        ];
+    }
+
+    public function messages(){
+
+        return[
+
+            'empresa_id.required' => '¡Debe elegir una empresa!',
+            'servicio_id.required' => '¡Debe elegir un servicio!',
+            'empresa_id.integer' => 'Debe seleccionar una empresa.',
+            'servicio_id.integer' => 'Debe seleccionar un servicio.',
+
         ];
     }
 }

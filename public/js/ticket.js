@@ -1,4 +1,14 @@
 
+$("#empresa").on("change", function (e) {
+    let valor =e.target.value;
+
+    alert(valor);
+
+
+
+
+  });
+
 
     const mensaje = document.getElementById('txtProblema');
     const mensaje2 = document.getElementById('txtDetalle');

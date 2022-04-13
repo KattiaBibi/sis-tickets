@@ -6,6 +6,7 @@ use App\EmpresaArea;
 use App\Empresa;
 use App\Area;
 use Illuminate\Http\Request;
+use App\Http\Requests\EmpresaAreaRequest;
 use Illuminate\Support\Facades\DB;
 
 class EmpresaAreaController extends Controller
@@ -60,7 +61,7 @@ class EmpresaAreaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmpresaAreaRequest $request)
     {
         //
 
@@ -98,7 +99,7 @@ class EmpresaAreaController extends Controller
      * @param  \App\EmpresaArea  $empresaArea
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EmpresaArea $empresaArea)
+    public function update(EmpresaAreaRequest $request, $id)
     {
         //
     }

@@ -68,8 +68,10 @@ $('#empresas_servicios').on('click','.editar',function(){
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
         var data = datatable.row(this).data();
     }
+
+    $('#idregistro').val(data['esid']);
     $('#editarEmpresa').val(data.eid);
-    $('#editarArea').val(data.aid);
+    $('#editarServicio').val(data.sid);
 
 
     jQuery.noConflict();
@@ -138,7 +140,7 @@ $('#btnactualizar').on("click" ,(event)=>{
     event.preventDefault();
 
     let dataArray=$('#frmeditar').serializeArray();
-    let route="/empresa/"+dataArray[0].value;
+    let route="/empresa_servicio/"+dataArray[0].value;
 dataArray.push({name:'_token',value:token_})
 console.log(dataArray[0].value)
 
