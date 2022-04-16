@@ -18,9 +18,20 @@
     color: rgb(172, 30, 30) !important;
 
 }
-.fc-past {
-        background-color: #0c0c0c;
+ 
+    .fc-day-past {
+        background-color: #e7e7e7;
     }
+
+    .fc-day-today{
+      background-color: #cbf8f4 !important;
+    }
+ 
+    /* .fc-day-future{
+        background-color: #ccfafd;
+    }
+     */
+
     body {
       margin: 40px 10px;
       padding: 0;
@@ -192,7 +203,7 @@
 
 <script>
 
-var a = moment([08,00,00], "HH:mm:ss")
+var a = moment([11,00,00], "HH:mm:ss")
 
 var valor=30;
 
@@ -257,6 +268,7 @@ else{
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
+        
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
@@ -265,14 +277,14 @@ else{
         select: function(start, end) {
 
       // leemos las fechas de inicio de evento y hoy
-      var check = moment(start).format('YYYY-MM-DD');
-      var today = moment(new Date()).format('YYYY-MM-DD');
+      var check = moment(start.start).format('YYYY-MM-DD');
+      var hoy = moment(new Date()).format('YYYY-MM-DD');
 
       console.log(check);
-      console.log(today);
+      console.log(hoy);
 
       // si el inicio de evento ocurre hoy o en el futuro mostramos el modal
-      if (check >= today) {
+      if (check >= hoy) {
 
         jQuery.noConflict();
           $('#citamodal').modal('show');
@@ -282,12 +294,23 @@ else{
       }
       // si no, mostramos una alerta de error
       else {
-          alert("No se pueden crear eventos en el pasado!");
+
+        Swal.fire({
+          position: 'top-center',
+          icon: 'info',
+          title: '¡No se pueden crear eventos en el pasado!',
+          showConfirmButton: false,
+          timer: 1500
+        })
+
+        
+          calendar.unselect()
+
       }
       },
 
         eventClick: function(arg) {
-          if (confirm('Are you sure you want to delete this event?')) {
+          if (confirm('¿Está seguro(a) que desea eliminar esta reunión?')) {
             arg.event.remove()
           }
         },

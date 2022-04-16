@@ -101,6 +101,20 @@
 
     </div>
 
+    <div class="form-group">
+      <label for="">SERVICIO</label>
+
+      <select class="form-control" id="empresa" name="servicio_id">
+          <option selected>Elegir</option>
+
+          @foreach ($empresas as $e)
+          <option value="{{ $e->id }}">{{$e->nombre}}</option>
+        @endforeach
+        </select>
+
+
+  </div>
+
       <div class="form-group">
         <label for="">PROBLEMA:</label>
 
