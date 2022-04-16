@@ -104,12 +104,9 @@
     <div class="form-group">
       <label for="">SERVICIO</label>
 
-      <select class="form-control" id="empresa" name="servicio_id">
-          <option selected>Elegir</option>
+      <select class="form-control" id="servicio" name="servicio_id">
+       
 
-          @foreach ($empresas as $e)
-          <option value="{{ $e->id }}">{{$e->nombre}}</option>
-        @endforeach
         </select>
 
 

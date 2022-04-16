@@ -2,12 +2,41 @@
 $("#empresa").on("change", function (e) {
     let valor =e.target.value;
 
-    alert(valor);
+    $.ajax({
+        url: "ticket/"+valor+"/listado", //ruta donde enviaras el id del area para listar luego los cargos
+        type: 'POST',
+        dataType: 'json',
+        data: {
+          'id_area': $(this).val(),
+        });
 
-
-
+    listarservicio(valor)
 
   });
+
+
+
+        $('#area_de_trabajo').change(function(e) {
+          e.preventDefault();
+          $.ajax({
+              url: 'listar_cargos', //ruta donde enviaras el id del area para listar luego los cargos
+              type: 'POST',
+              dataType: 'json',
+              data: {
+                'id_area': $(this).val();
+              })
+            .done(function(respuesta) {
+                var response = respuesta;
+
+                for (var i = 0; i < response.length; i++) {
+                  $('#cargo').append('<option value="' + response[i].id_cargo + '">' + response[i].cargo_descripcion + '</option>';
+                  }
+                })
+              .fail(function() {
+                console.log("error");
+              })
+            });
+
 
 
     const mensaje = document.getElementById('txtProblema');

@@ -33,13 +33,11 @@ class TicketController extends Controller
 
     {
 
-
         $ejemplo=DB::table('atenciones as a')
         ->join('tickets as t','a.ticket_id','=','t.id')
         ->join('estados as e','a.estado_id','=','e.id')
         ->join('users as u','t.usuario_id', '=', 'u.id')
         ->select('a.id as idate','a.descripcion as adescripcion', 't.id as idtic', 'a.created_at as acreated_at','t.problema as tproblema', 't.detalle as tdetalle', 't.usuario_id', 'u.name as uname','e.id as esid', 'e.nombre as estnb');
-
 
 
     return datatables()->of($ejemplo)->toJson();
@@ -51,11 +49,7 @@ class TicketController extends Controller
 
     public function ticket(Request $request)
 
-
     {
-
-
-
 
         $tickets=DB::table('tickets as t')->join('users as u', 't.usuario_id', '=', 'u.id')->select('t.id as tid','t.problema as tproblema','t.detalle as tdetalle','t.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at')
         ->whereNotExists(function ($query) {
@@ -69,8 +63,6 @@ class TicketController extends Controller
 
 
     }
-
-
 
     public function asignado()
     {
@@ -86,9 +78,13 @@ class TicketController extends Controller
 
 
     public function listarservicios($id){
+
         return Servicios::where('id',$id)->get();
+        
     }
+
     public function index()
+
     {
         //
 
