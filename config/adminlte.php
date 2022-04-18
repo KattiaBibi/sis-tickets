@@ -236,17 +236,9 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text'        => 'Tableroooooo',
+            'text'        => 'Tablero',
             'route'       => 'home',
             'icon'           =>'fas fa-fw fa-home'
-        ],
-
-                [
-            'text'        => 'Gestión',
-            'url'         => 'admin/pages',
-            'icon'        => 'fas fa-bolt',
-            'label'       => 4,
-            'label_color' => 'info',
         ],
 
 

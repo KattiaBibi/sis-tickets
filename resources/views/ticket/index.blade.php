@@ -90,7 +90,7 @@
     <div class="form-group">
         <label for="">EMPRESA</label>
 
-        <select class="form-control" id="empresa" name="servicio_id">
+        <select class="form-control" id="empresa" name="">
             <option value="a">Elegir</option>
 
             @foreach ($empresas as $e)

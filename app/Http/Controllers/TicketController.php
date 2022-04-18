@@ -11,6 +11,7 @@ use App\Colaborador;
 use App\EmpresaServicio;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\TicketRequest;
 use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
@@ -28,7 +29,7 @@ class TicketController extends Controller
 
 
 
-    public function ticketasignado(Request $request)
+    public function ticketasignado()
 
     {
 
@@ -46,7 +47,7 @@ class TicketController extends Controller
 
 
 
-    public function ticket(Request $request)
+    public function ticket()
 
     {
 
@@ -71,7 +72,6 @@ class TicketController extends Controller
         $prioridades = Prioridad::all();
         $estados = Estado::all();
 
-
         return view('ticket.asignado', compact('servicios','prioridades','estados'));
     }
 
@@ -82,10 +82,10 @@ class TicketController extends Controller
         ->join('empresas as e','es.empresa_id','=','e.id')
         ->join('servicios as s','es.servicio_id','=','s.id')
         ->select('es.id as esid','e.id as eid','s.id as sid','s.nombre as snombre', 'e.nombre as enombre', 's.nombre as snombre')->where('empresa_id',$id)->get();
-  
+
 
         return $empresa_servicios;
-        
+
     }
 
     public function index()
@@ -118,7 +118,7 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TicketRequest $request)
     {
         //
 
@@ -133,7 +133,7 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request,$id)
+    public function show($id)
     {
         //
         $registro=Ticket::findOrfail($id);
@@ -175,7 +175,7 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ticket $ticket)
+    public function update(TicketRequest $request, Ticket $ticket)
     {
         //
 
