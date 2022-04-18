@@ -91,7 +91,7 @@
         <label for="">EMPRESA</label>
 
         <select class="form-control" id="empresa" name="servicio_id">
-            <option selected>Elegir</option>
+            <option value="a">Elegir</option>
 
             @foreach ($empresas as $e)
             <option value="{{ $e->id }}">{{$e->nombre}}</option>
@@ -104,8 +104,8 @@
     <div class="form-group">
       <label for="">SERVICIO</label>
 
-      <select class="form-control" id="servicio" name="servicio_id">
-       
+      <select class="form-control" id="servicio" name="empresa_servicio_id">
+           <option value="a">¡Seleccione una empresa!</option>
 
         </select>
 

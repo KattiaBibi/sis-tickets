@@ -17,6 +17,9 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->string('problema',200);
             $table->string('detalle',600);
+            $table->unsignedBigInteger('empresa_servicio_id');
+            $table->foreign('empresa_servicio_id','fk_ticket_empresa_servicio')->references('id')->on('empresa_servicios');
+
             $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id','fk_ticket_user')->references('id')->on('users');
 

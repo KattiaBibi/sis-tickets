@@ -16,10 +16,9 @@ class Ticket extends Model
 
         'problema',
         'detalle',
+        'empresa_servicio_id',
         'usuario_id',
 
-
     ];
-
 
 }

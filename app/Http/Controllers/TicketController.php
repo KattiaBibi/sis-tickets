@@ -8,6 +8,7 @@ use App\Prioridad;
 use App\Estado;
 use App\Empresa;
 use App\Colaborador;
+use App\EmpresaServicio;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,9 +28,7 @@ class TicketController extends Controller
 
 
 
-
     public function ticketasignado(Request $request)
-
 
     {
 
@@ -79,7 +78,13 @@ class TicketController extends Controller
 
     public function listarservicios($id){
 
-        return Servicios::where('id',$id)->get();
+        $empresa_servicios=DB::table('empresa_servicios as es')
+        ->join('empresas as e','es.empresa_id','=','e.id')
+        ->join('servicios as s','es.servicio_id','=','s.id')
+        ->select('es.id as esid','e.id as eid','s.id as sid','s.nombre as snombre', 'e.nombre as enombre', 's.nombre as snombre')->where('empresa_id',$id)->get();
+  
+
+        return $empresa_servicios;
         
     }
 

@@ -2,41 +2,44 @@
 $("#empresa").on("change", function (e) {
     let valor =e.target.value;
 
-    $.ajax({
-        url: "ticket/"+valor+"/listado", //ruta donde enviaras el id del area para listar luego los cargos
-        type: 'POST',
-        dataType: 'json',
-        data: {
-          'id_area': $(this).val(),
-        });
+    if(valor=='a'){
 
-    listarservicio(valor)
+        $('#servicio').html('<option value="a">¡Seleccione una empresa!</option>');
+        return;
+    }
+
+        $.get('/ticket/'+valor+'/listado', function(data){
+
+
+            if(data.length==0){
+
+                $('#servicio').html('<option value="a">No hay servicios ...</option>');
+
+            }
+
+          else{
+
+            var html_select='<option value="a">Seleccione ...</option>';
+
+            for(var i=0; i<data.length; ++i)
+
+
+            html_select += '<option value="'+ data[i].esid +'">'+ data[i].snombre +'</option>';
+
+            $('#servicio').html(html_select);
+           
+            console.log(data.length);
+            console.log(valor);
+            console.log(data);
+
+          }
+
+
+  
+        });
+        
 
   });
-
-
-
-        $('#area_de_trabajo').change(function(e) {
-          e.preventDefault();
-          $.ajax({
-              url: 'listar_cargos', //ruta donde enviaras el id del area para listar luego los cargos
-              type: 'POST',
-              dataType: 'json',
-              data: {
-                'id_area': $(this).val();
-              })
-            .done(function(respuesta) {
-                var response = respuesta;
-
-                for (var i = 0; i < response.length; i++) {
-                  $('#cargo').append('<option value="' + response[i].id_cargo + '">' + response[i].cargo_descripcion + '</option>';
-                  }
-                })
-              .fail(function() {
-                console.log("error");
-              })
-            });
-
 
 
     const mensaje = document.getElementById('txtProblema');
