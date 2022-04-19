@@ -18,22 +18,13 @@ class EmpresaController extends Controller
         $this->middleware('auth');
     }
 
-    public function empresa(Request $request)
+    public function empresa()
     {
-
 
       return datatables()->of(Empresa::all())->toJson();
 
-        // $data["data"]=Empresa::select('id',
-        // 'nombre',
-        // 'direccion',
-        // 'telefono',
-        // 'estado_id',)->get();
-
-        // return $data;
-
-
     }
+
 
 
     public function index()
@@ -42,6 +33,7 @@ class EmpresaController extends Controller
 
         return view('empresa.index');
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -69,6 +61,8 @@ class EmpresaController extends Controller
         $empresa = Empresa::create($request->all());
 
         return $empresa?1:0;
+
+        
     }
 
 

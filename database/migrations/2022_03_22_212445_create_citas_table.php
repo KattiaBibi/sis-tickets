@@ -20,18 +20,17 @@ class CreateCitasTable extends Migration
             $table->dateTime('fecha_hora_inicio');
             $table->dateTime('fecha_hora_fin');
             $table->string('link_zoom',150);
+            $table->string('otro_cliente',50);
+            $table->enum('tipocita',['presencial','virtual']);
+             $table->enum('estado',['pendiente','concluida','cancelada']);
 
             $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id','fk_cita_usuario')->references('id')->on('users');
 
-            $table->unsignedBigInteger('tipo_cita_id');
-            $table->foreign('tipo_cita_id','fk_cita_tipo_cita')->references('id')->on('tipo_citas');
 
             $table->unsignedBigInteger('empresa_id');
             $table->foreign('empresa_id','fk_cita_empresa')->references('id')->on('empresas');
 
-            $table->unsignedBigInteger('estado_id')->nullable()->default(1);
-            $table->foreign('estado_id','fk_cita_estado')->references('id')->on('estados')->onDelete('restrict')->onUpdate('restrict');
 
             $table->timestamps();
 

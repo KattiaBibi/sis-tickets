@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-04-2022 a las 19:40:56
+-- Tiempo de generación: 19-04-2022 a las 16:05:14
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 7.4.27
 
@@ -34,6 +34,14 @@ CREATE TABLE `areas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `areas`
+--
+
+INSERT INTO `areas` (`id`, `nombre`, `estado_id`, `created_at`, `updated_at`) VALUES
+(1, 'SOPORTE', 1, '2022-04-18 20:27:49', '2022-04-18 20:27:49'),
+(2, 'DESARROLLO DE SOFTWARE', 1, '2022-04-18 20:27:49', '2022-04-18 20:27:49');
 
 -- --------------------------------------------------------
 
@@ -94,6 +102,13 @@ CREATE TABLE `colaboradores` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `colaboradores`
+--
+
+INSERT INTO `colaboradores` (`id`, `nrodocumento`, `nombres`, `apellidos`, `fechanacimiento`, `direccion`, `telefono`, `empresa_area_id`, `estado_id`, `created_at`, `updated_at`) VALUES
+(1, '77422337', 'Kattia', 'Cruzado', '1997-12-14', 'Av. Los Quipus 565', '979159525', 1, 1, '2022-04-18 20:27:49', '2022-04-18 20:27:49');
+
 -- --------------------------------------------------------
 
 --
@@ -137,6 +152,15 @@ CREATE TABLE `empresas` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `empresas`
+--
+
+INSERT INTO `empresas` (`id`, `ruc`, `nombre`, `direccion`, `telefono`, `estado_id`, `created_at`, `updated_at`) VALUES
+(1, '10408842889', 'COMPUSISTEL', 'EJEMPLO', '45334534', 1, '2022-04-18 20:27:49', '2022-04-18 20:27:49'),
+(2, '45353454546', 'Genexidu', 'awdrsfdd', '5345355', 1, '2022-04-19 01:03:24', '2022-04-19 01:03:24'),
+(3, '34343455676', 'N LEÓN', 'GDFGDFD', '75757657', 1, '2022-04-19 01:03:40', '2022-04-19 01:03:40');
+
 -- --------------------------------------------------------
 
 --
@@ -151,6 +175,38 @@ CREATE TABLE `empresa_areas` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `empresa_areas`
+--
+
+INSERT INTO `empresa_areas` (`id`, `empresa_id`, `area_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2022-04-18 20:27:49', '2022-04-18 20:27:49');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empresa_servicios`
+--
+
+CREATE TABLE `empresa_servicios` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `empresa_id` bigint(20) UNSIGNED NOT NULL,
+  `servicio_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `empresa_servicios`
+--
+
+INSERT INTO `empresa_servicios` (`id`, `empresa_id`, `servicio_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2022-04-19 01:02:55', '2022-04-19 01:02:55'),
+(2, 1, 2, '2022-04-19 01:03:01', '2022-04-19 01:03:01'),
+(3, 2, 4, '2022-04-19 01:04:48', '2022-04-19 01:04:48'),
+(4, 3, 6, '2022-04-19 01:04:59', '2022-04-19 01:04:59'),
+(5, 1, 7, '2022-04-19 01:08:32', '2022-04-19 01:08:32');
+
 -- --------------------------------------------------------
 
 --
@@ -163,6 +219,17 @@ CREATE TABLE `estados` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `estados`
+--
+
+INSERT INTO `estados` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
+(1, 'ACTIVO', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(2, 'INACTIVO', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(3, 'PENDIENTE', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(4, 'EN PROCESO', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(5, 'RESUELTO', '2022-04-18 20:27:48', '2022-04-18 20:27:48');
 
 -- --------------------------------------------------------
 
@@ -202,18 +269,19 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2022_03_15_173907_create_estados_table', 1),
 (5, '2022_03_16_003138_create_empresas_table', 1),
 (6, '2022_03_21_015309_create_areas_table', 1),
-(7, '2022_03_21_141234_create_permission_tables', 1),
-(8, '2022_03_21_162642_create_empresa_areas_table', 1),
-(9, '2022_03_22_161616_create_colaboradores_table', 1),
-(10, '2022_03_22_171407_alter_users_table', 1),
-(11, '2022_03_22_210537_create_servicios_table', 1),
-(12, '2022_03_22_211351_create_prioridades_table', 1),
-(13, '2022_03_22_212300_create_tipo_citas_table', 1),
-(14, '2022_03_22_212445_create_citas_table', 1),
-(15, '2022_03_22_212723_create_detalle_citas_table', 1),
-(16, '2022_03_22_220531_create_tickets_table', 1),
-(17, '2022_03_22_220620_create_atenciones_table', 1),
-(18, '2022_03_22_220721_create_detalle_atenciones_table', 1);
+(7, '2022_03_21_015310_create_servicios_table', 1),
+(8, '2022_03_21_141234_create_permission_tables', 1),
+(9, '2022_03_21_162642_create_empresa_areas_table', 1),
+(10, '2022_03_21_162643_create_empresa_servicios_table', 1),
+(11, '2022_03_22_161616_create_colaboradores_table', 1),
+(12, '2022_03_22_171407_alter_users_table', 1),
+(13, '2022_03_22_211351_create_prioridades_table', 1),
+(14, '2022_03_22_212300_create_tipo_citas_table', 1),
+(15, '2022_03_22_212445_create_citas_table', 1),
+(16, '2022_03_22_212723_create_detalle_citas_table', 1),
+(17, '2022_03_22_220531_create_tickets_table', 1),
+(18, '2022_03_22_220620_create_atenciones_table', 1),
+(19, '2022_03_22_220721_create_detalle_atenciones_table', 1);
 
 -- --------------------------------------------------------
 
@@ -238,6 +306,13 @@ CREATE TABLE `model_has_roles` (
   `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(1, 'App\\User', 1);
 
 -- --------------------------------------------------------
 
@@ -265,6 +340,21 @@ CREATE TABLE `permissions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`, `description`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'home', 'Ver el tablero', 'web', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(2, 'empresa.listado', 'Listar empresas', 'web', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(3, 'empresa.crear', 'Crear empresa', 'web', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(4, 'empresa.editar', 'Editar empresa', 'web', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(5, 'empresa.desactivar', 'Desactivar empresa', 'web', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(6, 'area.listado', 'Listar áreas', 'web', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(7, 'area.crear', 'Crear área', 'web', '2022-04-18 20:27:49', '2022-04-18 20:27:49'),
+(8, 'area.editar', 'Editar área', 'web', '2022-04-18 20:27:49', '2022-04-18 20:27:49'),
+(9, 'area.desactivar', 'Desactivar área', 'web', '2022-04-18 20:27:49', '2022-04-18 20:27:49');
 
 -- --------------------------------------------------------
 
@@ -294,6 +384,15 @@ CREATE TABLE `roles` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'web', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(2, 'AdminGerente', 'web', '2022-04-18 20:27:48', '2022-04-18 20:27:48'),
+(3, 'Trabajador', 'web', '2022-04-18 20:27:48', '2022-04-18 20:27:48');
+
 -- --------------------------------------------------------
 
 --
@@ -304,6 +403,21 @@ CREATE TABLE `role_has_permissions` (
   `permission_id` bigint(20) UNSIGNED NOT NULL,
   `role_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `role_has_permissions`
+--
+
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1);
 
 -- --------------------------------------------------------
 
@@ -319,6 +433,19 @@ CREATE TABLE `servicios` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `servicios`
+--
+
+INSERT INTO `servicios` (`id`, `nombre`, `estado_id`, `created_at`, `updated_at`) VALUES
+(1, 'Renuévate', 1, '2022-04-19 01:00:35', '2022-04-19 01:00:35'),
+(2, 'Asegúrate', 1, '2022-04-19 01:00:42', '2022-04-19 01:00:42'),
+(3, 'Clientify', 1, '2022-04-19 01:00:50', '2022-04-19 01:00:50'),
+(4, 'Grabación en drones', 1, '2022-04-19 01:04:00', '2022-04-19 01:04:00'),
+(5, 'Fotografía digital', 1, '2022-04-19 01:04:16', '2022-04-19 01:04:16'),
+(6, 'Marketing', 1, '2022-04-19 01:04:24', '2022-04-19 01:04:24'),
+(7, 'Soporte', 1, '2022-04-19 01:08:15', '2022-04-19 01:08:15');
+
 -- --------------------------------------------------------
 
 --
@@ -329,10 +456,18 @@ CREATE TABLE `tickets` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `problema` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `detalle` varchar(600) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `empresa_servicio_id` bigint(20) UNSIGNED NOT NULL,
   `usuario_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tickets`
+--
+
+INSERT INTO `tickets` (`id`, `problema`, `detalle`, `empresa_servicio_id`, `usuario_id`, `created_at`, `updated_at`) VALUES
+(1, 'MI COMPUTADORA ESTÁ MUY LENTA', 'ESTUVE TRABAJANDO NORMAL EN MI CPOMPUTADORA Y DE LA NADA SE APAGÓ A LOS 10 MIE\r\nGFE', 5, 1, '2022-04-19 01:09:26', '2022-04-19 01:09:26');
 
 -- --------------------------------------------------------
 
@@ -365,6 +500,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `colaborador_id`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Kattia', 'kattia1997-@hotmail.com', NULL, '$2y$10$HYaZpBok8RfnQsAmo5K48OfXWGYcPRsjZLk5vz0swwitePEKoXkou', 1, 'Ejf4SLRq78EfPf9Kdi9qRXbsGIKN7b1WDEJaZ59ToqUk6E0Lrc86WVzPgdVH', '2022-04-18 20:27:49', '2022-04-18 20:27:49');
 
 --
 -- Índices para tablas volcadas
@@ -435,7 +577,15 @@ ALTER TABLE `empresas`
 ALTER TABLE `empresa_areas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_empresa_area_empresa` (`empresa_id`),
-  ADD KEY `fk_empresa_area_area` (`area_id`);
+  ADD KEY `fk_empresa_area` (`area_id`);
+
+--
+-- Indices de la tabla `empresa_servicios`
+--
+ALTER TABLE `empresa_servicios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_empresa_servicio_empresa` (`empresa_id`),
+  ADD KEY `fk_empresa_servicio` (`servicio_id`);
 
 --
 -- Indices de la tabla `estados`
@@ -515,6 +665,7 @@ ALTER TABLE `servicios`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_ticket_empresa_servicio` (`empresa_servicio_id`),
   ADD KEY `fk_ticket_user` (`usuario_id`);
 
 --
@@ -540,7 +691,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `atenciones`
@@ -558,7 +709,7 @@ ALTER TABLE `citas`
 -- AUTO_INCREMENT de la tabla `colaboradores`
 --
 ALTER TABLE `colaboradores`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_atenciones`
@@ -576,19 +727,25 @@ ALTER TABLE `detalle_citas`
 -- AUTO_INCREMENT de la tabla `empresas`
 --
 ALTER TABLE `empresas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `empresa_areas`
 --
 ALTER TABLE `empresa_areas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `empresa_servicios`
+--
+ALTER TABLE `empresa_servicios`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `estados`
 --
 ALTER TABLE `estados`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -600,13 +757,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `prioridades`
@@ -618,19 +775,19 @@ ALTER TABLE `prioridades`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_citas`
@@ -642,7 +799,7 @@ ALTER TABLE `tipo_citas`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
@@ -704,8 +861,15 @@ ALTER TABLE `empresas`
 -- Filtros para la tabla `empresa_areas`
 --
 ALTER TABLE `empresa_areas`
-  ADD CONSTRAINT `fk_empresa_area_area` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`),
+  ADD CONSTRAINT `fk_empresa_area` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`),
   ADD CONSTRAINT `fk_empresa_area_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`);
+
+--
+-- Filtros para la tabla `empresa_servicios`
+--
+ALTER TABLE `empresa_servicios`
+  ADD CONSTRAINT `fk_empresa_servicio` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`),
+  ADD CONSTRAINT `fk_empresa_servicio_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`);
 
 --
 -- Filtros para la tabla `model_has_permissions`
@@ -742,6 +906,7 @@ ALTER TABLE `servicios`
 -- Filtros para la tabla `tickets`
 --
 ALTER TABLE `tickets`
+  ADD CONSTRAINT `fk_ticket_empresa_servicio` FOREIGN KEY (`empresa_servicio_id`) REFERENCES `empresa_servicios` (`id`),
   ADD CONSTRAINT `fk_ticket_user` FOREIGN KEY (`usuario_id`) REFERENCES `users` (`id`);
 
 --

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Ticket;
+use App\Requerimiento;
 use App\Servicio;
 use App\Prioridad;
 use App\Estado;
@@ -11,10 +11,10 @@ use App\Colaborador;
 use App\EmpresaServicio;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\TicketRequest;
+use App\Http\Requests\RequerimientoRequest;
 use Illuminate\Support\Facades\DB;
 
-class TicketController extends Controller
+class RequerimientoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,12 +29,12 @@ class TicketController extends Controller
 
 
 
-    public function ticketasignado()
+    public function requerimientoasignado()
 
     {
 
         $ejemplo=DB::table('atenciones as a')
-        ->join('tickets as t','a.ticket_id','=','t.id')
+        ->join('requerimientos as t','a.requerimiento_id','=','t.id')
         ->join('estados as e','a.estado_id','=','e.id')
         ->join('users as u','t.usuario_id', '=', 'u.id')
         ->select('a.id as idate','a.descripcion as adescripcion', 't.id as idtic', 'a.created_at as acreated_at','t.problema as tproblema', 't.detalle as tdetalle', 't.usuario_id', 'u.name as uname','e.id as esid', 'e.nombre as estnb');
@@ -47,19 +47,19 @@ class TicketController extends Controller
 
 
 
-    public function ticket()
+    public function requerimiento()
 
     {
 
-        $tickets=DB::table('tickets as t')->join('users as u', 't.usuario_id', '=', 'u.id')->select('t.id as tid','t.problema as tproblema','t.detalle as tdetalle','t.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at')
+        $requerimientos=DB::table('requerimientos as t')->join('users as u', 't.usuario_id', '=', 'u.id')->select('t.id as tid','t.problema as tproblema','t.detalle as tdetalle','t.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at')
         ->whereNotExists(function ($query) {
-            $query->select("a.ticket_id")
+            $query->select("a.requerimiento_id")
                   ->from('atenciones as a')
-                  ->whereRaw('a.ticket_id = t.id');
+                  ->whereRaw('a.requerimiento_id = t.id');
         });
 
 
-    return datatables()->of($tickets)->toJson();
+    return datatables()->of($requerimientos)->toJson();
 
 
     }
@@ -72,7 +72,7 @@ class TicketController extends Controller
         $prioridades = Prioridad::all();
         $estados = Estado::all();
 
-        return view('ticket.asignado', compact('servicios','prioridades','estados'));
+        return view('requerimiento.asignado', compact('servicios','prioridades','estados'));
     }
 
 
@@ -98,7 +98,7 @@ class TicketController extends Controller
         $estados = Estado::all();
         $empresas = Empresa::all();
 
-        return view('ticket.index', compact('servicios','prioridades','estados','empresas'));
+        return view('requerimiento.index', compact('servicios','prioridades','estados','empresas'));
 
     }
 
@@ -118,25 +118,25 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TicketRequest $request)
+    public function store(RequerimientoRequest $request)
     {
         //
 
-        $ticket =  Ticket::create($request->all());
+        $requerimiento =  Requerimiento::create($request->all());
 
-        return $ticket?1:0;
+        return $requerimiento?1:0;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
-        $registro=Ticket::findOrfail($id);
+        $registro=Requerimiento::findOrfail($id);
 
 
         $servicios = Servicio::all();
@@ -151,16 +151,16 @@ class TicketController extends Controller
         ->select('u.id as id','c.nombres as nombres','c.apellidos as apellidos')->get();
 
 
-        return view('ticket.atencion', compact('servicios','prioridades','estados','users','registro','id'));
+        return view('requerimiento.atencion', compact('servicios','prioridades','estados','users','registro','id'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,Ticket $ticket)
+    public function edit(Request $request,Requerimiento $requerimiento)
     {
         //
 
@@ -172,10 +172,10 @@ class TicketController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
-    public function update(TicketRequest $request, Ticket $ticket)
+    public function update(RequerimientoRequest $request, Requerimiento $requerimiento)
     {
         //
 
@@ -186,10 +186,10 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ticket $ticket)
+    public function destroy(Requerimiento $requerimiento)
     {
         //
     }

@@ -63,6 +63,7 @@ lugar
 link
 id_empresa
 tiporeunion (presencial, virtual)
+otrocliente
 horainicio
 horafin
 idusuariocreador

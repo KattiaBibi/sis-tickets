@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>Sistema </b>Tickets',
+    'logo' => '<b>Sistema </b>Compusistel',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Sistema Tickets',
+    'logo_img_alt' => 'Sistema',
 
     /*
     |--------------------------------------------------------------------------
@@ -231,13 +231,8 @@ return [
         // Sidebar items:
 
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'Tablero',
-            'route'       => 'home',
+            'text'        => 'Dashboard',
+            'route'       => 'dashboard',
             'icon'           =>'fas fa-fw fa-home'
         ],
 
@@ -247,84 +242,19 @@ return [
             'icon'        => 'fas fa-calendar-day',
             'label'       => 4,
             'label_color' => 'info',
+            'url' => 'cita',
 
-            'submenu' => [
-
-                [
-                    'text' => 'Crear',
-                    'url' => 'cita',
-                ],
-
-                [
-                    'text' => 'Pendientes',
-                    'url'  => '#',
-                ],
-
-            ],
         ],
 
 
         [
-            'text'    => 'Tickets',
+            'text'    => 'Requerimientos',
             'icon'        => 'fas fa-ticket-alt',
             'label'       => 4,
             'label_color' => 'success',
+            'url'  => 'ticket',
 
-            'submenu' => [
-
-                [
-                    'text' => 'Sin atención',
-                    'url'  => 'ticket',
-                ],
-
-                [
-                    'text'    => 'Con atención',
-
-
-                    'submenu' => [
-
-
-                        [
-                            'text' => 'Pendiente',
-                            'url'  => 'tickets_asignados',
-                        ],
-
-
-                        [
-                            'text' => 'En proceso',
-                            // 'url'  => 'ticket',
-                        ],
-
-
-                        [
-                            'text' => 'Resuelto',
-                            // 'url'  => 'ticket',
-                        ],
-
-
-
-
-                    ],
-
-                ],
-
-                [
-                    'text'    => 'En proceso',
-                    'url'     => '#',
-
-                ],
-
-
-                [
-                    'text'    => 'Todos',
-                    'url'     => '#',
-
-                ],
-
-            ],
         ],
-
-
 
 
         ['header' => 'CONFIGURACIÓN'],
@@ -362,44 +292,44 @@ return [
         ],
 
 
-        ['header' => 'REPORTES'],
-        [
-            'text'       => 'Nuevos creados',
-            'icon'       => 'fas fa-business-time',
-            'url'        => '#',
-        ],
+        // ['header' => 'REPORTES'],
+        // [
+        //     'text'       => 'Nuevos creados',
+        //     'icon'       => 'fas fa-business-time',
+        //     'url'        => '#',
+        // ],
 
-        [
-            'text'       => 'Tickets Pendientes',
-            'icon'       =>'fas fa-clock',
-            'url'        => '#',
-        ],
+        // [
+        //     'text'       => 'Tickets Pendientes',
+        //     'icon'       =>'fas fa-clock',
+        //     'url'        => '#',
+        // ],
 
-        ['header' => 'EMPRESA'],
+        // ['header' => 'EMPRESA'],
 
-        [
-            'text' => 'Empresas ',
-            'url'  => 'empresa',
-            'icon' => 'fas fa-fw fa-users',
-        ],
+        // [
+        //     'text' => 'Empresas ',
+        //     'url'  => 'empresa',
+        //     'icon' => 'fas fa-fw fa-users',
+        // ],
 
-        [
-            'text' => 'Áreas',
-            'url'  => 'area',
-            'icon' => 'fas fa-fw fa-users',
-        ],
+        // [
+        //     'text' => 'Áreas',
+        //     'url'  => 'area',
+        //     'icon' => 'fas fa-fw fa-users',
+        // ],
 
-        [
-            'text' => 'Empresa y Áreas',
-            'url'  => 'empresa_area',
-            'icon' => 'fas fa-fw fa-users',
-        ],
+        // [
+        //     'text' => 'Empresa y Áreas',
+        //     'url'  => 'empresa_area',
+        //     'icon' => 'fas fa-fw fa-users',
+        // ],
 
-        [
-            'text' => 'Empresa y Servicios',
-            'url'  => 'empresa_servicio',
-            'icon' => 'fas fa-fw fa-users',
-        ],
+        // [
+        //     'text' => 'Empresa y Servicios',
+        //     'url'  => 'empresa_servicio',
+        //     'icon' => 'fas fa-fw fa-users',
+        // ],
 
 
         ['header' => 'ADMINISTRACIÓN'],

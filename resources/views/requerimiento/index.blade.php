@@ -1,11 +1,15 @@
 @extends('adminlte::page')
 @section('content_header')
-    <h1>Tickets</h1>
-    @section('title', 'Tickets')
+    <h1>Requerimientos</h1>
+    @section('title', 'Requerimientos')
 @endsection
 
 @section('css')
 
+<style>
+
+
+</style>
 @endsection
 
 @section('content')
@@ -57,26 +61,16 @@
 
 
 <div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="modalagregar" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo ticket</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo requerimiento</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
 
-      @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>¡Ups!</strong> Hubo algunos problemas con tus inputs.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
 
     <form action="{{ route('ticket.store') }}" id="frmguardar" >
@@ -87,21 +81,45 @@
             <img src="{{ asset('vendor/adminlte/dist/img/soporte.png') }}" alt=""  style="height: 200px; width: 200px;">
         </div>
 
-    <div class="form-group">
-        <label for="">EMPRESA</label>
+            <div class="form-group">
+         <label for="">AVANCE:</label>
 
-        <select class="form-control" id="empresa" name="">
-            <option value="a">Elegir</option>
-
-            @foreach ($empresas as $e)
-            <option value="{{ $e->id }}">{{$e->nombre}}</option>
-          @endforeach
-          </select>
+                <input class="progress-bar progress-bar-striped progress-bar-animated" type="range" id="temperatura" min="0" value="0" max="100" step="10" style="width: 100%;">
+                <span id="temp">0</span><span>%</span>
 
 
-    </div>
+            </div>
 
-    <div class="form-group">
+
+        <div class="form-group">
+            <label for="">TÍTULO:</label>
+
+            <input type="hidden" name="usuario_id" value="{{ auth()->user()->id}}" id="">
+
+            <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese la descripción de la atención." rows="3" name="problema"></textarea>
+
+            <div id="contador">0/200</div>
+
+        </div>
+
+
+    <div class="form-row">
+
+        <div class="form-group col-md-6">
+            <label for="">EMPRESA</label>
+
+            <select class="form-control" id="empresa" name="">
+                <option value="a">Elegir</option>
+
+                @foreach ($empresas as $e)
+                <option value="{{ $e->id }}">{{$e->nombre}}</option>
+              @endforeach
+              </select>
+
+
+        </div>
+
+        <div class="form-group col-md-6">
       <label for="">SERVICIO</label>
 
       <select class="form-control" id="servicio" name="empresa_servicio_id">
@@ -109,26 +127,76 @@
 
         </select>
 
+        </div>
 
-  </div>
+      </div>
 
-      <div class="form-group">
-        <label for="">PROBLEMA:</label>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="">ENCARGADO</label>
 
-        <input type="hidden" name="usuario_id" value="{{ auth()->user()->id}}" id="">
+            <select class="form-control" id="empresa" name="">
+                <option value="a">Elegir</option>
 
-        <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese la descripción de la atención." rows="4" name="problema"></textarea>
+                @foreach ($empresas as $e)
+                <option value="{{ $e->id }}">{{$e->nombre}}</option>
+              @endforeach
+              </select>
+        </div>
 
-        <div id="contador">0/200</div>
+        <div class="form-group col-md-6">
+            <label for="">PERSONAL</label>
 
-    </div>
+            <select class="form-control" id="empresa" name="">
+                <option value="a">Elegir</option>
 
-        <div class="form-group">
-            <label for="">DETALLE:</label>
+                @foreach ($empresas as $e)
+                <option value="{{ $e->id }}">{{$e->nombre}}</option>
+              @endforeach
+              </select>
+        </div>
 
-            <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del problema." rows="12" name="detalle"></textarea>
 
-            <div id="contador2">0/600</div>
+      </div>
+
+
+<div class="row">
+
+    <div class="form-group col-md-6">
+    <label for="">ESTADO</label>
+
+    <select class="form-control" id="empresa" name="">
+        <option value="a">Elegir</option>
+
+        @foreach ($empresas as $e)
+        <option value="{{ $e->id }}">{{$e->nombre}}</option>
+      @endforeach
+      </select>
+
+</div>
+
+<div class="form-group col-md-6">
+    <label for="">PRIORIDAD</label>
+
+    <select class="form-control" id="empresa" name="">
+        <option value="a">Elegir</option>
+
+        @foreach ($empresas as $e)
+        <option value="{{ $e->id }}">{{$e->nombre}}</option>
+      @endforeach
+      </select>
+
+</div>
+</div>
+
+
+<div class="form-group">
+
+    <label for="">DESCRIPCIÓN:</label>
+
+        <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del problema." rows="10" name="detalle"></textarea>
+
+        <div id="contador2">0/600</div>
 
         </div>
 

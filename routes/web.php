@@ -18,14 +18,14 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 
-Route::resource('ticket','TicketController');
-Route::post('datatable/tickets', 'TicketController@ticket')->name('datatable.ticket');
-Route::post('datatable/ticketsasignados', 'TicketController@ticketasignado')->name('datatable.ticketasignado');
-Route::get('tickets_asignados', 'TicketController@asignado')->name('ticket.asignado');
-Route::get('ticket/{id}/listado', 'TicketController@listarservicios')->name('ticket.listado');
+Route::resource('requerimiento','RequerimientoController');
+Route::post('datatable/requerimientos', 'RequerimientoController@requerimiento')->name('datatable.requerimiento');
+Route::post('datatable/requerimientosasignados', 'RequerimientoController@ticketasignado')->name('datatable.ticketasignado');
+Route::get('requerimientos_asignados', 'RequerimientoController@asignado')->name('ticket.asignado');
+Route::get('requerimiento/{id}/listado', 'RequerimientoController@listarservicios')->name('ticket.listado');
 
 
 

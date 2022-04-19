@@ -1,4 +1,18 @@
 
+addEventListener('load',inicio,false);
+
+function inicio()
+{
+  document.getElementById('temperatura').addEventListener('change',cambioTemperatura,false);
+}
+
+function cambioTemperatura()
+{
+  document.getElementById('temp').innerHTML=document.getElementById('temperatura').value;
+}
+
+
+
 $("#empresa").on("change", function (e) {
     let valor =e.target.value;
 
@@ -27,7 +41,7 @@ $("#empresa").on("change", function (e) {
             html_select += '<option value="'+ data[i].esid +'">'+ data[i].snombre +'</option>';
 
             $('#servicio').html(html_select);
-           
+
             console.log(data.length);
             console.log(valor);
             console.log(data);
@@ -35,9 +49,9 @@ $("#empresa").on("change", function (e) {
           }
 
 
-  
+
         });
-        
+
 
   });
 
