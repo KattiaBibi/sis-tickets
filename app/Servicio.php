@@ -13,7 +13,7 @@ class Servicio extends Model
     protected $fillable = [
 
         'nombre',
-        'estado_id',
+        'estado',
     ];
 
 }

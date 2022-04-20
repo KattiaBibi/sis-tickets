@@ -18,7 +18,8 @@ class Colaborador extends Model
         'fechanacimiento',
         'direccion',
         'telefono',
+        'estado',
         'empresa_area_id',
-        'estado_id'
+
     ];
 }

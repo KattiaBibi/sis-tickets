@@ -4,17 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TipoCita extends Model
+class DetalleRequerimiento extends Model
 {
     //
 
-    protected $table ='tipo_citas';
+
+    protected $table ='detalle_requerimientos';
     protected $primaryKey = 'id';
 
     protected $fillable = [
 
-        'nombre',
-        'estado_id',
+      'usuario_colab_id',
+      'requerimiento_id',
 
     ];
 

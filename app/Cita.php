@@ -17,11 +17,14 @@ class Cita extends Model
         'descripcion',
         'fecha_hora_inicio',
         'fecha_hora_fin',
-        'link_zoom',
+        'link_reu',
+        'otro_cliente',
+        'lugarreu',
+        'tipo_cita',
+        'estado',
         'usuario_id',
-        'tipo_cita_id',
         'empresa_id',
-        'estado_id',
+    
 
     ];
 
