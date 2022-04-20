@@ -21,11 +21,12 @@ class CreateColaboradoresTable extends Migration
             $table->date('fechanacimiento');
             $table->string('direccion', 50);
             $table->char('telefono', 12);
+            $table->boolean('estado')->default(1);
+
             $table->unsignedBigInteger('empresa_area_id');
             $table->foreign('empresa_area_id','fk_colaborador_empresa_area')->references('id')->on('empresa_areas');
 
-            $table->unsignedBigInteger('estado_id')->nullable()->default(1);
-            $table->foreign('estado_id','fk_colaborador_estado')->references('id')->on('estados')->onDelete('restrict')->onUpdate('restrict');
+
             $table->timestamps();
         });
     }

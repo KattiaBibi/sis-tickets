@@ -16,8 +16,8 @@ class CreateServiciosTable extends Migration
         Schema::create('servicios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre',50);
-            $table->unsignedBigInteger('estado_id')->nullable()->default(1);
-            $table->foreign('estado_id','fk_servicio_estado')->references('id')->on('estados')->onDelete('restrict')->onUpdate('restrict');
+            $table->boolean('estado')->default(1);
+
             $table->timestamps();
         });
     }

@@ -15,10 +15,8 @@ class CreateAreasTable extends Migration
     {
         Schema::create('areas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-
-            $table->unsignedBigInteger('estado_id')->nullable()->default(1);
-            $table->foreign('estado_id','fk_area_estado')->references('id')->on('estados')->onDelete('restrict')->onUpdate('restrict');
+            $table->string('nombre', 50);
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }
