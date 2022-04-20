@@ -18,7 +18,7 @@
     color: rgb(172, 30, 30) !important;
 
 }
- 
+
     .fc-day-past {
         background-color: #e7e7e7;
     }
@@ -26,7 +26,7 @@
     .fc-day-today{
       background-color: #cbf8f4 !important;
     }
- 
+
     /* .fc-day-future{
         background-color: #ccfafd;
     }
@@ -114,9 +114,10 @@
                     <label for="inputState">Tipo reunión</label>
                     <select id="inputState" class="form-control">
                       <option selected>Elegir...</option>
-                      @foreach ($tipos as $t)
-                      <option value="{{ $t->id }}">{{$t->nombre}}</option>
-                    @endforeach
+
+                    <option value=""></option>
+                    <option value=""></option>
+                    <option value=""></option>
                     </select>
                   </div>
 
@@ -268,7 +269,7 @@ else{
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        
+
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
@@ -303,7 +304,7 @@ else{
           timer: 1500
         })
 
-        
+
           calendar.unselect()
 
       }

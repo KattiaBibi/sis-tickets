@@ -266,26 +266,6 @@ return [
         ],
 
         [
-            'text' => 'Tipos',
-            'url'  => 'tipo',
-            'icon' => 'fas fa-fw fa-users',
-        ],
-
-        [
-            'text' => 'Prioridades',
-            'icon' => ' fas fa-thermometer-half',
-            'url'  => 'prioridad',
-
-        ],
-
-        [
-            'text' => 'Estados',
-            'icon' => ' fas fa-thermometer-half',
-            'url'        => 'estado',
-        ],
-
-
-        [
             'text' => 'Colaborador',
             'icon' => ' fas fa-thermometer-half',
             'url'  => 'colaborador',

@@ -34,10 +34,6 @@ Route::get('requerimiento/{id}/listado', 'RequerimientoController@listarservicio
 Route::resource('colaborador','ColaboradorController');
 Route::post('datatable/colaboradores', 'ColaboradorController@colaborador')->name('datatable.colaborador');
 
-
-Route::resource('estado','EstadoController');
-Route::post('datatable/estados', 'EstadoController@estado')->name('datatable.estado');
-
 Route::resource('empresa','EmpresaController');
 Route::post('datatable/empresas', 'EmpresaController@empresa')->name('datatable.empresa');
 
@@ -54,11 +50,6 @@ Route::post('datatable/permisos', 'PermisoController@permiso')->name('datatable.
 Route::resource('servicio','ServicioController');
 Route::post('datatable/servicios', 'ServicioController@servicio')->name('datatable.servicio');
 
-Route::resource('tipo','TipoCitaController');
-Route::post('datatable/tipos', 'TipoCitaController@tipo')->name('datatable.tipo');
-
-Route::resource('prioridad','PrioridadController');
-Route::post('datatable/prioridades', 'PrioridadController@prioridad')->name('datatable.prioridad');
 
 Route::resource('empresa_area','EmpresaAreaController');
 Route::post('datatable/empresa_areas', 'EmpresaAreaController@empresa_area')->name('datatable.empresa_area');

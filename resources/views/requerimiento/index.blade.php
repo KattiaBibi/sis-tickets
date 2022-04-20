@@ -323,9 +323,8 @@
                     <label for="inputState">Estado</label>
                   <select class="form-control" name="estado_id">
                   <option selected>Elegir</option>
-
-                  @foreach ($estados as $e)
-                  <option value="{{ $e->id }}">{{$e->nombre}}</option>
+                  <option value=""></option>
+                  
                 @endforeach
                 </select>
                   </div>
