@@ -16,13 +16,13 @@ class AreaSeeder extends Seeder
         Area::create([
             'id'=>'1',
             'nombre'=>'SOPORTE',
-            'estado_id'=>'1'
+            'estado'=>'1'
         ]);
 
         Area::create([
             'id'=>'2',
             'nombre'=>'DESARROLLO DE SOFTWARE',
-            'estado_id'=>'1'
+            'estado'=>'1'
         ]);
     }
 }

@@ -23,7 +23,7 @@ class ColaboradorSeeder extends Seeder
             'direccion'=>'Av. Los Quipus 565',
             'telefono'=>'979159525',
             'empresa_area_id'=>'1',
-            'estado_id' =>'1',
+            'estado' =>'1',
 
         ]);
     }

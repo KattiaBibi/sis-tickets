@@ -19,7 +19,7 @@ class EmpresaSeeder extends Seeder
             'nombre'=>'COMPUSISTEL',
             'direccion'=>'EJEMPLO',
             'telefono'=>'45334534',
-            'estado_id'=>'1',
+            'estado'=>'1',
 
         ]);
 

@@ -16,8 +16,8 @@ class Empresa extends Model
     'nombre',
     'direccion',
     'telefono',
-    'estado_id'
-    
+    'estado'
+
     ];
 
 }
