@@ -71,7 +71,7 @@ $('#empresas_servicios').on('click','.editar',function(){
 
     $('#idregistro').val(data['esid']);
     $('#editarEmpresa').val(data.eid);
-    $('#editarServicio').val(data.sid);
+    $('#editarServicio').val(data.ucolaborador_id);
 
 
     jQuery.noConflict();

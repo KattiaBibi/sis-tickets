@@ -65,12 +65,6 @@ function listar(){
 }
 
 
-function decrypt() {
-
-   alert(btoa(decodedStringBtoA));
-
- }
-
 
 $('#usuarios').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
@@ -80,6 +74,9 @@ $('#usuarios').on('click','.editar',function(){
     $('#idregistro').val(data['uid']);
     $('#editarNombre').val(data['uname']);
     $('#editarEmail').val(data['uemail']);
+
+    $('#editarColaborador').val(data.eid);
+
 
 
     // $("#editarContrasena").val(data.upassword);
@@ -176,7 +173,7 @@ $.ajax({
 
       datatable.ajax.reload(null,false);
         $('#frmeditar')[0].reset();
-        
+
         jQuery.noConflict();
         $('#modaleditar').modal('hide');
 

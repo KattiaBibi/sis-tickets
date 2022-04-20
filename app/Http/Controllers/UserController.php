@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Colaborador;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserActualizarRequest;
@@ -72,7 +73,7 @@ class UserController extends Controller
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'colaborador_id' => $request->colaborador_id])->assignRole($request->role);
-        
+
         return $usuario?1:0;
 
     }
