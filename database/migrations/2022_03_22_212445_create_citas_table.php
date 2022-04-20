@@ -19,8 +19,11 @@ class CreateCitasTable extends Migration
             $table->string('descripcion', 250);
             $table->dateTime('fecha_hora_inicio');
             $table->dateTime('fecha_hora_fin');
-            $table->string('link_zoom',150);
+            $table->string('link_reu',150);
+
             $table->string('otro_cliente',50);
+             $table->string('lugarreu',150);
+            
             $table->enum('tipocita',['presencial','virtual']);
              $table->enum('estado',['pendiente','concluida','cancelada']);
 
