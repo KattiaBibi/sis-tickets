@@ -117,6 +117,24 @@
 
         </div>
 
+
+
+        <div class="form-group">
+            <label for="">Rol:</label>
+
+            <select name="role" class="form-control" id="editarEmpresaArea">
+                
+                <option selected>Elegir</option>
+
+                @foreach ($roles as $r)
+                <option value="{{ $r->id }}">{{$r->name}}</option>
+              @endforeach
+
+            </select>
+
+
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>

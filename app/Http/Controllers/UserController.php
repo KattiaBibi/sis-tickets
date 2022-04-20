@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Colaborador;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserActualizarRequest;
@@ -41,14 +42,11 @@ class UserController extends Controller
     {
         //
 
-        $encrypted = Crypt::encryptString('123456');
-        $decrypted = Crypt::decryptString($encrypted);
-
-
 
         $colaboradores= Colaborador::all();
+        $roles= Role::all();
 
-        return view('usuario.index', compact('colaboradores'));
+        return view('usuario.index', compact('colaboradores','roles'));
     }
 
     /**
@@ -68,17 +66,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
+
     {
-
-        $usuario =  User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'colaborador_id' => $request->colaborador_id,
-
-        ]);
-
-
+        $usuario=User::create(['name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'colaborador_id' => $request->colaborador_id])->assignRole($request->role);
+        
         return $usuario?1:0;
 
     }
@@ -123,9 +117,9 @@ class UserController extends Controller
         $valo2=$request->password; // VALOR DE FORMULARIO
 
         if($valo2=='null'){
- 
-            $usuario->update([           
-                
+
+            $usuario->update([
+
                 'name'   => $request->name,
                 'email' => $request->email,
                 $valor,
@@ -135,17 +129,17 @@ class UserController extends Controller
         };
 
         if($valo2 != 'null'){
- 
+
             $usuario->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'colaborador_id' => $request->colaborador_id,
-    
+
             ]);
 
         };
-     
+
         return $usuario?1:0;
 
         // $usuario = User::findOrfail($id)->update(['password'=> 'Lorem ipsum']);
