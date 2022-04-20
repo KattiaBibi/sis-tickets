@@ -19,7 +19,7 @@ class CreateDetalleRequerimientosTable extends Migration
             $table->unsignedBigInteger('usuario_colab_id');
             $table->foreign('usuario_colab_id','fk_detalle_requerimiento_user')->references('id')->on('users');
 
-            $table->unsignedBigInteger('requirimiento_id');
+            $table->unsignedBigInteger('requerimiento_id');
             $table->foreign('requerimiento_id','fk_detalle_requerimiento_requerimiento')->references('id')->on('requerimientos');
 
             $table->timestamps();

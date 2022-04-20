@@ -39,6 +39,13 @@ class UserController extends Controller
 
      }
 
+
+     public function getRoll($id){
+
+        $rol=User::findOrfail($id)->getRoleNames();
+        return $rol;
+     }
+
     public function index()
     {
         //

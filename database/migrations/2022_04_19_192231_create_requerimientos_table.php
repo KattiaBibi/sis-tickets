@@ -16,14 +16,14 @@ class CreateRequerimientosTable extends Migration
         Schema::create('requerimientos', function (Blueprint $table) {
             $table->id();
             $table->string('titulo',100);
-            
+
             $table->string('descripcion',600);
             $table->integer('avance');
             $table->enum('prioridad',['alta','media','baja']);
             $table->enum('estado',['nuevo','abierto','pendiente','en espera','resuelto']);
 
             $table->unsignedBigInteger('empresa_servicio_id');
-            $table->foreign('empresa_id','fk_empresa_servicios_requerimientos')->references('id')->on('empresa_servicios');
+            $table->foreign('empresa_servicio_id','fk_empresa_servicios_requerimientos')->references('id')->on('empresa_servicios');
 
             $table->unsignedBigInteger('usuarioregist_id');
             $table->foreign('usuarioregist_id','fk_requerimientos_usersregist')->references('id')->on('users');

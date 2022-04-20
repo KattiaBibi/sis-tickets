@@ -252,7 +252,7 @@ return [
             'icon'        => 'fas fa-ticket-alt',
             'label'       => 4,
             'label_color' => 'success',
-            'url'  => 'ticket',
+            'url'  => 'requerimiento',
 
         ],
 

@@ -73,7 +73,7 @@
 
 
 
-    <form action="{{ route('ticket.store') }}" id="frmguardar" >
+    <form action="{{ route('requerimiento.store') }}" id="frmguardar" >
 
 
         <div class="form-group text-center">
@@ -218,7 +218,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Ver Detalle de Ticket - Usuario responsable : </h5>&nbsp; <h5 class="modal-title" id="vernb"></h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Ver Detalle de Requerimiento - Usuario responsable : </h5>&nbsp; <h5 class="modal-title" id="vernb"></h5>
 
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -365,24 +365,12 @@
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Actualiza registro de ticket</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Actualiza registro de requerimiento</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-
-        @if ($errors->any())
-          <div class="alert alert-danger">
-              <strong>¡Ups!</strong> Hubo algunos problemas con tus inputs.<br><br>
-              <ul>
-                  @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-          </div>
-      @endif
-
 
       <form  id="frmeditar">
 
