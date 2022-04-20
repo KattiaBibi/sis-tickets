@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Requerimiento;
 use App\Servicio;
-use App\Prioridad;
-use App\Estado;
 use App\Empresa;
 use App\Colaborador;
 use App\EmpresaServicio;
@@ -69,10 +67,9 @@ class RequerimientoController extends Controller
         //
 
         $servicios = Servicio::all();
-        $prioridades = Prioridad::all();
         $estados = Estado::all();
 
-        return view('requerimiento.asignado', compact('servicios','prioridades','estados'));
+        return view('requerimiento.asignado', compact('servicios','estados'));
     }
 
 
@@ -94,11 +91,9 @@ class RequerimientoController extends Controller
         //
 
         $servicios = Servicio::all();
-        $prioridades = Prioridad::all();
-        $estados = Estado::all();
         $empresas = Empresa::all();
 
-        return view('requerimiento.index', compact('servicios','prioridades','estados','empresas'));
+        return view('requerimiento.index', compact('servicios','empresas'));
 
     }
 
@@ -140,8 +135,6 @@ class RequerimientoController extends Controller
 
 
         $servicios = Servicio::all();
-        $prioridades = Prioridad::all();
-        $estados = Estado::all();
         $colaboradores = Colaborador::all();
 
 
@@ -151,7 +144,7 @@ class RequerimientoController extends Controller
         ->select('u.id as id','c.nombres as nombres','c.apellidos as apellidos')->get();
 
 
-        return view('requerimiento.atencion', compact('servicios','prioridades','estados','users','registro','id'));
+        return view('requerimiento.atencion', compact('servicios','estados','users','registro','id'));
     }
 
     /**

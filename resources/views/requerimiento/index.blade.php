@@ -314,9 +314,8 @@
                     <select class="form-control" name="prioridad_id">
                       <option selected>Elegir</option>
 
-                      @foreach ($prioridades as $p)
-                      <option value="{{ $p->id }}">{{$p->nombre}}</option>
-                    @endforeach
+                      <option value=""></option>
+
                     </select>
                   </div>
                   <div class="form-group col-md-4">
@@ -324,8 +323,7 @@
                   <select class="form-control" name="estado_id">
                   <option selected>Elegir</option>
                   <option value=""></option>
-                  
-                @endforeach
+
                 </select>
                   </div>
                 </div>
