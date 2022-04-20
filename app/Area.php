@@ -12,6 +12,6 @@ class Area extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-      'nombre','estado_id'
+      'nombre','estado'
     ];
 }
