@@ -6,6 +6,7 @@ use App\Cita;
 use App\Empresa;
 use App\Colaborador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CitaController extends Controller
 {
@@ -48,7 +49,18 @@ class CitaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+
+        return response()->json([
+            "messages" => "Resource created successfully.",
+            "data" => $input
+        ], 201);
+        // $validator = Validator::make($input, [
+        //     'nombre' => 'required',
+        //     'ruc' => 'nullable',
+        //     'direccion' => 'nullable',
+        //     'telefono' => 'nullable',
+        // ]);
     }
 
     /**
