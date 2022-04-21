@@ -63,25 +63,37 @@ class HomeController extends Controller
 
     public function getLastRequerimientos()
     {
+        $role_name = DB::table('model_has_roles')
+            ->select('roles.name AS role_name')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('model_id', '=', auth()->user()->id)
+            ->get()->first()->role_name;
+
         $query = DB::table('requerimientos')
-            ->select("requerimientos.titulo AS titulo_requerimiento,
-                colaboradores.nombres, ' ', colaboradores.apellidos AS nom_ape_colaborador,
-                empresas.nombre, ' - ', servicios.nombre AS descripcion_empresa_servicio,
-                requerimientos.avance AS avance_requerimiento,
-                requerimientos.estado AS estado_requerimiento,
-                requerimientos.created_at AS fecha_creacion")
+            ->select(
+                "requerimientos.titulo AS titulo_requerimiento",
+                DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_colaborador"),
+                DB::raw("CONCAT(empresas.nombre, ' - ', servicios.nombre) AS descripcion_empresa_servicio"),
+                "requerimientos.avance AS avance_requerimiento",
+                "requerimientos.estado AS estado_requerimiento",
+                "requerimientos.created_at AS fecha_creacion"
+            )
             ->join('colaboradores', 'colaboradores.id', '=', 'requerimientos.usuarioencarg_id')
             ->join('users', 'users.colaborador_id', '=', 'colaboradores.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
-            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
-            ->where('users.id', '=', auth()->user()->id)
-            ->orderBy('requerimientos.created_at', 'desc')
+            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
+
+        if ($role_name !== 'Admin') {
+            $query->where('users.id', '=', auth()->user()->id);
+        }
+
+        $rpta = $query->orderBy('requerimientos.created_at', 'desc')
             ->limit(4)
             ->get();
-        
-        // dd($query);
 
-        return datatables()->of($query)->toJson();
+        // dd($rpta);
+
+        return datatables()->of($rpta)->toJson();
     }
 }
