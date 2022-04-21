@@ -104,7 +104,9 @@ function listar(){
         ajax: {
           url: 'datatable/requerimientos',
           type: "POST",
+        //   data : { '_token' : token_ },
           data: function(d) {
+            d._token = token_;
             return $.extend({}, d, {
               filters: {
               }
