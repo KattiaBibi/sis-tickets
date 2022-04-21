@@ -103,33 +103,19 @@
     <!-- /.card-header -->
     <div class="card-body pt-0">
       <div class="table-responsive">
-        <table class="table m-0">
+        <table class="table m-0" id="tabla">
           <thead>
           <tr>
             <th>TÍTULO</th>
             <th>ENCARGADO</th>
             <th>SERVICIO</th>
-            <th>ESTADO</th>
             <th>AVANCE</th>
             <th>ESTADO</th>
-            <th>VER</th>
+            <th>FECHA</th>
+            <th>OPCIONES</th>
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-            <td>Call of Duty IV</td>
-            <td>Call of Duty IV</td>
-            <td>Call of Duty IV</td>
-            <td>Call of Duty IV</td>
-            <td><span class="badge badge-success">Pendiente</span></td>
-            <td>
-              <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-            </td>
-
-          </tr>
-
-
           </tbody>
         </table>
       </div>
@@ -151,5 +137,63 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    <script> 
+
+      const DATATABLE = $('#tabla').DataTable({
+        searching: false,
+        ordering: true,
+        processing: true,
+        serverSide: true,
+        lengthMenu: [ 4 ],
+        language: {
+          url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        },
+        ajax: {
+          url: 'dashboard/getLastRequerimientos',
+          type: "GET",
+          data: function(d) {
+            return $.extend({}, d, {
+              filters: {
+              }
+            });
+          }
+        },
+        columns: [{
+            data: "titulo_requerimiento",
+            orderable: false
+          },
+          {
+            data: "nom_ape_colaborador",
+            orderable: false
+          },
+          {
+            data: "descripcion_empresa_servicio",
+            orderable: false
+          },
+          {
+            data: "avance_requerimiento",
+            orderable: false
+          },
+          {
+            data: "estado_requerimiento",
+            orderable: false
+          },
+          {
+            data: "fecha_creacion",
+            orderable: true
+          },
+          {
+            defaultContent: "",
+            orderable: false,
+            render: function(data, type, row, meta) {
+              return `<button class="btn btn-sm btn-success">Ver</button>`
+            }
+          },
+        ],
+        order: [
+          [5, 'desc']
+        ]
+      });
+
+    </script>
 @stop

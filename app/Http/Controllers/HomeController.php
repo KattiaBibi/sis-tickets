@@ -60,4 +60,28 @@ class HomeController extends Controller
             compact('total_requerimientos', 'total_colaboradores', 'total_citas', 'total_servicios')
         );
     }
+
+    public function getLastRequerimientos()
+    {
+        $query = DB::table('requerimientos')
+            ->select("requerimientos.titulo AS titulo_requerimiento,
+                colaboradores.nombres, ' ', colaboradores.apellidos AS nom_ape_colaborador,
+                empresas.nombre, ' - ', servicios.nombre AS descripcion_empresa_servicio,
+                requerimientos.avance AS avance_requerimiento,
+                requerimientos.estado AS estado_requerimiento,
+                requerimientos.created_at AS fecha_creacion")
+            ->join('colaboradores', 'colaboradores.id', '=', 'requerimientos.usuarioencarg_id')
+            ->join('users', 'users.colaborador_id', '=', 'colaboradores.id')
+            ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
+            ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
+            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
+            ->where('users.id', '=', auth()->user()->id)
+            ->orderBy('requerimientos.created_at', 'desc')
+            ->limit(4)
+            ->get();
+        
+        // dd($query);
+
+        return datatables()->of($query)->toJson();
+    }
 }
