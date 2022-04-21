@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Area;
+
 class AreaSeeder extends Seeder
 {
     /**
@@ -14,15 +15,15 @@ class AreaSeeder extends Seeder
         //
 
         Area::create([
-            'id'=>'1',
-            'nombre'=>'SOPORTE',
-            'estado'=>'1'
+            'id' => '1',
+            'nombre' => 'SOPORTE',
+            'estado' => '1'
         ]);
 
         Area::create([
-            'id'=>'2',
-            'nombre'=>'DESARROLLO DE SOFTWARE',
-            'estado'=>'1'
+            'id' => '2',
+            'nombre' => 'DESARROLLO DE SOFTWARE',
+            'estado' => '1'
         ]);
     }
 }

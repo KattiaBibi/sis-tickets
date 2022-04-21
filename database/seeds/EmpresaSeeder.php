@@ -12,16 +12,12 @@ class EmpresaSeeder extends Seeder
      */
     public function run()
     {
-        //
         Empresa::create([
-            'id'=>'1',
-            'ruc'=>'10408842889',
-            'nombre'=>'COMPUSISTEL',
-            'direccion'=>'EJEMPLO',
-            'telefono'=>'45334534',
-            'estado'=>'1',
-
+            'id' => 1,
+            'ruc' => '10408842889',
+            'nombre' => 'COMPUSISTEM',
+            'direccion' => 'AV. TEST #123',
+            'telefono' => '123456',
         ]);
-
     }
 }

@@ -27,9 +27,9 @@
         }
 
         /* .fc-day-future{
-                                        background-color: #ccfafd;
-                                    }
-                                     */
+                                                            background-color: #ccfafd;
+                                                        }
+                                                         */
 
         body {
             margin: 40px 10px;
@@ -87,35 +87,42 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
                                             <label for="inputDescripcion">Descripción (Opcional)</label>
-                                            <textarea class="form-control" id="inputDescripcion" rows="3"></textarea>
+                                            <textarea class="form-control" name="descripcion" id="inputDescripcion" rows="3"></textarea>
                                         </div>
 
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="form-group col-md-4">
-                                            <label for="inputHoraInicio">Hora inicio</label>
-                                            <select id="inputHoraInicio" class="form-control" name="fecha_hora_inicio">
-                                            </select>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="inputFecha">Fecha</label>
+                                            <input type="date" name="fecha" id="inputFecha"
+                                                class="form-control">
                                         </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label for="inputHoraFin">Duración</label>
-                                            <select id="inputHoraFin" class="form-control" name="duracion">
-                                                <option selected>Elegir...</option>
-                                            </select>
+                                        <div class="form-group col-md-3">
+                                            <label for="inputHoraInicio">Hora Inicio</label>
+                                            <input type="time" name="hora_inicio" id="inputHoraInicio"
+                                                class="form-control">
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
+                                            <label for="inputHoraFin">Hora Fin</label>
+                                            <input type="time" name="hora_fin" id="inputHoraFin"
+                                                class="form-control">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
                                             <label for="inputTipoReunion">Tipo reunión</label>
                                             <select id="inputTipoReunion" class="form-control" name="tipocita">
                                                 <option value="PRECENCIAL" selected>PRECENCIAL</option>
                                                 <option value="VIRTUAL">VIRTUAL</option>
                                             </select>
                                         </div>
-
                                     </div>
-
 
                                     <div class="form-group">
                                         <label for="inputLinkZoom">Link Zoom (Opcional)</label>
@@ -287,13 +294,23 @@
 
         frmRegistrarReunion.addEventListener('submit', function(e) {
             e.preventDefault();
-            let data = new FormData(this);
-            fetch('cita', {
-                method: 'POST'
-            }).then(res => {
-                return res.json();
-            }).then(json => {
-                console.log(json);
+
+            let dataArray = $('#frmRegistrarReunion').serializeArray()
+            dataArray.push({
+                name: '_token',
+                value: token_
+            })
+
+            $.ajax({
+                "method": 'POST',
+                "url": 'cita',
+                "data": dataArray,
+                "success": function(Response) {
+                    console.log(Response);
+                },
+                'error': (response) => {
+                    console.log(response)
+                }
             })
         });
 

@@ -12,13 +12,16 @@ class EmpresaAreasSeeder extends Seeder
      */
     public function run()
     {
-        //
+        EmpresaArea::create([
+            'id' => '1',
+            'empresa_id' => '1',
+            'area_id' => '1',
+        ]);
 
         EmpresaArea::create([
-            'id'=>'1',
-            'empresa_id'=>'1',
-            'area_id'=>'1',
-
+            'id' => '2',
+            'empresa_id' => '1',
+            'area_id' => '2',
         ]);
     }
 }

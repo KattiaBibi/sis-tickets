@@ -51,16 +51,28 @@ class CitaController extends Controller
     {
         $input = $request->all();
 
+        $validator = Validator::make($input, [
+            'titulo' => 'required',
+            'descripcion' => 'nullable',
+            'fecha' => 'required|date_format:Y-m-d',
+            'hora_inicio' => 'required|date_format:H:i',
+            'hora_fin' => 'required|date_format:H:i',
+            'link_reu' => 'nullable',
+            'empresa_id' => 'nullable|exists:empresas,id',
+            'lugarreu' => 'nullable',
+            'asistentes'=> 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['messages' => $validator->errors()], 400);
+        }
+
+        // $resource = Cita::create($input);
+
         return response()->json([
             "messages" => "Resource created successfully.",
             "data" => $input
         ], 201);
-        // $validator = Validator::make($input, [
-        //     'nombre' => 'required',
-        //     'ruc' => 'nullable',
-        //     'direccion' => 'nullable',
-        //     'telefono' => 'nullable',
-        // ]);
     }
 
     /**
