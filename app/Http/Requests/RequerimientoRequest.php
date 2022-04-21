@@ -30,9 +30,9 @@ class RequerimientoRequest extends FormRequest
 
             'titulo' => 'required',
             'descripcion' => 'required',
-            'avance'=>'required',
+            // 'avance'=>'required',
             'prioridad'=>'required',
-            'estado'=>'required',
+            // 'estado'=>'required',
             'empresa_servicio_id' => 'required|integer',
             // 'usuarioregist_id' => 'required|integer',
             'usuarioencarg_id' => 'required|integer',
@@ -48,9 +48,9 @@ class RequerimientoRequest extends FormRequest
 
             'titulo.required' => 'El nombre es un campo requerido.',
             'descripcion.required' => 'Debe ingresar una descripción.',
-            'avance.required' => 'Apellidos es un campo requerido.',
+
             'prioridad.required' => 'Debe seleccionar una prioridad.',
-            'estado.required' => 'Debe seleccionar un estado.',
+            // 'estado.required' => 'Debe seleccionar un estado.',
             'empresa_servicio_id.required' => 'Debe seleccionar una empresa con servicio.',
             'empresa_servicio_id.integer' => 'Debe seleccionar una empresa con servicio.',
 

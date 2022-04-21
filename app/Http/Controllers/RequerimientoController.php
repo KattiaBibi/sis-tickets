@@ -111,6 +111,8 @@ class RequerimientoController extends Controller
     {
         //
 
+        $request->request->add(['avance' => 0]);
+        $request->request->add(['estado' => 'pendiente']);
         $requerimiento =  Requerimiento::create($request->all());
 
         return $requerimiento ? 1 : 0;

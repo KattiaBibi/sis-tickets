@@ -41,6 +41,7 @@
     <table id="requerimientos" class="table table-striped table-bordered" style="overflow-x:auto;">
         <thead>
             <tr>
+                <th colspan="2">OPCIONES</th>
                 <th>ID</th>
                 <th>TITULO</th>
                 <th>SOLICITANTE</th>
@@ -51,7 +52,7 @@
                 <th>ESTADO</th>
                 <th>PRIORIDAD</th>
                 <th>FECHA</th>
-                <th>OPCIONES</th>
+
 
             </tr>
         </thead>
@@ -86,7 +87,7 @@
 
             <img src="{{ asset('vendor/adminlte/dist/img/soporte.png') }}" alt=""  style="height: 200px; width: 200px;">
         </div>
-
+{{--
             <div class="form-group">
          <label for="">AVANCE:</label>
 
@@ -94,7 +95,7 @@
                 <span id="avan">0</span><span>%</span>
 
 
-            </div>
+            </div> --}}
 
 
         <div class="form-group">
@@ -158,12 +159,15 @@
 
     <div class="form-row">
 
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
             <label for="">PERSONAL</label>
 
 
-            <select style="width:100%" class="js-example-basic-multiple" name="states[]"multiple="multiple" lang="es">
- 
+            <select style="width:100%" class="js-example-basic-multiple"  name="states[]"multiple="multiple" lang="es">
+
+                @foreach ($usuarios as $u)
+                <option value="{{ $u->id }}">{{$u->name}}</option>
+              @endforeach
             </select>
 
 
@@ -175,7 +179,7 @@
 
 <div class="row">
 
-    <div class="form-group col-md-6">
+    {{-- <div class="form-group col-md-6">
     <label for="">ESTADO</label>
 
     <select class="form-control" id="" name="estado">
@@ -187,7 +191,7 @@
         <option value="culminado">CULMINADO</option>
       </select>
 
-</div>
+</div> --}}
 
 <div class="form-group col-md-6">
     <label for="">PRIORIDAD</label>

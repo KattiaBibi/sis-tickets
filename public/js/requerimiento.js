@@ -1,15 +1,17 @@
 
-addEventListener('load',inicio,false);
+$('.js-example-basic-multiple').select2();
 
-function inicio()
-{
-  document.getElementById('avance').addEventListener('change',cambioAvance,false);
-}
+// addEventListener('load',inicio,false);
 
-function cambioAvance()
-{
-  document.getElementById('avan').innerHTML=document.getElementById('avance').value;
-}
+// function inicio()
+// {
+//   document.getElementById('avance').addEventListener('change',cambioAvance,false);
+// }
+
+// function cambioAvance()
+// {
+//   document.getElementById('avan').innerHTML=document.getElementById('avance').value;
+// }
 
 
 
@@ -93,11 +95,17 @@ var datatable ;
 
 function listar(){
 
-    const DATATABLE = $('#requerimientos').DataTable({
+    datatable = $('#requerimientos').DataTable({
+
+        pageLength: 5,
         searching: false,
         ordering: true,
         processing: true,
         serverSide: true,
+        responsive: true,
+        autoWidth: false,
+        dom: 'Bfrtip',
+
         language: {
           url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         },
@@ -113,10 +121,32 @@ function listar(){
             });
           }
         },
-        columns: [{
+        columns: [
+
+            {
+            defaultContent: "",
+            orderable: false,
+            render: function(data, type, row, meta) {
+              return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>`
+            },
+
+          },
+
+
+          {
+            defaultContent: "",
+            orderable: false,
+            render: function(data, type, row, meta) {
+                return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`
+              }
+
+          },
+
+            {
             data: "id",
             orderable: false
           },
+
           {
             data: "titulo_requerimiento",
             orderable: false
@@ -139,30 +169,75 @@ function listar(){
           },
           {
             data: "avance_requerimiento",
-            orderable: false
+            orderable: false,
+            render: function(data, type, row, meta) {
+                return data +`%`
+              }
           },
           {
             data: "estado_requerimiento",
-            orderable: false
+            orderable: false,
+
+             render: function(data, type, row, meta) {
+                if(data=="pendiente"){
+
+                    return '<span class="badge badge-warning">PENDIENTE</span>'
+                }
+
+                if(data=="en espera"){
+
+                    return '<span class="badge badge-primary">EN ESPERA</span>'
+                }
+
+
+                if(data=="en proceso"){
+
+                    return '<span class="badge badge-info">EN PROCESO</span>'
+                }
+
+
+                if(data=="culminado"){
+
+                    return '<span class="badge badge-success">CULMINADO</span>'
+                }
+
+                if(data=="cancelado"){
+
+                    return '<span class="badge badge-danger">CANCELADO</span>'
+                }
+              }
           },
           {
             data: "prioridad_requerimiento",
-            orderable: false
+            orderable: false,
+
+
+            render: function(data, type, row, meta) {
+                if(data=="alta"){
+
+                    return '<span class="badge badge-danger">ALTA</span>'
+                }
+
+                if(data=="media"){
+
+                    return '<span class="badge badge-warning">MEDIA</span>'
+                }
+
+
+                else if(data=="baja"){
+
+                    return '<span class="badge badge-info">BAJA</span>'
+                }
+
+
+              }
+
           },
           {
             data: "fecha_creacion",
             orderable: true
           },
-          {
-            defaultContent: "",
-            orderable: false,
-            render: function(data, type, row, meta) {
-              return `
-                <button class="btn btn-sm btn-primary">Editar</button>
-                <button class="btn btn-sm btn-danger">Eliminar</button>
-              `
-            }
-          },
+
         ],
         order: [
           [9, 'desc']

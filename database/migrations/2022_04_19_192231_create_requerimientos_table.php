@@ -20,7 +20,7 @@ class CreateRequerimientosTable extends Migration
             $table->string('descripcion',600);
             $table->integer('avance');
             $table->enum('prioridad',['alta','media','baja']);
-            $table->enum('estado',['pendiente','en espera','en proceso','culminado']);
+            $table->enum('estado',['pendiente','en espera','en proceso','culminado','cancelado']);
 
             $table->unsignedBigInteger('empresa_servicio_id');
             $table->foreign('empresa_servicio_id','fk_empresa_servicios_requerimientos')->references('id')->on('empresa_servicios');
