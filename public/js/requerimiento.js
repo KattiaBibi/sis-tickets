@@ -22,7 +22,7 @@ $("#empresa").on("change", function (e) {
         return;
     }
 
-        $.get('/ticket/'+valor+'/listado', function(data){
+        $.get('/requerimiento/'+valor+'/listado', function(data){
 
 
             if(data.length==0){
@@ -94,7 +94,7 @@ var datatable ;
 function listarasignados(){
 
 
-    datatable= $('#tickets').DataTable( {
+    datatable= $('#requerimientos').DataTable( {
         "pageLength": 5,
         "destroy": true,
         "async": false,
@@ -129,7 +129,7 @@ function listarasignados(){
             }
         ],
         "ajax": {
-        "url": "/datatable/ticketsasignados",
+        "url": "/datatable/requerimientosasignados",
         "method": "post",
         'data' : { '_token' : token_ },
         },
@@ -195,7 +195,7 @@ function listarasignados(){
 }
 
 
-$('#tickets').on('click','.descripcion',function(){
+$('#requerimientos').on('click','.descripcion',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
 
@@ -216,7 +216,7 @@ $('#tickets').on('click','.descripcion',function(){
 function listar(){
 
 
-    datatable= $('#tickets').DataTable( {
+    datatable= $('#requerimientos').DataTable( {
         "pageLength": 5,
         "destroy": true,
         "async": false,
@@ -249,7 +249,7 @@ function listar(){
             }
         ],
         "ajax": {
-        "url": "/datatable/tickets",
+        "url": "/datatable/requerimientos",
         "method": "post",
         'data' : { '_token' : token_ },
         },
@@ -266,7 +266,7 @@ function listar(){
 
             // return "<button type='button'  id='ButtonAtender'  class='atender edit-modal btn btn-warning botonAtender'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></button>";
 
-            return "<a class='atender  btn btn-warning botonAtender' href='/ticket/"+data+"'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></a>"
+            return "<a class='atender  btn btn-warning botonAtender' href='/requerimiento/"+data+"'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></a>"
             }
         },
 
@@ -300,7 +300,7 @@ function listar(){
 
 
 
-$('#tickets').on('click','.ver',function(){
+$('#requerimientos').on('click','.ver',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
 
@@ -320,7 +320,7 @@ $('#tickets').on('click','.ver',function(){
 })
 
 
-// $('#tickets').on('click','.atender',function(){
+// $('#requerimientos').on('click','.atender',function(){
 //     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
 //     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
 
@@ -341,7 +341,7 @@ $('#tickets').on('click','.ver',function(){
 // })
 
 
-$('#tickets').on('click','.editar1',function(){
+$('#requerimientos').on('click','.editar1',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
 

@@ -21,11 +21,11 @@
   </div>
 
   <div class="card-body">
-    <h5 class="card-title"><a  href='/ticket' class="btn btn-danger">REGRESAR</a></h5>
+    <h5 class="card-title"><a  href='/requerimiento' class="btn btn-danger">REGRESAR</a></h5>
     <p class="card-text"></p>
 
 
-    <input type="hidden" name="ticket_id" value="{{ $id}}" id="">
+    <input type="hidden" name="requerimiento_id" value="{{ $id}}" id="">
 
     <div class="form-row pb-4">
 

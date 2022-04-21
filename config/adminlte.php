@@ -280,7 +280,7 @@ return [
         // ],
 
         // [
-        //     'text'       => 'Tickets Pendientes',
+        //     'text'       => 'Requerimientos Pendientes',
         //     'icon'       =>'fas fa-clock',
         //     'url'        => '#',
         // ],

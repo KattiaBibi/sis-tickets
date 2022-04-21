@@ -23,13 +23,13 @@ Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 Route::resource('requerimiento','RequerimientoController');
 Route::post('datatable/requerimientos', 'RequerimientoController@requerimiento')->name('datatable.requerimiento');
-Route::post('datatable/requerimientosasignados', 'RequerimientoController@ticketasignado')->name('datatable.ticketasignado');
-Route::get('requerimientos_asignados', 'RequerimientoController@asignado')->name('ticket.asignado');
+Route::post('datatable/requerimientosasignados', 'RequerimientoController@requerimientoasignado')->name('datatable.requerimientoasignado');
+Route::get('requerimientos_asignados', 'RequerimientoController@asignado')->name('requerimiento.asignado');
 
 
 Route::resource('usuario','UserController');
 Route::post('datatable/usuarios', 'UserController@usuario')->name('datatable.usuario');
-Route::get('requerimiento/{id}/listado', 'RequerimientoController@listarservicios')->name('ticket.listado');
+Route::get('requerimiento/{id}/listado', 'RequerimientoController@listarservicios')->name('requerimiento.listado');
 
 Route::resource('colaborador','ColaboradorController');
 Route::post('datatable/colaboradores', 'ColaboradorController@colaborador')->name('datatable.colaborador');

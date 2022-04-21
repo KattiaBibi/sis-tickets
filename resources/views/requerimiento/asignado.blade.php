@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('content_header')
-    <h1>Tickets</h1>
-    @section('title', 'Tickets')
+    <h1>Requerimientos</h1>
+    @section('title', 'Requerimientos')
 @endsection
 
 @section('css')
@@ -34,7 +34,7 @@
         </div>
     @endif
 
-    <table id="tickets" class="table table-striped table-bordered" style="overflow-x:auto;">
+    <table id="requerimientos" class="table table-striped table-bordered" style="overflow-x:auto;">
         <thead>
             <tr>
               <th colspan="3" style="text-align: center;">ACCIÓN</th>
@@ -45,7 +45,7 @@
 
             </tr>
        <tbody>
-{{-- CONTENIDO EN TICKET.JS --}}
+{{-- CONTENIDO EN REQUERIMIENTO.JS --}}
 
         </tbody>
 
@@ -59,7 +59,7 @@
   <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo ticket</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo requerimiento</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -78,7 +78,7 @@
     @endif
 
 
-    <form action="{{ route('ticket.store') }}" id="frmguardar" >
+    <form action="{{ route('requerimiento.store') }}" id="frmguardar" >
 
 
         <div class="form-group text-center">
@@ -124,7 +124,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Ver Detalle de Ticket - Usuario responsable : </h5>&nbsp; <h5 class="modal-title" id="vernb"></h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Ver Detalle de Requerimiento - Usuario responsable : </h5>&nbsp; <h5 class="modal-title" id="vernb"></h5>
 
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -208,7 +208,7 @@
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Actualiza registro de ticket</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Actualiza registro de requerimiento</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -269,7 +269,7 @@
 <script> console.log('¡HOLA!');
 
 </script>
-<script src="{{asset('js/ticket.js')}}"></script>
+<script src="{{asset('js/requerimiento.js')}}"></script>
 
 
 

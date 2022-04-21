@@ -24,7 +24,7 @@ $.ajax({
         timer: 1500
         })
 
-        window.location.replace("/tickets_asignados");
+        window.location.replace("/requerimientos_asignados");
         }
 
             else{

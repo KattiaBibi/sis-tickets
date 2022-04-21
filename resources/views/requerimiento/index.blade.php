@@ -38,7 +38,7 @@
         </div>
     @endif
 
-    <table id="tickets" class="table table-striped table-bordered" style="overflow-x:auto;">
+    <table id="requerimientos" class="table table-striped table-bordered" style="overflow-x:auto;">
         <thead>
             <tr>
               <th colspan="3" style="text-align: center;">ACCIÓN</th>
@@ -50,7 +50,7 @@
             </tr>
         </thead>
        <tbody>
-{{-- CONTENIDO EN TICKET.JS --}}
+{{-- CONTENIDO EN REQUERIMIENTO.JS --}}
 
         </tbody>
 
@@ -408,11 +408,7 @@
 
 @section('js')
 
-<script> console.log('¡HOLA!');
-
-
-</script>
-<script src="{{asset('js/ticket.js')}}"></script>
+<script src="{{asset('js/requerimiento.js')}}"></script>
 
 <script>
 
