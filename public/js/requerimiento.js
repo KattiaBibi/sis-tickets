@@ -308,7 +308,7 @@ $('#requerimientos').on('click','.ver',function(){
 // })
 
 
-$('#requerimientos').on('click','.editar1',function(){
+$('#requerimientos').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
 
@@ -316,13 +316,15 @@ $('#requerimientos').on('click','.editar1',function(){
     }
     console.log(data);
     $('#idregistro').val(data['id']);
-    $('#editarProblema').val(data['tproblema']);
-    $('#editarDetalle').val(data['tdetalle']);
+    $('#editarTitulo').val(data['titulo_requerimiento']);
+    $('#editarDescripcion').val(data['descripcion_requerimiento']);
 
-
+     $('#UsuarioSolicitante').val(data['nom_ape_solicitante']);
+    $('#UsuarioResponsable').val(data['nom_ape_encargado']);
+    $('#avance').val(data['avance_requerimiento']);
 
     jQuery.noConflict();
-    $('#modaleditar1').modal('show');
+    $('#modaleditar').modal('show');
 
 })
 

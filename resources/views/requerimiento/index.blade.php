@@ -8,8 +8,13 @@
 
 <style>
 
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
 
+    color: rgb(172, 30, 30) !important;
+
+}
 </style>
+
 @endsection
 
 @section('content')
@@ -113,7 +118,7 @@
         <div class="form-row">
 
 
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
           <label for="">GERENTE RESPONSABLE</label>
 
           <select class="form-control" id="" name="usuarioencarg_id">
@@ -123,6 +128,22 @@
             <option value="{{ $u->id }}">{{$u->name}}</option>
           @endforeach
             </select>
+
+            </div>
+
+
+            <div class="form-group col-md-6">
+                <label for="">PRIORIDAD</label>
+
+                <select class="form-control" id="" name="prioridad">
+                    <option value="1">Elegir</option>
+
+                    <option value="alta">ALTA</option>
+                    <option value="media">MEDIA</option>
+                    <option value="baja">BAJA</option>
+
+
+                  </select>
 
             </div>
 
@@ -156,7 +177,7 @@
         </div>
 
       </div>
-
+{{--
     <div class="form-row">
 
         <div class="form-group col-md-12">
@@ -174,7 +195,7 @@
         </div>
 
 
-      </div>
+      </div> --}}
 
 
 <div class="row">
@@ -193,20 +214,7 @@
 
 </div> --}}
 
-<div class="form-group col-md-6">
-    <label for="">PRIORIDAD</label>
 
-    <select class="form-control" id="" name="prioridad">
-        <option value="1">Elegir</option>
-
-        <option value="alta">ALTA</option>
-        <option value="media">MEDIA</option>
-        <option value="baja">BAJA</option>
-
-
-      </select>
-
-</div>
 </div>
 
 
@@ -361,6 +369,8 @@
 
                 </div>
 
+
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
@@ -375,11 +385,11 @@
     </div>
   </div>
 
-  <!-- Modal detalle -->
+  <!-- Modal editar -->
 
 
 <div class="modal fade" id="modaleditar" tabindex="-1" role="dialog" aria-labelledby="modaleditar" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Actualiza registro de requerimiento</h5>
@@ -393,20 +403,124 @@
 
         <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-        <div class="form-group">
-           <label for="">PROBLEMA:</label>
 
-           <textarea maxlength="200" class="form-control" id="editarProblema" placeholder="Ingrese el problema." rows="4" name="problema"></textarea>
+        <div class="form-row">
+
+            <div class="form-group text-center col-md-12">
+              <p>
+               <img src="{{ asset('vendor/adminlte/dist/img/reparacion.png') }}" alt=""  style="height: 200px; width: 200px;">
+              </p>
+
+            </div>
+
+          </div>
 
 
-       </div>
+        <div class="form-row">
 
-           <div class="form-group">
-               <label for="">DETALLE:</label>
-               <textarea maxlength="600" class="form-control" id="editarDetalle" placeholder="Ingrese el detalle de su problema." rows="12" name="detalle"></textarea>
+            <div class="form-group col-md-12">
+                <label for="">USUARIO SOLICITANTE:</label>
+                <input class="form-control"  type="text" name="" id="UsuarioSolicitante" readonly>
+
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="">GERENTE RESPONSABLE:</label>
+            <input class="form-control"  type="text" name="" id="UsuarioResponsable" readonly>
+
+            </div>
 
 
-           </div>
+          </div>
+
+        <div class="form-row">
+
+            <div class="form-group col-md-12">
+                <label for="">TÍTULO:</label>
+
+                <textarea maxlength="200" readonly class="form-control" id="editarTitulo" placeholder="Ingrese la descripción de la atención." rows="2" name="titulo"></textarea>
+            </div>
+
+
+          </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group col-md-12">
+
+                <label for="">DESCRIPCIÓN:</label>
+                <textarea maxlength="200" readonly class="form-control" id="editarDescripcion" placeholder="Ingrese la descripción de la atención." rows="3" name="titulo"></textarea>
+            </div>
+
+
+          </div>
+
+
+
+            <div class="form-group">
+         <label for="">AVANCE:</label>
+
+                <input class="progress-bar progress-bar-striped progress-bar-animated" name="avance" type="range" id="avance" min="0" value="0" max="100" step="10" style="width: 100%;">
+                <span id="avan">0</span><span>%</span>
+
+
+            </div>
+
+          <div class="row">
+
+        <div class="form-group col-md-6">
+            <label for="">PRIORIDAD</label>
+
+            <select class="form-control" id="" name="estado">
+                <option value="1">Elegir</option>
+
+                <option value="alta">ALTA</option>
+                <option value="media">MEDIA</option>
+                <option value="baja">BAJA</option>
+
+              </select>
+
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="">ESTADO</label>
+
+            <select class="form-control" id="" name="estado">
+                <option value="1">Elegir</option>
+
+                <option value="pendiente">PENDIENTE</option>
+                <option value="en espera">EN ESPERA</option>
+                <option value="en proceso">EN PROCESO</option>
+                <option value="culminado">CULMINADO</option>
+              </select>
+
+        </div>
+
+
+        </div>
+
+
+
+    <div class="form-row">
+
+        <div class="form-group col-md-12">
+            <label for="">PERSONAL</label>
+
+
+            <select style="width:100%" class="js-example-basic-multiple"  name="states[]"multiple="multiple" lang="es">
+
+                @foreach ($usuarios as $u)
+                <option value="{{ $u->id }}">{{$u->name}}</option>
+              @endforeach
+            </select>
+
+
+        </div>
+
+
+      </div>
+
 
         </div>
         <div class="modal-footer">

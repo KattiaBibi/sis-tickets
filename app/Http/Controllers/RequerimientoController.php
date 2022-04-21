@@ -37,7 +37,7 @@ class RequerimientoController extends Controller
         $query = DB::table('requerimientos')
             ->select(
                 DB::raw("requerimientos.id AS id"),
-                "requerimientos.titulo AS titulo_requerimiento",
+                "requerimientos.titulo AS titulo_requerimiento","requerimientos.descripcion AS descripcion_requerimiento",
                 DB::raw("CONCAT(encargado.nombres, ' ', encargado.apellidos) AS nom_ape_encargado"),
                 DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
