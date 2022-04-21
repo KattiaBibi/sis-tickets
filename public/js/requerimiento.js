@@ -3,12 +3,12 @@ addEventListener('load',inicio,false);
 
 function inicio()
 {
-  document.getElementById('temperatura').addEventListener('change',cambioTemperatura,false);
+  document.getElementById('avance').addEventListener('change',cambioAvance,false);
 }
 
-function cambioTemperatura()
+function cambioAvance()
 {
-  document.getElementById('temp').innerHTML=document.getElementById('temperatura').value;
+  document.getElementById('avan').innerHTML=document.getElementById('avance').value;
 }
 
 
@@ -91,7 +91,7 @@ $("#empresa").on("change", function (e) {
 var datatable ;
 
 
-function listarasignados(){
+function listar(){
 
 
     datatable= $('#requerimientos').DataTable( {
@@ -104,126 +104,6 @@ function listarasignados(){
         lengthChange: false,
 
         "order": [[ 6, "desc" ]],
-
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-            },
-
-        buttons: [{
-            extend: 'copy',
-            text: 'Copiar'
-        },
-
-        {
-            extend: 'colvis',
-            text: 'Visibilidad'
-        },
-
-             'excel', 'pdf'
-            ],
-
-        "columnDefs": [
-            {
-            "className": "text-center", targets: [ 0, 1, 2 ],
-
-            }
-        ],
-        "ajax": {
-        "url": "/datatable/requerimientosasignados",
-        "method": "post",
-        'data' : { '_token' : token_ },
-        },
-
-    "columns":[
-
-        {data: null, render: function (data) {
-
-            return "<button type='button'  id='ButtonVer'  class='ver edit-modal btn btn-warning botonVer'><span class='fa fa-edit'></span><span class='hidden-xs'> Ver completo</span></button>";
-            }
-        },
-
-        {data: 'estnb', render: function (data) {
-
-            // return "<button type='button'  id='ButtonAtender'  class='atender edit-modal btn btn-warning botonAtender'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></button>";
-
-            if  (data=="PENDIENTE"){
-
-              return "<button type='button' class='descripcion edit-modal btn btn-danger botonDescripcion'>Procesar</button>"
-            }
-
-            else if(data=="EN PROCESO"){
-
-                return "<button type='button' class='btn btn-success'>Resuelto</button>"
-            }
-
-            else if(data=="RESUELTO"){
-
-                return "CULMINADO";
-            }
-
-
-
-            }
-        },
-
-        {data: null, render: function (data) {
-
-            return "<button type='button'  id='ButtonEditar'  class='editar1 edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
-            }
-        },
-
-
-
-    {data: 'idate',
-    render: function(data, type, row, meta) {
-    return meta.row+1;}},
-    {data: 'uname'},
-    {data: 'tproblema', render:function(data){
-
-        $prob = data.substring(0,120);
-
-        return  $prob ;
-
-    }},
-    {data: 'acreated_at'},
-
-    // {data: 'detalle'},
-
-
-]
-} );
-}
-
-
-$('#requerimientos').on('click','.descripcion',function(){
-    var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
-    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
-
-        var data = datatable.row(this).data();
-    }
-    console.log(data);
-    $('#idregistro').val(data['idate']);
-    $('#txtDescripcion').val(data['adescripcion']);
-
-    jQuery.noConflict();
-    $('#modaldescripcion').modal('show');
-
-})
-
-
-
-
-function listar(){
-
-
-    datatable= $('#requerimientos').DataTable( {
-        "pageLength": 5,
-        "destroy": true,
-        "async": false,
-        responsive: true,
-        autoWidth: false,
-        dom: 'Bfrtip',
-        lengthChange: false,
 
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
@@ -262,11 +142,30 @@ function listar(){
             }
         },
 
-        {data: 'tid', render: function (data) {
+        {data: 'restado', render: function (data) {
 
             // return "<button type='button'  id='ButtonAtender'  class='atender edit-modal btn btn-warning botonAtender'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></button>";
 
-            return "<a class='atender  btn btn-warning botonAtender' href='/requerimiento/"+data+"'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></a>"
+            if  (data=="pendiente"){
+
+              return "<button type='button' class='descripcion edit-modal btn btn-danger botonDescripcion'>Procesar</button>"
+            }
+
+            else if(data=="en espera"){
+
+                return "<button type='button' class='btn btn-success'>Resuelto</button>"
+            }
+
+            else if(data=="en proceso"){
+
+                return "<button type='button' class='btn btn-success'>Resuelto</button>"
+            }
+
+            else if(data=="culminado"){
+
+                return "<button type='button' class='btn btn-success'>Resuelto</button>"
+            }
+
             }
         },
 
@@ -278,25 +177,47 @@ function listar(){
 
 
 
-    {data: 'tid',
+    {data: 'rid',
     render: function(data, type, row, meta) {
     return meta.row+1;}},
-    {data: 'uname'},
-    {data: 'tproblema', render:function(data){
+    {data: 'cnombres'},
+    {data: 'conombres'},
+    {data: 'titulo', render:function(data){
 
         $prob = data.substring(0,120);
 
         return  $prob ;
 
     }},
-    {data: 'tcreated_at'},
-
-    // {data: 'detalle'},
+    {data: 'avance'},
+    {data: 'prioridad'},
+    {data: 'estado'},
+    {data: 'enombre'},
+    {data: 'snombre'},
+    {data: 'rcreated_at'},
 
 
 ]
 } );
 }
+
+
+$('#requerimientos').on('click','.descripcion',function(){
+    var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
+    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
+
+        var data = datatable.row(this).data();
+    }
+    console.log(data);
+    $('#idregistro').val(data['idate']);
+    $('#txtDescripcion').val(data['adescripcion']);
+
+    jQuery.noConflict();
+    $('#modaldescripcion').modal('show');
+
+})
+
+
 
 
 

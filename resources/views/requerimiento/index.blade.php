@@ -41,11 +41,18 @@
     <table id="requerimientos" class="table table-striped table-bordered" style="overflow-x:auto;">
         <thead>
             <tr>
-              <th colspan="3" style="text-align: center;">ACCIÓN</th>
-              <th>ID</th>
-              <th>USUARIO SOLICITANTE</th>
-              <th>PROBLEMA</th>
-              <th>CREADO</th>
+
+                <th colspan="3" style="text-align: center;">ACCIÓN</th>
+                <th>ID</th>
+                <th>USUARIO SOLICITANTE</th>
+                <th>USUARIO ENCARGADO</th>
+                <th>TÍTULO</th>
+                <th>AVANCE</th>
+                <th>PRIORIDAD</th>
+                <th>ESTADO</th>
+                <th>EMPRESA</th>
+                <th>SERVICIO</th>
+                <th>CREADO</th>
 
             </tr>
         </thead>
@@ -84,8 +91,8 @@
             <div class="form-group">
          <label for="">AVANCE:</label>
 
-                <input class="progress-bar progress-bar-striped progress-bar-animated" type="range" id="temperatura" min="0" value="0" max="100" step="10" style="width: 100%;">
-                <span id="temp">0</span><span>%</span>
+                <input class="progress-bar progress-bar-striped progress-bar-animated" name="avance" type="range" id="avance" min="0" value="0" max="100" step="10" style="width: 100%;">
+                <span id="avan">0</span><span>%</span>
 
 
             </div>
@@ -94,13 +101,32 @@
         <div class="form-group">
             <label for="">TÍTULO:</label>
 
-            <input type="hidden" name="usuario_id" value="{{ auth()->user()->id}}" id="">
+            <input type="hidden" name="usuarioregist_id" value="{{ auth()->user()->id}}" id="">
 
-            <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese la descripción de la atención." rows="3" name="problema"></textarea>
+            <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese la descripción de la atención." rows="3" name="titulo"></textarea>
 
             <div id="contador">0/200</div>
 
         </div>
+
+
+        <div class="form-row">
+
+
+            <div class="form-group col-md-12">
+          <label for="">GERENTE RESPONSABLE</label>
+
+          <select class="form-control" id="" name="usuarioencarg_id">
+            <option value="a">Elegir</option>
+
+            @foreach ($usuarios as $u)
+            <option value="{{ $u->id }}">{{$u->name}}</option>
+          @endforeach
+            </select>
+
+            </div>
+
+          </div>
 
 
     <div class="form-row">
@@ -132,28 +158,16 @@
       </div>
 
     <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="">ENCARGADO</label>
-
-            <select class="form-control" id="empresa" name="">
-                <option value="a">Elegir</option>
-
-                @foreach ($empresas as $e)
-                <option value="{{ $e->id }}">{{$e->nombre}}</option>
-              @endforeach
-              </select>
-        </div>
 
         <div class="form-group col-md-6">
             <label for="">PERSONAL</label>
 
-            <select class="form-control" id="empresa" name="">
-                <option value="a">Elegir</option>
 
-                @foreach ($empresas as $e)
-                <option value="{{ $e->id }}">{{$e->nombre}}</option>
-              @endforeach
-              </select>
+            <select style="width:100%" class="js-example-basic-multiple" name="states[]"multiple="multiple" lang="es">
+ 
+            </select>
+
+
         </div>
 
 
@@ -165,12 +179,13 @@
     <div class="form-group col-md-6">
     <label for="">ESTADO</label>
 
-    <select class="form-control" id="empresa" name="">
-        <option value="a">Elegir</option>
+    <select class="form-control" id="" name="estado">
+        <option value="1">Elegir</option>
 
-        @foreach ($empresas as $e)
-        <option value="{{ $e->id }}">{{$e->nombre}}</option>
-      @endforeach
+        <option value="pendiente">PENDIENTE</option>
+        <option value="en espera">EN ESPERA</option>
+        <option value="en proceso">EN PROCESO</option>
+        <option value="culminado">CULMINADO</option>
       </select>
 
 </div>
@@ -178,12 +193,14 @@
 <div class="form-group col-md-6">
     <label for="">PRIORIDAD</label>
 
-    <select class="form-control" id="empresa" name="">
-        <option value="a">Elegir</option>
+    <select class="form-control" id="" name="prioridad">
+        <option value="1">Elegir</option>
 
-        @foreach ($empresas as $e)
-        <option value="{{ $e->id }}">{{$e->nombre}}</option>
-      @endforeach
+        <option value="alta">ALTA</option>
+        <option value="media">MEDIA</option>
+        <option value="baja">BAJA</option>
+
+
       </select>
 
 </div>
@@ -194,7 +211,7 @@
 
     <label for="">DESCRIPCIÓN:</label>
 
-        <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del problema." rows="10" name="detalle"></textarea>
+        <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del problema." rows="10" name="descripcion"></textarea>
 
         <div id="contador2">0/600</div>
 

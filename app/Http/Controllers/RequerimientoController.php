@@ -27,23 +27,6 @@ class RequerimientoController extends Controller
 
 
 
-    public function requerimientoasignado()
-
-    {
-
-        $ejemplo=DB::table('atenciones as a')
-        ->join('requerimientos as t','a.requerimiento_id','=','t.id')
-        ->join('estados as e','a.estado_id','=','e.id')
-        ->join('users as u','t.usuario_id', '=', 'u.id')
-        ->select('a.id as idate','a.descripcion as adescripcion', 't.id as idtic', 'a.created_at as acreated_at','t.problema as tproblema', 't.detalle as tdetalle', 't.usuario_id', 'u.name as uname','e.id as esid', 'e.nombre as estnb');
-
-
-    return datatables()->of($ejemplo)->toJson();
-
-
-    }
-
-
 
     public function requerimiento()
 
@@ -57,24 +40,22 @@ class RequerimientoController extends Controller
         // });
 
 
-        $requerimientos=DB::table('requerimientos as r')->join('users as u', 'r.usuario_id', '=', 'u.id')->select('r.id as rid','r.problema as rproblema','r.detalle as rdetalle','r.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at');
+        $requerimientos=DB::table('requerimientos as r')->
+        join('users as u', 'r.usuarioregist_id', '=', 'u.id')->
+        join('users as us','r.usuarioencarg_id','=','u.id')->
+        join('colaboradores as c','u.colaborador_id','=','c.id')->
+        join('colaboradores as co','us.colaborador_id','=','c.id')->
+        join('empresa_servicios as es','r.empresa_servicio_id','=','es.id')->
+        join('empresas as e','es.empresa_id','=','e.id')->
+        join('servicios as s','es.servicio_id','=','s.id')->
+        select('r.id as rid','r.titulo','r.descripcion','r.avance','r.prioridad','r.estado as restado','r.created_at as rcreated_at','e.nombre as enombre','s.nombre as snombre','c.nombres as cnombres','co.nombres as conombres');
 
-        $requerimientos=DB::table('requerimientos as r')->join('users as u', 'r.usuarioregist_id', '=', 'u.id')->join('users as u','r.usuarioencarg_id','=','u.id')->join('empresa_servicios as es','r.empresa_servicio_id','=','es.id')->join('empresas as e','es.empresa_id','=','e.id')->join('servicios as s','es.servicio_id','=','s.id')
 
     return datatables()->of($requerimientos)->toJson();
 
 
     }
 
-    public function asignado()
-    {
-        //
-
-        $servicios = Servicio::all();
-        $estados = Estado::all();
-
-        return view('requerimiento.asignado', compact('servicios','estados'));
-    }
 
 
     public function listarservicios($id){
@@ -89,6 +70,7 @@ class RequerimientoController extends Controller
 
     }
 
+
     public function index()
 
     {
@@ -96,8 +78,10 @@ class RequerimientoController extends Controller
 
         $servicios = Servicio::all();
         $empresas = Empresa::all();
+        $usuarios = User::all();
 
-        return view('requerimiento.index', compact('servicios','empresas'));
+
+        return view('requerimiento.index', compact('servicios','empresas','usuarios'));
 
     }
 
