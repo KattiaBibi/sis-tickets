@@ -56,7 +56,7 @@ class RequerimientoController extends Controller
         //           ->whereRaw('a.requerimiento_id = t.id');
         // });
 
-        
+
         $requerimientos=DB::table('requerimientos as r')->join('users as u', 'r.usuario_id', '=', 'u.id')->select('r.id as rid','r.problema as rproblema','r.detalle as rdetalle','r.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at');
 
         $requerimientos=DB::table('requerimientos as r')->join('users as u', 'r.usuarioregist_id', '=', 'u.id')->join('users as u','r.usuarioencarg_id','=','u.id')->join('empresa_servicios as es','r.empresa_servicio_id','=','es.id')->join('empresas as e','es.empresa_id','=','e.id')->join('servicios as s','es.servicio_id','=','s.id')
