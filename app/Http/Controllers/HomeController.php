@@ -76,6 +76,7 @@ class HomeController extends Controller
                 DB::raw("CONCAT(empresas.nombre, ' - ', servicios.nombre) AS descripcion_empresa_servicio"),
                 "requerimientos.avance AS avance_requerimiento",
                 "requerimientos.estado AS estado_requerimiento",
+                "requerimientos.prioridad AS prioridad_requerimiento",
                 "requerimientos.created_at AS fecha_creacion"
             )
             ->join('colaboradores', 'colaboradores.id', '=', 'requerimientos.usuarioencarg_id')

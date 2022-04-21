@@ -26,48 +26,55 @@ class RequerimientoController extends Controller
     }
 
 
-
-
     public function requerimiento()
-
     {
+        $role_name = DB::table('model_has_roles')
+            ->select('roles.name AS role_name')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('model_id', '=', auth()->user()->id)
+            ->get()->first()->role_name;
 
-        // $requerimientos=DB::table('requerimientos as r')->join('users as u', 't.usuario_id', '=', 'u.id')->select('r.id as rid','r.problema as rproblema','r.detalle as rdetalle','r.usuario_id as tsuarioid','u.name as uname','t.created_at as tcreated_at')
-        // ->whereNotExists(function ($query) {
-        //     $query->select("a.requerimiento_id")
-        //           ->from('atenciones as a')
-        //           ->whereRaw('a.requerimiento_id = t.id');
-        // });
+        $query = DB::table('requerimientos')
+            ->select(
+                DB::raw("requerimientos.id AS id"),
+                "requerimientos.titulo AS titulo_requerimiento",
+                DB::raw("CONCAT(encargado.nombres, ' ', encargado.apellidos) AS nom_ape_encargado"),
+                DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
+                DB::raw("empresas.nombre AS nombre_empresa"),
+                DB::raw("servicios.nombre AS nombre_servicio"),
+                "requerimientos.avance AS avance_requerimiento",
+                "requerimientos.estado AS estado_requerimiento",
+                "requerimientos.prioridad AS prioridad_requerimiento",
+                "requerimientos.created_at AS fecha_creacion"
+            )
+            ->join('colaboradores AS encargado', 'encargado.id', '=', 'requerimientos.usuarioencarg_id')
+            ->join('colaboradores AS solicitante', 'solicitante.id', '=', 'requerimientos.usuarioregist_id')
+            ->join('users', 'users.colaborador_id', '=', 'encargado.id')
+            // ->join('users', 'users.colaborador_id', '=', 'solicitante.id')
+            ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
+            ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
+            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
+            if ($role_name !== 'Admin') {
+                $query->where('users.id', '=', auth()->user()->id);
+            }
 
+        $rpta = $query->orderBy('requerimientos.created_at', 'desc')->get();
 
-        $requerimientos=DB::table('requerimientos as r')->
-        join('users as u', 'r.usuarioregist_id', '=', 'u.id')->
-        join('users as us','r.usuarioencarg_id','=','u.id')->
-        join('colaboradores as c','u.colaborador_id','=','c.id')->
-        join('colaboradores as co','us.colaborador_id','=','c.id')->
-        join('empresa_servicios as es','r.empresa_servicio_id','=','es.id')->
-        join('empresas as e','es.empresa_id','=','e.id')->
-        join('servicios as s','es.servicio_id','=','s.id')->
-        select('r.id as rid','r.titulo','r.descripcion','r.avance','r.prioridad','r.estado as restado','r.created_at as rcreated_at','e.nombre as enombre','s.nombre as snombre','c.nombres as cnombres','co.nombres as conombres');
-
-
-    return datatables()->of($requerimientos)->toJson();
-
-
+        return datatables()->of($rpta)->toJson();
     }
 
 
 
-    public function listarservicios($id){
+    public function listarservicios($id)
+    {
 
-        $empresa_servicios=DB::table('empresa_servicios as es')
-        ->join('empresas as e','es.empresa_id','=','e.id')
-        ->join('servicios as s','es.servicio_id','=','s.id')
-        ->select('es.id as esid','e.id as eid','s.id as sid','s.nombre as snombre', 'e.nombre as enombre', 's.nombre as snombre')->where('empresa_id',$id)->get();
+        $empresa_servicios = DB::table('empresa_servicios as es')
+            ->join('empresas as e', 'es.empresa_id', '=', 'e.id')
+            ->join('servicios as s', 'es.servicio_id', '=', 's.id')
+            ->select('es.id as esid', 'e.id as eid', 's.id as sid', 's.nombre as snombre', 'e.nombre as enombre', 's.nombre as snombre')->where('empresa_id', $id)->get();
 
 
         return $empresa_servicios;
-
     }
 
 
@@ -81,8 +88,7 @@ class RequerimientoController extends Controller
         $usuarios = User::all();
 
 
-        return view('requerimiento.index', compact('servicios','empresas','usuarios'));
-
+        return view('requerimiento.index', compact('servicios', 'empresas', 'usuarios'));
     }
 
     /**
@@ -107,7 +113,7 @@ class RequerimientoController extends Controller
 
         $requerimiento =  Requerimiento::create($request->all());
 
-        return $requerimiento?1:0;
+        return $requerimiento ? 1 : 0;
     }
 
     /**
@@ -119,7 +125,7 @@ class RequerimientoController extends Controller
     public function show($id)
     {
         //
-        $registro=Requerimiento::findOrfail($id);
+        $registro = Requerimiento::findOrfail($id);
 
 
         $servicios = Servicio::all();
@@ -127,12 +133,12 @@ class RequerimientoController extends Controller
 
 
 
-        $users=DB::table('users as u')
-        ->join('colaboradores as c','u.colaborador_id','=','c.id')
-        ->select('u.id as id','c.nombres as nombres','c.apellidos as apellidos')->get();
+        $users = DB::table('users as u')
+            ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
+            ->select('u.id as id', 'c.nombres as nombres', 'c.apellidos as apellidos')->get();
 
 
-        return view('requerimiento.atencion', compact('servicios','estados','users','registro','id'));
+        return view('requerimiento.atencion', compact('servicios', 'estados', 'users', 'registro', 'id'));
     }
 
     /**
@@ -141,7 +147,7 @@ class RequerimientoController extends Controller
      * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,Requerimiento $requerimiento)
+    public function edit(Request $request, Requerimiento $requerimiento)
     {
         //
 

@@ -108,7 +108,8 @@
           <tr>
             <th>TÍTULO</th>
             <th>ENCARGADO</th>
-            <th>SERVICIO</th>
+            <th>EMPRESA/SERVICIO</th>
+            <th>PRIORIDAD</th>
             <th>AVANCE</th>
             <th>ESTADO</th>
             <th>FECHA</th>
@@ -168,6 +169,10 @@
           },
           {
             data: "descripcion_empresa_servicio",
+            orderable: false
+          },
+          {
+            data: "prioridad_requerimiento",
             orderable: false
           },
           {

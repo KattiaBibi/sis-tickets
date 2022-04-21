@@ -93,112 +93,81 @@ var datatable ;
 
 function listar(){
 
-
-    datatable= $('#requerimientos').DataTable( {
-        "pageLength": 5,
-        "destroy": true,
-        "async": false,
-        responsive: true,
-        autoWidth: false,
-        dom: 'Bfrtip',
-        lengthChange: false,
-
-        "order": [[ 6, "desc" ]],
-
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-            },
-
-        buttons: [{
-            extend: 'copy',
-            text: 'Copiar'
+    const DATATABLE = $('#requerimientos').DataTable({
+        searching: false,
+        ordering: true,
+        processing: true,
+        serverSide: true,
+        language: {
+          url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         },
-
-        {
-            extend: 'colvis',
-            text: 'Visibilidad'
+        ajax: {
+          url: 'datatable/requerimientos',
+          type: "POST",
+          data: function(d) {
+            return $.extend({}, d, {
+              filters: {
+              }
+            });
+          }
         },
-
-             'excel', 'pdf'
-            ],
-
-        "columnDefs": [
-            {
-            "className": "text-center", targets: [ 0, 1, 2 ],
-
+        columns: [{
+            data: "id",
+            orderable: false
+          },
+          {
+            data: "titulo_requerimiento",
+            orderable: false
+          },
+          {
+            data: "nom_ape_encargado",
+            orderable: false
+          },
+          {
+            data: "nom_ape_solicitante",
+            orderable: false
+          },
+          {
+            data: "nombre_empresa",
+            orderable: false
+          },
+          {
+            data: "nombre_servicio",
+            orderable: false
+          },
+          {
+            data: "avance_requerimiento",
+            orderable: false
+          },
+          {
+            data: "estado_requerimiento",
+            orderable: false
+          },
+          {
+            data: "prioridad_requerimiento",
+            orderable: false
+          },
+          {
+            data: "fecha_creacion",
+            orderable: true
+          },
+          {
+            defaultContent: "",
+            orderable: false,
+            render: function(data, type, row, meta) {
+              return `
+                <button class="btn btn-sm btn-primary">Editar</button>
+                <button class="btn btn-sm btn-danger">Eliminar</button>
+              `
             }
+          },
         ],
-        "ajax": {
-        "url": "/datatable/requerimientos",
-        "method": "post",
-        'data' : { '_token' : token_ },
-        },
-
-    "columns":[
-
-        {data: null, render: function (data) {
-
-            return "<button type='button'  id='ButtonVer'  class='ver edit-modal btn btn-warning botonVer'><span class='fa fa-edit'></span><span class='hidden-xs'> Ver completo</span></button>";
-            }
-        },
-
-        {data: 'restado', render: function (data) {
-
-            // return "<button type='button'  id='ButtonAtender'  class='atender edit-modal btn btn-warning botonAtender'><span class='fa fa-edit'></span><span class='hidden-xs'>Atender</span></button>";
-
-            if  (data=="pendiente"){
-
-              return "<button type='button' class='descripcion edit-modal btn btn-danger botonDescripcion'>Procesar</button>"
-            }
-
-            else if(data=="en espera"){
-
-                return "<button type='button' class='btn btn-success'>Resuelto</button>"
-            }
-
-            else if(data=="en proceso"){
-
-                return "<button type='button' class='btn btn-success'>Resuelto</button>"
-            }
-
-            else if(data=="culminado"){
-
-                return "<button type='button' class='btn btn-success'>Resuelto</button>"
-            }
-
-            }
-        },
-
-        {data: null, render: function (data) {
-
-            return "<button type='button'  id='ButtonEditar'  class='editar1 edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
-            }
-        },
+        order: [
+          [9, 'desc']
+        ]
+      });
 
 
-
-    {data: 'rid',
-    render: function(data, type, row, meta) {
-    return meta.row+1;}},
-    {data: 'cnombres'},
-    {data: 'conombres'},
-    {data: 'titulo', render:function(data){
-
-        $prob = data.substring(0,120);
-
-        return  $prob ;
-
-    }},
-    {data: 'avance'},
-    {data: 'prioridad'},
-    {data: 'estado'},
-    {data: 'enombre'},
-    {data: 'snombre'},
-    {data: 'rcreated_at'},
-
-
-]
-} );
 }
 
 

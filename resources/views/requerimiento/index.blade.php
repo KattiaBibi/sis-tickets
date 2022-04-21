@@ -41,18 +41,17 @@
     <table id="requerimientos" class="table table-striped table-bordered" style="overflow-x:auto;">
         <thead>
             <tr>
-
-                <th colspan="3" style="text-align: center;">ACCIÓN</th>
                 <th>ID</th>
-                <th>USUARIO SOLICITANTE</th>
-                <th>USUARIO ENCARGADO</th>
-                <th>TÍTULO</th>
-                <th>AVANCE</th>
-                <th>PRIORIDAD</th>
-                <th>ESTADO</th>
+                <th>TITULO</th>
+                <th>SOLICITANTE</th>
+                <th>ENCARGADO</th>
                 <th>EMPRESA</th>
                 <th>SERVICIO</th>
-                <th>CREADO</th>
+                <th>AVANCE</th>
+                <th>ESTADO</th>
+                <th>PRIORIDAD</th>
+                <th>FECHA</th>
+                <th>OPCIONES</th>
 
             </tr>
         </thead>
