@@ -31,7 +31,7 @@ class ColaboradorController extends Controller
         ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
         ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
         ->join('areas as a', 'ea.area_id', '=', 'a.id')
-        ->select('c.estado_id','c.id','c.nrodocumento','c.nombres','c.apellidos','c.fechanacimiento','c.direccion','c.telefono','e.nombre as e.nombre','a.nombre as a.nombre','ea.id as idea');
+        ->select('c.estado as colaborador_estado','c.id','c.nrodocumento','c.nombres','c.apellidos','c.fechanacimiento','c.direccion','c.telefono','e.nombre as e.nombre','a.nombre as a.nombre','ea.id as idea');
 
 
         return datatables()->of($colaboradores)->toJson();

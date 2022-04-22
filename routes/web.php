@@ -25,6 +25,8 @@ Route::get('/dashboard/getLastRequerimientos', 'HomeController@getLastRequerimie
 Route::resource('requerimiento','RequerimientoController');
 Route::post('datatable/requerimientos', 'RequerimientoController@requerimiento')->name('datatable.requerimiento');
 Route::get('requerimiento/{id}/listado', 'RequerimientoController@listarservicios')->name('requerimiento.listado');
+Route::get('gerente/{id}/listado', 'RequerimientoController@listargerentes')->name('gerente.listado');
+Route::get('personal/{id}/listado', 'RequerimientoController@listarcolaboradores')->name('colaborador.listado');
 
 Route::resource('usuario','UserController');
 Route::post('datatable/usuarios', 'UserController@usuario')->name('datatable.usuario');

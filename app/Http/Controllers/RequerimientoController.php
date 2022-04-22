@@ -41,6 +41,7 @@ class RequerimientoController extends Controller
                 DB::raw("CONCAT(encargado.nombres, ' ', encargado.apellidos) AS nom_ape_encargado"),
                 DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
+                DB::raw("empresas.ID AS id_empresa"),
                 DB::raw("servicios.nombre AS nombre_servicio"),
                 "requerimientos.avance AS avance_requerimiento",
                 "requerimientos.estado AS estado_requerimiento",
@@ -68,6 +69,7 @@ class RequerimientoController extends Controller
     public function listarservicios($id)
     {
 
+
         $empresa_servicios = DB::table('empresa_servicios as es')
             ->join('empresas as e', 'es.empresa_id', '=', 'e.id')
             ->join('servicios as s', 'es.servicio_id', '=', 's.id')
@@ -78,6 +80,36 @@ class RequerimientoController extends Controller
     }
 
 
+
+    public function listargerentes($id)
+    {
+
+
+        $gerentes = DB::table('users as u')
+            ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
+            ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', 1)->where('ea.empresa_id', $id)->get();
+
+        return $gerentes;
+
+    }
+
+
+    public function listarcolaboradores($id)
+    {
+
+
+        $colaboradores = DB::table('users as u')
+            ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
+            ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id','!=', 1)->where('ea.empresa_id', $id)->get();
+
+        return $colaboradores;
+
+    }
+
+
+
     public function index()
 
     {
@@ -85,8 +117,9 @@ class RequerimientoController extends Controller
 
         $servicios = Servicio::all();
         $empresas = Empresa::all();
-        $usuarios = User::all();
-
+        $usuarios = DB::table('users as u')
+        ->join('colaboradores as c','u.colaborador_id','=','c.id')
+        ->select('u.id as usuario_id', 'c.id as colaborador_id', 'c.nombres','c.apellidos')->get();
 
         return view('requerimiento.index', compact('servicios', 'empresas', 'usuarios'));
     }
@@ -164,11 +197,15 @@ class RequerimientoController extends Controller
      * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
-    public function update(RequerimientoRequest $request, Requerimiento $requerimiento)
+
+    public function update(RequerimientoRequest $request, $id)
+
     {
-        //
 
+        $requerimiento=Requerimiento::findOrfail($id);
+        $requerimiento->update($request->all());
 
+        return $requerimiento?1:0;
 
     }
 
@@ -179,6 +216,7 @@ class RequerimientoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Requerimiento $requerimiento)
+
     {
         //
     }

@@ -285,31 +285,31 @@ return [
         //     'url'        => '#',
         // ],
 
-        // ['header' => 'EMPRESA'],
+        ['header' => 'EMPRESA'],
 
-        // [
-        //     'text' => 'Empresas ',
-        //     'url'  => 'empresa',
-        //     'icon' => 'fas fa-fw fa-users',
-        // ],
+        [
+            'text' => 'Empresas ',
+            'url'  => 'empresa',
+            'icon' => 'fas fa-fw fa-users',
+        ],
 
-        // [
-        //     'text' => 'Áreas',
-        //     'url'  => 'area',
-        //     'icon' => 'fas fa-fw fa-users',
-        // ],
+        [
+            'text' => 'Áreas',
+            'url'  => 'area',
+            'icon' => 'fas fa-fw fa-users',
+        ],
 
-        // [
-        //     'text' => 'Empresa y Áreas',
-        //     'url'  => 'empresa_area',
-        //     'icon' => 'fas fa-fw fa-users',
-        // ],
+        [
+            'text' => 'Empresa y Áreas',
+            'url'  => 'empresa_area',
+            'icon' => 'fas fa-fw fa-users',
+        ],
 
-        // [
-        //     'text' => 'Empresa y Servicios',
-        //     'url'  => 'empresa_servicio',
-        //     'icon' => 'fas fa-fw fa-users',
-        // ],
+        [
+            'text' => 'Empresa y Servicios',
+            'url'  => 'empresa_servicio',
+            'icon' => 'fas fa-fw fa-users',
+        ],
 
 
         ['header' => 'ADMINISTRACIÓN'],

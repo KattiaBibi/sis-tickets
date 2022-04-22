@@ -16,7 +16,7 @@ class AreaSeeder extends Seeder
 
         Area::create([
             'id' => '1',
-            'nombre' => 'SOPORTE',
+            'nombre' => 'GERENCIA',
             'estado' => '1'
         ]);
 

@@ -117,16 +117,42 @@
 
         <div class="form-row">
 
+            <div class="form-group col-md-6">
+                <label for="">EMPRESA</label>
+
+                <select class="form-control" id="empresa" name="">
+                    <option value="a">Elegir</option>
+
+                    @foreach ($empresas as $e)
+                    <option value="{{ $e->id }}">{{$e->nombre}}</option>
+                  @endforeach
+                  </select>
+
+
+            </div>
+
+            <div class="form-group col-md-6">
+          <label for="">SERVICIO</label>
+
+          <select class="form-control" id="servicio" name="empresa_servicio_id">
+               <option value="a">¡Seleccione una empresa!</option>
+
+            </select>
+
+            </div>
+
+          </div>
+
+        <div class="form-row">
+
 
             <div class="form-group col-md-6">
           <label for="">GERENTE RESPONSABLE</label>
 
-          <select class="form-control" id="" name="usuarioencarg_id">
-            <option value="a">Elegir</option>
+          <select class="form-control" id="gerente" name="usuarioencarg_id">
 
-            @foreach ($usuarios as $u)
-            <option value="{{ $u->id }}">{{$u->name}}</option>
-          @endforeach
+            <option value="a">¡Seleccione una empresa!</option>
+
             </select>
 
             </div>
@@ -150,33 +176,7 @@
           </div>
 
 
-    <div class="form-row">
 
-        <div class="form-group col-md-6">
-            <label for="">EMPRESA</label>
-
-            <select class="form-control" id="empresa" name="">
-                <option value="a">Elegir</option>
-
-                @foreach ($empresas as $e)
-                <option value="{{ $e->id }}">{{$e->nombre}}</option>
-              @endforeach
-              </select>
-
-
-        </div>
-
-        <div class="form-group col-md-6">
-      <label for="">SERVICIO</label>
-
-      <select class="form-control" id="servicio" name="empresa_servicio_id">
-           <option value="a">¡Seleccione una empresa!</option>
-
-        </select>
-
-        </div>
-
-      </div>
 {{--
     <div class="form-row">
 
@@ -457,17 +457,15 @@
           </div>
 
 
-
             <div class="form-group">
-         <label for="">AVANCE:</label>
+                <label for="">AVANCE:</label>
 
                 <input class="progress-bar progress-bar-striped progress-bar-animated" name="avance" type="range" id="avance" min="0" value="0" max="100" step="10" style="width: 100%;">
                 <span id="avan">0</span><span>%</span>
 
-
             </div>
 
-          <div class="row">
+    <div class="row">
 
         <div class="form-group col-md-6">
             <label for="">PRIORIDAD</label>
@@ -480,7 +478,6 @@
                 <option value="baja">BAJA</option>
 
               </select>
-
         </div>
 
         <div class="form-group col-md-6">
@@ -494,12 +491,9 @@
                 <option value="en proceso">EN PROCESO</option>
                 <option value="culminado">CULMINADO</option>
               </select>
-
         </div>
 
-
-        </div>
-
+    </div>
 
 
     <div class="form-row">
@@ -508,13 +502,9 @@
             <label for="">PERSONAL</label>
 
 
-            <select style="width:100%" class="js-example-basic-multiple"  name="states[]"multiple="multiple" lang="es">
+            <select style="width:100%" class="js-example-basic-multiple" id="personal" name="usuario_colab_id[]" multiple="multiple" lang="es">
 
-                @foreach ($usuarios as $u)
-                <option value="{{ $u->id }}">{{$u->name}}</option>
-              @endforeach
             </select>
-
 
         </div>
 

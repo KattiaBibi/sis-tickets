@@ -1,17 +1,17 @@
 
 $('.js-example-basic-multiple').select2();
 
-// addEventListener('load',inicio,false);
+addEventListener('load',inicio,false);
 
-// function inicio()
-// {
-//   document.getElementById('avance').addEventListener('change',cambioAvance,false);
-// }
+function inicio()
+{
+  document.getElementById('avance').addEventListener('change',cambioAvance,false);
+}
 
-// function cambioAvance()
-// {
-//   document.getElementById('avan').innerHTML=document.getElementById('avance').value;
-// }
+function cambioAvance()
+{
+  document.getElementById('avan').innerHTML=document.getElementById('avance').value;
+}
 
 
 
@@ -21,6 +21,8 @@ $("#empresa").on("change", function (e) {
     if(valor=='a'){
 
         $('#servicio').html('<option value="a">¡Seleccione una empresa!</option>');
+
+        $('#gerente').html('<option value="a">¡Seleccione una empresa!</option>');
         return;
     }
 
@@ -43,6 +45,38 @@ $("#empresa").on("change", function (e) {
             html_select += '<option value="'+ data[i].esid +'">'+ data[i].snombre +'</option>';
 
             $('#servicio').html(html_select);
+
+            console.log(data.length);
+            console.log(valor);
+            console.log(data);
+
+          }
+
+
+
+        });
+
+
+
+        $.get('/gerente/'+valor+'/listado', function(data){
+
+
+            if(data.length==0){
+
+                $('#gerente').html('<option value="a">No hay gerentes ...</option>');
+
+            }
+
+          else{
+
+            var html_select='<option value="a">Seleccione ...</option>';
+
+            for(var i=0; i<data.length; ++i)
+
+
+            html_select += '<option value="'+ data[i].id +'">'+ data[i].nombres + " " +data[i].apellidos +'</option>';
+
+            $('#gerente').html(html_select);
 
             console.log(data.length);
             console.log(valor);
@@ -151,14 +185,17 @@ function listar(){
             data: "titulo_requerimiento",
             orderable: false
           },
-          {
-            data: "nom_ape_encargado",
-            orderable: false
-          },
+
           {
             data: "nom_ape_solicitante",
             orderable: false
           },
+
+          {
+            data: "nom_ape_encargado",
+            orderable: false
+          },
+
           {
             data: "nombre_empresa",
             orderable: false
@@ -322,6 +359,40 @@ $('#requerimientos').on('click','.editar',function(){
      $('#UsuarioSolicitante').val(data['nom_ape_solicitante']);
     $('#UsuarioResponsable').val(data['nom_ape_encargado']);
     $('#avance').val(data['avance_requerimiento']);
+    document.getElementById('avan').innerHTML=document.getElementById('avance').value;
+
+
+
+        $.get('/personal/'+data['id_empresa']+'/listado', function(data){
+
+
+            if(data.length==0){
+
+                $('#personal').html('<option value="a">No hay colaboradores ...</option>');
+
+            }
+
+          else{
+
+            var html_select='<option value="a">Seleccione ...</option>';
+
+            for(var i=0; i<data.length; ++i)
+
+
+            html_select += '<option value="'+ data[i].id +'">'+ data[i].nombres + " " +data[i].apellidos +'</option>';
+
+            $('#personal').html(html_select);
+
+            console.log(data.length);
+            console.log(data);
+
+          }
+
+
+
+        });
+
+
 
     jQuery.noConflict();
     $('#modaleditar').modal('show');
