@@ -113,10 +113,10 @@ class AreaController extends Controller
 
         $area=Area::findOrfail($id);
 
-        if( $area->estado_id==1){
-            $area->estado_id=2;
+        if( $area->estado==1){
+            $area->estado=0;
         }else{
-         $area->estado_id=1;
+         $area->estado=1;
         }
 
          $area->update();

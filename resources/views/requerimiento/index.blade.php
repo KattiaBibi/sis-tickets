@@ -348,7 +348,7 @@
                   </div>
                   <div class="form-group col-md-4">
                     <label for="inputState">Estado</label>
-                  <select class="form-control" name="estado_id">
+                  <select class="form-control" name="estado">
                   <option selected>Elegir</option>
                   <option value=""></option>
 

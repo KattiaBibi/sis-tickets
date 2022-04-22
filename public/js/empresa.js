@@ -51,7 +51,7 @@ function listar(){
     {data: 'nombre'},
     {data: 'direccion'},
     {data: 'telefono'},
-    {data: 'estado_id',
+    {data: 'estado',
     render: function(data){
 
         if(data=="1"){
@@ -59,7 +59,7 @@ function listar(){
 
         }
 
-        if(data=="2"){
+        if(data=="0"){
             return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
         }
     }

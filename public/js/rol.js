@@ -50,7 +50,7 @@ function listar(){
     return meta.row+1;}},
 
     {data: 'name'},
-    // {data: 'estado_id',
+    // {data: 'estado',
     // render: function(data){
 
     //     if(data=="1"){
@@ -58,7 +58,7 @@ function listar(){
 
     //     }
 
-    //     if(data=="2"){
+    //     if(data=="0"){
     //         return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
     //     }
     // }
@@ -75,7 +75,7 @@ function listar(){
 });
 }
 
-function desmarcar(){  
+function desmarcar(){
     var check = document.getElementsByName('permissions[]');
 
     for (i=0; i<check.length; i++){

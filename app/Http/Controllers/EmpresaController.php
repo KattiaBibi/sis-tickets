@@ -62,7 +62,7 @@ class EmpresaController extends Controller
 
         return $empresa?1:0;
 
-        
+
     }
 
 
@@ -124,10 +124,10 @@ class EmpresaController extends Controller
 
 
         /*  dd($request->nombre); */
-        if( $empresa->estado_id==1){
-            $empresa->estado_id=2;
+        if( $empresa->estado==1){
+            $empresa->estado=0;
         }else{
-         $empresa->estado_id=1;
+         $empresa->estado=1;
         }
 
          $empresa->update();
