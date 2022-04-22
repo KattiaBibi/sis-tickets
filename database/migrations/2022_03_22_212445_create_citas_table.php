@@ -16,13 +16,13 @@ class CreateCitasTable extends Migration
         Schema::create('citas', function (Blueprint $table) {
             $table->id();
             $table->string('titulo', 50);
-            $table->string('descripcion', 250);
+            $table->string('descripcion', 250)->nullable();
             $table->dateTime('fecha');
             $table->time('hora_inicio');
             $table->time('hora_fin');
-            $table->string('link_reu', 150);
-            $table->string('otro_cliente', 50);
-            $table->string('lugarreu', 150);
+            $table->string('link_reu', 250)->nullable();
+            $table->string('otro_cliente', 50)->nullable();
+            $table->string('lugarreu', 250)->nullable();
             $table->enum('tipocita', ['presencial', 'virtual']);
             $table->enum('estado', ['pendiente', 'concluida', 'cancelada']);
             $table->unsignedBigInteger('usuario_id');

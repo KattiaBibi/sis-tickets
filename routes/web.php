@@ -61,4 +61,6 @@ Route::post('datatable/empresa_servicios', 'EmpresaServicioController@empresa_se
 Route::resource('atencion','AtencionController');
 // Route::post('datatable/atenciones', 'Atenciones@atencion')->name('datatable.atencion');
 
+Route::get('cita/getForFullCalendar', 'CitaController@getForFullCalendar');
 Route::resource('cita','CitaController');
+Route::get('cita/{id}', 'CitaController@show');

@@ -12,20 +12,18 @@ class Cita extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-
         'titulo',
         'descripcion',
-        'fecha_hora_inicio',
-        'fecha_hora_fin',
+        'fecha',
+        'hora_inicio',
+        'hora_fin',
         'link_reu',
         'otro_cliente',
         'lugarreu',
-        'tipo_cita',
+        'tipocita',
         'estado',
         'usuario_id',
-        'empresa_id',
-    
-
+        'empresa_id',   
     ];
 
 }
