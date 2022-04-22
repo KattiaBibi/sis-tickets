@@ -1,7 +1,7 @@
 <?php
 
-use App\Servicio;
 use Illuminate\Database\Seeder;
+use App\Servicio;
 
 class ServicioSeeder extends Seeder
 {
@@ -12,10 +12,13 @@ class ServicioSeeder extends Seeder
      */
     public function run()
     {
+        //
+
         Servicio::create([
             'id' => '1',
             'nombre' => 'SOPORTE',
             'estado' => '1',
         ]);
+
     }
 }
