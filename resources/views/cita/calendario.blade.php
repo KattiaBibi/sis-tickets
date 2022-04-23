@@ -144,7 +144,6 @@
                     <input type="text" name="lugarreu" id="inputOtraOficina" class="form-control">
                   </div>
 
-
                   <div class="form-group col-12">
                     <label for="inputAsistentes">Colaboradores que asistirán:</label>
 
@@ -155,10 +154,16 @@
                       </option>
                       @endforeach
                     </select>
-
-
                   </div>
 
+                  <div class="form-group col-12" id="formGroupInputEstado" style="display: none;">
+                    <label for="inputEstado">Estado</label>
+                    <select name="estado" id="inputEstado" class="form-control" disabled>
+                      <option value="pendiente">PENDIENTE</option>
+                      <option value="concluida">CONCLUIDA</option>
+                      <option value="cancelada">CANCELADA</option>
+                    </select>
+                  </div>
 
 
                 </div>
@@ -200,6 +205,7 @@
 
 <script src="{{ asset('fullcalendar/main.js') }}"></script>
 <script src="{{ asset('fullcalendar/locales/es.js') }}"></script>
+<script src="{{ asset('js/Utils.js') }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js" integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg==" crossorigin="anonymous"></script>
 
@@ -305,6 +311,8 @@
     })
   });
 
+  let action_form = 'registrar';
+
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
@@ -358,8 +366,46 @@
         //if (confirm('¿Está seguro(a) que desea eliminar esta reunión?')) {
         // arg.event.remove()
         //}
-        console.log(arg);
-        alert('a event has been clicked!');
+        console.log(arg.event.id);
+        console.log(arg.event.title);
+        console.log(arg.event.start);
+        console.log(arg.event.end);
+        console.log(arg.event.extendedProps);
+
+        document.querySelector('.modal-title').innerHTML = 'EDITAR REUNION';
+        action_form = 'editar';
+
+        formGroupInputEstado.style.display = 'block';
+        inputEstado.disabled = false;
+
+        inputTitulo.value = arg.event.extendedProps.titulo;
+        inputDescripcion.value = arg.event.extendedProps.descripcion;
+        inputFecha.value = arg.event.extendedProps.fecha;
+        inputHoraInicio.value = arg.event.extendedProps.hora_inicio;
+        inputHoraFin.value = arg.event.extendedProps.hora_fin;
+        
+        $('#inputTipoReunion').val(arg.event.extendedProps.tipo);
+
+        toggleDisabledInputLinkZoom();
+
+        if (arg.event.extendedProps.tipo !== 'presencial') {
+          inputLinkZoom.value = arg.event.extendedProps.link;
+        }
+
+        $('#inputOficina').val(arg.event.extendedProps.empresa_id);
+
+        toggleDisabledInputOtraOficina();
+
+        if ($('#inputOficina').find(":selected").val() === '') {
+          inputOtraOficina.value = arg.event.extendedProps.otra_oficina;
+        }
+
+        $('#inputAsistentes').val(arg.event.extendedProps.asistentes.map(item => item.id))
+
+        $('#inputEstado').val(arg.event.extendedProps.estado);
+
+        jQuery.noConflict();
+        $('#citamodal').modal('show');
       },
       editable: true,
       dayMaxEvents: true, // allow "more" link when too many events
@@ -374,7 +420,31 @@
       }],
       eventSourceSuccess: function(content, xhr) {
         console.log(content);
-        return content.data;
+        return content.data.map(res => {
+          return {
+            id: res.id,
+            start: res.fecha_inicio,
+            end: res.fecha_fin,
+            title: res.titulo,
+            extendedProps: {
+              id: res.id,
+              titulo: res.titulo,
+              descripcion: res.descripcion,
+              fecha: res.fecha,
+              fecha_inicio: res.fecha_inicio,
+              fecha_fin: res.fecha_fin,
+              hora_inicio: res.hora_inicio,
+              hora_fin: res.hora_fin,
+              tipo: res.tipo,
+              link: res.link,
+              empresa_id: res.empresa_id,
+              descripcion_empresa: res.descripcion_empresa,
+              otra_oficina: res.otra_oficina,
+              estado: res.estado,
+              asistentes: res.asistentes
+            }
+          }
+        });
       }
     });
 

@@ -57,8 +57,6 @@
                 <th>ESTADO</th>
                 <th>PRIORIDAD</th>
                 <th>FECHA</th>
-
-
             </tr>
         </thead>
        <tbody>

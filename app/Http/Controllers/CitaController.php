@@ -39,11 +39,13 @@ class CitaController extends Controller
     $citas = DB::table('citas')
       ->select(
         "citas.id as id",
-        "citas.titulo as title",
+        "citas.titulo as titulo",
         "citas.descripcion as descripcion",
         "citas.fecha as fecha",
-        DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio) as start"),
-        DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin) as end"),
+        DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio) as fecha_inicio"),
+        DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin) as fecha_fin"),
+        "citas.hora_inicio as hora_inicio",
+        "citas.hora_fin as hora_fin",
         "citas.tipocita as tipo",
         "citas.link_reu as link",
         "citas.empresa_id as empresa_id",

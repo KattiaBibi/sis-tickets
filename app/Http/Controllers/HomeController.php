@@ -71,30 +71,33 @@ class HomeController extends Controller
 
         $query = DB::table('requerimientos')
             ->select(
+                DB::raw("requerimientos.id AS id"),
                 "requerimientos.titulo AS titulo_requerimiento",
-                DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_colaborador"),
-                DB::raw("CONCAT(empresas.nombre, ' - ', servicios.nombre) AS descripcion_empresa_servicio"),
+                "requerimientos.descripcion AS descripcion_requerimiento",
+                DB::raw("CONCAT(encargado.nombres, ' ', encargado.apellidos) AS nom_ape_encargado"),
+                DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
+                DB::raw("empresas.nombre AS nombre_empresa"),
+                DB::raw("empresas.ID AS id_empresa"),
+                DB::raw("servicios.nombre AS nombre_servicio"),
                 "requerimientos.avance AS avance_requerimiento",
                 "requerimientos.estado AS estado_requerimiento",
                 "requerimientos.prioridad AS prioridad_requerimiento",
                 "requerimientos.created_at AS fecha_creacion"
             )
-            ->join('colaboradores', 'colaboradores.id', '=', 'requerimientos.usuarioencarg_id')
-            ->join('users', 'users.colaborador_id', '=', 'colaboradores.id')
+            ->join('colaboradores AS encargado', 'encargado.id', '=', 'requerimientos.usuarioencarg_id')
+            ->join('colaboradores AS solicitante', 'solicitante.id', '=', 'requerimientos.usuarioregist_id')
+            ->join('users AS usuario_encargado', 'usuario_encargado.colaborador_id', '=', 'encargado.id')
+            // ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
-
         if ($role_name !== 'Admin') {
-            $query->where('users.id', '=', auth()->user()->id);
+            $query->where('usuario_encargado.id', '=', auth()->user()->id);
+            // ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
         }
 
-        $rpta = $query->orderBy('requerimientos.created_at', 'desc')
-            ->limit(4)
-            ->get();
-
-        // dd($rpta);
-
+        $rpta = $query->orderBy('requerimientos.created_at', 'desc')->limit(4)->get();
+        
         return datatables()->of($rpta)->toJson();
     }
 }

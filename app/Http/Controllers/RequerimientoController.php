@@ -37,7 +37,8 @@ class RequerimientoController extends Controller
         $query = DB::table('requerimientos')
             ->select(
                 DB::raw("requerimientos.id AS id"),
-                "requerimientos.titulo AS titulo_requerimiento","requerimientos.descripcion AS descripcion_requerimiento",
+                "requerimientos.titulo AS titulo_requerimiento",
+                "requerimientos.descripcion AS descripcion_requerimiento",
                 DB::raw("CONCAT(encargado.nombres, ' ', encargado.apellidos) AS nom_ape_encargado"),
                 DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
@@ -50,14 +51,15 @@ class RequerimientoController extends Controller
             )
             ->join('colaboradores AS encargado', 'encargado.id', '=', 'requerimientos.usuarioencarg_id')
             ->join('colaboradores AS solicitante', 'solicitante.id', '=', 'requerimientos.usuarioregist_id')
-            ->join('users', 'users.colaborador_id', '=', 'encargado.id')
-            // ->join('users', 'users.colaborador_id', '=', 'solicitante.id')
+            ->join('users AS usuario_encargado', 'usuario_encargado.colaborador_id', '=', 'encargado.id')
+            // ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
-            if ($role_name !== 'Admin') {
-                $query->where('users.id', '=', auth()->user()->id);
-            }
+        if ($role_name !== 'Admin') {
+            $query->where('usuario_encargado.id', '=', auth()->user()->id);
+                // ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
+        }
 
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->get();
 
@@ -91,7 +93,6 @@ class RequerimientoController extends Controller
             ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', 1)->where('ea.empresa_id', $id)->get();
 
         return $gerentes;
-
     }
 
 
@@ -102,10 +103,9 @@ class RequerimientoController extends Controller
         $colaboradores = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id','!=', 1)->where('ea.empresa_id', $id)->get();
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', '!=', 1)->where('ea.empresa_id', $id)->get();
 
         return $colaboradores;
-
     }
 
 
@@ -118,8 +118,8 @@ class RequerimientoController extends Controller
         $servicios = Servicio::all();
         $empresas = Empresa::all();
         $usuarios = DB::table('users as u')
-        ->join('colaboradores as c','u.colaborador_id','=','c.id')
-        ->select('u.id as usuario_id', 'c.id as colaborador_id', 'c.nombres','c.apellidos')->get();
+            ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
+            ->select('u.id as usuario_id', 'c.id as colaborador_id', 'c.nombres', 'c.apellidos')->get();
 
         return view('requerimiento.index', compact('servicios', 'empresas', 'usuarios'));
     }
@@ -202,11 +202,10 @@ class RequerimientoController extends Controller
 
     {
 
-        $requerimiento=Requerimiento::findOrfail($id);
+        $requerimiento = Requerimiento::findOrfail($id);
         $requerimiento->update($request->all());
 
-        return $requerimiento?1:0;
-
+        return $requerimiento ? 1 : 0;
     }
 
     /**
