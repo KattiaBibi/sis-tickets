@@ -20,5 +20,11 @@ class ServicioSeeder extends Seeder
             'estado' => '1',
         ]);
 
+        Servicio::create([
+            'id' => '2',
+            'nombre' => 'FOTOGRAFÍA DIGITAL',
+            'estado' => '1',
+        ]);
+
     }
 }

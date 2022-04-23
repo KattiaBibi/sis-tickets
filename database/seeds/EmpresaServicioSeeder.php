@@ -16,5 +16,10 @@ class EmpresaServicioSeeder extends Seeder
             'empresa_id' => '1',
             'servicio_id' => '1',
         ]);
+
+        EmpresaServicio::create([
+            'empresa_id' => '3',
+            'servicio_id' => '2',
+        ]);
     }
 }

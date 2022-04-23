@@ -30,11 +30,36 @@ class ColaboradorSeeder extends Seeder
             'id' => '2',
             'nrodocumento' => '74500365',
             'nombres' => 'David',
-            'apellidos' => 'Manayalle Cachay',
+            'apellidos' => 'Manayalle',
             'fechanacimiento' => '1996/10/30',
             'direccion' => 'Calle Los Laureles #401, San Antonio',
             'telefono' => '991817883',
             'empresa_area_id' => '2',
+            'estado' => '1',
+        ]);
+
+
+        Colaborador::create([
+            'id' => '3',
+            'nrodocumento' => '44123654',
+            'nombres' => 'Vanessa',
+            'apellidos' => 'Burga',
+            'fechanacimiento' => '1996/11/02',
+            'direccion' => 'Calle Saucedo 354',
+            'telefono' => '995092706',
+            'empresa_area_id' => '5',
+            'estado' => '1',
+        ]);
+
+        Colaborador::create([
+            'id' => '4',
+            'nrodocumento' => '69696958',
+            'nombres' => 'Marco',
+            'apellidos' => 'Gálvez',
+            'fechanacimiento' => '1992/02/21',
+            'direccion' => 'Av. Los Andes 424',
+            'telefono' => '979652303',
+            'empresa_area_id' => '7',
             'estado' => '1',
         ]);
     }

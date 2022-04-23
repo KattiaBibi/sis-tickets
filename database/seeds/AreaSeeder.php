@@ -25,5 +25,35 @@ class AreaSeeder extends Seeder
             'nombre' => 'DESARROLLO DE SOFTWARE',
             'estado' => '1'
         ]);
+
+        Area::create([
+            'id' => '3',
+            'nombre' => 'SOPORTE',
+            'estado' => '1'
+        ]);
+
+        Area::create([
+            'id' => '4',
+            'nombre' => 'RECURSOS HUMANOS',
+            'estado' => '1'
+        ]);
+
+        Area::create([
+            'id' => '5',
+            'nombre' => 'CONTABILIDAD',
+            'estado' => '1'
+        ]);
+
+        Area::create([
+            'id' => '6',
+            'nombre' => 'DISEÑO GRÁFICO',
+            'estado' => '1'
+        ]);
+
+        Area::create([
+            'id' => '7',
+            'nombre' => 'AUDIOVISUALES',
+            'estado' => '1'
+        ]);
     }
 }
