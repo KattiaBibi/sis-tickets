@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Requerimiento;
+use App\DetalleRequerimiento;
 use App\Servicio;
 use App\Empresa;
 use App\Colaborador;
@@ -44,6 +45,7 @@ class RequerimientoController extends Controller
                 DB::raw("empresas.nombre AS nombre_empresa"),
                 DB::raw("empresas.ID AS id_empresa"),
                 DB::raw("servicios.nombre AS nombre_servicio"),
+                "requerimientos.usuarioregist_id AS usuario_que_registro",
                 "requerimientos.avance AS avance_requerimiento",
                 "requerimientos.estado AS estado_requerimiento",
                 "requerimientos.prioridad AS prioridad_requerimiento",
@@ -86,7 +88,6 @@ class RequerimientoController extends Controller
     public function listargerentes($id)
     {
 
-
         $gerentes = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
@@ -99,11 +100,10 @@ class RequerimientoController extends Controller
     public function listarcolaboradores($id)
     {
 
-
         $colaboradores = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', '!=', 1)->where('ea.empresa_id', $id)->get();
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.empresa_id', $id)->get();
 
         return $colaboradores;
     }
@@ -113,7 +113,6 @@ class RequerimientoController extends Controller
     public function index()
 
     {
-        //
 
         $servicios = Servicio::all();
         $empresas = Empresa::all();
@@ -202,8 +201,29 @@ class RequerimientoController extends Controller
 
     {
 
+                //aca creas la atencionn
+                $idu=Auth()->user()->id;
+                $request->request->add(['usuarioadmin_id' => $idu]);
+                $requerimiento = Requerimiento::create($request->all());
+                $colab=$request->usuario_colab_id;
+                foreach ($colab as $key => $value) {
+                    # code...
+                    $deta_requerimiento=DetalleRequerimiento::create([
+                        "usuario_colab_id"=>$value,
+                        "requerimiento_id"=>$requerimiento->id
+                    ]);
+                }
+
+
+
+                return $atencion?1:0;
+
+
         $requerimiento = Requerimiento::findOrfail($id);
-        $requerimiento->update($request->all());
+        $requerimiento->update([
+        'avance' => $request->avance,
+        'prioridad' => $request->prioridad,
+        'estado' => $request->estado]);
 
         return $requerimiento ? 1 : 0;
     }

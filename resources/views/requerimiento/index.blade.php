@@ -418,7 +418,7 @@
 
             <div class="form-group col-md-12">
                 <label for="">USUARIO SOLICITANTE:</label>
-                <input class="form-control"  type="text" name="" id="UsuarioSolicitante" readonly>
+                <input class="form-control"  type="text" value="" name="usuarioregist_id" id="UsuarioSolicitante" readonly>
 
             </div>
 

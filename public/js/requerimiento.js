@@ -356,11 +356,10 @@ $('#requerimientos').on('click','.editar',function(){
     $('#editarTitulo').val(data['titulo_requerimiento']);
     $('#editarDescripcion').val(data['descripcion_requerimiento']);
 
-     $('#UsuarioSolicitante').val(data['nom_ape_solicitante']);
+    $('#UsuarioSolicitante').text("43");
     $('#UsuarioResponsable').val(data['nom_ape_encargado']);
     $('#avance').val(data['avance_requerimiento']);
     document.getElementById('avan').innerHTML=document.getElementById('avance').value;
-
 
 
         $.get('/personal/'+data['id_empresa']+'/listado', function(data){

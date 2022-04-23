@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             'email' => 'vanessa@gmail.com',
             'password' => bcrypt('12345678'),
             'colaborador_id' => '3',
-        ])->assignRole('Admin');
+        ])->assignRole('AdminGerente');
 
         User::create([
             'name' => 'Marco',
