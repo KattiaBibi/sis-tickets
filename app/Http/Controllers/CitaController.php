@@ -53,11 +53,11 @@ class CitaController extends Controller
         "citas.lugarreu AS otra_oficina",
         "citas.estado AS estado",
       )
-      ->join('empresas', 'empresas.id', '=', 'citas.empresa_id')
+      ->join('empresas', 'empresas.id', '=', 'citas.empresa_id', 'left')
       ->get()->all();
 
     foreach ($citas as &$cita) {
-      $cita->asistente = DB::table('detalle_citas')
+      $cita->asistentes = DB::table('detalle_citas')
         ->select(
           "detalle_citas.usuario_colab_id as id",
           "colaboradores.nombres AS nombres",
@@ -72,18 +72,6 @@ class CitaController extends Controller
 
     return response()->json([
       "messages" => "Resource retrieved successfully.",
-      // "data" => [
-      //   [
-      //     "title" => "Event 1",
-      //     "start" => "2022-04-22T09:00:00",
-      //     "end" => "2022-04-22T18:00:00"
-      //   ],
-      //   [
-      //     "title" => "Event 2",
-      //     "start" => "2022-04-23T09:00:00",
-      //     "end" => "2022-04-23T18:00:00"
-      //   ]
-      // ],
       "data" => $citas
     ]);
   }
@@ -117,7 +105,7 @@ class CitaController extends Controller
       'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
       'link_reu' => 'nullable|max:150',
       'empresa_id' => 'nullable|exists:empresas,id',
-      'lugarreu' => 'nullable|150',
+      'lugarreu' => 'nullable|max:150',
       'asistentes' => 'required|exists:colaboradores,id'
     ]);
 
@@ -171,7 +159,7 @@ class CitaController extends Controller
         "citas.lugarreu AS otra_oficina",
         "citas.estado AS estado",
       )
-      ->join('empresas', 'empresas.id', '=', 'citas.empresa_id')
+      ->join('empresas', 'empresas.id', '=', 'citas.empresa_id', 'left')
       ->where('citas.id', '=', $id)
       ->get()->first();
 

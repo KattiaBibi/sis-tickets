@@ -165,7 +165,7 @@
                     </select>
                   </div>
 
-
+                  <div class="validaciones w-100"></div>
                 </div>
 
 
@@ -261,58 +261,6 @@
   // }
 
 
-  $('#inputAsistentes').select2();
-
-  function toggleDisabledInputLinkZoom() {
-    if ($('#inputTipoReunion').find(":selected").val() === 'presencial') {
-      inputLinkZoom.disabled = true;
-    } else {
-      inputLinkZoom.disabled = false;
-    }
-  }
-
-  function toggleDisabledInputOtraOficina() {
-    if ($('#inputOficina').find(":selected").val() === '') {
-      inputOtraOficina.disabled = false;
-    } else {
-      inputOtraOficina.disabled = true;
-    }
-  }
-
-  toggleDisabledInputLinkZoom();
-  inputTipoReunion.addEventListener('change', function(e) {
-    toggleDisabledInputLinkZoom();
-  });
-
-  toggleDisabledInputOtraOficina();
-  inputOficina.addEventListener('change', function(e) {
-    toggleDisabledInputOtraOficina();
-  });
-
-  frmRegistrarReunion.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    let dataArray = $('#frmRegistrarReunion').serializeArray()
-    dataArray.push({
-      name: '_token',
-      value: token_
-    })
-
-    $.ajax({
-      "method": 'POST',
-      "url": 'cita',
-      "data": dataArray,
-      "success": function(Response) {
-        console.log(Response);
-      },
-      'error': (response) => {
-        console.log(response.responseJSON.messages);
-      }
-    })
-  });
-
-  let action_form = 'registrar';
-
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
@@ -331,9 +279,23 @@
 
       select: function(start, end) {
 
+        toggleDisabledInputLinkZoom();
+        toggleDisabledInputOtraOficina();
+
+        document.querySelector('.modal-title').innerHTML = 'REGISTRAR REUNION';
+        action_form = 'registrar';
+
+        formGroupInputEstado.style.display = 'none';
+        inputEstado.disabled = true;
+
         // leemos las fechas de inicio de evento y hoy
         var check = moment(start.start).format('YYYY-MM-DD');
         var hoy = moment(new Date()).format('YYYY-MM-DD');
+
+        action_form = 'registrar';
+
+        Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
+        $('#inputAsistentes').val(null).trigger("change");
 
         // si el inicio de evento ocurre hoy o en el futuro mostramos el modal
         if (check >= hoy) {
@@ -342,7 +304,7 @@
           $('#citamodal').modal('show');
 
           inputFecha.value = check;
-          calendar.unselect()
+          calendar.unselect();
 
         }
         // si no, mostramos una alerta de error
@@ -366,10 +328,7 @@
         //if (confirm('¿Está seguro(a) que desea eliminar esta reunión?')) {
         // arg.event.remove()
         //}
-        console.log(arg.event.id);
-        console.log(arg.event.title);
-        console.log(arg.event.start);
-        console.log(arg.event.end);
+
         console.log(arg.event.extendedProps);
 
         document.querySelector('.modal-title').innerHTML = 'EDITAR REUNION';
@@ -380,10 +339,10 @@
 
         inputTitulo.value = arg.event.extendedProps.titulo;
         inputDescripcion.value = arg.event.extendedProps.descripcion;
-        inputFecha.value = arg.event.extendedProps.fecha;
+        inputFecha.value = Utils.getDateForDateInput(arg.event.extendedProps.fecha);
         inputHoraInicio.value = arg.event.extendedProps.hora_inicio;
         inputHoraFin.value = arg.event.extendedProps.hora_fin;
-        
+
         $('#inputTipoReunion').val(arg.event.extendedProps.tipo);
 
         toggleDisabledInputLinkZoom();
@@ -392,7 +351,10 @@
           inputLinkZoom.value = arg.event.extendedProps.link;
         }
 
-        $('#inputOficina').val(arg.event.extendedProps.empresa_id);
+        if (arg.event.extendedProps.empresa_id != null) {
+          $('#inputOficina').val(arg.event.extendedProps.empresa_id);
+        }
+
 
         toggleDisabledInputOtraOficina();
 
@@ -400,7 +362,7 @@
           inputOtraOficina.value = arg.event.extendedProps.otra_oficina;
         }
 
-        $('#inputAsistentes').val(arg.event.extendedProps.asistentes.map(item => item.id))
+        $('#inputAsistentes').val(arg.event.extendedProps.asistentes.map(item => item.id)).trigger('change');
 
         $('#inputEstado').val(arg.event.extendedProps.estado);
 
@@ -449,6 +411,69 @@
     });
 
     calendar.render();
+
+    let action_form = 'registrar';
+
+    $('#inputAsistentes').select2();
+
+    function toggleDisabledInputLinkZoom() {
+      if ($('#inputTipoReunion').find(":selected").val() === 'presencial') {
+        inputLinkZoom.disabled = true;
+      } else {
+        inputLinkZoom.disabled = false;
+      }
+    }
+
+    function toggleDisabledInputOtraOficina() {
+      if ($('#inputOficina').find(":selected").val() === '') {
+        inputOtraOficina.disabled = false;
+      } else {
+        inputOtraOficina.disabled = true;
+      }
+    }
+
+    inputTipoReunion.addEventListener('change', function(e) {
+      toggleDisabledInputLinkZoom();
+    });
+
+    inputOficina.addEventListener('change', function(e) {
+      toggleDisabledInputOtraOficina();
+    });
+
+    frmRegistrarReunion.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      let dataArray = $('#frmRegistrarReunion').serializeArray()
+      dataArray.push({
+        name: '_token',
+        value: token_
+      })
+
+      $.ajax({
+        "method": 'POST',
+        "url": 'cita',
+        "data": dataArray,
+        "success": function(Response) {
+          console.log(Response);
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Datos guardados correctamente',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          calendar.refetchEvents();
+          Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
+          $('#inputAsistentes').val(null).trigger("change");
+          $('#citamodal').modal('hide');
+        },
+        'error': (response) => {
+          Utils.mostrarValidaciones(response.responseJSON, frmRegistrarReunion);
+        }
+      })
+    });
+
+
   });
 </script>
 @stop

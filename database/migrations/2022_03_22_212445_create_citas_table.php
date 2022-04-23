@@ -27,7 +27,7 @@ class CreateCitasTable extends Migration
             $table->enum('estado', ['pendiente', 'concluida', 'cancelada']);
             $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id', 'fk_cita_usuario')->references('id')->on('users');
-            $table->unsignedBigInteger('empresa_id');
+            $table->unsignedBigInteger('empresa_id')->nullable();
             $table->foreign('empresa_id', 'fk_cita_empresa')->references('id')->on('empresas');
             $table->timestamps();
         });
