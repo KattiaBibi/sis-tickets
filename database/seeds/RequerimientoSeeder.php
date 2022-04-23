@@ -18,9 +18,9 @@ class RequerimientoSeeder extends Seeder
             'avance' => 0,
             'prioridad' => 'media',
             'estado' => 'pendiente',
-            'empresa_servicio_id' => '1',
+            'empresa_servicio_id' => '2',
             'usuarioregist_id' => '1',
-            'usuarioencarg_id' => '2'
+            'usuarioencarg_id' => '3'
         ]);
 
         Requerimiento::create([
@@ -30,31 +30,9 @@ class RequerimientoSeeder extends Seeder
             'prioridad' => 'alta',
             'estado' => 'pendiente',
             'empresa_servicio_id' => '1',
-            'usuarioregist_id' => '1',
+            'usuarioregist_id' => '3',
             'usuarioencarg_id' => '1'
         ]);
 
-
-        Requerimiento::create([
-            'titulo' => 'TEST DE REGISTRO 3',
-            'descripcion' => 'TEST DESCRIPCION REGISTRO 3',
-            'avance' => 0,
-            'prioridad' => 'media',
-            'estado' => 'pendiente',
-            'empresa_servicio_id' => '2',
-            'usuarioregist_id' => '4',
-            'usuarioencarg_id' => '4'
-        ]);
-
-        Requerimiento::create([
-            'titulo' => 'TEST DE REGISTRO 4',
-            'descripcion' => 'TEST DESCRIPCION REGISTRO 4',
-            'avance' => 0,
-            'prioridad' => 'baja',
-            'estado' => 'pendiente',
-            'empresa_servicio_id' => '2',
-            'usuarioregist_id' => '4',
-            'usuarioencarg_id' => '4'
-        ]);
     }
 }
