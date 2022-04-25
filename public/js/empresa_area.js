@@ -72,7 +72,7 @@ $('#empresas_areas').on('click','.editar',function(){
     $('#editarArea').val(data.aid);
 
 
-    jQuery.noConflict();
+
     $('#modaleditar').modal('show');
 
 })
@@ -107,7 +107,7 @@ $.ajax({
 
        datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset()
-        jQuery.noConflict();
+
         $('#modalagregar').modal('hide');
 
         }
@@ -162,7 +162,7 @@ $.ajax({
 
       datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset();
-        jQuery.noConflict();
+
         $('#modaleditar').modal('hide');
 
         }

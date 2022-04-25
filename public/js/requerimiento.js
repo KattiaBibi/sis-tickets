@@ -295,7 +295,7 @@ $('#requerimientos').on('click','.descripcion',function(){
     $('#idregistro').val(data['idate']);
     $('#txtDescripcion').val(data['adescripcion']);
 
-    jQuery.noConflict();
+
     $('#modaldescripcion').modal('show');
 
 })
@@ -316,7 +316,7 @@ $('#requerimientos').on('click','.ver',function(){
     $('#verDetalle').val(data['tdetalle']);
     $('#vernb').text(data['uname']);
 
-    jQuery.noConflict();
+
     $('#modalver').modal('show');
 
 
@@ -337,7 +337,7 @@ $('#requerimientos').on('click','.ver',function(){
 //     $('#mostrarDetalle').text(data['tdetalle']);
 
 
-//     jQuery.noConflict();
+//     
 //     $('#modalatender').modal('show');
 
 
@@ -355,10 +355,32 @@ $('#requerimientos').on('click','.editar',function(){
     $('#idregistro').val(data['id']);
     $('#editarTitulo').val(data['titulo_requerimiento']);
     $('#editarDescripcion').val(data['descripcion_requerimiento']);
-
-    $('#UsuarioSolicitante').text("43");
+    $('#UsuarioSolicitante').val(data['nom_ape_solicitante']);
+    $('#UsuarioSolicitante2').val(data['usuario_que_registro']);
     $('#UsuarioResponsable').val(data['nom_ape_encargado']);
+
     $('#avance').val(data['avance_requerimiento']);
+
+    $("#estado").on('change',function(e){
+        let estado = e.target.value;
+        let p = document.getElementById('elemento');
+
+        if(estado=="en proceso"){
+
+            p.removeAttribute("hidden");
+
+
+        }
+
+        else{
+            p.setAttribute("hidden");
+        }
+
+      });
+
+
+    $('#estado').val(data['estado_requerimiento']);
+    $('#prioridad').val(data['prioridad_requerimiento']);
     document.getElementById('avan').innerHTML=document.getElementById('avance').value;
 
 
@@ -392,8 +414,6 @@ $('#requerimientos').on('click','.editar',function(){
         });
 
 
-
-    jQuery.noConflict();
     $('#modaleditar').modal('show');
 
 })
@@ -428,7 +448,7 @@ $.ajax({
 
        datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset()
-        jQuery.noConflict();
+
         $('#modalagregar').modal('hide');
 
         }
@@ -459,7 +479,7 @@ $('#btnactualizar').on("click" ,(event)=>{
     event.preventDefault();
 
     let dataArray=$('#frmeditar').serializeArray();
-    let route="/colaborador/"+dataArray[0].value;
+    let route="/requerimiento/"+dataArray[0].value;
 dataArray.push({name:'_token',value:token_})
 console.log(dataArray[0].value)
 
@@ -483,7 +503,7 @@ $.ajax({
 
       datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset();
-        jQuery.noConflict();
+
         $('#modaleditar').modal('hide');
 
         }

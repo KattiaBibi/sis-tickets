@@ -418,7 +418,8 @@
 
             <div class="form-group col-md-12">
                 <label for="">USUARIO SOLICITANTE:</label>
-                <input class="form-control"  type="text" value="" name="usuarioregist_id" id="UsuarioSolicitante" readonly>
+                <input type="hidden" class="form-control" name="usuarioregist_id" id="UsuarioSolicitante2" readonly>
+                <input class="form-control"  type="text" value=""  id="UsuarioSolicitante" readonly>
 
             </div>
 
@@ -455,7 +456,7 @@
           </div>
 
 
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label for="">AVANCE:</label>
 
                 <input class="progress-bar progress-bar-striped progress-bar-animated" name="avance" type="range" id="avance" min="0" value="0" max="100" step="10" style="width: 100%;">
@@ -468,7 +469,7 @@
         <div class="form-group col-md-6">
             <label for="">PRIORIDAD</label>
 
-            <select class="form-control" id="" name="estado">
+            <select class="form-control" id="prioridad" name="prioridad">
                 <option value="1">Elegir</option>
 
                 <option value="alta">ALTA</option>
@@ -481,7 +482,7 @@
         <div class="form-group col-md-6">
             <label for="">ESTADO</label>
 
-            <select class="form-control" id="" name="estado">
+            <select class="form-control" id="estado" name="estado">
                 <option value="1">Elegir</option>
 
                 <option value="pendiente">PENDIENTE</option>

@@ -300,7 +300,7 @@
         // si el inicio de evento ocurre hoy o en el futuro mostramos el modal
         if (check >= hoy) {
 
-          jQuery.noConflict();
+
           $('#citamodal').modal('show');
 
           inputFecha.value = check;
@@ -366,7 +366,7 @@
 
         $('#inputEstado').val(arg.event.extendedProps.estado);
 
-        jQuery.noConflict();
+
         $('#citamodal').modal('show');
       },
       editable: true,
