@@ -118,7 +118,7 @@ class CitaController extends Controller
     ]);
 
     if ($validator->fails()) {
-      return response()->json(['messages' => $validator->errors()]);
+      return response()->json(['messages' => $validator->errors()], 400);
     }
 
     $input['usuario_id'] = auth()->user()->id;
@@ -234,7 +234,7 @@ class CitaController extends Controller
     ]);
 
     if ($validator->fails()) {
-      return response()->json(['messages' => $validator->errors()]);
+      return response()->json(['messages' => $validator->errors()], 400);
     }
 
     $cita->titulo = $request->get('titulo');
