@@ -1,5 +1,18 @@
 class Utils {
 
+  static showValidationMessages(messages = null) {
+    if (messages === null) return;
+
+    document.querySelectorAll('.show-validation-message').forEach(item => item.innerHTML = '');
+
+    Object.entries(messages).forEach((item) => {
+      $(`[data-label-validation="${item[0]}"] ~ div.show-validation-message`)
+        .html(`${item[1]}`)
+        .addClass('invalid-feedback')
+        .css('display', 'block');
+    });
+  }
+
   static validarResponse(response) {
     if (response.status === 500) {
       alertify.alert("ERROR", "Ocurrio un error inesperado!, recargue el navegador o ponganse encontacto con el administrador");

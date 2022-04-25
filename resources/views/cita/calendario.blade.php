@@ -42,6 +42,26 @@
     max-width: 1100px;
     margin: 0 auto;
   }
+
+  input[type="number"] {
+    width: 100px;
+  }
+
+  input+span {
+    padding-right: 30px;
+  }
+
+  input:invalid+span:after {
+    position: absolute;
+    content: '✖';
+    padding-left: 5px;
+  }
+
+  input:valid+span:after {
+    position: absolute;
+    content: '✓';
+    padding-left: 5px;
+  }
 </style>
 
 @stop
@@ -80,7 +100,8 @@
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label for="inputTitulo">Título</label>
-                    <input type="text" class="form-control" id="inputTitulo" name="titulo" placeholder="Escriba el título de su reunión">
+                    <input type="text" class="form-control" id="inputTitulo" name="titulo" placeholder="Escriba el título de su reunión" data-label-validation="titulo">
+                    <div class="show-validation-message"></div>
                   </div>
 
                 </div>
@@ -88,49 +109,55 @@
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label for="inputDescripcion">Descripción (Opcional)</label>
-                    <textarea class="form-control" name="descripcion" id="inputDescripcion" rows="3"></textarea>
+                    <textarea class="form-control" name="descripcion" id="inputDescripcion" rows="3" data-label-validation="descripcion"></textarea>
+                    <div class="show-validation-message"></div>
                   </div>
 
                 </div>
 
                 <div class="form-row">
+                  <div class="form-group col-12">
+                    <label for="inputFecha">Fecha</label>
+                    <input type="date" name="fecha" id="inputFecha" class="form-control" readonly data-label-validation="fecha">
+                    <div class="show-validation-message"></div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputHoraInicio">Hora Inicio (8:30 am)</label>
+                    <input type="time" name="hora_inicio" id="inputHoraInicio" class="form-control" data-label-validation="hora_inicio">
+                    <div class="show-validation-message"></div>
+                  </div>
 
                   <div class="form-group col-md-6">
-                    <label for="inputFecha">Fecha</label>
-                    <input type="date" name="fecha" id="inputFecha" class="form-control" readonly>
+                    <label for="inputHoraFin">Hora Fin (6:30 pm)</label>
+                    <input type="time" name="hora_fin" id="inputHoraFin" class="form-control" data-label-validation="hora_fin">
+                    <div class="show-validation-message"></div>
                   </div>
-
-                  <div class="form-group col-md-3">
-                    <label for="inputHoraInicio">Hora Inicio</label>
-                    <input type="time" name="hora_inicio" id="inputHoraInicio" class="form-control">
-                  </div>
-
-                  <div class="form-group col-md-3">
-                    <label for="inputHoraFin">Hora Fin</label>
-                    <input type="time" name="hora_fin" id="inputHoraFin" class="form-control">
-                  </div>
-
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-12">
                     <label for="inputTipoReunion">Tipo reunión</label>
-                    <select id="inputTipoReunion" class="form-control" name="tipocita">
+                    <select id="inputTipoReunion" class="form-control" name="tipocita" data-label-validation="tipocita">
                       <option value="presencial" selected>PRESENCIAL</option>
                       <option value="virtual">VIRTUAL</option>
                     </select>
+                    <div class="show-validation-message"></div>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="inputLinkZoom">Link Zoom (Opcional)</label>
-                  <input type="text" class="form-control" id="inputLinkZoom" placeholder="Inserte el link de la reunión" name="link_reu">
+                  <label for="inputLinkZoom">Link (Opcional)</label>
+                  <input type="text" class="form-control" id="inputLinkZoom" placeholder="Inserte el link de la reunión" name="link_reu" data-label-validation="link_reu">
+                  <div class="show-validation-message"></div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-12">
                     <label for="inputOficina">Oficina</label>
-                    <select id="inputOficina" class="form-control" name="empresa_id">
+                    <select id="inputOficina" class="form-control" name="empresa_id" data-label-validation="empresa_id">
                       <option value="" selected>Elegir...</option>
 
                       @foreach ($empresas as $e)
@@ -140,30 +167,34 @@
                       @endforeach
 
                     </select>
+                    <div class="show-validation-message"></div>
                   </div>
 
                   <div class="form-group col-12">
                     <label for="inputOtraOficina">Otra Oficina (Opcional)</label>
-                    <input type="text" name="lugarreu" id="inputOtraOficina" class="form-control">
+                    <input type="text" name="lugarreu" id="inputOtraOficina" class="form-control" data-label-validation="lugarreu">
+                    <div class="show-validation-message"></div>
                   </div>
 
                   <div class="form-group col-12">
                     <label for="inputAsistentes">Colaboradores que asistirán:</label>
 
-                    <select style="width:100%" id="inputAsistentes" name="asistentes[]" multiple="multiple" lang="es">
+                    <select style="width:100%" id="inputAsistentes" name="asistentes[]" multiple="multiple" lang="es" data-label-validation="asistentes" class="form-control">
                       @foreach ($colaboradores as $c)
                       <option value="{{ $c->id }}">{{ $c->nombres }} {{ $c->apellidos }} </option>
                       @endforeach
                     </select>
+                    <div class="show-validation-message"></div>
                   </div>
 
-                  <div class="form-group col-12" id="formGroupInputEstado" style="display: none;">
+                  <div class="form-group col-12" id="formGroupInputEstado" style="display: none;" data-label-validation="estado">
                     <label for="inputEstado">Estado</label>
                     <select name="estado" id="inputEstado" class="form-control" disabled>
                       <option value="pendiente">PENDIENTE</option>
                       <option value="concluida">CONCLUIDA</option>
                       <option value="cancelada">CANCELADA</option>
                     </select>
+                    <div class="show-validation-message"></div>
                   </div>
 
                   <div class="validaciones w-100"></div>
@@ -234,30 +265,30 @@
   }
 
 
-  $("#inputHoraInicio").change(function(e) {
+  // $("#inputHoraInicio").change(function(e) {
 
-    let valor = e.target.value;
-    console.log(valor);
+  //   let valor = e.target.value;
+  //   console.log(valor);
 
-    var a = moment([08, 00, 00], "HH:mm:ss")
+  //   var a = moment([08, 00, 00], "HH:mm:ss")
 
-    $("#duracion").append(`<option value="${valor}">${valor}</option>`);
+  //   $("#duracion").append(`<option value="${valor}">${valor}</option>`);
 
-  });
+  // });
 
 
   // for (let i = 1; i < 9; i += 1) {
 
   //   if(i==1){
-  //      $("#duracion").append(`<option value="${i}">${i} hora</option>`);
+  //      $("#inputHoraInicio").append(`<option value="${i}">${i} hora</option>`);
   //   }
 
   //   if(i==8){
-  //      $("#duracion").append(`<option value="${i}">Toda la jornada</option>`);
+  //      $("#inputHoraInicio").append(`<option value="${i}">Toda la jornada</option>`);
   //   }
 
   //   else{
-  //     $("#duracion").append(`<option value="${i}">${i} horas</option>`);
+  //     $("#inputHoraInicio").append(`<option value="${i}">${i} horas</option>`);
   //   }
   // }
 
@@ -334,6 +365,8 @@
         // arg.event.remove()
         //}
 
+        Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
+
         console.log(arg.event.extendedProps);
 
         btnEliminar.style.display = 'inline-block';
@@ -396,7 +429,7 @@
             end: res.fecha_fin,
             title: res.titulo,
             backgroundColor: (res.estado === 'pendiente') ?
-              'steeblue' : (res.estado === 'concluida') ?
+              'blue' : (res.estado === 'concluida') ?
               'green' : (res.estado === 'cancelada') ?
               'red' : '',
             extendedProps: {
@@ -479,7 +512,9 @@
             $('#citamodal').modal('hide');
           },
           'error': (response) => {
-            Utils.mostrarValidaciones(response.responseJSON, frmRegistrarReunion);
+            console.log(response.responseJSON.messages);
+            Utils.showValidationMessages(response.responseJSON.messages);
+            // Utils.mostrarValidaciones(response.responseJSON, frmRegistrarReunion);
           }
         })
       } else {
