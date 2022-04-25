@@ -11,24 +11,24 @@ function listar(){
         autoWidth: false,
         dom: 'Bfrtip',
         lengthChange: false,
-    
+
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
-    
+
         buttons: [{
             extend: 'copy',
             text: 'Copiar'
         },
-    
+
         {
             extend: 'colvis',
             text: 'Visibilidad'
         },
-    
+
              'excel', 'pdf'
             ],
-    
+
         "columnDefs": [
             {
             "searchable": false,
@@ -69,7 +69,7 @@ function listar(){
 //     $('#idregistro').val(data['id']);
 //     $('#editarNombre').val(data['nombre']);
 
-//     jQuery.noConflict();
+//
 //     $('#modaleditar').modal('show');
 
 // })
@@ -104,7 +104,7 @@ function listar(){
 
 //        datatable.ajax.reload(null,false);
 //         $('#frmguardar')[0].reset()
-//         jQuery.noConflict();
+//
 //         $('#modalagregar').modal('hide');
 
 //         }
@@ -159,7 +159,7 @@ function listar(){
 
 //       datatable.ajax.reload(null,false);
 //         $('#frmguardar')[0].reset();
-//         jQuery.noConflict();
+//
 //         $('#modaleditar').modal('hide');
 
 //         }

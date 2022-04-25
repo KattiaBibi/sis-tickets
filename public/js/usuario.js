@@ -83,7 +83,7 @@ $('#usuarios').on('click','.editar',function(){
 
     $("#editarColaborador").val(data.ucolaborador_id);
 
-    jQuery.noConflict();
+
     $('#modaleditar').modal('show');
 
 })
@@ -118,7 +118,7 @@ $.ajax({
 
        datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset()
-        jQuery.noConflict();
+
         $('#modalagregar').modal('hide');
 
         }
@@ -174,7 +174,7 @@ $.ajax({
       datatable.ajax.reload(null,false);
         $('#frmeditar')[0].reset();
 
-        jQuery.noConflict();
+
         $('#modaleditar').modal('hide');
 
         }
