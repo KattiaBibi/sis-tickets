@@ -103,7 +103,7 @@ $('#colaboradores').on('click','.editar',function(){
     $("#editarEmpresaArea").val(data.idea);
 
 
-
+    jQuery.noConflict();
     $('#modaleditar').modal('show');
 
 })
@@ -138,7 +138,7 @@ $.ajax({
 
        datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset()
-
+        jQuery.noConflict();
         $('#modalagregar').modal('hide');
 
         }
@@ -193,7 +193,7 @@ $.ajax({
 
       datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset();
-
+        jQuery.noConflict();
         $('#modaleditar').modal('hide');
 
         }

@@ -88,7 +88,7 @@ $('#empresas').on('click','.editar',function(){
     $('#editarNombre').val(data['nombre']);
     $('#editarDireccion').val(data['direccion']);
     $('#editarTelefono').val(data['telefono']);
-
+    jQuery.noConflict();
     $('#modaleditar').modal('show');
 
 })
@@ -123,7 +123,7 @@ $.ajax({
 
        datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset()
-
+        jQuery.noConflict();
         $('#modalagregar').modal('hide');
 
         }
@@ -179,7 +179,7 @@ $.ajax({
 
       datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset();
-
+        jQuery.noConflict();
         $('#modaleditar').modal('hide');
 
         }

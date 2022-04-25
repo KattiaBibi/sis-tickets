@@ -82,7 +82,7 @@ $('#servicios').on('click','.editar',function(){
     $('#idregistro').val(data['id']);
     $('#editarNombre').val(data['nombre']);
 
-
+    jQuery.noConflict();
     $('#modaleditar').modal('show');
 
 })
@@ -117,7 +117,7 @@ $.ajax({
 
        datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset()
-
+        jQuery.noConflict();
         $('#modalagregar').modal('hide');
 
         }
@@ -172,7 +172,7 @@ $.ajax({
 
       datatable.ajax.reload(null,false);
         $('#frmguardar')[0].reset();
-
+        jQuery.noConflict();
         $('#modaleditar').modal('hide');
 
         }

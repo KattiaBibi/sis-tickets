@@ -31,6 +31,7 @@ Route::get('personal/{id}/listado', 'RequerimientoController@listarcolaboradores
 Route::resource('usuario','UserController');
 Route::post('datatable/usuarios', 'UserController@usuario')->name('datatable.usuario');
 
+
 Route::resource('colaborador','ColaboradorController');
 Route::post('datatable/colaboradores', 'ColaboradorController@colaborador')->name('datatable.colaborador');
 

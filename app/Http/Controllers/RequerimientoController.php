@@ -200,14 +200,11 @@ class RequerimientoController extends Controller
     public function update(RequerimientoRequest $request, $id)
 
     {
-        $requerimiento = Requerimiento::findOrfail($id);
 
-        $requerimiento->update(
-            ['avance' => $request->avance,
-            'prioridad' => $request->prioridad,
-            'estado' => $request->estado
-            ]
-        );
+                //aca creas la atencionn
+                $idu=Auth()->user()->id;
+                $request->request->add(['usuarioadmin_id' => $idu]);
+                $requerimiento = Requerimiento::create($request->all());
                 $colab=$request->usuario_colab_id;
                 foreach ($colab as $key => $value) {
                     # code...
@@ -219,9 +216,16 @@ class RequerimientoController extends Controller
 
 
 
-                return $requerimiento?1:0;
+                return $atencion?1:0;
 
 
+        $requerimiento = Requerimiento::findOrfail($id);
+        $requerimiento->update([
+        'avance' => $request->avance,
+        'prioridad' => $request->prioridad,
+        'estado' => $request->estado]);
+
+        return $requerimiento ? 1 : 0;
     }
 
     /**
