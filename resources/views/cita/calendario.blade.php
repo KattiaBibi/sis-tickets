@@ -74,6 +74,9 @@
             <div class="modal-body">
 
               <form id="frmRegistrarReunion" name="formulario">
+
+                <input type="hidden" name="id" id="inputId">
+
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label for="inputTitulo">Título</label>
@@ -149,9 +152,7 @@
 
                     <select style="width:100%" id="inputAsistentes" name="asistentes[]" multiple="multiple" lang="es">
                       @foreach ($colaboradores as $c)
-                      <option value="{{ $c->id }}">{{ $c->nombres }}
-                        {{ $c->apellidos }}
-                      </option>
+                      <option value="{{ $c->id }}">{{ $c->nombres }} {{ $c->apellidos }} </option>
                       @endforeach
                     </select>
                   </div>
@@ -169,8 +170,8 @@
                 </div>
 
 
-
                 <div class="modal-footer">
+                  <button type="button" class="btn btn-danger btn-sm" style="display: none; margin-right: auto;" id="btnEliminar">Eliminar</button>
                   <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
                   <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
                 </div>
@@ -263,6 +264,7 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+    $('#inputAsistentes').select2();
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       locale: 'es',
@@ -276,14 +278,19 @@
       selectable: true,
       selectMirror: true,
 
-
+      // CUANDO SE SELECCIONA UN EVENTO
       select: function(start, end) {
+
+        action_form = 'registrar';
+
+        Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
 
         toggleDisabledInputLinkZoom();
         toggleDisabledInputOtraOficina();
 
         document.querySelector('.modal-title').innerHTML = 'REGISTRAR REUNION';
         action_form = 'registrar';
+        btnEliminar.style.display = 'none';
 
         formGroupInputEstado.style.display = 'none';
         inputEstado.disabled = true;
@@ -292,15 +299,12 @@
         var check = moment(start.start).format('YYYY-MM-DD');
         var hoy = moment(new Date()).format('YYYY-MM-DD');
 
-        action_form = 'registrar';
-
-        Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
-        $('#inputAsistentes').val(null).trigger("change");
+        // $('#inputAsistentes').val(null).trigger("change");
 
         // si el inicio de evento ocurre hoy o en el futuro mostramos el modal
         if (check >= hoy) {
 
-
+          // jQuery.noConflict();
           $('#citamodal').modal('show');
 
           inputFecha.value = check;
@@ -324,6 +328,7 @@
         }
       },
 
+      // CLICK EN UN EVENTO
       eventClick: function(arg) {
         //if (confirm('¿Está seguro(a) que desea eliminar esta reunión?')) {
         // arg.event.remove()
@@ -331,17 +336,19 @@
 
         console.log(arg.event.extendedProps);
 
+        btnEliminar.style.display = 'inline-block';
         document.querySelector('.modal-title').innerHTML = 'EDITAR REUNION';
         action_form = 'editar';
 
         formGroupInputEstado.style.display = 'block';
         inputEstado.disabled = false;
 
+        inputId.value = arg.event.extendedProps.id;
         inputTitulo.value = arg.event.extendedProps.titulo;
         inputDescripcion.value = arg.event.extendedProps.descripcion;
         inputFecha.value = Utils.getDateForDateInput(arg.event.extendedProps.fecha);
-        inputHoraInicio.value = arg.event.extendedProps.hora_inicio;
-        inputHoraFin.value = arg.event.extendedProps.hora_fin;
+        inputHoraInicio.value = arg.event.extendedProps.hora_inicio.split(':')[0] + ':' + arg.event.extendedProps.hora_inicio.split(':')[1];
+        inputHoraFin.value = arg.event.extendedProps.hora_fin.split(':')[0] + ':' + arg.event.extendedProps.hora_fin.split(':')[1];
 
         $('#inputTipoReunion').val(arg.event.extendedProps.tipo);
 
@@ -366,7 +373,7 @@
 
         $('#inputEstado').val(arg.event.extendedProps.estado);
 
-
+        // jQuery.noConflict();
         $('#citamodal').modal('show');
       },
       editable: true,
@@ -388,6 +395,10 @@
             start: res.fecha_inicio,
             end: res.fecha_fin,
             title: res.titulo,
+            backgroundColor: (res.estado === 'pendiente') ?
+              'steeblue' : (res.estado === 'concluida') ?
+              'green' : (res.estado === 'cancelada') ?
+              'red' : '',
             extendedProps: {
               id: res.id,
               titulo: res.titulo,
@@ -414,11 +425,10 @@
 
     let action_form = 'registrar';
 
-    $('#inputAsistentes').select2();
-
     function toggleDisabledInputLinkZoom() {
       if ($('#inputTipoReunion').find(":selected").val() === 'presencial') {
         inputLinkZoom.disabled = true;
+        inputLinkZoom.value = "";
       } else {
         inputLinkZoom.disabled = false;
       }
@@ -429,6 +439,7 @@
         inputOtraOficina.disabled = false;
       } else {
         inputOtraOficina.disabled = true;
+        inputOtraOficina.value = "";
       }
     }
 
@@ -449,30 +460,101 @@
         value: token_
       })
 
-      $.ajax({
-        "method": 'POST',
-        "url": 'cita',
-        "data": dataArray,
-        "success": function(Response) {
-          console.log(Response);
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Datos guardados correctamente',
-            showConfirmButton: false,
-            timer: 1500
-          });
-          calendar.refetchEvents();
-          Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
-          $('#inputAsistentes').val(null).trigger("change");
-          $('#citamodal').modal('hide');
-        },
-        'error': (response) => {
-          Utils.mostrarValidaciones(response.responseJSON, frmRegistrarReunion);
+      if (action_form === 'registrar') {
+        $.ajax({
+          "method": 'POST',
+          "url": 'cita',
+          "data": dataArray,
+          "success": function(Response) {
+            console.log(Response);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Datos guardados correctamente',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            calendar.refetchEvents();
+            Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
+            $('#citamodal').modal('hide');
+          },
+          'error': (response) => {
+            Utils.mostrarValidaciones(response.responseJSON, frmRegistrarReunion);
+          }
+        })
+      } else {
+
+        $.ajax({
+          "method": 'PUT',
+          "url": `cita/${inputId.value}`,
+          "data": dataArray,
+          "success": function(Response) {
+            console.log(Response);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Datos actualizados correctamente',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            calendar.refetchEvents();
+            Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
+            $('#inputAsistentes').val(null).trigger("change");
+            $('#citamodal').modal('hide');
+          },
+          'error': (response) => {
+            console.log(response);
+            Utils.mostrarValidaciones(response.responseJSON, frmRegistrarReunion);
+          }
+        })
+      }
+
+
+    });
+
+
+    btnEliminar.addEventListener('click', function(e) {
+      e.preventDefault();
+      Swal.fire({
+        title: '¿Estás seguro(a)?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí!',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log(inputId.value);
+
+          let dataArray = {
+            _token: token_
+          }
+
+          $.ajax({
+            "method": 'DELETE',
+            "url": `cita/${inputId.value}`,
+            "data": dataArray,
+            "success": function(Response) {
+              console.log(Response);
+              $('#citamodal').modal('hide');
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Datos Eliminados correctamente',
+                showConfirmButton: false,
+                timer: 1500
+              });
+              calendar.refetchEvents();
+            },
+            'error': (response) => {
+              console.log(response);
+            }
+          })
         }
       })
     });
-
 
   });
 </script>

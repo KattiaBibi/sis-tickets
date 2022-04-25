@@ -36,6 +36,9 @@ class CitaController extends Controller
 
   public function getForFullCalendar()
   {
+    $start = request('start');
+    $end = request('end');
+
     $citas = DB::table('citas')
       ->select(
         "citas.id as id",
@@ -54,6 +57,8 @@ class CitaController extends Controller
         "citas.estado AS estado",
       )
       ->join('empresas', 'empresas.id', '=', 'citas.empresa_id', 'left')
+      ->where('citas.fecha', '>=', $start)
+      ->where('citas.fecha', '<=', $end)
       ->get()->all();
 
     foreach ($citas as &$cita) {
@@ -98,7 +103,10 @@ class CitaController extends Controller
 
     $validator = Validator::make($input, [
       'titulo' => 'required|max:50',
-      'tipocita' => Rule::in(['presencial', 'virtual']),
+      'tipocita' => [
+        'required',
+        Rule::in(['presencial', 'virtual'])
+      ],
       'descripcion' => 'nullable|max:250',
       'fecha' => 'required|date_format:Y-m-d',
       'hora_inicio' => 'required|date_format:H:i',
@@ -110,7 +118,7 @@ class CitaController extends Controller
     ]);
 
     if ($validator->fails()) {
-      return response()->json(['messages' => $validator->errors()], 400);
+      return response()->json(['messages' => $validator->errors()]);
     }
 
     $input['usuario_id'] = auth()->user()->id;
@@ -187,29 +195,102 @@ class CitaController extends Controller
    */
   public function edit(Cita $cita)
   {
-    //
   }
 
   /**
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Cita  $cita
+   * @param  int $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Cita $cita)
+  public function update(Request $request, $id)
   {
-    //
+    $cita = Cita::find($id);
+    if (is_null($cita)) {
+      return response()->json(['messages' => 'resource not found.'], 404);
+    }
+
+    $input = $request->all();
+
+    $validator = Validator::make($input, [
+      'titulo' => 'required|max:50',
+      'tipocita' => [
+        'required',
+        Rule::in(['presencial', 'virtual'])
+      ],
+      'descripcion' => 'nullable|max:250',
+      'fecha' => 'required|date_format:Y-m-d',
+      'hora_inicio' => 'required|date_format:H:i',
+      'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
+      'link_reu' => 'nullable|max:150',
+      'empresa_id' => 'nullable|exists:empresas,id',
+      'lugarreu' => 'nullable|max:150',
+      'asistentes' => 'required|exists:colaboradores,id',
+      'estado' => [
+        'required',
+        Rule::in(['pendiente', 'concluida', 'cancelada'])
+      ]
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json(['messages' => $validator->errors()]);
+    }
+
+    $cita->titulo = $request->get('titulo');
+    $cita->tipocita = $request->get('tipocita');
+    $cita->descripcion = $request->get('descripcion');
+    $cita->fecha = $request->get('fecha');
+    $cita->hora_inicio = $request->get('hora_inicio');
+    $cita->hora_fin = $request->get('hora_fin');
+    $cita->link_reu = $request->get('link_reu');
+    $cita->empresa_id = $request->get('empresa_id');
+    $cita->lugarreu = $request->get('lugarreu');
+    $cita->estado = $request->get('estado');
+
+    DB::transaction(function () use ($id, $cita, $input) {
+      $cita->save();
+      DetalleCita::where('cita_id', '=', $id)->delete();
+      $detallesCita = [];
+      foreach ($input['asistentes'] as $asistente) {
+        array_push(
+          $detallesCita,
+          [
+            'cita_id' => $id,
+            'usuario_colab_id' => $asistente
+          ]
+        );
+      }
+      DetalleCita::insert($detallesCita);
+    });
+
+    return response()->json([
+      "messages" => "Resource updated successfully.",
+      "data" => $input
+    ]);
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param  \App\Cita  $cita
+   * @param  int $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Cita $cita)
+  public function destroy($id)
   {
-    //
+    $cita = Cita::find($id);
+    if (is_null($cita)) {
+      return response()->json(['messages' => 'Resource not found.'], 404);
+    }
+
+    DB::transaction(function () use ($id, $cita) {
+      DetalleCita::where('cita_id', '=', $id)->delete();
+      $cita->delete();
+    });
+
+    return response()->json([
+      "messages" => "Resource deleted successfully.",
+      "data" => $cita
+    ]);
   }
 }
