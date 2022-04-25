@@ -119,7 +119,7 @@
                 <label for="">EMPRESA</label>
 
                 <select class="form-control" id="empresa" name="">
-                    <option value="a">Elegir</option>
+                    <option value="a" disabled>Elegir</option>
 
                     @foreach ($empresas as $e)
                     <option value="{{ $e->id }}">{{$e->nombre}}</option>
@@ -160,7 +160,7 @@
                 <label for="">PRIORIDAD</label>
 
                 <select class="form-control" id="" name="prioridad">
-                    <option value="1">Elegir</option>
+                    <option value="1" disabled>Elegir</option>
 
                     <option value="alta">ALTA</option>
                     <option value="media">MEDIA</option>
@@ -325,7 +325,7 @@
                     <label for="inputState">Servicio</label>
 
                 <select class="form-control" name="servicio_id">
-                  <option selected>Elegir</option>
+                  <option selected disabled>Elegir</option>
 
                   @foreach ($servicios as $s)
                   <option value="{{ $s->id }}">{{$s->nombre}}</option>
@@ -338,7 +338,7 @@
                     <label for="inputState">Prioridad</label>
 
                     <select class="form-control" name="prioridad_id">
-                      <option selected>Elegir</option>
+                      <option selected disabled>Elegir</option>
 
                       <option value=""></option>
 
@@ -347,7 +347,7 @@
                   <div class="form-group col-md-4">
                     <label for="inputState">Estado</label>
                   <select class="form-control" name="estado">
-                  <option selected>Elegir</option>
+                  <option selected disabled>Elegir</option>
                   <option value=""></option>
 
                 </select>
@@ -456,10 +456,10 @@
           </div>
 
 
-            <div class="form-group" hidden>
+            <div class="form-group" id="elemento" hidden>
                 <label for="">AVANCE:</label>
 
-                <input class="progress-bar progress-bar-striped progress-bar-animated" name="avance" type="range" id="avance" min="0" value="0" max="100" step="10" style="width: 100%;">
+                <input class="progress-bar progress-bar-striped progress-bar-animated" name="avance" type="range" id="avance" min="0" value="0" max="100" step="5" style="width: 100%;">
                 <span id="avan">0</span><span>%</span>
 
             </div>
@@ -470,7 +470,7 @@
             <label for="">PRIORIDAD</label>
 
             <select class="form-control" id="prioridad" name="prioridad">
-                <option value="1">Elegir</option>
+
 
                 <option value="alta">ALTA</option>
                 <option value="media">MEDIA</option>
@@ -483,7 +483,6 @@
             <label for="">ESTADO</label>
 
             <select class="form-control" id="estado" name="estado">
-                <option value="1">Elegir</option>
 
                 <option value="pendiente">PENDIENTE</option>
                 <option value="en espera">EN ESPERA</option>

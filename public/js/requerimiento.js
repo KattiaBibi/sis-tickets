@@ -20,9 +20,9 @@ $("#empresa").on("change", function (e) {
 
     if(valor=='a'){
 
-        $('#servicio').html('<option value="a">¡Seleccione una empresa!</option>');
+        $('#servicio').html('<option value="a" disabled>¡Seleccione una empresa!</option>');
 
-        $('#gerente').html('<option value="a">¡Seleccione una empresa!</option>');
+        $('#gerente').html('<option value="a" disabled>¡Seleccione una empresa!</option>');
         return;
     }
 
@@ -37,7 +37,7 @@ $("#empresa").on("change", function (e) {
 
           else{
 
-            var html_select='<option value="a">Seleccione ...</option>';
+            var html_select='<option value="a" disabled>Seleccione ...</option>';
 
             for(var i=0; i<data.length; ++i)
 
@@ -69,7 +69,7 @@ $("#empresa").on("change", function (e) {
 
           else{
 
-            var html_select='<option value="a">Seleccione ...</option>';
+            var html_select='<option value="a" disabled>Seleccione ...</option>';
 
             for(var i=0; i<data.length; ++i)
 
@@ -337,7 +337,7 @@ $('#requerimientos').on('click','.ver',function(){
 //     $('#mostrarDetalle').text(data['tdetalle']);
 
 
-//     
+//
 //     $('#modalatender').modal('show');
 
 
@@ -350,6 +350,7 @@ $('#requerimientos').on('click','.editar',function(){
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
 
         var data = datatable.row(this).data();
+
     }
     console.log(data);
     $('#idregistro').val(data['id']);
@@ -360,28 +361,86 @@ $('#requerimientos').on('click','.editar',function(){
     $('#UsuarioResponsable').val(data['nom_ape_encargado']);
 
     $('#avance').val(data['avance_requerimiento']);
+    $('#estado').val(data['estado_requerimiento']);
+    $('#prioridad').val(data['prioridad_requerimiento']);
+    document.getElementById('avan').innerHTML=document.getElementById('avance').value;
+
+
+    if(data['estado_requerimiento']=="en proceso"){
+        document.getElementById('elemento').removeAttribute("hidden");
+
+    }
+
+    else if(data['estado_requerimiento']=="culminado"){
+        document.getElementById('elemento').removeAttribute("hidden");
+
+    }
+
+    else{
+        document.getElementById('elemento').setAttribute("hidden","");
+    }
+
+
 
     $("#estado").on('change',function(e){
         let estado = e.target.value;
-        let p = document.getElementById('elemento');
+        let el = document.getElementById('elemento');
+
+
+        if(estado=="pendiente"){
+            el.setAttribute("hidden","")
+            $("#avance").val(0);
+
+            cambioAvance();
+
+        }
+
+        if(estado=="en espera"){
+            el.setAttribute("hidden","")
+            $("#avance").val(0);
+            cambioAvance();
+        }
+
 
         if(estado=="en proceso"){
-
-            p.removeAttribute("hidden");
-
+            el.removeAttribute("hidden")
+            $("#avance").val(0);
+            cambioAvance();
 
         }
 
-        else{
-            p.setAttribute("hidden");
+        if(estado=="culminado"){
+            el.removeAttribute("hidden")
+            $("#avance").val(100);
+            cambioAvance();
+
         }
+
 
       });
 
 
-    $('#estado').val(data['estado_requerimiento']);
-    $('#prioridad').val(data['prioridad_requerimiento']);
-    document.getElementById('avan').innerHTML=document.getElementById('avance').value;
+
+    $("#avance").on('change',function(e){
+        let avance = e.target.value;
+
+
+        if(avance=="100"){
+
+
+            $("#estado").val("culminado");
+
+        }
+
+
+        else{
+
+            $("#estado").val("en proceso");
+        }
+
+
+      });
+
 
 
         $.get('/personal/'+data['id_empresa']+'/listado', function(data){
@@ -395,7 +454,7 @@ $('#requerimientos').on('click','.editar',function(){
 
           else{
 
-            var html_select='<option value="a">Seleccione ...</option>';
+            var html_select='<option value="a" disabled>Seleccione ...</option>';
 
             for(var i=0; i<data.length; ++i)
 

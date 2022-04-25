@@ -35,6 +35,7 @@ class RequerimientoController extends Controller
             ->where('model_id', '=', auth()->user()->id)
             ->get()->first()->role_name;
 
+
         $query = DB::table('requerimientos')
             ->select(
                 DB::raw("requerimientos.id AS id"),
@@ -216,8 +217,6 @@ class RequerimientoController extends Controller
                         "requerimiento_id"=>$requerimiento->id
                     ]);
                 }
-
-
 
                 return $requerimiento?1:0;
 
