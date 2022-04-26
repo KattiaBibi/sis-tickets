@@ -35,7 +35,7 @@ class RequerimientoController extends Controller
             ->where('model_id', '=', auth()->user()->id)
             ->get()->first()->role_name;
 
-        $estado=request()->all()['filters']['estado'];
+        $estado = request()->all()['filters']['estado'];
 
         $query = DB::table('requerimientos')
             ->select(
@@ -59,15 +59,19 @@ class RequerimientoController extends Controller
             // ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
-            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
-            ->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left');
-        if ($role_name !== 'Admin') {
-            $query->where('usuario_encargado.id', '=', auth()->user()->id)
-                ->orWhere('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
-                // ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
+            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
+
+        if ($role_name === 'AdminGerente') {
+            $query->where('usuario_encargado.id', '=', auth()->user()->id);
+            // ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
         }
 
-        if($estado!='todos'){
+        if ($role_name === 'Trabajador') {
+            $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
+                ->where('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
+        }
+
+        if ($estado != 'todos') {
             $query->where('requerimientos.estado', '=', $estado);
         }
 
@@ -78,11 +82,12 @@ class RequerimientoController extends Controller
 
 
 
-    public function getdetalle($id){
+    public function getdetalle($id)
+    {
 
-        $query=DB::table('detalle_requerimientos')
-        ->select("usuario_colab_id as id")
-        ->where("requerimiento_id","=",$id)->get();
+        $query = DB::table('detalle_requerimientos')
+            ->select("usuario_colab_id as id")
+            ->where("requerimiento_id", "=", $id)->get();
 
         return response()->json($query);
     }
@@ -225,45 +230,38 @@ class RequerimientoController extends Controller
         $requerimiento = Requerimiento::findOrfail($id);
 
 
-        if($request->estado=="pendiente" || $request->estado=="en espera"){
+        if ($request->estado == "pendiente" || $request->estado == "en espera") {
 
-                $requerimiento->update(
-                    ['avance' => $request->avance,
+            $requerimiento->update(
+                [
+                    'avance' => $request->avance,
                     'prioridad' => $request->prioridad,
                     'estado' => $request->estado
-                    ]
-                );
-
-            return $requerimiento?1:0;
-        }
-
-
-        else{
-
-
-                $requerimiento->update(
-                ['avance' => $request->avance,
-                'prioridad' => $request->prioridad,
-                'estado' => $request->estado
                 ]
-                );
-                $colab=$request->usuario_colab_id;
-                foreach ($colab as $key => $value) {
-                    # code...
-                    $deta_requerimiento=DetalleRequerimiento::create([
-                        "usuario_colab_id"=>$value,
-                        "requerimiento_id"=>$requerimiento->id
-                    ]);
-                }
+            );
 
-                return $requerimiento?1:0;
+            return $requerimiento ? 1 : 0;
+        } else {
 
 
+            $requerimiento->update(
+                [
+                    'avance' => $request->avance,
+                    'prioridad' => $request->prioridad,
+                    'estado' => $request->estado
+                ]
+            );
+            $colab = $request->usuario_colab_id;
+            foreach ($colab as $key => $value) {
+                # code...
+                $deta_requerimiento = DetalleRequerimiento::create([
+                    "usuario_colab_id" => $value,
+                    "requerimiento_id" => $requerimiento->id
+                ]);
+            }
+
+            return $requerimiento ? 1 : 0;
         }
-
-
-
-
     }
 
     /**

@@ -142,7 +142,7 @@ class CitaController extends Controller
       'hora_fin.required' => 'El campo Hora Fin es obligatorio.',
       'hora_fin.date_format' => 'El campo Hora Fin debe tener formato hora/minutos',
       'hora_fin.after_or_equal' => 'El campo Hora Fin debe ser mayor o igual a las 8:30 am',
-      'hora_fin.before_or_equal' => 'El campo Hora Fin debe ser menor o igual a las 6:30 am',
+      'hora_fin.before_or_equal' => 'El campo Hora Fin debe ser menor o igual a las 6:30 pm',
       'hora_fin.after' => 'El campo Hora Fin debe ser mayor al campo Hora Inicio',
       'link_reu.max' => 'El campo Link debe contener max. 150 caracteres.',
       'empresa_id.required' => 'El campo Oficina es obligatorio si el campo Otra Oficina esta vacio.',
