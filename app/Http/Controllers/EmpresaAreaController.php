@@ -26,13 +26,12 @@ class EmpresaAreaController extends Controller
     {
 
 
-        $empresa_areas=DB::table('empresa_areas as ea')
-        ->join('empresas as e','ea.empresa_id','=','e.id')
-        ->join('areas as a','ea.area_id','=','a.id')
-        ->select('ea.id as eaid','e.id as eid','a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre');
+        $empresa_areas = DB::table('empresa_areas as ea')
+            ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
+            ->join('areas as a', 'ea.area_id', '=', 'a.id')
+            ->select('ea.id as eaid', 'e.id as eid', 'a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre');
 
         return datatables()->of($empresa_areas)->toJson();
-
     }
 
     public function index()
@@ -42,7 +41,7 @@ class EmpresaAreaController extends Controller
         $empresas = Empresa::all();
         $areas = Area::all();
 
-        return view('empresa_area.index', compact('empresas','areas'));
+        return view('empresa_area.index', compact('empresas', 'areas'));
     }
 
     /**
@@ -67,7 +66,7 @@ class EmpresaAreaController extends Controller
 
         $empresa_area = EmpresaArea::create($request->all());
 
-        return $empresa_area?1:0;
+        return $empresa_area ? 1 : 0;
     }
 
     /**
@@ -101,7 +100,10 @@ class EmpresaAreaController extends Controller
      */
     public function update(EmpresaAreaRequest $request, $id)
     {
-        //
+        $empresa_area = EmpresaArea::findOrfail($id);
+        $empresa_area->update($request->all());
+
+        return $empresa_area ? 1 : 0;
     }
 
     /**

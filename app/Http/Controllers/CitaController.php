@@ -38,8 +38,9 @@ class CitaController extends Controller
   {
     $start = request('start');
     $end = request('end');
+    $estado = request('estado');
 
-    $citas = DB::table('citas')
+    $query = DB::table('citas')
       ->select(
         "citas.id as id",
         "citas.titulo as titulo",
@@ -58,8 +59,13 @@ class CitaController extends Controller
       )
       ->join('empresas', 'empresas.id', '=', 'citas.empresa_id', 'right')
       ->where('citas.fecha', '>=', $start)
-      ->where('citas.fecha', '<=', $end)
-      ->get()->all();
+      ->where('citas.fecha', '<=', $end);
+
+    if (isset($estado) && $estado !== 'todos') {
+      $query->where('citas.estado', '=', $estado);
+    }
+
+    $citas = $query->get()->all();
 
     foreach ($citas as &$cita) {
       $cita->asistentes = DB::table('detalle_citas')
@@ -72,8 +78,6 @@ class CitaController extends Controller
         ->where('cita_id', $cita->id)
         ->get()->all();
     }
-
-    // dd($citas);
 
     return response()->json([
       "messages" => "Resource retrieved successfully.",

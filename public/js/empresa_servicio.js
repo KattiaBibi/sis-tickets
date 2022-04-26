@@ -1,265 +1,219 @@
-
 /* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
-var datatable ;
-function listar(){
-
-
-    datatable= $('#empresas_servicios').DataTable( {
-        "pageLength": 5,
-        "destroy": true,
-        "async": false,
+var datatable;
+function listar() {
+    datatable = $("#empresas_servicios").DataTable({
+        pageLength: 5,
+        destroy: true,
+        async: false,
         responsive: true,
         autoWidth: false,
-        dom: 'Bfrtip',
+        dom: "Bfrtip",
         lengthChange: false,
 
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        language: {
+            url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+        },
+
+        buttons: [
+            {
+                extend: "copy",
+                text: "Copiar",
             },
 
-        buttons: [{
-            extend: 'copy',
-            text: 'Copiar'
-        },
-
-        {
-            extend: 'colvis',
-            text: 'Visibilidad'
-        },
-
-             'excel', 'pdf'
-            ],
-
-        "columnDefs": [
             {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-            }
+                extend: "colvis",
+                text: "Visibilidad",
+            },
+
+            "excel",
+            "pdf",
         ],
-    "ajax": {
-    "url": "/datatable/empresa_servicios",
-    "method": "post",
-    'data' : { '_token' : token_ },
-    },
-    "columns":[
 
-    {data: 'esid',
-    render: function(data, type, row, meta) {
-    return meta.row+1;}},
+        columnDefs: [
+            {
+                searchable: false,
+                orderable: false,
+                targets: 0,
+            },
+        ],
+        ajax: {
+            url: "/datatable/empresa_servicios",
+            method: "post",
+            data: { _token: token_ },
+        },
+        columns: [
+            {
+                data: "esid",
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                },
+            },
 
-    {data: 'enombre'},
-    {data: 'snombre'},
+            { data: "enombre" },
+            { data: "snombre" },
 
-    {data:null, render: function (data) {
-
-        return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
-        }
-    },
-
-
-]
-} );
+            {
+                data: null,
+                render: function (data) {
+                    return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
+                },
+            },
+        ],
+    });
 }
 
-
-$('#empresas_servicios').on('click','.editar',function(){
-    var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
-    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
+$("#empresas_servicios").on("click", ".editar", function () {
+    var data = datatable.row($(this).parents("tr")).data(); //Detecta a que fila hago click y me captura los datos en la variable data.
+    if (datatable.row(this).child.isShown()) {
+        //Cuando esta en tamaño responsive
         var data = datatable.row(this).data();
     }
 
-    $('#idregistro').val(data['esid']);
-    $('#editarEmpresa').val(data.eid);
-    $('#editarServicio').val(data.ucolaborador_id);
+    $("#idregistro").val(data["esid"]);
+    $("#editarEmpresa").val(data.eid);
+    $("#editarServicio").val(data.sid);
 
-
-
-    $('#modaleditar').modal('show');
-
-})
-
-
-
-$('#btnguardar').on("click" ,(event)=>{
-    event.preventDefault();
-
-let route=$('#frmguardar').attr("action");
-let dataArray=$('#frmguardar').serializeArray()
-dataArray.push({name:'_token',value:token_})
-console.log(dataArray)
-
-$.ajax({
-    "method":'POST',
-    "url": route,
-    "data": dataArray,
-
-
-    "success":function(Response){
-
-        if(Response==1){
-
-        Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Datos guardados correctamente',
-        showConfirmButton: false,
-        timer: 1500
-        })
-
-       datatable.ajax.reload(null,false);
-        $('#frmguardar')[0].reset()
-
-        $('#modalagregar').modal('hide');
-
-        }
-            else{
-
-                alert("no guardado");
-            }
-
-
-    },'error':(response)=>{
-        console.log(response)
-       $.each(response.responseJSON.errors, function (key, value){
-        response.responseJSON.errors[key].forEach(element => {
-
-            console.log(element);
-            toastr.error(element);
-
-           });
-       });
-    }
-})
-
-})
-
-
-
-$('#btnactualizar').on("click" ,(event)=>{
-    event.preventDefault();
-
-    let dataArray=$('#frmeditar').serializeArray();
-    let route="/empresa_servicio/"+dataArray[0].value;
-dataArray.push({name:'_token',value:token_})
-console.log(dataArray[0].value)
-
-$.ajax({
-    "method":'put',
-    "url": route,
-    "data": dataArray,
-
-
-    "success":function(Response){
-
-        if(Response==1){
-
-        Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Editado correctamente',
-        showConfirmButton: false,
-        timer: 1500
-        })
-
-      datatable.ajax.reload(null,false);
-        $('#frmguardar')[0].reset();
-
-        $('#modaleditar').modal('hide');
-
-        }
-            else{
-
-                alert("no editado");
-            }
-
-
-    },'error':(response)=>{
-        console.log(response)
-       $.each(response.responseJSON.errors, function (key, value){
-        response.responseJSON.errors[key].forEach(element => {
-
-            console.log(element);
-            toastr.error(element);
-
-           });
-       });
-    }
-})
-
+    $("#modaleditar").modal("show");
 });
 
+$("#btnguardar").on("click", (event) => {
+    event.preventDefault();
 
+    let route = $("#frmguardar").attr("action");
+    let dataArray = $("#frmguardar").serializeArray();
+    dataArray.push({ name: "_token", value: token_ });
+    console.log(dataArray);
 
-    $('#empresas').on('click','.desactivar',function(){
+    $.ajax({
+        method: "POST",
+        url: route,
+        data: dataArray,
 
-        Swal.fire({
-            title: '¿Estás seguro(a)?',
-            text: "¡No podrás revertir esto!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '¡Sí!',
-            cancelButtonText: 'Cancelar',
-          }).then((result) => {
-            if (result.isConfirmed) {
+        success: function (Response) {
+            if (Response == 1) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Datos guardados correctamente",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
 
+                datatable.ajax.reload(null, false);
+                $("#frmguardar")[0].reset();
 
+                $("#modalagregar").modal("hide");
+            } else {
+                alert("no guardado");
+            }
+        },
+        error: (response) => {
+            console.log(response);
+            $.each(response.responseJSON.errors, function (key, value) {
+                response.responseJSON.errors[key].forEach((element) => {
+                    console.log(element);
+                    toastr.error(element);
+                });
+            });
+        },
+    });
+});
 
-                var data = datatable.row($(this).parents('tr')).data();
-                if(datatable.row(this).child.isShown()){
-                    var data = datatable.row(this).data();
-                }
+$("#btnactualizar").on("click", (event) => {
+    event.preventDefault();
 
-                console.log(data)
-                let route="/empresa/"+data['id'];
-                let data2={
-                    id:data.id,
-                    _token:token_
-                }
+    let dataArray = $("#frmeditar").serializeArray();
+    let route = "/empresa_servicio/" + dataArray[0].value;
+    dataArray.push({ name: "_token", value: token_ });
+    console.log(dataArray[0].value);
 
-                $.ajax({
-                    "method":'delete',
-                    "url": route,
-                    "data": data2,
+    $.ajax({
+        method: "put",
+        url: route,
+        data: dataArray,
 
+        success: function (Response) {
+            if (Response == 1) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Editado correctamente",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
 
-                    "success":function(Response){
+                datatable.ajax.reload(null, false);
+                $("#frmguardar")[0].reset();
 
-                        if(Response==1){
+                $("#modaleditar").modal("hide");
+            } else {
+                alert("no editado");
+            }
+        },
+        error: (response) => {
+            console.log(response);
+            $.each(response.responseJSON.errors, function (key, value) {
+                response.responseJSON.errors[key].forEach((element) => {
+                    console.log(element);
+                    toastr.error(element);
+                });
+            });
+        },
+    });
+});
 
-                            Swal.fire(
-                                '¡Desactivado!',
-                                'Su registro ha sido desactivado.',
-                                'success'
-                              )
+$("#empresas").on("click", ".desactivar", function () {
+    Swal.fire({
+        title: "¿Estás seguro(a)?",
+        text: "¡No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "¡Sí!",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var data = datatable.row($(this).parents("tr")).data();
+            if (datatable.row(this).child.isShown()) {
+                var data = datatable.row(this).data();
+            }
 
-                      datatable.ajax.reload(null,false);
+            console.log(data);
+            let route = "/empresa/" + data["id"];
+            let data2 = {
+                id: data.id,
+                _token: token_,
+            };
 
-                        }
-                            else{
+            $.ajax({
+                method: "delete",
+                url: route,
+                data: data2,
 
-                                alert("no editado");
-                            }
+                success: function (Response) {
+                    if (Response == 1) {
+                        Swal.fire(
+                            "¡Desactivado!",
+                            "Su registro ha sido desactivado.",
+                            "success"
+                        );
 
-
-                    },'error':(response)=>{
-                        console.log(response)
-                       $.each(response.responseJSON.errors, function (key, value){
-                        response.responseJSON.errors[key].forEach(element => {
-
+                        datatable.ajax.reload(null, false);
+                    } else {
+                        alert("no editado");
+                    }
+                },
+                error: (response) => {
+                    console.log(response);
+                    $.each(response.responseJSON.errors, function (key, value) {
+                        response.responseJSON.errors[key].forEach((element) => {
                             console.log(element);
                             toastr.error(element);
-
-                           });
-                       });
-                    }
-                })
-
-
-            }
-          })
-
-    })
-
+                        });
+                    });
+                },
+            });
+        }
+    });
+});

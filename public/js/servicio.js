@@ -221,7 +221,7 @@ $.ajax({
                 }
 
                 console.log(data)
-                let route="/area/"+data['id'];
+                let route="/servicio/"+data['id'];
                 let data2={
                     id:data.id,
                     _token:token_

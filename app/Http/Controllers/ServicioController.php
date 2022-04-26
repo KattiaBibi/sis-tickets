@@ -24,8 +24,7 @@ class ServicioController extends Controller
     public function servicio(Request $request)
     {
 
-      return datatables()->of(Servicio::all())->toJson();
-
+        return datatables()->of(Servicio::all())->toJson();
     }
 
     public function index()
@@ -57,7 +56,7 @@ class ServicioController extends Controller
 
         $servicio = Servicio::create($request->all());
 
-        return $servicio?1:0;
+        return $servicio ? 1 : 0;
     }
 
     /**
@@ -86,27 +85,37 @@ class ServicioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Servicio  $servicio
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(ServicioRequest $request, $id)
     {
         //
 
-        $servicio=Servicio::findOrfail($id);
+        $servicio = Servicio::findOrfail($id);
         $servicio->update($request->all());
 
-        return $servicio?1:0;
+        return $servicio ? 1 : 0;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Servicio  $servicio
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Servicio $servicio)
+    public function destroy($id)
     {
-        //
+        $servicio = Servicio::findOrfail($id);
+
+        if ($servicio->estado == 1) {
+            $servicio->estado = 0;
+        } else {
+            $servicio->estado = 1;
+        }
+
+        $servicio->update();
+
+        return $servicio ? 1 : 0;
     }
 }

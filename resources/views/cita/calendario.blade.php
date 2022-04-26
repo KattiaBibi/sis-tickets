@@ -10,7 +10,6 @@
 @section('css')
 
 <link rel="stylesheet" href="{{ asset('fullcalendar/main.css') }}">
-
 <style>
   .select2-container--default .select2-selection--multiple .select2-selection__choice {
 
@@ -69,6 +68,19 @@
 
 @section('content')
 
+<div class="row">
+  <div class="col-lg-3">
+    <div class="form-group">
+      <label for="">Estado</label>
+      <select id="inputFiltroEstado" class="form-control form-control-sm">
+        <option value="todos" selected>TODOS</option>
+        <option value="pendiente">PENDIENTE</option>
+        <option value="concluida">CONLUIDA</option>
+        <option value="cancelada">CANCELADA</option>
+      </select>
+    </div>
+  </div>
+</div>
 
 <div class="card">
   <div class="card-header">
@@ -241,6 +253,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js" integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg==" crossorigin="anonymous"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 
 <script>
   var a = moment([11, 00, 00], "HH:mm:ss")
@@ -415,11 +428,18 @@
       dayMaxEvents: true, // allow "more" link when too many events
       eventSources: [{
         url: 'cita/getForFullCalendar', // use the `url` property
-        extraParams: {
-          _token: token_
+        // extraParams: {
+        //   _token: token_,
+
+        // },
+        extraParams: function() { // a function that returns an object
+          return {
+            _token: token_,
+            estado: $('#inputFiltroEstado').val()
+          };
         },
         failure: function() {
-          alert('there was an error while fetching events!');
+          alert('Ocurrio un error al conectarse con el servidor!');
         }
       }],
       eventSourceSuccess: function(content, xhr) {
@@ -590,6 +610,10 @@
           })
         }
       })
+    });
+
+    inputFiltroEstado.addEventListener('change', (e) => {
+      calendar.refetchEvents();
     });
 
   });

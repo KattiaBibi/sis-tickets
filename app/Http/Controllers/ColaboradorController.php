@@ -28,29 +28,26 @@ class ColaboradorController extends Controller
 
 
         $colaboradores = DB::table('colaboradores as c')
-        ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-        ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
-        ->join('areas as a', 'ea.area_id', '=', 'a.id')
-        ->select('c.estado as colaborador_estado','c.id','c.nrodocumento','c.nombres','c.apellidos','c.fechanacimiento','c.direccion','c.telefono','e.nombre as e.nombre','a.nombre as a.nombre','ea.id as idea');
+            ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
+            ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
+            ->join('areas as a', 'ea.area_id', '=', 'a.id')
+            ->select('c.estado as colaborador_estado', 'c.id', 'c.nrodocumento', 'c.nombres', 'c.apellidos', 'c.fechanacimiento', 'c.direccion', 'c.telefono', 'e.nombre as e.nombre', 'a.nombre as a.nombre', 'ea.id as idea');
 
 
         return datatables()->of($colaboradores)->toJson();
-
-     }
+    }
 
 
     public function index()
     {
 
-      $empresa_areas=DB::table('empresa_areas as ea')
-      ->join('empresas as e','ea.empresa_id','=','e.id')
-      ->join('areas as a','ea.area_id','=','a.id')
-      ->select('ea.id as eaid','e.id as eid','a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre')->get();
+        $empresa_areas = DB::table('empresa_areas as ea')
+            ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
+            ->join('areas as a', 'ea.area_id', '=', 'a.id')
+            ->select('ea.id as eaid', 'e.id as eid', 'a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre')->get();
 
 
         return view('colaborador.index', compact('empresa_areas'));
-
-
     }
 
     /**
@@ -75,7 +72,7 @@ class ColaboradorController extends Controller
 
         $colaborador =  Colaborador::create($request->all());
 
-        return $colaborador?1:0;
+        return $colaborador ? 1 : 0;
     }
 
     /**
@@ -103,23 +100,36 @@ class ColaboradorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
      * @param  \App\Colaborador  $colaborador
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Colaborador $colaborador)
+    public function update(Request $request, $id)
     {
-        //
+        $colaborador = Colaborador::findOrfail($id);
+        $colaborador->update($request->all());
+
+        return $colaborador ? 1 : 0;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Colaborador  $colaborador
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Colaborador $colaborador)
+    public function destroy($id)
     {
-        //
+        $colaborador = Colaborador::findOrfail($id);
+
+        if ($colaborador->estado == 1) {
+            $colaborador->estado = 0;
+        } else {
+            $colaborador->estado = 1;
+        }
+
+        $colaborador->update();
+
+        return $colaborador ? 1 : 0;
     }
 }

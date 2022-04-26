@@ -26,13 +26,12 @@ class EmpresaServicioController extends Controller
     {
 
 
-        $empresa_servicios=DB::table('empresa_servicios as es')
-        ->join('empresas as e','es.empresa_id','=','e.id')
-        ->join('servicios as s','es.servicio_id','=','s.id')
-        ->select('es.id as esid','e.id as eid','s.id as sid', 'e.nombre as enombre', 's.nombre as snombre');
+        $empresa_servicios = DB::table('empresa_servicios as es')
+            ->join('empresas as e', 'es.empresa_id', '=', 'e.id')
+            ->join('servicios as s', 'es.servicio_id', '=', 's.id')
+            ->select('es.id as esid', 'e.id as eid', 's.id as sid', 'e.nombre as enombre', 's.nombre as snombre');
 
         return datatables()->of($empresa_servicios)->toJson();
-
     }
 
 
@@ -42,8 +41,7 @@ class EmpresaServicioController extends Controller
         $empresas = Empresa::all();
         $servicios = Servicio::all();
 
-        return view('empresa_servicio.index', compact('empresas','servicios'));
-
+        return view('empresa_servicio.index', compact('empresas', 'servicios'));
     }
 
     /**
@@ -68,7 +66,7 @@ class EmpresaServicioController extends Controller
 
         $empresa_servicio = EmpresaServicio::create($request->all());
 
-        return $empresa_servicio?1:0;
+        return $empresa_servicio ? 1 : 0;
     }
 
     /**
@@ -97,19 +95,16 @@ class EmpresaServicioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\EmpresaServicio  $empresaServicio
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(EmpresaServicioRequest $request, $id)
-
     {
         //
-     
-        $empresaservicio=EmpresaServicio::findOrfail($id);
+        $empresaservicio = EmpresaServicio::findOrfail($id);
         $empresaservicio->update($request->all());
 
-        return $empresaservicio?1:0;
-
+        return $empresaservicio ? 1 : 0;
     }
 
     /**
