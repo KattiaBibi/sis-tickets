@@ -169,10 +169,23 @@ function listar(){
 
 
           {
-            defaultContent: "",
+            data: "estado_requerimiento",
             orderable: false,
             render: function(data, type, row, meta) {
-                return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`
+
+                if(data=="cancelado"){
+
+                    return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`
+
+                }
+
+
+                else{
+                    return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`
+
+
+                }
+
               }
 
           },
@@ -212,7 +225,7 @@ function listar(){
 
 
                return `<div class="progress">
-                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${data}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">${data}%</div>
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${data}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">${data}%</div>
               </div>`
 
 
@@ -391,6 +404,7 @@ $('#requerimientos').on('click','.editar',function(){
     else{
         document.getElementById('elemento').setAttribute("hidden","");
         document.getElementById('trabajadores').setAttribute("hidden","");
+
     }
 
 
@@ -400,27 +414,21 @@ $('#requerimientos').on('click','.editar',function(){
         let el = document.getElementById('elemento');
         let tr = document.getElementById('trabajadores');
 
-        if(estado=="pendiente"){
+        if(estado=="pendiente"|| estado=="en espera"){
             el.setAttribute("hidden","")
             tr.setAttribute("hidden","")
             $("#avance").val(0);
 
             cambioAvance();
 
-        }
-
-        if(estado=="en espera"){
-            el.setAttribute("hidden","")
-            tr.setAttribute("hidden","")
-
-            $("#avance").val(0);
-            cambioAvance();
         }
 
 
         if(estado=="en proceso"){
             el.removeAttribute("hidden")
             tr.removeAttribute("hidden")
+
+            // $('#personal').val(null).trigger('change');
             $("#avance").val(0);
             cambioAvance();
 
@@ -429,6 +437,7 @@ $('#requerimientos').on('click','.editar',function(){
         if(estado=="culminado"){
             el.removeAttribute("hidden")
             tr.removeAttribute("hidden")
+
             $("#avance").val(100);
             cambioAvance();
 
@@ -695,4 +704,78 @@ $.ajax({
         datatable.ajax.reload(null, false);
     })
 
+
+
+
+    $('#requerimientos').on('click','.desactivar',function(){
+
+        Swal.fire({
+            title: '¿Estás seguro(a)?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí!',
+            cancelButtonText: 'Cancelar',
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+
+
+                var data = datatable.row($(this).parents('tr')).data();
+                if(datatable.row(this).child.isShown()){
+                    var data = datatable.row(this).data();
+                }
+
+                console.log(data)
+                let route="/requerimiento/"+data['id'];
+                let data2={
+                    id:data.id,
+                    _token:token_
+                }
+
+                $.ajax({
+                    "method":'delete',
+                    "url": route,
+                    "data": data2,
+
+
+                    "success":function(Response){
+
+                        if(Response==1){
+
+                            Swal.fire(
+                                'Cancelado!',
+                                'El requerimiento ha sido cancelado.',
+                                'success'
+                              )
+
+                      datatable.ajax.reload(null,false);
+
+                        }
+                            else{
+
+                                alert("no editado");
+                            }
+
+
+                    },'error':(response)=>{
+                        console.log(response)
+                       $.each(response.responseJSON.errors, function (key, value){
+                        response.responseJSON.errors[key].forEach(element => {
+
+                            console.log(element);
+                            toastr.error(element);
+
+                           });
+                       });
+                    }
+                })
+
+
+            }
+          })
+
+    })
 

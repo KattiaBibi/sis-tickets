@@ -270,9 +270,19 @@ class RequerimientoController extends Controller
      * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Requerimiento $requerimiento)
 
+     
+    public function destroy(Request $request, $id)
     {
-        //
+        //delete
+        $requerimiento=Requerimiento::findOrfail($id);
+
+         $requerimiento->estado="cancelado";
+
+
+         $requerimiento->update();
+
+         return $requerimiento?1:0;
+
     }
 }

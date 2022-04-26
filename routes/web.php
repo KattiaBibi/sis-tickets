@@ -27,6 +27,7 @@ Route::get('datatable/requerimientos', 'RequerimientoController@requerimiento')-
 Route::get('requerimiento/{id}/listado', 'RequerimientoController@listarservicios')->name('requerimiento.listado');
 Route::get('requerimiento/{id}/getdetalle', 'RequerimientoController@getdetalle')->name('requerimiento.detalle');
 
+
 Route::get('gerente/{id}/listado', 'RequerimientoController@listargerentes')->name('gerente.listado');
 Route::get('personal/{id}/listado', 'RequerimientoController@listarcolaboradores')->name('colaborador.listado');
 
