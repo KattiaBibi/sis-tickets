@@ -35,6 +35,7 @@ class RequerimientoController extends Controller
             ->where('model_id', '=', auth()->user()->id)
             ->get()->first()->role_name;
 
+        $estado=request()->all()['filters']['estado'];
 
         $query = DB::table('requerimientos')
             ->select(
@@ -66,9 +67,24 @@ class RequerimientoController extends Controller
                 // ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
         }
 
+        if($estado!='todos'){
+            $query->where('requerimientos.estado', '=', $estado);
+        }
+
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->get();
 
         return datatables()->of($rpta)->toJson();
+    }
+
+
+
+    public function getdetalle($id){
+
+        $query=DB::table('detalle_requerimientos')
+        ->select("usuario_colab_id as id")
+        ->where("requerimiento_id","=",$id)->get();
+
+        return response()->json($query);
     }
 
 
@@ -203,14 +219,34 @@ class RequerimientoController extends Controller
     public function update(RequerimientoRequest $request, $id)
 
     {
+
+        DB::table('detalle_requerimientos')->where('requerimiento_id', $id)->delete();
+
         $requerimiento = Requerimiento::findOrfail($id);
 
-        $requerimiento->update(
-            ['avance' => $request->avance,
-            'prioridad' => $request->prioridad,
-            'estado' => $request->estado
-            ]
-        );
+
+        if($request->estado=="pendiente" || $request->estado=="en espera"){
+
+                $requerimiento->update(
+                    ['avance' => $request->avance,
+                    'prioridad' => $request->prioridad,
+                    'estado' => $request->estado
+                    ]
+                );
+
+            return $requerimiento?1:0;
+        }
+
+
+        else{
+
+
+                $requerimiento->update(
+                ['avance' => $request->avance,
+                'prioridad' => $request->prioridad,
+                'estado' => $request->estado
+                ]
+                );
                 $colab=$request->usuario_colab_id;
                 foreach ($colab as $key => $value) {
                     # code...
@@ -221,6 +257,11 @@ class RequerimientoController extends Controller
                 }
 
                 return $requerimiento?1:0;
+
+
+        }
+
+
 
 
     }

@@ -145,12 +145,13 @@ function listar(){
         },
         ajax: {
           url: 'datatable/requerimientos',
-          type: "POST",
+          type: "GET",
         //   data : { '_token' : token_ },
           data: function(d) {
             d._token = token_;
             return $.extend({}, d, {
               filters: {
+                  estado: $("#filtros").val()
               }
             });
           }
@@ -208,7 +209,13 @@ function listar(){
             data: "avance_requerimiento",
             orderable: false,
             render: function(data, type, row, meta) {
-                return data +`%`
+
+
+               return `<div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${data}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">${data}%</div>
+              </div>`
+
+
               }
           },
           {
@@ -345,6 +352,7 @@ $('#requerimientos').on('click','.ver',function(){
 // })
 
 
+
 $('#requerimientos').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
@@ -366,18 +374,23 @@ $('#requerimientos').on('click','.editar',function(){
     document.getElementById('avan').innerHTML=document.getElementById('avance').value;
 
 
+
+
     if(data['estado_requerimiento']=="en proceso"){
         document.getElementById('elemento').removeAttribute("hidden");
+        document.getElementById('trabajadores').removeAttribute("hidden");
 
     }
 
     else if(data['estado_requerimiento']=="culminado"){
         document.getElementById('elemento').removeAttribute("hidden");
+        document.getElementById('trabajadores').removeAttribute("hidden");
 
     }
 
     else{
         document.getElementById('elemento').setAttribute("hidden","");
+        document.getElementById('trabajadores').setAttribute("hidden","");
     }
 
 
@@ -385,10 +398,11 @@ $('#requerimientos').on('click','.editar',function(){
     $("#estado").on('change',function(e){
         let estado = e.target.value;
         let el = document.getElementById('elemento');
-
+        let tr = document.getElementById('trabajadores');
 
         if(estado=="pendiente"){
             el.setAttribute("hidden","")
+            tr.setAttribute("hidden","")
             $("#avance").val(0);
 
             cambioAvance();
@@ -397,6 +411,8 @@ $('#requerimientos').on('click','.editar',function(){
 
         if(estado=="en espera"){
             el.setAttribute("hidden","")
+            tr.setAttribute("hidden","")
+
             $("#avance").val(0);
             cambioAvance();
         }
@@ -404,6 +420,7 @@ $('#requerimientos').on('click','.editar',function(){
 
         if(estado=="en proceso"){
             el.removeAttribute("hidden")
+            tr.removeAttribute("hidden")
             $("#avance").val(0);
             cambioAvance();
 
@@ -411,6 +428,7 @@ $('#requerimientos').on('click','.editar',function(){
 
         if(estado=="culminado"){
             el.removeAttribute("hidden")
+            tr.removeAttribute("hidden")
             $("#avance").val(100);
             cambioAvance();
 
@@ -443,10 +461,10 @@ $('#requerimientos').on('click','.editar',function(){
 
 
 
-        $.get('/personal/'+data['id_empresa']+'/listado', function(data){
+        $.get('/personal/'+data['id_empresa']+'/listado', function(dato){
 
 
-            if(data.length==0){
+            if(dato.length==0){
 
                 $('#personal').html('<option value="a">No hay colaboradores ...</option>');
 
@@ -456,21 +474,34 @@ $('#requerimientos').on('click','.editar',function(){
 
             var html_select='<option value="a" disabled>Seleccione ...</option>';
 
-            for(var i=0; i<data.length; ++i)
+            for(var i=0; i<dato.length; ++i)
 
 
-            html_select += '<option value="'+ data[i].id +'">'+ data[i].nombres + " " +data[i].apellidos +'</option>';
+            html_select += '<option value="'+ dato[i].id +'">'+ dato[i].nombres + " " +dato[i].apellidos +'</option>';
 
             $('#personal').html(html_select);
 
-            console.log(data.length);
+            console.log(dato.length);
+            console.log(dato);
+
+
+
+            $.get(`/requerimiento/${data['id']}/getdetalle`, function(data){
             console.log(data);
+        $('#personal').val(data.map(item => item.id)).trigger('change');
+            })
+
+
+
 
           }
 
 
 
         });
+
+
+
 
 
     $('#modaleditar').modal('show');
@@ -659,4 +690,9 @@ $.ajax({
           })
 
     })
+
+    $("#filtros").on("change", function (e) {
+        datatable.ajax.reload(null, false);
+    })
+
 

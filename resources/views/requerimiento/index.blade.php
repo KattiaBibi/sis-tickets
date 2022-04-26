@@ -24,10 +24,23 @@
   <div class="card-header">
 
   <div class="row">
-        <div class="col-lg-10">
+        <div class="col-lg-2">
                 <h2>Listar</h2>
         </div>
-        <div class="col-lg-2">
+
+        <div class="col-lg-3">
+
+            <select class="form-control" id="filtros">
+                <option value="todos" selected>TODOS</option>
+                <option value="pendiente">PENDIENTE</option>
+                <option value="en espera">EN ESPERA</option>
+                <option value="en proceso">EN PROCESO</option>
+                <option value="culminado">CULMINADO</option>
+                <option value="cancelado">CANCELADO</option>
+              </select>
+    </div>
+
+        <div class="col-lg-7" style="text-align: right;">
 
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
 
@@ -496,7 +509,7 @@
 
     <div class="form-row">
 
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-12" hidden id="trabajadores">
             <label for="">PERSONAL</label>
 
 
