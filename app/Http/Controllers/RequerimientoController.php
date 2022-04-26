@@ -58,9 +58,11 @@ class RequerimientoController extends Controller
             // ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
-            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
+            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
+            ->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left');
         if ($role_name !== 'Admin') {
-            $query->where('usuario_encargado.id', '=', auth()->user()->id);
+            $query->where('usuario_encargado.id', '=', auth()->user()->id)
+                ->orWhere('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
                 // ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
         }
 

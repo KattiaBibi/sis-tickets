@@ -79,6 +79,7 @@ class HomeController extends Controller
                 DB::raw("empresas.nombre AS nombre_empresa"),
                 DB::raw("empresas.ID AS id_empresa"),
                 DB::raw("servicios.nombre AS nombre_servicio"),
+                "requerimientos.usuarioregist_id AS usuario_que_registro",
                 "requerimientos.avance AS avance_requerimiento",
                 "requerimientos.estado AS estado_requerimiento",
                 "requerimientos.prioridad AS prioridad_requerimiento",
@@ -90,14 +91,16 @@ class HomeController extends Controller
             // ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
-            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
+            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
+            ->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left');
         if ($role_name !== 'Admin') {
-            $query->where('usuario_encargado.id', '=', auth()->user()->id);
-            // ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
+            $query->where('usuario_encargado.id', '=', auth()->user()->id)
+                ->orWhere('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
+                // ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
         }
 
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->limit(4)->get();
-        
+
         return datatables()->of($rpta)->toJson();
     }
 }

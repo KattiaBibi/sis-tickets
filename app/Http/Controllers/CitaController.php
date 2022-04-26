@@ -73,7 +73,7 @@ class CitaController extends Controller
         ->get()->all();
     }
 
-    dd($citas);
+    // dd($citas);
 
     return response()->json([
       "messages" => "Resource retrieved successfully.",

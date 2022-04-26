@@ -514,7 +514,6 @@
           'error': (response) => {
             console.log(response.responseJSON.messages);
             Utils.showValidationMessages(response.responseJSON.messages);
-            // Utils.mostrarValidaciones(response.responseJSON, frmRegistrarReunion);
           }
         })
       } else {
@@ -539,7 +538,7 @@
           },
           'error': (response) => {
             console.log(response);
-            Utils.mostrarValidaciones(response.responseJSON, frmRegistrarReunion);
+            Utils.showValidationMessages(response.responseJSON.messages);
           }
         })
       }
