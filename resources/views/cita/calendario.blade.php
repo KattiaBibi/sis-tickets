@@ -315,6 +315,7 @@
         action_form = 'registrar';
 
         Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
+        document.querySelectorAll('.show-validation-message').forEach(item => item.innerHTML = '');
 
         toggleDisabledInputLinkZoom();
         toggleDisabledInputOtraOficina();
@@ -366,6 +367,7 @@
         //}
 
         Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes']);
+        document.querySelectorAll('.show-validation-message').forEach(item => item.innerHTML = '');
 
         console.log(arg.event.extendedProps);
 
