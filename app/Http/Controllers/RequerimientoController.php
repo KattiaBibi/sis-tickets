@@ -62,8 +62,8 @@ class RequerimientoController extends Controller
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
 
         if ($role_name === 'AdminGerente') {
-            $query->where('usuario_encargado.id', '=', auth()->user()->id);
-            // ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
+            $query->where('usuario_encargado.id', '=', auth()->user()->id)
+                ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
         }
 
         if ($role_name === 'Trabajador') {
