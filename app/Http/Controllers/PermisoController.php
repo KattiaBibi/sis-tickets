@@ -15,6 +15,9 @@ class PermisoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('can:admin.permiso.listado')->only('index');
+        $this->middleware('can:admin.permiso.crear')->only('store');
+        $this->middleware('can:admin.permiso.editar')->only('update');
     }
 
 
