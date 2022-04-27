@@ -57,7 +57,7 @@ class CitaController extends Controller
         "citas.lugarreu AS otra_oficina",
         "citas.estado AS estado",
       )
-      ->join('empresas', 'empresas.id', '=', 'citas.empresa_id', 'right')
+      ->join('empresas', 'empresas.id', '=', 'citas.empresa_id', 'left')
       ->where('citas.fecha', '>=', $start)
       ->where('citas.fecha', '<=', $end);
 

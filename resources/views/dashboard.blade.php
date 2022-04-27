@@ -127,8 +127,8 @@
   </div>
   <!-- /.card-body -->
   <div class="card-footer clearfix">
-    <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Nuevo requerimiento</a>
-    <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">Ver todos</a>
+    <!-- <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Nuevo requerimiento</a> -->
+    <a href="{{('requerimiento')}}" class="btn btn-sm btn-secondary float-right">Ver todos</a>
   </div>
   <!-- /.card-footer -->
 </div>
