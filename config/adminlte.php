@@ -187,7 +187,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -240,7 +240,7 @@ return [
         [
             'text'    => 'Reuniones',
             'icon'        => 'fas fa-calendar-day',
-            'label'       => 4,
+            // 'label'       => 4,
             'label_color' => 'info',
             'url' => 'cita',
 
@@ -250,7 +250,7 @@ return [
         [
             'text'    => 'Requerimientos',
             'icon'        => 'fas fa-ticket-alt',
-            'label'       => 4,
+            // 'label'       => 4,
             'label_color' => 'success',
             'url'  => 'requerimiento',
 

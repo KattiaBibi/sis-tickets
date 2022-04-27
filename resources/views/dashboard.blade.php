@@ -116,7 +116,7 @@
             <th>ESTADO</th>
             <th>PRIORIDAD</th>
             <th>FECHA</th>
-            <th>OPCIONES</th>
+            <!-- <th>OPCIONES</th> -->
           </tr>
         </thead>
         <tbody>
@@ -148,6 +148,8 @@
     processing: true,
     serverSide: true,
     lengthMenu: [4],
+    responsive: true,
+    autoWidth: false,
     language: {
       url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
     },
@@ -160,8 +162,7 @@
         });
       }
     },
-    columns: [
-      {
+    columns: [{
         data: "id",
         orderable: false
       },
@@ -187,7 +188,10 @@
       },
       {
         data: "avance_requerimiento",
-        orderable: false
+        orderable: false,
+        render: function(data) {
+          return `${data} %`;
+        }
       },
       {
         data: "estado_requerimiento",
@@ -201,13 +205,13 @@
         data: "fecha_creacion",
         orderable: true
       },
-      {
-        defaultContent: "",
-        orderable: false,
-        render: function(data, type, row, meta) {
-          return `<button class="btn btn-sm btn-success">Ver</button>`
-        }
-      },
+      // {
+      //   defaultContent: "",
+      //   orderable: false,
+      //   render: function(data, type, row, meta) {
+      //     return `<button class="btn btn-sm btn-success">Ver</button>`
+      //   }
+      // },
     ],
     order: [
       [9, 'desc']
