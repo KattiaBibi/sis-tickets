@@ -19,6 +19,9 @@ class RoleSeeder extends Seeder
 
         Permission::create(['name' => 'admin.home', 'description' => 'Ver el tablero'])->syncRoles([$role1, $role2, $role3]);
 
+        // Permission::create(['name' => 'admin.total_requerimientos', 'description' => 'Ver Total Requerimientos'])->syncRoles([$role1, $role2, $role3]);
+        // Permission::create(['name' => 'admin.total_reuniones', 'description' => 'Ver Total Reuniones'])->syncRoles([$role1, $role2, $role3]);
+
         Permission::create(['name' => 'admin.reuniones', 'description' => 'Listar reunión'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'admin.reuniones.agregar', 'description' => 'Crear reunión'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'admin.reuniones.editar', 'description' => 'Editar reunión'])->syncRoles([$role1, $role2]);
