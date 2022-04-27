@@ -56,7 +56,7 @@ class RequerimientoController extends Controller
             ->join('colaboradores AS encargado', 'encargado.id', '=', 'requerimientos.usuarioencarg_id')
             ->join('colaboradores AS solicitante', 'solicitante.id', '=', 'requerimientos.usuarioregist_id')
             ->join('users AS usuario_encargado', 'usuario_encargado.colaborador_id', '=', 'encargado.id')
-            // ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
+            ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
