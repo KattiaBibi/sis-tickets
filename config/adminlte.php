@@ -240,7 +240,7 @@ return [
         [
             'text'    => 'Reuniones',
             'icon'        => 'fas fa-calendar-day',
-            'label'       => 4,
+            // 'label'       => 4,
             'label_color' => 'info',
             'url' => 'cita',
             'can'           =>'admin.reuniones'
@@ -251,7 +251,7 @@ return [
         [
             'text'    => 'Requerimientos',
             'icon'        => 'fas fa-ticket-alt',
-            'label'       => 4,
+            // 'label'       => 4,
             'label_color' => 'success',
             'url'  => 'requerimiento',
             'can'           =>'admin.requerimientos'

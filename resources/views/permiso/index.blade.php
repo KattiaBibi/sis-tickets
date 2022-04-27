@@ -96,7 +96,7 @@
 
         <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre sin espacios y con puntos" name="name">
+            <input type="text" class="form-control sinespacio" id="txtNombre" placeholder="Ingrese el nombre separado con puntos." name="name">
         </div>
 
         <div class="form-group">
@@ -114,6 +114,48 @@
     </div>
   </div>
 </div>
+
+
+
+<div class="modal fade" id="modaleditar" tabindex="-1" role="dialog" aria-labelledby="modaleditar" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Actualiza registro </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+      <form  id="frmeditar">
+
+        <div class="form-group">
+          <label for="">Nombre:</label>
+          <input type="hidden" class="form-control " id="idregistro"  name="id">
+
+          <input type="text" class="form-control sinespacio" maxlength="11" id="editarNombre" placeholder="Ingrese el nombre separado con puntos." name="name">
+      </div>
+
+          <div class="form-group">
+              <label for="">Descripción:</label>
+
+              <input type="text" class="form-control" id="editarDescripcion" placeholder="Ingrese el nombre" name="description">
+          </div>
+
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+          <button type="submit" id="btnactualizar" class="btn btn-primary">EDITAR</button>
+        </div>
+      </form>
+
+      </div>
+    </div>
+  </div>
 
 
 @endsection

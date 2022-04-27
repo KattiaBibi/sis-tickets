@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
+use App\Http\Requests\PermisoRequest;
 
 class PermisoController extends Controller
 {
@@ -51,7 +52,7 @@ class PermisoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PermisoRequest $request)
     {
         //
 
@@ -89,9 +90,15 @@ class PermisoController extends Controller
      * @param  \App\Spatie\Permission\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission)
+
+    public function update(PermisoRequest $request, $id)
     {
         //
+
+        $permiso=Permission::findOrfail($id);
+        $permiso->update($request->all());
+
+        return $permiso?1:0;
     }
 
     /**

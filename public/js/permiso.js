@@ -1,3 +1,6 @@
+$('.sinespacio').on('input', function(e){
+    $(this).val($(this).val().replace(/\s+/g, ''));
+  });
 
 var datatable ;
 function listar(){
@@ -49,6 +52,7 @@ function listar(){
 
     {data: 'name'},
     {data: 'description'},
+
     {data:null, render: function (data) {
 
         return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
@@ -61,18 +65,18 @@ function listar(){
 }
 
 
-// $('#estado').on('click','.editar',function(){
-//     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
-//     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
-//         var data = datatable.row(this).data();
-//     }
-//     $('#idregistro').val(data['id']);
-//     $('#editarNombre').val(data['nombre']);
+$('#permisos').on('click','.editar',function(){
+    var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
+    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
+        var data = datatable.row(this).data();
+    }
+    $('#idregistro').val(data['id']);
+    $('#editarNombre').val(data['name']);
+    $('#editarDescripcion').val(data['description']);
 
-//
-//     $('#modaleditar').modal('show');
+    $('#modaleditar').modal('show');
 
-// })
+})
 
 
 
@@ -131,58 +135,58 @@ $.ajax({
 
 
 
-// $('#btnactualizar').on("click" ,(event)=>{
-//     event.preventDefault();
+$('#btnactualizar').on("click" ,(event)=>{
+    event.preventDefault();
 
-//     let dataArray=$('#frmeditar').serializeArray();
-//     let route="/estado/"+dataArray[0].value;
-// dataArray.push({name:'_token',value:token_})
-// console.log(dataArray[0].value)
+    let dataArray=$('#frmeditar').serializeArray();
+    let route="/permiso/"+dataArray[0].value;
+dataArray.push({name:'_token',value:token_})
+console.log(dataArray[0].value)
 
-// $.ajax({
-//     "method":'put',
-//     "url": route,
-//     "data": dataArray,
-
-
-//     "success":function(Response){
-
-//         if(Response==1){
-
-//         Swal.fire({
-//         position: 'top-end',
-//         icon: 'success',
-//         title: 'Editado correctamente',
-//         showConfirmButton: false,
-//         timer: 1500
-//         })
-
-//       datatable.ajax.reload(null,false);
-//         $('#frmguardar')[0].reset();
-//
-//         $('#modaleditar').modal('hide');
-
-//         }
-//             else{
-
-//                 alert("no editado");
-//             }
+$.ajax({
+    "method":'put',
+    "url": route,
+    "data": dataArray,
 
 
-//     },'error':(response)=>{
-//         console.log(response)
-//        $.each(response.responseJSON.errors, function (key, value){
-//         response.responseJSON.errors[key].forEach(element => {
+    "success":function(Response){
 
-//             console.log(element);
-//             toastr.error(element);
+        if(Response==1){
 
-//            });
-//        });
-//     }
-// })
+        Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Editado correctamente',
+        showConfirmButton: false,
+        timer: 1500
+        })
 
-// });
+      datatable.ajax.reload(null,false);
+        $('#frmguardar')[0].reset();
+
+        $('#modaleditar').modal('hide');
+
+        }
+            else{
+
+                alert("no editado");
+            }
+
+
+    },'error':(response)=>{
+        console.log(response)
+       $.each(response.responseJSON.errors, function (key, value){
+        response.responseJSON.errors[key].forEach(element => {
+
+            console.log(element);
+            toastr.error(element);
+
+           });
+       });
+    }
+})
+
+});
 
 
 
