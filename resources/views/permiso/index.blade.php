@@ -96,7 +96,7 @@
 
         <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control sinespacio" id="txtNombre" placeholder="Ingrese el nombre separado con puntos." name="name">
+            <input type="text" class="form-control sinespacio" id="txtNombre" onkeyup="javascript:this.value=this.value.toLowerCase();" placeholder="Ingrese el nombre separado con puntos." name="name">
         </div>
 
         <div class="form-group">
@@ -134,7 +134,7 @@
           <label for="">Nombre:</label>
           <input type="hidden" class="form-control " id="idregistro"  name="id">
 
-          <input type="text" class="form-control sinespacio" maxlength="11" id="editarNombre" placeholder="Ingrese el nombre separado con puntos." name="name">
+          <input type="text" class="form-control sinespacio" maxlength="11" id="editarNombre" onkeyup="javascript:this.value=this.value.toLowerCase();" placeholder="Ingrese el nombre separado con puntos." name="name">
       </div>
 
           <div class="form-group">
