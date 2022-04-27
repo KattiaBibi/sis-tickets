@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
 
@@ -50,8 +50,14 @@ class User extends Authenticatable
 
 
     public function adminlte_desc(){
+        
+        $role_name = DB::table('model_has_roles')
+        ->select('roles.name AS role_name')
+        ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+        ->where('model_id', '=', auth()->user()->id)
+        ->get()->first()->role_name;
 
-        return 'Administrador';
+        return $role_name;
 
     }
 
