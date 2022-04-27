@@ -232,14 +232,18 @@ return [
         [
             'text'        => 'Dashboard',
             'route'       => 'dashboard',
-            'icon'           => 'fas fa-fw fa-home'
+            'icon'           =>'fas fa-fw fa-home',
+            'can'           =>'admin.home'
         ],
+
+
         [
             'text'    => 'Reuniones',
             'icon'        => 'fas fa-calendar-day',
-            // 'label'       => 4,
+            'label'       => 4,
             'label_color' => 'info',
             'url' => 'cita',
+            'can'           =>'admin.reuniones'
 
         ],
 
@@ -247,9 +251,10 @@ return [
         [
             'text'    => 'Requerimientos',
             'icon'        => 'fas fa-ticket-alt',
-            // 'label'       => 4,
+            'label'       => 4,
             'label_color' => 'success',
             'url'  => 'requerimiento',
+            'can'           =>'admin.requerimientos'
 
         ],
 
@@ -260,12 +265,14 @@ return [
             'text' => 'Servicios',
             'url'  => 'servicio',
             'icon' => 'fas fa-fw fa-users',
+            'can'  =>'admin.servicio.listado'
         ],
 
         [
             'text' => 'Colaborador',
             'icon' => ' fas fa-thermometer-half',
             'url'  => 'colaborador',
+            'can'  =>'admin.colaborador.listado'
         ],
 
 
@@ -288,24 +295,28 @@ return [
             'text' => 'Empresas ',
             'url'  => 'empresa',
             'icon' => 'fas fa-fw fa-users',
+            'can'  =>'admin.empresa.listado'
         ],
 
         [
             'text' => 'Áreas',
             'url'  => 'area',
             'icon' => 'fas fa-fw fa-users',
+            'can'  =>'admin.area.listado'
         ],
 
         [
             'text' => 'Empresa y Áreas',
             'url'  => 'empresa_area',
             'icon' => 'fas fa-fw fa-users',
+            'can'  =>'admin.empresa_area.listado'
         ],
 
         [
             'text' => 'Empresa y Servicios',
             'url'  => 'empresa_servicio',
             'icon' => 'fas fa-fw fa-users',
+            'can'  =>'admin.empresa_servicio.listado'
         ],
 
 
@@ -314,21 +325,25 @@ return [
             'text'       => 'Usuarios',
             'icon'       => 'fas fa-fw fa-users',
             'url'        => 'usuario',
+            'can'  =>'admin.usuario.listado'
         ],
 
         [
             'text'       => 'Roles',
             'icon'       => 'fas fa-lock',
             'url'        => 'rol',
+            'can'  =>'admin.rol.listado'
         ],
 
         [
             'text'       => 'Permisos',
             'icon'       => 'fas fa-key',
             'url'        => 'permiso',
+            'can'  =>'admin.permiso.listado'
         ],
 
     ],
+
 
     /*
     |--------------------------------------------------------------------------
