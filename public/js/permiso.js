@@ -76,58 +76,58 @@ function listar(){
 
 
 
-// $('#btnguardar').on("click" ,(event)=>{
-//     event.preventDefault();
+$('#btnguardar').on("click" ,(event)=>{
+    event.preventDefault();
 
-// let route=$('#frmguardar').attr("action");
-// let dataArray=$('#frmguardar').serializeArray()
-// dataArray.push({name:'_token',value:token_})
-// console.log(dataArray)
+let route=$('#frmguardar').attr("action");
+let dataArray=$('#frmguardar').serializeArray()
+dataArray.push({name:'_token',value:token_})
+console.log(dataArray)
 
-// $.ajax({
-//     "method":'POST',
-//     "url": route,
-//     "data": dataArray,
-
-
-//     "success":function(Response){
-
-//         if(Response==1){
-
-//         Swal.fire({
-//         position: 'top-end',
-//         icon: 'success',
-//         title: 'Datos guardados correctamente',
-//         showConfirmButton: false,
-//         timer: 1500
-//         })
-
-//        datatable.ajax.reload(null,false);
-//         $('#frmguardar')[0].reset()
-//
-//         $('#modalagregar').modal('hide');
-
-//         }
-//             else{
-
-//                 alert("no guardado");
-//             }
+$.ajax({
+    "method":'POST',
+    "url": route,
+    "data": dataArray,
 
 
-//     },'error':(response)=>{
-//         console.log(response)
-//        $.each(response.responseJSON.errors, function (key, value){
-//         response.responseJSON.errors[key].forEach(element => {
+    "success":function(Response){
 
-//             console.log(element);
-//             toastr.error(element);
+        if(Response==1){
 
-//            });
-//        });
-//     }
-// })
+        Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Datos guardados correctamente',
+        showConfirmButton: false,
+        timer: 1500
+        })
 
-// })
+       datatable.ajax.reload(null,false);
+        $('#frmguardar')[0].reset()
+
+        $('#modalagregar').modal('hide');
+
+        }
+            else{
+
+                alert("no guardado");
+            }
+
+
+    },'error':(response)=>{
+        console.log(response)
+       $.each(response.responseJSON.errors, function (key, value){
+        response.responseJSON.errors[key].forEach(element => {
+
+            console.log(element);
+            toastr.error(element);
+
+           });
+       });
+    }
+})
+
+})
 
 
 

@@ -7,13 +7,13 @@
 
 @section('css')
 
-    
+
 @endsection
 
 @section('content')
 
-<div class="card">  
-      
+<div class="card">
+
   <div class="card-header">
 
   <div class="row">
@@ -22,8 +22,13 @@
         </div>
         <div class="col-lg-2">
 
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">AGREGAR</button>
-    
+            @can('admin.servicio.crear')
+
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
+            @endcan
+
+
+
         </div>
     </div>
     </div>
@@ -35,7 +40,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
- 
+
 
     <table id="permisos" class="table table-striped table-bordered" style="">
         <thead>
@@ -44,20 +49,20 @@
                 <th>NOMBRE</th>
                 <th>DESCRIPCIÓN</th>
                <th width="280px" class="text-center">ACCIÓN</th>
-          
+
             </tr>
         </thead>
        <tbody>
-   
 
-        </tbody> 
+
+        </tbody>
         <tfoot>
             <tr>
             <th>ID</th>
             <th>NOMBRE</th>
             <th>DESCRIPCIÓN</th>
            <th width="280px" class="text-center">ACCIÓN</th>
-              
+
             </tr>
         </tfoot>
     </table>
@@ -66,7 +71,7 @@
 </div>
 
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -76,7 +81,7 @@
         </button>
       </div>
       <div class="modal-body">
-        
+
       @if ($errors->any())
         <div class="alert alert-danger">
             <strong>¡Ups!</strong> Hubo algunos problemas con tus inputs.<br><br>
@@ -87,11 +92,16 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('estado.store') }}" id="frmguardar" >
-        @csrf
+    <form action="{{ route('permiso.store') }}" id="frmguardar" >
+
         <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
+            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre sin espacios y con puntos" name="name">
+        </div>
+
+        <div class="form-group">
+            <label for="">Descripción:</label>
+            <input type="text" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción" name="description">
         </div>
 
       </div>
@@ -100,7 +110,7 @@
         <button  id="btnguardar" class="btn btn-primary">GUARDAR</button>
       </div>
     </form>
-    
+
     </div>
   </div>
 </div>

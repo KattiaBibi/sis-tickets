@@ -51,6 +51,10 @@ class PermisoController extends Controller
     public function store(Request $request)
     {
         //
+
+        $permiso=  Permission::create($request->all());
+
+        return $permiso?1:0;
     }
 
     /**

@@ -42,7 +42,13 @@
 
         <div class="col-lg-7" style="text-align: right;">
 
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
+            @can('admin.requerimientos.agregar')
+
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
+
+            @endcan
+
+
 
         </div>
     </div>
