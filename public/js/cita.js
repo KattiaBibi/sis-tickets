@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#inputAsistentes").select2();
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
+        selectable: true,
+        longPressDelay: 1,
         locale: "es",
         headerToolbar: {
             left: "prev,next today",
