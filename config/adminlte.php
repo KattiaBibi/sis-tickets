@@ -320,7 +320,8 @@ return [
         ],
 
 
-        ['header' => 'ADMINISTRACIÓN'],
+        ['header' => 'ADMINISTRACIÓN',
+        'can'  =>'admin.usuario.listado'],
         [
             'text'       => 'Usuarios',
             'icon'       => 'fas fa-fw fa-users',

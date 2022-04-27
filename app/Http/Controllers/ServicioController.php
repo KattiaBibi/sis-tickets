@@ -18,6 +18,9 @@ class ServicioController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('can:admin.servicio.listado')->only('index');
+        $this->middleware('can:admin.servicio.crear')->only('store');
+        $this->middleware('can:admin.servicio.editar')->only('update');
     }
 
 
@@ -61,7 +64,7 @@ class ServicioController extends Controller
 
     /**
      * Display the specified resource.
-     * 
+     *
      * @param  \App\Servicio  $servicio
      * @return \Illuminate\Http\Response
      */
