@@ -138,7 +138,7 @@
                 <label for="">EMPRESA</label>
 
                 <select class="form-control" id="empresa" name="">
-                    <option value="a" disabled>Elegir</option>
+                    <option value="a" >Elegir</option>
 
                     @foreach ($empresas as $e)
                     <option value="{{ $e->id }}">{{$e->nombre}}</option>
@@ -179,7 +179,7 @@
                 <label for="">PRIORIDAD</label>
 
                 <select class="form-control" id="" name="prioridad">
-                    <option value="1" disabled>Elegir</option>
+                    <option value="1">Elegir</option>
 
                     <option value="alta">ALTA</option>
                     <option value="media">MEDIA</option>
@@ -258,46 +258,6 @@
 
 
 
-  <!-- Modal -->
-  <div class="modal fade"  id="modalver" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Ver Detalle de Requerimiento - Usuario responsable : </h5>&nbsp; <h5 class="modal-title" id="vernb"></h5>
-
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-
-
-          <div class="form-row">
-
-            <div class="form-group col-md-6">
-              <label for="inputEmail4">PROBLEMA</label>
-              <textarea class="form-control" id="verProblema" rows="10" readonly></textarea>
-
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="inputAddress">DETALLE</label>
-              <textarea class="form-control" id="verDetalle" rows="10" readonly></textarea>
-            </div>
-
-
-          </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal detalle -->
 
   <!-- Modal -->
   <div class="modal fade bd-example-modal-xl"  id="modalatender" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -331,7 +291,7 @@
 
                   <div class="form-group text-center col-md-3">
                     <p>
-                     <img src="{{ asset('vendor/adminlte/dist/img/reparacion.png') }}" alt=""  style="height: 200px; width: 200px;">
+                     <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  style="height: 200px; width: 200px;">
                     </p>
 
                   </div>
@@ -425,7 +385,7 @@
 
             <div class="form-group text-center col-md-12">
               <p>
-               <img src="{{ asset('vendor/adminlte/dist/img/reparacion.png') }}" alt=""  style="height: 200px; width: 200px;">
+               <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  style="height: 200px; width: 200px;">
               </p>
 
             </div>
@@ -501,7 +461,7 @@
         <div class="form-group col-md-6">
             <label for="">ESTADO</label>
 
-            <select class="form-control" id="estado" name="estado">
+            <select class="form-control"  id="estado" name="estado">
 
                 <option value="pendiente">PENDIENTE</option>
                 <option value="en espera">EN ESPERA</option>

@@ -11,6 +11,7 @@ use App\EmpresaServicio;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\RequerimientoRequest;
+use App\Http\Requests\RequerimientoActualizarRequest;
 use Illuminate\Support\Facades\DB;
 
 class RequerimientoController extends Controller
@@ -221,7 +222,7 @@ class RequerimientoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(RequerimientoRequest $request, $id)
+    public function update(Request $request, $id)
 
     {
 
@@ -271,7 +272,7 @@ class RequerimientoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     
+
     public function destroy(Request $request, $id)
     {
         //delete

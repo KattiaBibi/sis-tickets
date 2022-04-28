@@ -1,18 +1,21 @@
 
 $('.js-example-basic-multiple').select2();
 
-addEventListener('load',inicio,false);
 
-function inicio()
-{
-  document.getElementById('avance').addEventListener('change',cambioAvance,false);
-}
+
 
 function cambioAvance()
 {
   document.getElementById('avan').innerHTML=document.getElementById('avance').value;
 }
 
+function inicio()
+{
+  document.getElementById('avance').addEventListener('change',cambioAvance,false);
+}
+
+
+addEventListener('load',inicio,false);
 
 
 $("#empresa").on("change", function (e) {
@@ -20,9 +23,9 @@ $("#empresa").on("change", function (e) {
 
     if(valor=='a'){
 
-        $('#servicio').html('<option value="a" disabled>¡Seleccione una empresa!</option>');
+        $('#servicio').html('<option value="a" >¡Seleccione una empresa!</option>');
 
-        $('#gerente').html('<option value="a" disabled>¡Seleccione una empresa!</option>');
+        $('#gerente').html('<option value="a" >¡Seleccione una empresa!</option>');
         return;
     }
 
@@ -37,7 +40,7 @@ $("#empresa").on("change", function (e) {
 
           else{
 
-            var html_select='<option value="a" disabled>Seleccione ...</option>';
+            var html_select='<option value="a" >Seleccione ...</option>';
 
             for(var i=0; i<data.length; ++i)
 
@@ -305,66 +308,6 @@ function listar(){
 }
 
 
-$('#requerimientos').on('click','.descripcion',function(){
-    var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
-    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
-
-        var data = datatable.row(this).data();
-    }
-    console.log(data);
-    $('#idregistro').val(data['idate']);
-    $('#txtDescripcion').val(data['adescripcion']);
-
-
-    $('#modaldescripcion').modal('show');
-
-})
-
-
-
-
-
-$('#requerimientos').on('click','.ver',function(){
-    var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
-    if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
-
-        var data = datatable.row(this).data();
-    }
-    console.log(data);
-    $('#idregistro').val(data['id']);
-    $('#verProblema').val(data['tproblema']);
-    $('#verDetalle').val(data['tdetalle']);
-    $('#vernb').text(data['uname']);
-
-
-    $('#modalver').modal('show');
-
-
-
-})
-
-
-// $('#requerimientos').on('click','.atender',function(){
-//     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
-//     if(datatable.row(this).child.isShown()){//Cuando esta en tamaño responsive
-
-//         var data = datatable.row(this).data();
-//     }
-//     console.log(data);
-
-//     $('#idregistro').val(data['id']);
-//     $('#mostrarProblema').text(data['tproblema']);
-//     $('#mostrarDetalle').text(data['tdetalle']);
-
-
-//
-//     $('#modalatender').modal('show');
-
-
-
-// })
-
-
 
 $('#requerimientos').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
@@ -582,48 +525,78 @@ $('#btnactualizar').on("click" ,(event)=>{
 dataArray.push({name:'_token',value:token_})
 console.log(dataArray[0].value)
 
-$.ajax({
-    "method":'put',
-    "url": route,
-    "data": dataArray,
 
 
-    "success":function(Response){
 
-        if(Response==1){
+    let val = document.getElementById('personal').value;
+    let val2 = document.getElementById('estado').value;
+
+
+    if(val.length==0 && val2=="en proceso"|| val=="culminado"){
 
         Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Editado correctamente',
-        showConfirmButton: false,
-        timer: 1500
-        })
-
-      datatable.ajax.reload(null,false);
-        $('#frmguardar')[0].reset();
-
-        $('#modaleditar').modal('hide');
-
-        }
-            else{
-
-                alert("no editado");
-            }
+            position: 'top-center',
+            icon: 'error',
+            title: 'Si su estado es en proceso o culminado debe asignar personal.',
+            showConfirmButton: false,
+            timer: 2500
+          })
 
 
-    },'error':(response)=>{
-        console.log(response)
-       $.each(response.responseJSON.errors, function (key, value){
-        response.responseJSON.errors[key].forEach(element => {
 
-            console.log(element);
-            toastr.error(element);
-
-           });
-       });
     }
-})
+
+    else{
+
+        $.ajax({
+            "method":'put',
+            "url": route,
+            "data": dataArray,
+
+
+            "success":function(Response){
+
+                if(Response==1){
+
+                Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Editado correctamente',
+                showConfirmButton: false,
+                timer: 1500
+                })
+
+              datatable.ajax.reload(null,false);
+                $('#frmguardar')[0].reset();
+
+                $('#modaleditar').modal('hide');
+
+                }
+                    else{
+
+                        alert("no editado");
+                    }
+
+
+            },'error':(response)=>{
+                console.log(response)
+               $.each(response.responseJSON.errors, function (key, value){
+                response.responseJSON.errors[key].forEach(element => {
+
+                    console.log(element);
+                    toastr.error(element);
+
+                   });
+               });
+            }
+        })
+    }
+
+
+
+
+
+
 
 });
 
