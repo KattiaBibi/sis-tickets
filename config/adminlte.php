@@ -259,7 +259,8 @@ return [
         ],
 
 
-        ['header' => 'CONFIGURACIÓN'],
+        ['header' => 'CONFIGURACIÓN',
+        'can'  =>'admin.servicio.listado'],
 
         [
             'text' => 'Servicios',
@@ -289,7 +290,8 @@ return [
         //     'url'        => '#',
         // ],
 
-        ['header' => 'EMPRESA'],
+        ['header' => 'EMPRESA',
+        'can'  =>'admin.empresa.listado'],
 
         [
             'text' => 'Empresas ',
