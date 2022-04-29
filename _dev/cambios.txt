@@ -1,0 +1,18 @@
+filtro por colaboradores que asistirán
+select por gerentes o colaboradores en plural
+cargar imagen de sustento en requerimiento
+VALIDAR EL GUARDADO DE NACIMIENTOS
+filtrar por empresa
+poner colores por cada empresa para las reuniones
+
+N LEÓN 
+-------------
+SERVICIOS GENERALES
+CHOFER MOVILIDAD
+CARPIRTERÍA
+LIMPIEZA
+LOGÍSTICA
+
+
+MECHARDANCING
+
