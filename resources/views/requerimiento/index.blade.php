@@ -101,8 +101,23 @@
       <div class="modal-body">
 
 
+<form action="{{ route('requerimiento.store') }}" method="post">
 
-    <form action="{{ route('requerimiento.store') }}" id="frmguardar" >
+@csrf
+
+<div class="form-group">
+
+<input type="file" name="file" id="">
+
+
+</div>
+
+<button type="submit" class="btn btn-primary">ENVIAR</button>
+
+
+</form>
+
+    <form action="{{ route('requerimiento.store') }}"  id="frmguardar" >
 
 
         <div class="form-group text-center">
@@ -193,57 +208,33 @@
           </div>
 
 
+ <div class="row">
 
-{{--
-    <div class="form-row">
-
-        <div class="form-group col-md-12">
-            <label for="">PERSONAL</label>
+        <div class="form-group col-md-6">
 
 
-            <select style="width:100%" class="js-example-basic-multiple"  name="states[]"multiple="multiple" lang="es">
+            <label for="">DESCRIPCIÓN:</label>
 
-                @foreach ($usuarios as $u)
-                <option value="{{ $u->id }}">{{$u->name}}</option>
-              @endforeach
-            </select>
+                <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del problema." rows="10" name="descripcion"></textarea>
 
+                <div id="contador2">0/600</div>
 
         </div>
 
+        <div class="form-group col-md-6">
 
-      </div> --}}
+            <label for="">IMAGEN</label>
 
+            <input type="file" accept="image/*" name="imagen">
+{{--
+            <input type="file"  accept="image/*" class="form-control-file" id="img" name="imagen"> --}}
+            <img id="imagenPrevisualizacion" class="mt-2" style="width: 350px;height: 200;">
 
-<div class="row">
-
-    {{-- <div class="form-group col-md-6">
-    <label for="">ESTADO</label>
-
-    <select class="form-control" id="" name="estado">
-        <option value="1">Elegir</option>
-
-        <option value="pendiente">PENDIENTE</option>
-        <option value="en espera">EN ESPERA</option>
-        <option value="en proceso">EN PROCESO</option>
-        <option value="culminado">CULMINADO</option>
-      </select>
-
-</div> --}}
-
+        </div>
 
 </div>
 
 
-<div class="form-group">
-
-    <label for="">DESCRIPCIÓN:</label>
-
-        <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del problema." rows="10" name="descripcion"></textarea>
-
-        <div id="contador2">0/600</div>
-
-        </div>
 
       </div>
       <div class="modal-footer">

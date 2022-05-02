@@ -166,7 +166,27 @@ class RequerimientoController extends Controller
      */
     public function store(RequerimientoRequest $request)
     {
-        //
+
+    //obtenemos el campo file definido en el formulario
+       $image = request()->hasfile('imagen');
+
+       dd($image);
+
+        if($image) {
+
+            //obtenemos el nombre del archivo
+            $imageName = $image->getClientOriginalName();
+
+            dd($imageName);
+        }
+
+
+        // $fileName = auth()->id() . '.' . $extension;
+        // $path = public_path('uploads/'.$fileName);
+
+        // Requerimiento::make($file)->fit(144, 144)->save($path);
+
+
 
         $request->request->add(['avance' => 0]);
         $request->request->add(['estado' => 'pendiente']);
