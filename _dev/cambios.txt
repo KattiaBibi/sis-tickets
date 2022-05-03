@@ -1,4 +1,4 @@
-filtro por colaboradores que asistirán
+filtro por colaboradores que asistirán, en reuniones.✅
 select por gerentes o colaboradores en plural
 cargar imagen de sustento en requerimiento
 VALIDAR EL GUARDADO DE NACIMIENTOS

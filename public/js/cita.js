@@ -193,17 +193,21 @@ document.addEventListener("DOMContentLoaded", function () {
         if ($("#inputTipoReunion").find(":selected").val() === "presencial") {
             inputLinkZoom.disabled = true;
             inputLinkZoom.value = "";
+            formGroupLinkZoom.style.display = 'none';
         } else {
             inputLinkZoom.disabled = false;
+            formGroupLinkZoom.style.display = 'block';
         }
     }
 
     function toggleDisabledInputOtraOficina() {
         if ($("#inputOficina").find(":selected").val() === "") {
             inputOtraOficina.disabled = false;
+            formGroupOtraOficina.style.display = 'block';
         } else {
             inputOtraOficina.disabled = true;
             inputOtraOficina.value = "";
+            formGroupOtraOficina.style.display = 'none';
         }
     }
 
@@ -328,4 +332,41 @@ document.addEventListener("DOMContentLoaded", function () {
     inputFiltroEstado.addEventListener("change", (e) => {
         calendar.refetchEvents();
     });
+
+    search('#inputAsistentes', function() {
+        return {
+            role_id: $('#inputFiltroRolColaboradores').val()
+        }
+    });
+
+    function search(control, _filters = null) {
+        return $(`${control}`).select2({
+          width: '100%',
+          placeholder: 'Buscar',
+          allowClear: true,
+          ajax: {
+            url: `colaboradores/search`,
+            dataType: 'json',
+            type: 'get',
+            delay: 250,
+            data: function(params) {
+              let query = {
+                search: params.term,
+                page: params.page || 1,
+                filters: _filters()
+              }
+    
+              return query;
+            },
+            processResults: function(data, params) {
+              
+              return {
+                results: data.results,
+                pagination: data.pagination
+              };
+            },
+            cache: true
+          }
+        });
+      }
 });

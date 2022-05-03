@@ -160,7 +160,7 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="formGroupLinkZoom" style="display: none;">
                   <label for="inputLinkZoom">Link (Opcional)</label>
                   <input type="text" class="form-control" id="inputLinkZoom" placeholder="Inserte el link de la reunión" name="link_reu" data-label-validation="link_reu">
                   <div class="show-validation-message"></div>
@@ -171,30 +171,34 @@
                     <label for="inputOficina">Oficina</label>
                     <select id="inputOficina" class="form-control" name="empresa_id" data-label-validation="empresa_id">
                       <option value="" selected>Elegir...</option>
-
                       @foreach ($empresas as $e)
                       <option value="{{ $e->id }}">{{ $e->nombre }}
                         ({{ $e->direccion }})
                       </option>
                       @endforeach
-
                     </select>
                     <div class="show-validation-message"></div>
                   </div>
 
-                  <div class="form-group col-12">
+                  <div class="form-group col-12" id="formGroupOtraOficina" style="display: none;">
                     <label for="inputOtraOficina">Otra Oficina (Opcional)</label>
                     <input type="text" name="lugarreu" id="inputOtraOficina" class="form-control" data-label-validation="lugarreu">
                     <div class="show-validation-message"></div>
                   </div>
 
+                  <div class="form-group col-auto">
+                    <label for="inputFiltroRolColaboradores">Filtro Colaboradores:</label>
+                    <select id="inputFiltroRolColaboradores" class="form-control form-control-sm">
+                      <option value="" selected>TODOS</option>
+                      <option value="1">ADMIN</option>
+                      <option value="2">ADMIN GERENTE</option>
+                      <option value="3">TRABAJADOR</option>
+                    </select>
+                  </div>
+
                   <div class="form-group col-12">
                     <label for="inputAsistentes">Colaboradores que asistirán:</label>
-
                     <select style="width:100%" id="inputAsistentes" name="asistentes[]" multiple="multiple" lang="es" data-label-validation="asistentes" class="form-control">
-                      @foreach ($colaboradores as $c)
-                      <option value="{{ $c->id }}">{{ $c->nombres }} {{ $c->apellidos }} </option>
-                      @endforeach
                     </select>
                     <div class="show-validation-message"></div>
                   </div>

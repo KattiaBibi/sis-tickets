@@ -3,23 +3,118 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Colaborador extends Model
 {
-    //
-        protected $table ='colaboradores';
-        protected $primaryKey = 'id';
+  //
+  protected $table = 'colaboradores';
+  protected $primaryKey = 'id';
 
-    protected $fillable = [
+  protected $fillable = [
 
-        'nrodocumento',
-        'nombres',
-        'apellidos',
-        'fechanacimiento',
-        'direccion',
-        'telefono',
-        'estado',
-        'empresa_area_id',
+    'nrodocumento',
+    'nombres',
+    'apellidos',
+    'fechanacimiento',
+    'direccion',
+    'telefono',
+    'estado',
+    'empresa_area_id',
 
-    ];
+  ];
+
+  private function getFilters($query, $filters)
+  {
+    if (isset($filters['nom_ape']) && $filters['nom_ape'] !== '') {
+      $query->where(function ($query) use ($filters) {
+        $query->where('nombres', 'like', '%' . $filters['nom_ape'] . '%');
+        $query->orWhere('apellidos', 'like', '%' . $filters['nom_ape'] . '%');
+      });
+    }
+
+    if (isset($filters['role_id']) && $filters['role_id'] !== '') {
+      $query->where('model_has_roles.role_id', '=', $filters['role_id']);
+    }
+
+    return $query;
+  }
+
+  public function search($search, $page, $filters)
+  {
+    $resultSet = [];
+    $limit = 10;
+    $page = (!empty($page)) ? $page : 1;
+    $offset = ($page - 1) * $limit;
+
+    $filters['nom_ape'] = $search;
+
+    $query = DB::table('colaboradores')
+      ->select(DB::raw('COUNT(colaboradores.id) AS count_filtered'))
+      ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
+      ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id', 'inner');
+
+    $countFiltered = $this->getFilters($query, $filters)->first()->count_filtered;
+
+    $query = DB::table('colaboradores')
+      ->select(
+        "colaboradores.id AS id",
+        DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS text")
+      )
+      ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
+      ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id', 'inner');
+
+    if (!empty(trim($search))) {
+      $resultSet['results'] = $this->getFilters($query, $filters)->limit($limit)->offset($offset)->get();
+    } else {
+      $resultSet['results'] = $this->getFilters($query, $filters)->get();
+    }
+
+    $resultSet['pagination'] = ['more' => ($page * $limit) < $countFiltered];
+
+    // if (!empty(trim($search))) {
+
+    //   $filters['nom_ape'] = $search;
+
+    //   $query = DB::table('colaboradores')
+    //     ->select(DB::raw('COUNT(colaboradores.id) AS count_filtered'))
+    //     ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
+    //     ->join('model_has_roles', 'model_hash_roles.model_id', '=', 'users.id', 'inner');
+
+    //   $countFiltered = $this->getFilters($query, $filters)->first()->count_filtered;
+
+    //   $query = DB::table('colaboradores')
+    //     ->select(
+    //       "colaboradores.id AS id",
+    //       DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS text")
+    //     )
+    //     ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
+    //     ->join('model_has_roles', 'model_hash_roles.model_id', '=', 'users.id', 'inner');
+
+    //   $resultSet['results'] = $this->getFilters($query, $filters)->get();
+
+    //   $resultSet['pagination'] = ['more' => ($page * $limit) < $countFiltered];
+    // } else {
+
+    //   $countAllResults = DB::table('colaboradores')
+    //     ->select(DB::raw('COUNT(colaboradores.id) AS count_all_results'))
+    //     ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
+    //     ->join('model_has_roles', 'model_hash_roles.model_id', '=', 'users.id', 'inner')
+    //     ->first()->count_all_results;
+
+    //   $query = DB::table('colaboradores')
+    //     ->select(
+    //       "colaboradores.id AS id",
+    //       DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS text")
+    //     )
+    //     ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
+    //     ->join('model_has_roles', 'model_hash_roles.model_id', '=', 'users.id', 'inner');
+
+    //   $resultSet['results'] = $this->getFilters($query, $filters)->get();
+
+    //   $resultSet['pagination'] = ['more' => ($page * $limit) < $countAllResults];
+    // }
+
+    return $resultSet;
+  }
 }

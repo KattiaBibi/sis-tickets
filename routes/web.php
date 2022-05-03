@@ -39,6 +39,7 @@ Route::post('datatable/usuarios', 'UserController@usuario')->name('datatable.usu
 
 Route::resource('colaborador','ColaboradorController');
 Route::post('datatable/colaboradores', 'ColaboradorController@colaborador')->name('datatable.colaborador');
+Route::get('colaboradores/search', 'ColaboradorController@search');
 
 Route::resource('empresa','EmpresaController');
 Route::post('datatable/empresas', 'EmpresaController@empresa')->name('datatable.empresa');
