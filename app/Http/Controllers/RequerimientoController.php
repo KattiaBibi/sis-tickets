@@ -12,7 +12,10 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\RequerimientoRequest;
 use App\Http\Requests\RequerimientoActualizarRequest;
+use App\subirimagen;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class RequerimientoController extends Controller
 {
@@ -164,35 +167,42 @@ class RequerimientoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RequerimientoRequest $request)
+    public function store(Request $request)
     {
 
-    //obtenemos el campo file definido en el formulario
-       $image = request()->hasfile('imagen');
 
-       dd($image);
+        //con formrequest validas que simpre suban la iamgen
 
-        if($image) {
-
-            //obtenemos el nombre del archivo
-            $imageName = $image->getClientOriginalName();
-
-            dd($imageName);
-        }
+            $ruta="requerimiento/";
+            $file = $request->imagenpost;
+            $nombre=$request->descripcion;
+            $subir=subirimagen::imagen($file,$nombre,$ruta);
+            //ya esta :v
+            //detalle viste que hice un cmando storage:link? para qué es ese comando? crea un acceso directo entro de la carpeta public (como estas uasndo git siemrpe que sibas algo a esa carpeta lo tomara como cambio , y cuando este en produccion eso te dara problemas , por eso mejore se manda al storage ) si me dejo entender  sisi entendí, gracias :'v entendiste todo :v? si, igual soino entiendo te pregunto :'v  , lsito :v
+            
 
 
-        // $fileName = auth()->id() . '.' . $extension;
-        // $path = public_path('uploads/'.$fileName);
+           /*  dd($subir); */
+            // te recomendaria que uses el strage en lugar del publc path pero depende de ti , sigo con lo que estabas ?
+            // yo te hago caso a tí, mejor con storafg'f¿goep
+            //lo hare como hago entonces :v
 
-        // Requerimiento::make($file)->fit(144, 144)->save($path);
+ /*            $path=public_path('uploads/'.$filename);
+
+            Image::make($file)->fit(144,144)->save($path); */
 
 
 
+        $request->request->add(['imagen' => $subir]);
         $request->request->add(['avance' => 0]);
         $request->request->add(['estado' => 'pendiente']);
+       /*  dd($request->all()); */
         $requerimiento =  Requerimiento::create($request->all());
 
         return $requerimiento ? 1 : 0;
+
+
+
     }
 
     /**

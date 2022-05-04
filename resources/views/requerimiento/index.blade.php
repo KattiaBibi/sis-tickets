@@ -101,38 +101,32 @@
       <div class="modal-body">
 
 
-<form action="{{ route('requerimiento.store') }}" method="post">
+{{-- <form action="{{ route('requerimiento.store') }}" id="frmguardar" enctype="multipart/form-data" method="post">
 
 @csrf
 
-<div class="form-group">
+<div class="form-group col-md-6">
 
-<input type="file" name="file" id="">
+    <label for="">IMAGEN</label>
 
+    <input type="file"  accept="image/*" class="form-control-file" id="img" name="imagen">
+
+    <img id="imagenPrevisualizacion" class="mt-2" style="width: 350px;height: 200;">
 
 </div>
 
 <button type="submit" class="btn btn-primary">ENVIAR</button>
 
 
-</form>
+</form> --}}
 
-    <form action="{{ route('requerimiento.store') }}"  id="frmguardar" >
-
+ <form action="{{ route('requerimiento.store') }}" id="frmguardar" enctype="multipart/form-data">
+    @csrf
 
         <div class="form-group text-center">
 
             <img src="{{ asset('vendor/adminlte/dist/img/soporte.png') }}" alt=""  style="height: 200px; width: 200px;">
         </div>
-{{--
-            <div class="form-group">
-         <label for="">AVANCE:</label>
-
-                <input class="progress-bar progress-bar-striped progress-bar-animated" name="avance" type="range" id="avance" min="0" value="0" max="100" step="10" style="width: 100%;">
-                <span id="avan">0</span><span>%</span>
-
-
-            </div> --}}
 
 
         <div class="form-group">
@@ -225,9 +219,8 @@
 
             <label for="">IMAGEN</label>
 
-            <input type="file" accept="image/*" name="imagen">
-{{--
-            <input type="file"  accept="image/*" class="form-control-file" id="img" name="imagen"> --}}
+            <input type="file"  accept="image/*" class="form-control-file" id="img" name="imagenpost">
+
             <img id="imagenPrevisualizacion" class="mt-2" style="width: 350px;height: 200;">
 
         </div>

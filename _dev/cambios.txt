@@ -1,11 +1,12 @@
 filtro por colaboradores que asistirán, en reuniones.✅
 select por gerentes o colaboradores en plural
-cargar imagen de sustento en requerimiento
+cargar imagen de sustento en requerimiento ✅
 VALIDAR EL GUARDADO DE NACIMIENTOS
 filtrar por empresa
 poner colores por cada empresa para las reuniones
+validar para que sólo permita editar al mismo usuario que registró y no el otro.
 
-N LEÓN 
+N LEÓN
 -------------
 SERVICIOS GENERALES
 CHOFER MOVILIDAD

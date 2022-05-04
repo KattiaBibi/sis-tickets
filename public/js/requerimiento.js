@@ -10,63 +10,81 @@
 //     });
 
 //     $avatarInput.on('change', function () {
-//         alert('change');
+//         // alert('change');
+
+//         var formData = new FormData();
+//         formData.append('imagen', $avatarInput[0].files[0]);
+
+//         $.ajax({
+//             url: $avatarForm.attr('action') + '?' + $avatarForm.serialize(),
+//             method: $avatarForm.attr('method'),
+//             data: formData,
+//             processData: false,
+//             contentType: false
+//         }).done(function (data) {
+//             if (data.success)
+//                 $avatarImage.attr('src', data.path);
+//         }).fail(function () {
+//             alert('La imagen subida no tiene un formato correcto');
+//         });
+
+
 //     });
 // });
 
 
-// const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
+const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
 
-// // Obtener referencia al input y a la imagen
+// Obtener referencia al input y a la imagen
 
-// const $seleccionArchivos = document.querySelector("#img"),
-//   $imagenPrevisualizacion = document.querySelector("#imagenPrevisualizacion");
-
-
-// // Escuchar cuando cambie
-// $seleccionArchivos.addEventListener("change", function () {
-// 	// si no hay archivos, regresamos
-// 	if (this.files.length <= 0) return;
-
-// 	// Validamos el primer archivo únicamente
-// 	const archivo = this.files[0];
-// 	if (archivo.size > MAXIMO_TAMANIO_BYTES) {
-// 		const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
-// 		alert(`El tamaño máximo es ${tamanioEnMb} MB`);
-// 		// Limpiar
-// 		$seleccionArchivos.value = "";
-// 	}
+const $seleccionArchivos = document.querySelector("#img"),
+  $imagenPrevisualizacion = document.querySelector("#imagenPrevisualizacion");
 
 
-//     else{
+// Escuchar cuando cambie
+$seleccionArchivos.addEventListener("change", function () {
+	// si no hay archivos, regresamos
+	if (this.files.length <= 0) return;
 
-// 		// Validación pasada.
-
-//         // let extension = $seleccionArchivos.files[0].name.split('.')[1];
-//         // let nuevo_nombre = `archivo_nuevo.${extension}`;
-
-//         // alert(nuevo_nombre);
-//         // $seleccionArchivos.files[0].name = nuevo_nombre;
-
-//           // Los archivos seleccionados, pueden ser muchos o uno
-//             const archivos = $seleccionArchivos.files;
-//             // Si no hay archivos salimos de la función y quitamos la imagen
-//             if (!archivos || !archivos.length) {
-//                 $imagenPrevisualizacion.src = "";
-//                 return;
-//             }
-//             // Ahora tomamos el primer archivo, el cual vamos a previsualizar
-//             const primerArchivo = archivos[0];
-//             // Lo convertimos a un objeto de tipo objectURL
-//             const objectURL = URL.createObjectURL(primerArchivo);
-//             // Y a la fuente de la imagen le ponemos el objectURL
-//             $imagenPrevisualizacion.src = objectURL;
+	// Validamos el primer archivo únicamente
+	const archivo = this.files[0];
+	if (archivo.size > MAXIMO_TAMANIO_BYTES) {
+		const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
+		alert(`El tamaño máximo es ${tamanioEnMb} MB`);
+		// Limpiar
+		$seleccionArchivos.value = "";
+	}
 
 
+    else{
 
-// 	}
+		// Validación pasada.
 
-// });
+        // let extension = $seleccionArchivos.files[0].name.split('.')[1];
+        // let nuevo_nombre = `archivo_nuevo.${extension}`;
+
+        // alert(nuevo_nombre);
+        // $seleccionArchivos.files[0].name = nuevo_nombre;
+
+          // Los archivos seleccionados, pueden ser muchos o uno
+            const archivos = $seleccionArchivos.files;
+            // Si no hay archivos salimos de la función y quitamos la imagen
+            if (!archivos || !archivos.length) {
+                $imagenPrevisualizacion.src = "";
+                return;
+            }
+            // Ahora tomamos el primer archivo, el cual vamos a previsualizar
+            const primerArchivo = archivos[0];
+            // Lo convertimos a un objeto de tipo objectURL
+            const objectURL = URL.createObjectURL(primerArchivo);
+            // Y a la fuente de la imagen le ponemos el objectURL
+            $imagenPrevisualizacion.src = objectURL;
+
+
+
+	}
+
+});
 
 
 
@@ -535,15 +553,20 @@ $('#btnguardar').on("click" ,(event)=>{
     event.preventDefault();
 
 let route=$('#frmguardar').attr("action");
-let dataArray=$('#frmguardar').serializeArray()
-dataArray.push({name:'_token',value:token_})
+
+/* let dataArray=$('#frmguardar').serialize() */
+let dataArray= new FormData($('#frmguardar')[0])
+
+// dataArray.push({name:'_token',value:token_})
 console.log(dataArray)
 
 $.ajax({
     "method":'POST',
     "url": route,
-    "data": dataArray,
-
+    data: dataArray,
+    cache: false,
+        contentType: false,
+        processData: false,
 
     "success":function(Response){
 
