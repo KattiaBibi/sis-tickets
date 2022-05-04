@@ -179,7 +179,7 @@ class RequerimientoController extends Controller
             $subir=subirimagen::imagen($file,$nombre,$ruta);
             //ya esta :v
             //detalle viste que hice un cmando storage:link? para qué es ese comando? crea un acceso directo entro de la carpeta public (como estas uasndo git siemrpe que sibas algo a esa carpeta lo tomara como cambio , y cuando este en produccion eso te dara problemas , por eso mejore se manda al storage ) si me dejo entender  sisi entendí, gracias :'v entendiste todo :v? si, igual soino entiendo te pregunto :'v  , lsito :v
-            
+
 
 
            /*  dd($subir); */
