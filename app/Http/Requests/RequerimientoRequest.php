@@ -32,7 +32,7 @@ class RequerimientoRequest extends FormRequest
             'descripcion' => 'required',
             'prioridad'=>'alpha',
             'empresa_servicio_id' => 'integer',
-            'usuarioencarg_id' => 'integer',
+            'usuarioencarg_id[]' => 'integer',
         ];
     }
 
@@ -48,7 +48,7 @@ class RequerimientoRequest extends FormRequest
             'prioridad.alpha' => 'Debe seleccionar una prioridad.',
             'empresa_servicio_id.integer' => 'Debe seleccionar una empresa con servicio.',
 
-            'usuarioencarg_id.integer' => 'Debe asignar un encargado.',
+            'usuarioencarg_id[].integer' => 'Debe asignar un encargado.',
         ];
     }
 

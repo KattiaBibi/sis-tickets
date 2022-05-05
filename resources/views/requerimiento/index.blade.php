@@ -176,9 +176,9 @@
             <div class="form-group col-md-6">
           <label for="">GERENTE RESPONSABLE</label>
 
-          <select class="form-control" id="gerente" name="usuarioencarg_id">
+          <select style="width:100%" class="js-example-basic-multiple" id="gerente" name="usuarioencarg_id[]" multiple="multiple" lang="es">
 
-            <option value="a">¡Seleccione una empresa!</option>
+
 
             </select>
 
