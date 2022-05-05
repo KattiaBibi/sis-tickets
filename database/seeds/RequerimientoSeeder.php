@@ -20,7 +20,7 @@ class RequerimientoSeeder extends Seeder
             'estado' => 'pendiente',
             'empresa_servicio_id' => '2',
             'usuarioregist_id' => '1',
-            'usuarioencarg_id' => '3'
+
         ]);
 
         Requerimiento::create([
@@ -31,7 +31,7 @@ class RequerimientoSeeder extends Seeder
             'estado' => 'pendiente',
             'empresa_servicio_id' => '1',
             'usuarioregist_id' => '3',
-            'usuarioencarg_id' => '1'
+ 
         ]);
 
     }
