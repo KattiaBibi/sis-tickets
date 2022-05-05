@@ -251,6 +251,30 @@ function listar() {
                 orderable: false,
             },
             {
+                data: "encargados",
+                orderable: false,
+                render: function (data, type, row, meta) {
+                    let encargados = data
+                        .map((item) => {
+                            return item.nom_ape;
+                        })
+                        .toString();
+                    return `<span>${encargados}</span>`;
+                },
+            },
+            {
+                data: "asignados",
+                orderable: false,
+                render: function (data, type, row, meta) {
+                    let asignados = data
+                        .map((item) => {
+                            return item.nom_ape;
+                        })
+                        .toString();
+                    return `<span>${asignados}</span>`;
+                },
+            },
+            {
                 data: "nombre_empresa",
                 orderable: false,
             },

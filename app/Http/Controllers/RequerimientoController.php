@@ -39,7 +39,7 @@ class RequerimientoController extends Controller
             ->where('model_id', '=', auth()->user()->id)
             ->get()->first()->role_name;
 
-        $estado = request()->all()['filters']['estado'];
+        $estado = request()->all()['filters']['estado'] ?? 'todos';
 
         $query = DB::table('requerimientos')
             ->select(
@@ -78,9 +78,31 @@ class RequerimientoController extends Controller
 
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->get();
 
-        // dd($rpta->all());
+        $requerimientos = $rpta->all();
 
-        return datatables()->of($rpta)->toJson();
+        foreach ($requerimientos as &$req) {
+            $req->asignados = DB::table('detalle_requerimientos')
+                ->select(
+                    DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape")
+                )
+                ->join("users", 'users.id', '=', 'detalle_requerimientos.usuario_colab_id', 'inner')
+                ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
+                ->where('detalle_requerimientos.requerimiento_id', '=', $req->id)
+                ->get()->all();
+
+            $req->encargados = DB::table('requerimiento_encargados')
+                ->select(
+                    DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape")
+                )
+                ->join("users", 'users.id', '=', 'requerimiento_encargados.usuarioencarg_id', 'inner')
+                ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
+                ->where('requerimiento_encargados.requerimiento_id', '=', 1)
+                ->get()->all();
+        }
+
+        // dd($requerimientos);
+
+        return datatables()->of($requerimientos)->toJson();
     }
 
 

@@ -123,6 +123,30 @@ class HomeController extends Controller
 
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->limit(4)->get();
 
-        return datatables()->of($rpta)->toJson();
+        $requerimientos = $rpta->all();
+
+        foreach ($requerimientos as &$req) {
+            $req->asignados = DB::table('detalle_requerimientos')
+                ->select(
+                    DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape")
+                )
+                ->join("users", 'users.id', '=', 'detalle_requerimientos.usuario_colab_id', 'inner')
+                ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
+                ->where('detalle_requerimientos.requerimiento_id', '=', $req->id)
+                ->get()->all();
+
+            $req->encargados = DB::table('requerimiento_encargados')
+                ->select(
+                    DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape")
+                )
+                ->join("users", 'users.id', '=', 'requerimiento_encargados.usuarioencarg_id', 'inner')
+                ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
+                ->where('requerimiento_encargados.requerimiento_id', '=', 1)
+                ->get()->all();
+        }
+
+        // dd($rpta);
+
+        return datatables()->of($requerimientos)->toJson();
     }
 }

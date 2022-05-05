@@ -69,6 +69,8 @@
                 <th>ID</th>
                 <th>TITULO</th>
                 <th>SOLICITANTE</th>
+                <th>ENCARGADO(S)</th>
+                <th>ASIGNADO(S)</th>
                 <th>EMPRESA</th>
                 <th>SERVICIO</th>
                 <th>AVANCE</th>
