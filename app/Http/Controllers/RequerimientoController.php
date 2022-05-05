@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Requerimiento;
 use App\DetalleRequerimiento;
+use App\RequerimientoEncargados;
 use App\Servicio;
 use App\Empresa;
 use App\Colaborador;
@@ -203,8 +204,20 @@ class RequerimientoController extends Controller
 
         $requerimiento =  Requerimiento::create($request->all());
 
+        $encarg = $request->usuarioencarg_id;
+        foreach ($encarg as $key => $value) {
+            # code...
+            $encargado_requerimiento = RequerimientoEncargados::create([
+                "requerimiento_id" => $requerimiento->id,
+                "usuarioencarg_id" => $value
+
+
+            ]);
+        }
         return $requerimiento ? 1 : 0;
+
     }
+
 
     /**
      * Display the specified resource.
