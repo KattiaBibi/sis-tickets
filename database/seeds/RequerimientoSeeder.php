@@ -31,7 +31,18 @@ class RequerimientoSeeder extends Seeder
             'estado' => 'pendiente',
             'empresa_servicio_id' => '1',
             'usuarioregist_id' => '3',
- 
+
+        ]);
+
+        Requerimiento::create([
+            'titulo' => 'TEST DE REGISTRO 3',
+            'descripcion' => 'TEST DESCRIPCION REGISTRO 3',
+            'avance' => 0,
+            'prioridad' => 'baja',
+            'estado' => 'pendiente',
+            'empresa_servicio_id' => '2',
+            'usuarioregist_id' => '1',
+
         ]);
 
     }

@@ -62,5 +62,19 @@ class ColaboradorSeeder extends Seeder
             'empresa_area_id' => '7',
             'estado' => '1',
         ]);
+
+
+
+        Colaborador::create([
+            'id' => '5',
+            'nrodocumento' => '74123589',
+            'nombres' => 'Test',
+            'apellidos' => 'test 2',
+            'fechanacimiento' => '1993/01/21',
+            'direccion' => 'Av. Murillo 424',
+            'telefono' => '789562310',
+            'empresa_area_id' => '5',
+            'estado' => '1',
+        ]);
     }
 }
