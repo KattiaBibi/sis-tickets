@@ -46,7 +46,6 @@ class RequerimientoController extends Controller
                 DB::raw("requerimientos.id AS id"),
                 "requerimientos.titulo AS titulo_requerimiento",
                 "requerimientos.descripcion AS descripcion_requerimiento",
-                DB::raw("CONCAT(encargado.nombres, ' ', encargado.apellidos) AS nom_ape_encargado"),
                 DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
                 DB::raw("empresas.ID AS id_empresa"),
@@ -57,17 +56,15 @@ class RequerimientoController extends Controller
                 "requerimientos.prioridad AS prioridad_requerimiento",
                 "requerimientos.created_at AS fecha_creacion"
             )
-            ->join('colaboradores AS encargado', 'encargado.id', '=', 'requerimientos.usuarioencarg_id')
             ->join('colaboradores AS solicitante', 'solicitante.id', '=', 'requerimientos.usuarioregist_id')
-            ->join('users AS usuario_encargado', 'usuario_encargado.colaborador_id', '=', 'encargado.id')
             ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
 
         if ($role_name === 'AdminGerente') {
-            $query->where('usuario_encargado.id', '=', auth()->user()->id)
-                ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
+            $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
+                ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id);
         }
 
         if ($role_name === 'Trabajador') {
@@ -80,6 +77,8 @@ class RequerimientoController extends Controller
         }
 
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->get();
+
+        // dd($rpta->all());
 
         return datatables()->of($rpta)->toJson();
     }
@@ -170,10 +169,10 @@ class RequerimientoController extends Controller
     public function store(RequerimientoRequest $request)
     {
 
-            $ruta="requerimiento/";
-            $file = $request->imagenpost;
-            $nombre="requerimiento";
-            $subir=subirimagen::imagen($file,$nombre,$ruta);
+        $ruta = "requerimiento/";
+        $file = $request->imagenpost;
+        $nombre = "requerimiento";
+        $subir = subirimagen::imagen($file, $nombre, $ruta);
 
 
         $request->request->add(['imagen' => $subir]);
@@ -183,7 +182,6 @@ class RequerimientoController extends Controller
         $requerimiento =  Requerimiento::create($request->all());
 
         return $requerimiento ? 1 : 0;
-
     }
 
     /**
@@ -287,14 +285,13 @@ class RequerimientoController extends Controller
     public function destroy(Request $request, $id)
     {
         //delete
-        $requerimiento=Requerimiento::findOrfail($id);
+        $requerimiento = Requerimiento::findOrfail($id);
 
-         $requerimiento->estado="cancelado";
+        $requerimiento->estado = "cancelado";
 
 
-         $requerimiento->update();
+        $requerimiento->update();
 
-         return $requerimiento?1:0;
-
+        return $requerimiento ? 1 : 0;
     }
 }

@@ -47,8 +47,9 @@ class HomeController extends Controller
         $total_requerimientos = DB::table('requerimientos')
             ->select(DB::raw('COUNT(requerimientos.id) AS total_requerimientos'))
             ->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
+            ->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
             ->where('requerimientos.usuarioregist_id', '=', auth()->user()->id)
-            ->orWhere('requerimientos.usuarioencarg_id', '=', auth()->user()->id)
+            ->orWhere('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id)
             ->orWhere('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id)
             ->get()->first()->total_requerimientos;
 
@@ -93,7 +94,6 @@ class HomeController extends Controller
                 DB::raw("requerimientos.id AS id"),
                 "requerimientos.titulo AS titulo_requerimiento",
                 "requerimientos.descripcion AS descripcion_requerimiento",
-                DB::raw("CONCAT(encargado.nombres, ' ', encargado.apellidos) AS nom_ape_encargado"),
                 DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
                 DB::raw("empresas.ID AS id_empresa"),
@@ -104,16 +104,16 @@ class HomeController extends Controller
                 "requerimientos.prioridad AS prioridad_requerimiento",
                 "requerimientos.created_at AS fecha_creacion"
             )
-            ->join('colaboradores AS encargado', 'encargado.id', '=', 'requerimientos.usuarioencarg_id')
             ->join('colaboradores AS solicitante', 'solicitante.id', '=', 'requerimientos.usuarioregist_id')
-            ->join('users AS usuario_encargado', 'usuario_encargado.colaborador_id', '=', 'encargado.id')
             ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
+
+
         if ($role_name === 'AdminGerente') {
-            $query->where('usuario_encargado.id', '=', auth()->user()->id)
-                ->orWhere('usuario_solicitante.id', '=', auth()->user()->id);
+            $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
+                ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id);
         }
 
         if ($role_name === 'Trabajador') {
