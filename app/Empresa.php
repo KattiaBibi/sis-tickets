@@ -8,16 +8,15 @@ class Empresa extends Model
 {
     //
 
-    protected $table ='empresas';
+    protected $table = 'empresas';
     protected $primaryKey = 'id';
 
     protected $fillable = [
-    'ruc',
-    'nombre',
-    'direccion',
-    'telefono',
-    'estado'
-
+        'ruc',
+        'nombre',
+        'direccion',
+        'telefono',
+        'color',
+        'estado'
     ];
-
 }

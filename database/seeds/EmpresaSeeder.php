@@ -18,6 +18,7 @@ class EmpresaSeeder extends Seeder
             'nombre' => 'COMPUSISTEL',
             'direccion' => 'AV. TEST #123',
             'telefono' => '123456',
+            'color' => '0000ff'
         ]);
 
         Empresa::create([
@@ -26,6 +27,7 @@ class EmpresaSeeder extends Seeder
             'nombre' => 'JM HOLDING',
             'direccion' => 'AV. TEST #321',
             'telefono' => '987654',
+            'color' => 'ff7a11'
         ]);
 
         Empresa::create([
@@ -34,6 +36,7 @@ class EmpresaSeeder extends Seeder
             'nombre' => 'GENEXIDU',
             'direccion' => 'AV. TEST #213',
             'telefono' => '123789',
+            'color' => '00e0ba'
         ]);
     }
 }

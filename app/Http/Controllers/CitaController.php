@@ -54,6 +54,7 @@ class CitaController extends Controller
         "citas.link_reu as link",
         "citas.empresa_id as empresa_id",
         DB::raw("CONCAT(empresas.nombre, ' (', empresas.direccion, ')') as descripcion_empresa"),
+        "empresas.color as color_empresa",
         "citas.lugarreu AS otra_oficina",
         "citas.estado AS estado",
       )
