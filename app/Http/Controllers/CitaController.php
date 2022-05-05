@@ -22,12 +22,14 @@ class CitaController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
+
+    $this->middleware('can:admin.reuniones.agregar')->only('store');
+    $this->middleware('can:admin.reuniones.editar')->only('update');
+    $this->middleware('can:admin.reuniones.eliminar')->only('destroy');
   }
 
   public function index()
   {
-    //
-
     $empresas = Empresa::all();
     $colaboradores = Colaborador::all();
 
@@ -246,6 +248,10 @@ class CitaController extends Controller
     $cita = Cita::find($id);
     if (is_null($cita)) {
       return response()->json(['messages' => 'resource not found.'], 404);
+    }
+
+    if (auth()->user()->id != $cita->usuario_id) {
+      return response()->json(['messages' => 'No esta autorizado a editar esta reunion.'], 403);
     }
 
     $input = $request->all();

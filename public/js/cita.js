@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     start: res.fecha_inicio,
                     end: res.fecha_fin,
                     title: res.titulo,
-                    color: res.color_empresa || '',
+                    color: res.color_empresa || "",
                     extendedProps: {
                         id: res.id,
                         titulo: res.titulo,
@@ -228,10 +228,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     $("#citamodal").modal("hide");
                 },
                 error: (response) => {
-                    console.log(response.responseJSON.messages);
-                    Utils.showValidationMessages(
-                        response.responseJSON.messages
-                    );
+                    console.log(response);
+                    if (response.status === 403) {
+                        alert(
+                            "Usted no esta autorizado para registrar reuniones."
+                        );
+                    } else {
+                        console.log(response.responseJSON.messages);
+                        Utils.showValidationMessages(
+                            response.responseJSON.messages
+                        );
+                    }
                 },
             });
         } else {
@@ -256,10 +263,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     $("#citamodal").modal("hide");
                 },
                 error: (response) => {
-                    console.log(response);
-                    Utils.showValidationMessages(
-                        response.responseJSON.messages
-                    );
+                    if (response.status === 403) {
+                        alert(
+                            "Usted no esta autorizado para editar reuniones."
+                        );
+                    } else {
+                        console.log(response.responseJSON.messages);
+                        Utils.showValidationMessages(
+                            response.responseJSON.messages
+                        );
+                    }
                 },
             });
         }
@@ -301,7 +314,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         calendar.refetchEvents();
                     },
                     error: (response) => {
-                        console.log(response);
+                        if (response.status === 403) {
+                            alert(
+                                "Usted no esta autorizado para eliminar reuniones."
+                            );
+                        }
                     },
                 });
             }
@@ -316,6 +333,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return {
             role_id: $("#inputFiltroRolColaboradores").val(),
         };
+    });
+
+    $("#inputFiltroRolColaboradores").on("change", function (event) {
+        console.log("actual value: " + $(event.target).val());
+        $("#inputAsistentes").find("option").remove();
+        $("#inputAsistentes").find("li:not(:nth-child(1))").hide();
     });
 
     function search(control, _filters = null) {
