@@ -95,7 +95,6 @@
             <th>ID</th>
             <th>TITULO</th>
             <th>SOLICITANTE</th>
-            <th>ENCARGADO</th>
             <th>EMPRESA</th>
             <th>SERVICIO</th>
             <th>AVANCE</th>
@@ -158,10 +157,6 @@
       },
       {
         data: "nom_ape_solicitante",
-        orderable: false
-      },
-      {
-        data: "nom_ape_encargado",
         orderable: false
       },
       {
