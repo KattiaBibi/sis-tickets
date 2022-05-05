@@ -19,11 +19,6 @@ class RequerimientoEncargadoSeeder extends Seeder
         ]);
 
         RequerimientoEncargados::create([
-            'requerimiento_id' => '1',
-            'usuarioencarg_id' => '5'
-        ]);
-
-        RequerimientoEncargados::create([
             'requerimiento_id' => '2',
             'usuarioencarg_id' => '1'
         ]);
