@@ -336,6 +336,9 @@ function listar() {
             {
                 data: "fecha_creacion",
                 orderable: true,
+                render: function (data, type, row, meta) {
+                  return `${new Date(data).toLocaleDateString()} ${new Date(data).toLocaleTimeString('es-PE', { hour12: true })}`
+                },
             },
         ],
         order: [[9, "desc"]],

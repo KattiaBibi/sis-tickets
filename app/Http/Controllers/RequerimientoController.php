@@ -96,7 +96,7 @@ class RequerimientoController extends Controller
                 )
                 ->join("users", 'users.id', '=', 'requerimiento_encargados.usuarioencarg_id', 'inner')
                 ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
-                ->where('requerimiento_encargados.requerimiento_id', '=', 1)
+                ->where('requerimiento_encargados.requerimiento_id', '=', $req->id)
                 ->get()->all();
         }
 

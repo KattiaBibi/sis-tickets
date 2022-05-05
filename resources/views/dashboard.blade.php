@@ -210,15 +210,11 @@
       },
       {
         data: "fecha_creacion",
-        orderable: true
+        orderable: true,
+        render: function(data, type, row, meta) {
+          return `${new Date(data).toLocaleDateString()} ${new Date(data).toLocaleTimeString('es-PE', { hour12: true })}`
+        },
       },
-      // {
-      //   defaultContent: "",
-      //   orderable: false,
-      //   render: function(data, type, row, meta) {
-      //     return `<button class="btn btn-sm btn-success">Ver</button>`
-      //   }
-      // },
     ],
     order: [
       [8, 'desc']
