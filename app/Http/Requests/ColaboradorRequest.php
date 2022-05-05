@@ -26,10 +26,10 @@ class ColaboradorRequest extends FormRequest
 
         return [
             //
-            'nrodocumento' => 'required|min:8|max:8|unique:colaboradores,nrodocumento,'.$this->id,
+            'nrodocumento' => 'required|min:8|max:8|unique:colaboradores,nrodocumento,' . $this->id,
             'nombres' => 'required',
             'apellidos' => 'required',
-            'fechanacimiento' => 'required',
+            'fechanacimiento' => 'required|before:-18 years',
             'direccion' => 'required',
             'telefono' => 'required',
             'empresa_area_id' => 'required|integer',
@@ -37,18 +37,20 @@ class ColaboradorRequest extends FormRequest
     }
 
 
-    public function messages(){
+    public function messages()
+    {
 
-        return[
+        return [
 
 
-            'nrodocumento.unique'=>'¡Colaborador con este DNI ya registrado!',
-            'nrodocumento.required'=>'Campo nro. documento (DNI) obligatorio.',
-            'nrodocumento.min'=>'Debe ingresar 8 números para DNI.',
-            'nrodocumento.max'=>'Debe ingresar 8 números para DNI.',
+            'nrodocumento.unique' => '¡Colaborador con este DNI ya registrado!',
+            'nrodocumento.required' => 'Campo nro. documento (DNI) obligatorio.',
+            'nrodocumento.min' => 'Debe ingresar 8 números para DNI.',
+            'nrodocumento.max' => 'Debe ingresar 8 números para DNI.',
             'nombres.required' => 'Nombre es un campo requerido.',
             'apellidos.required' => 'Apellidos es un campo requerido.',
             'fechanacimiento.required' => 'Fecha de nacimiento es un campo requerido.',
+            'fechanacimiento.before' => 'Debes ser mayor de edad.',
             'direccion.required' => 'La dirección es un campo requerido.',
             'telefono.required' => 'El teléfono es un campo requerido.',
             'empresa_area_id.integer' => 'Debe seleccionar una ampresa con área.',

@@ -79,6 +79,7 @@
           <th>NOMBRE</th>
           <th>DIRECCIÓN</th>
           <th>TELÉFONO</th>
+          <th>COLOR</th>
           <th colspan="2">ACCIÓN</th>
 
         </tr>
@@ -129,6 +130,10 @@
             <label for="">Teléfono:</label>
             <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="telefono">
           </div>
+          <div class="form-group">
+            <label for="txtColor">Color:</label>
+            <input type="color" name="color" id="txtColor" class="form-control">
+          </div>
 
       </div>
       <div class="modal-footer">
@@ -175,17 +180,20 @@
 
 
           <div class="form-group">
-            <label for="">Nombre:</label>
-
+            <label for="editarNombre">Nombre:</label>
             <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="nombre">
           </div>
           <div class="form-group">
-            <label for="">Dirección:</label>
+            <label for="editarDireccion">Dirección:</label>
             <input type="text" class="form-control" id="editarDireccion" placeholder="Ingrese la dirección" name="direccion">
           </div>
           <div class="form-group">
-            <label for="">Teléfono:</label>
+            <label for="editarTelefono">Teléfono:</label>
             <input type="text" class="form-control" id="editarTelefono" placeholder="Ingrese la dirección" name="telefono">
+          </div>
+          <div class="form-group">
+            <label for="editarColor">Color:</label>
+            <input type="color" name="color" id="editarColor" class="form-control">
           </div>
 
 

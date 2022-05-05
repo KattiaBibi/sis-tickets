@@ -15,14 +15,13 @@ class CreateEmpresasTable extends Migration
     {
         Schema::create('empresas', function (Blueprint $table) {
             $table->id();
-            $table->char('ruc',11);
+            $table->char('ruc', 11);
             $table->string('nombre', 50);
             $table->text('direccion', 150);
             $table->char('telefono', 12);
+            $table->string('color', 20)->unique();
             $table->boolean('estado')->default(1);
-
             $table->timestamps();
-            
         });
     }
 
@@ -35,5 +34,4 @@ class CreateEmpresasTable extends Migration
     {
         Schema::dropIfExists('empresas');
     }
-
 }

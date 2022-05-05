@@ -44,14 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // si el inicio de evento ocurre hoy o en el futuro mostramos el modal
             if (check >= hoy) {
-                // jQuery.noConflict();
                 $("#citamodal").modal("show");
-
                 inputFecha.value = check;
                 calendar.unselect();
-            }
-            // si no, mostramos una alerta de error
-            else {
+            } else {
                 Swal.fire({
                     position: "top-center",
                     icon: "info",
@@ -66,10 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // CLICK EN UN EVENTO
         eventClick: function (arg) {
-            //if (confirm('¿Está seguro(a) que desea eliminar esta reunión?')) {
-            // arg.event.remove()
-            //}
-
             Utils.resetearFormulario(frmRegistrarReunion, ["#inputAsistentes"]);
             document
                 .querySelectorAll(".show-validation-message")
@@ -123,20 +115,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             $("#inputEstado").val(arg.event.extendedProps.estado);
 
-            // jQuery.noConflict();
             $("#citamodal").modal("show");
         },
         editable: true,
-        dayMaxEvents: true, // allow "more" link when too many events
+        dayMaxEvents: true,
         eventSources: [
             {
-                url: "cita/getForFullCalendar", // use the `url` property
-                // extraParams: {
-                //   _token: token_,
-
-                // },
+                url: "cita/getForFullCalendar",
                 extraParams: function () {
-                    // a function that returns an object
                     return {
                         _token: token_,
                         estado: $("#inputFiltroEstado").val(),
@@ -155,14 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     start: res.fecha_inicio,
                     end: res.fecha_fin,
                     title: res.titulo,
-                    backgroundColor:
-                        res.estado === "pendiente"
-                            ? "blue"
-                            : res.estado === "concluida"
-                            ? "green"
-                            : res.estado === "cancelada"
-                            ? "red"
-                            : "",
+                    color: res.color_empresa || '',
                     extendedProps: {
                         id: res.id,
                         titulo: res.titulo,
@@ -193,21 +172,21 @@ document.addEventListener("DOMContentLoaded", function () {
         if ($("#inputTipoReunion").find(":selected").val() === "presencial") {
             inputLinkZoom.disabled = true;
             inputLinkZoom.value = "";
-            formGroupLinkZoom.style.display = 'none';
+            formGroupLinkZoom.style.display = "none";
         } else {
             inputLinkZoom.disabled = false;
-            formGroupLinkZoom.style.display = 'block';
+            formGroupLinkZoom.style.display = "block";
         }
     }
 
     function toggleDisabledInputOtraOficina() {
         if ($("#inputOficina").find(":selected").val() === "") {
             inputOtraOficina.disabled = false;
-            formGroupOtraOficina.style.display = 'block';
+            formGroupOtraOficina.style.display = "block";
         } else {
             inputOtraOficina.disabled = true;
             inputOtraOficina.value = "";
-            formGroupOtraOficina.style.display = 'none';
+            formGroupOtraOficina.style.display = "none";
         }
     }
 
@@ -333,40 +312,39 @@ document.addEventListener("DOMContentLoaded", function () {
         calendar.refetchEvents();
     });
 
-    search('#inputAsistentes', function() {
+    search("#inputAsistentes", function () {
         return {
-            role_id: $('#inputFiltroRolColaboradores').val()
-        }
+            role_id: $("#inputFiltroRolColaboradores").val(),
+        };
     });
 
     function search(control, _filters = null) {
         return $(`${control}`).select2({
-          width: '100%',
-          placeholder: 'Buscar',
-          allowClear: true,
-          ajax: {
-            url: `colaboradores/search`,
-            dataType: 'json',
-            type: 'get',
-            delay: 250,
-            data: function(params) {
-              let query = {
-                search: params.term,
-                page: params.page || 1,
-                filters: _filters()
-              }
-    
-              return query;
+            width: "100%",
+            placeholder: "Buscar",
+            allowClear: true,
+            ajax: {
+                url: `colaboradores/search`,
+                dataType: "json",
+                type: "get",
+                delay: 250,
+                data: function (params) {
+                    let query = {
+                        search: params.term,
+                        page: params.page || 1,
+                        filters: _filters(),
+                    };
+
+                    return query;
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: data.results,
+                        pagination: data.pagination,
+                    };
+                },
+                cache: true,
             },
-            processResults: function(data, params) {
-              
-              return {
-                results: data.results,
-                pagination: data.pagination
-              };
-            },
-            cache: true
-          }
         });
-      }
+    }
 });
