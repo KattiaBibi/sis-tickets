@@ -174,7 +174,7 @@
 
 
             <div class="form-group col-md-6">
-          <label for="">GERENTE RESPONSABLE</label>
+          <label for="">GERENTE(S) RESPONSABLE(S)</label>
 
           <select style="width:100%" class="js-example-basic-multiple" id="gerente" name="usuarioencarg_id[]" multiple="multiple" lang="es">
 
@@ -370,7 +370,8 @@
 
             <div class="form-group text-center col-md-12">
               <p>
-               <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  style="height: 200px; width: 200px;">
+                <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  id="" style="height: 200px; width: 200px;">
+               <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  id="mostimg" style="height: 200px; width: 200px;">
               </p>
 
             </div>
@@ -388,7 +389,7 @@
             </div>
 
             <div class="form-group col-md-12">
-                <label for="">GERENTE RESPONSABLE:</label>
+                <label for="">GERENTE(S) RESPONSABLE(S)</label>
             <input class="form-control"  type="text" name="" id="UsuarioResponsable" readonly>
 
             </div>

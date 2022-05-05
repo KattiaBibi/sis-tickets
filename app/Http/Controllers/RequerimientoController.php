@@ -55,7 +55,8 @@ class RequerimientoController extends Controller
                 "requerimientos.avance AS avance_requerimiento",
                 "requerimientos.estado AS estado_requerimiento",
                 "requerimientos.prioridad AS prioridad_requerimiento",
-                "requerimientos.created_at AS fecha_creacion"
+                "requerimientos.created_at AS fecha_creacion",
+                "requerimientos.imagen AS imagen"
             )
             ->join('colaboradores AS solicitante', 'solicitante.id', '=', 'requerimientos.usuarioregist_id')
             ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')

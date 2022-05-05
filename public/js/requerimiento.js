@@ -91,7 +91,11 @@ function inicio() {
 addEventListener("load", inicio, false);
 
 $("#empresa").on("change", function (e) {
+
+     $('#gerente').val(null).trigger('change');
+
     let valor = e.target.value;
+
 
     if (valor == "a") {
         $("#servicio").html(
@@ -358,7 +362,14 @@ $("#requerimientos").on("click", ".editar", function () {
     $("#editarDescripcion").val(data["descripcion_requerimiento"]);
     $("#UsuarioSolicitante").val(data["nom_ape_solicitante"]);
     $("#UsuarioSolicitante2").val(data["usuario_que_registro"]);
-    $("#UsuarioResponsable").val(data["nom_ape_encargado"]);
+
+    document.getElementById("mostimg").src = "storage/"+data.imagen;
+
+
+    $("#UsuarioResponsable").val(data["encargados"].map((item) => {
+        return item.nom_ape;
+    })
+    .toString());
 
     $("#avance").val(data["avance_requerimiento"]);
     $("#estado").val(data["estado_requerimiento"]);
