@@ -101,7 +101,7 @@
 
         <div class="form-group">
             <label for="">Contraseña:</label>
-            <input type="password" class="form-control" id="txtPassword" placeholder="Ingrese una contraseña" name="password">
+            <input type="text" class="form-control" id="txtPassword" placeholder="Ingrese una contraseña" name="password">
         </div>
 
         <div class="form-group">
@@ -123,7 +123,7 @@
             <label for="">Rol:</label>
 
             <select name="role" class="form-control" id="editarEmpresaArea">
-                
+
                 <option selected>Elegir</option>
 
                 @foreach ($roles as $r)
@@ -229,6 +229,6 @@
 <script>
 
 listar();
-decrypt();
+
 </script>
 @endsection
