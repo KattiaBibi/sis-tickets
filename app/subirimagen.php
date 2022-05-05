@@ -11,18 +11,18 @@ class subirimagen extends Model
 {
 /**
  * $imagen->  la imagen que entra por post (store)
- * $ruta, por si quieres reutilizar la funcion en otro lado
- * $nombre->    supongo que es para el slug que estas usando
+ * $ruta, por si se quiere reutilizar la funcion en otro lado
+ * $nombre->     es para el slug que se está usando
  * $imgactual-> para el actualizar para que cambie la imagen anterior por la nueva
  */
  public static function imagen($imagen,$nombre,$ruta,$imgactual=false){
-    //validas la iamgen :v
+    //valida la imagen
     if($imagen){
         //obtienes la extension
         $ext=$imagen->extension();
-        //validas si viene un valor en el paremetro para cambiar la iamgen (update)
+        //valida si viene un valor en el paremetro para cambiar la iamgen (update)
         if($imgactual) {
-            //eliminas la imagen anterior (update)
+            //elimina la imagen anterior (update)
             Storage::disk('public')->delete("$imgactual");
         }
 

@@ -29,8 +29,7 @@ class CreateRequerimientosTable extends Migration
             $table->unsignedBigInteger('usuarioregist_id');
             $table->foreign('usuarioregist_id','fk_requerimientos_usersregist')->references('id')->on('users');
 
-            $table->unsignedBigInteger('usuarioencarg_id');
-            $table->foreign('usuarioencarg_id','fk_requerimientos_usersencarg')->references('id')->on('users');
+         
             $table->timestamps();
         });
     }

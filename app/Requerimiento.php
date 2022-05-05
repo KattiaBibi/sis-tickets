@@ -21,8 +21,7 @@ class Requerimiento extends Model
         'estado',
         'imagen',
         'empresa_servicio_id',
-        'usuarioregist_id',
-        'usuarioencarg_id'
+        'usuarioregist_id'
 
     ];
 

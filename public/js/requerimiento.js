@@ -581,7 +581,8 @@ $.ajax({
         })
 
        datatable.ajax.reload(null,false);
-        $('#frmguardar')[0].reset()
+        $('#frmguardar')[0].reset();
+        $("#imagenPrevisualizacion")[0].setAttribute("src", "");
 
         $('#modalagregar').modal('hide');
 
