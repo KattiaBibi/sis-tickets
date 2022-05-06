@@ -335,12 +335,6 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     });
 
-    $("#inputFiltroRolColaboradores").on("change", function (event) {
-        console.log("actual value: " + $(event.target).val());
-        $("#inputAsistentes").find("option").remove();
-        $("#inputAsistentes").find("li:not(:nth-child(1))").hide();
-    });
-
     function search(control, _filters = null) {
         return $(`${control}`).select2({
             width: "100%",
