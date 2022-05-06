@@ -1,6 +1,7 @@
 // $(function () {
 //     var $avatarImage, $avatarInput, $avatarForm;
 
+
 //     $avatarImage = $('#imagenPrevisualizacion');
 //     $avatarInput = $('#img');
 //     $avatarForm = $('#frmguardar');
@@ -33,47 +34,44 @@
 
 const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
 
-// Obtener referencia al input y a la imagen
 
-const $seleccionArchivos = document.querySelector("#img"),
-    $imagenPrevisualizacion = document.querySelector("#imagenPrevisualizacion");
+    function readImage (input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+              $('.imagenPrevisualizacion').attr('src', e.target.result); // Renderizamos la imagen
+          }
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
 
-// Escuchar cuando cambie
-$seleccionArchivos.addEventListener("change", function () {
-    // si no hay archivos, regresamos
-    if (this.files.length <= 0) return;
+      $(".img").on("change", function () {
 
-    // Validamos el primer archivo únicamente
-    const archivo = this.files[0];
+
+    const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
+
+        // Código a ejecutar cuando se detecta un cambio de archivO
+
+        if (this.files.length <= 0) return;
+
+        const archivo = this.files[0];
+
     if (archivo.size > MAXIMO_TAMANIO_BYTES) {
         const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
         alert(`El tamaño máximo es ${tamanioEnMb} MB`);
         // Limpiar
-        $seleccionArchivos.value = "";
-    } else {
-        // Validación pasada.
-
-        // let extension = $seleccionArchivos.files[0].name.split('.')[1];
-        // let nuevo_nombre = `archivo_nuevo.${extension}`;
-
-        // alert(nuevo_nombre);
-        // $seleccionArchivos.files[0].name = nuevo_nombre;
-
-        // Los archivos seleccionados, pueden ser muchos o uno
-        const archivos = $seleccionArchivos.files;
-        // Si no hay archivos salimos de la función y quitamos la imagen
-        if (!archivos || !archivos.length) {
-            $imagenPrevisualizacion.src = "";
-            return;
-        }
-        // Ahora tomamos el primer archivo, el cual vamos a previsualizar
-        const primerArchivo = archivos[0];
-        // Lo convertimos a un objeto de tipo objectURL
-        const objectURL = URL.createObjectURL(primerArchivo);
-        // Y a la fuente de la imagen le ponemos el objectURL
-        $imagenPrevisualizacion.src = objectURL;
+        this.value = "";
+        
     }
-});
+    else{
+
+        readImage(this);
+    }
+
+      });
+
+
+
 
 $(".js-example-basic-multiple").select2();
 

@@ -220,9 +220,9 @@
 
             <label for="">IMAGEN</label>
 
-            <input type="file"  accept="image/*" class="form-control-file" id="img" name="imagenpost">
+            <input type="file"  accept="image/*" class="img form-control-file" id="img" name="imagenpost">
 
-            <img id="imagenPrevisualizacion" class="mt-2" style="width: 350px;height: 200;">
+            <img id="" class="imagenPrevisualizacion mt-2" style="width: 350px;height: 200;">
 
         </div>
 
@@ -368,15 +368,30 @@
 
         <div class="form-row">
 
-            <div class="form-group text-center col-md-12">
-              <p>
-                <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  id="" style="height: 200px; width: 200px;">
-               <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  id="mostimg" style="height: 200px; width: 200px;">
-              </p>
+            <div class="form-group text-center row justify-content-center align-items-end col-md-4   ">
+
+                <input type="file"  accept="image/*" class="img form-control-file" id="" name="">
+
+                <img id="imag" class="imagenPrevisualizacion mt-2" style="width: 200px;height: 200px;">
 
             </div>
 
-          </div>
+
+
+            <div class="form-group text-center row justify-content-center align-items-end col-md-4">
+
+                   <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  id="mostimg" style="height: 200px; width: 200px;">
+
+                </div>
+
+
+            <div class="form-group text-center row justify-content-center align-items-center col-md-4">
+
+                <button type="button" id="btnactualizar" class="btn btn-primary">CONSERVAR IMAGEN</button>
+
+            </div>
+
+        </div>
 
 
         <div class="form-row">
