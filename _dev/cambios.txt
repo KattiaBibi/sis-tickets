@@ -17,3 +17,9 @@ LOGÍSTICA
 
 MECHARDANCING
 
+
+
+limpiar los select2 la data
+corregir
+el error de agregar colaboradores en el formulario con select2, es decir al hacer cambio de filtro no se borren los que ya están seleccionados
+
