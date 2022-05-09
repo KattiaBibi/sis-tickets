@@ -514,9 +514,10 @@ $("#btnguardar").on("click", (event) => {
 });
 
 $("#btnactualizar").on("click", (event) => {
+    
     event.preventDefault();
 
-    $("#imag")[0].setAttribute("src", "");
+    $("#xy")[0].setAttribute("src", "");
 
     let dataArray = $("#frmeditar").serializeArray();
     let route = "/requerimiento/" + dataArray[0].value;

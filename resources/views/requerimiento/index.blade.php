@@ -220,7 +220,7 @@
 
             <label for="">IMAGEN</label>
 
-            <input type="file"  accept="image/*" class="img form-control-file" id="img" name="imagenpost">
+            <input type="file"  accept="image/*" class="img form-control-file" id="xy" name="imagenpost">
 
             <img id="prev" class="imagenPrevisualizacion mt-2" style="width: 350px;height: 200;">
 
