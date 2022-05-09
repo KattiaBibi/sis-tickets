@@ -61,7 +61,7 @@ const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
         alert(`El tamaño máximo es ${tamanioEnMb} MB`);
         // Limpiar
         this.value = "";
-        
+
     }
     else{
 
@@ -373,7 +373,7 @@ $("#requerimientos").on("click", ".editar", function () {
     $("#estado").val(data["estado_requerimiento"]);
     $("#prioridad").val(data["prioridad_requerimiento"]);
     document.getElementById("avan").innerHTML =
-        document.getElementById("avance").value;
+    document.getElementById("avance").value;
 
     if (data["estado_requerimiento"] == "en proceso") {
         document.getElementById("elemento").removeAttribute("hidden");
@@ -494,7 +494,7 @@ $("#btnguardar").on("click", (event) => {
 
                 datatable.ajax.reload(null, false);
                 $("#frmguardar")[0].reset();
-                $("#imagenPrevisualizacion")[0].setAttribute("src", "");
+                $("#prev")[0].setAttribute("src", "");
 
                 $("#modalagregar").modal("hide");
             } else {
@@ -515,6 +515,8 @@ $("#btnguardar").on("click", (event) => {
 
 $("#btnactualizar").on("click", (event) => {
     event.preventDefault();
+
+    $("#imag")[0].setAttribute("src", "");
 
     let dataArray = $("#frmeditar").serializeArray();
     let route = "/requerimiento/" + dataArray[0].value;
