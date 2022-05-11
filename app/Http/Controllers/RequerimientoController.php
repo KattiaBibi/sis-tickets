@@ -299,63 +299,50 @@ class RequerimientoController extends Controller
 
             // PRIMERO ELIMINA LA IMAGEN ANTERIOR
 
-            // Storage::disk('public')->delete($ruta.$file2);
-
-            $imagen= $file;
+            Storage::disk('public')->delete($ruta.$file2);
+            $subir = subirimagen::imagen($file, $nombre, $ruta);
 
 
         }
 
-        else{
 
-        // SI NO EXISTE LA IMAGEN ANTERIOR
+        if ($request->estado == "pendiente" || $request->estado == "en espera") {
 
-            $imagen= $file2;
+            $requerimiento->update(
+                [
+                    'avance' => $request->avance,
+                    'prioridad' => $request->prioridad,
+                    'estado' => $request->estado,
+                    'imagen'=> $subir,
+                ]
+            );
 
+            return $requerimiento ? 1 : 0;
         }
 
-         return  response()->json($imagen);
 
-        // $subir = subirimagen::imagen($imagen, $nombre, $ruta);
-        // $request->request->add(['imagen' => $subir]);
-
-        // if ($request->estado == "pendiente" || $request->estado == "en espera") {
-
-        //     $requerimiento->update(
-        //         [
-        //             'avance' => $request->avance,
-        //             'prioridad' => $request->prioridad,
-        //             'estado' => $request->estado,
-        //             'imagen'=> $subir,
-        //         ]
-        //     );
-
-        //     return $requerimiento ? 1 : 0;
-        // }
+            else {
 
 
-        //     else {
+            $requerimiento->update(
+                [
+                    'avance' => $request->avance,
+                    'prioridad' => $request->prioridad,
+                    'estado' => $request->estado,
+                    'imagen'=> $subir,
+                ]
+            );
+            $colab = $request->usuario_colab_id;
+            foreach ($colab as $key => $value) {
+                # code...
+                $deta_requerimiento = DetalleRequerimiento::create([
+                    "usuario_colab_id" => $value,
+                    "requerimiento_id" => $requerimiento->id
+                ]);
+            }
 
-
-        //     $requerimiento->update(
-        //         [
-        //             'avance' => $request->avance,
-        //             'prioridad' => $request->prioridad,
-        //             'estado' => $request->estado,
-        //             'imagen'=> $subir,
-        //         ]
-        //     );
-        //     $colab = $request->usuario_colab_id;
-        //     foreach ($colab as $key => $value) {
-        //         # code...
-        //         $deta_requerimiento = DetalleRequerimiento::create([
-        //             "usuario_colab_id" => $value,
-        //             "requerimiento_id" => $requerimiento->id
-        //         ]);
-        //     }
-
-        //     return $requerimiento ? 1 : 0;
-        // }
+            return $requerimiento ? 1 : 0;
+        }
 
 
     }
