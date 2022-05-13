@@ -190,8 +190,8 @@
                     <label for="inputFiltroRolColaboradores">Filtro Colaboradores:</label>
                     <select id="inputFiltroRolColaboradores" class="form-control form-control-sm">
                       <option value="" selected>TODOS</option>
-                      <option value="1">ADMIN</option>
-                      <option value="2">ADMIN GERENTE</option>
+                      <!-- <option value="1">ADMIN</option> -->
+                      <option value="2">GERENTE</option>
                       <option value="3">TRABAJADOR</option>
                     </select>
                   </div>

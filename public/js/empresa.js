@@ -43,7 +43,7 @@ function listar() {
         orderable: false,
         data: null,
         defaultContent: '',
-        width: '5%',
+        width: '50px',
       },
       {
         data: 'id',
@@ -71,11 +71,11 @@ function listar() {
         className: 'text-center test',
         render: function (data) {
           if (data == '1') {
-            return "<button type='button' class='btn btn-danger btn-sm btnOnOff'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>"
+            return "<button type='button' class='btn btn-danger btn-sm btnOnOff text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>"
           }
 
           if (data == '0') {
-            return "<button type='button' class='btn btn-info btn-sm btnOnOff'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>"
+            return "<button type='button' class='btn btn-info btn-sm btnOnOff text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>"
           }
         },
       },
@@ -83,7 +83,7 @@ function listar() {
         data: null,
         className: 'text-center test',
         render: function (data) {
-          return "<button type='button' class='btn btn-warning btn-sm btnEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>"
+          return "<button type='button' class='btn btn-warning btn-sm btnEditar text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>"
         },
       },
     ],
@@ -167,7 +167,7 @@ function displayChildOfTable1(row, data) {
         orderable: false,
         data: null,
         defaultContent: '',
-        width: '10%',
+        width: '50px',
       },
       { data: 'id' },
       { data: 'nombre' },
@@ -176,11 +176,11 @@ function displayChildOfTable1(row, data) {
         className: 'text-center test',
         render: function (data) {
           if (data == '1') {
-            return "<button type='button' class='btn btn-danger btn-sm btnOnOffArea'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>"
+            return "<button type='button' class='btn btn-danger btn-sm btnOnOffArea text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>"
           }
 
           if (data == '0') {
-            return "<button type='button' class='btn btn-info btn-sm btnOnOffArea'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>"
+            return "<button type='button' class='btn btn-info btn-sm btnOnOffArea text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>"
           }
         },
       },
@@ -188,7 +188,7 @@ function displayChildOfTable1(row, data) {
         data: null,
         className: 'text-center test',
         render: function (data) {
-          return "<button type='button' class='btn btn-warning btn-sm btnEditarArea'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>"
+          return "<button type='button' class='btn btn-warning btn-sm btnEditarArea text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>"
         },
       },
     ],
@@ -285,11 +285,11 @@ function displayChildOfTable2(row, data) {
         className: 'text-center test',
         render: function (data) {
           if (data == '1') {
-            return "<button type='button' class='btn btn-danger btn-sm btnOnOffColaborador'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>"
+            return "<button type='button' class='btn btn-danger btn-sm btnOnOffColaborador text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>"
           }
 
           if (data == '0') {
-            return "<button type='button' class='btn btn-info btn-sm btnOnOffColaborador'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>"
+            return "<button type='button' class='btn btn-info btn-sm btnOnOffColaborador text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>"
           }
         },
       },
@@ -297,7 +297,7 @@ function displayChildOfTable2(row, data) {
         data: null,
         className: 'text-center test',
         render: function (data) {
-          return "<button type='button' class='btn btn-warning btn-sm btnEditarColaborador'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>"
+          return "<button type='button' class='btn btn-warning btn-sm btnEditarColaborador text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>"
         },
       },
     ],
