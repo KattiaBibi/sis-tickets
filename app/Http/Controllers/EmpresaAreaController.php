@@ -11,118 +11,109 @@ use Illuminate\Support\Facades\DB;
 
 class EmpresaAreaController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 
-  public function __construct()
-  {
-    $this->middleware('auth');
-  }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-  public function empresa_area()
-  {
-    $empresa_areas = DB::table('empresa_areas as ea')
-      ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
-      ->join('areas as a', 'ea.area_id', '=', 'a.id')
-      ->select('ea.id as eaid', 'e.id as eid', 'a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre');
+    public function empresa_area()
+    {
 
-    return datatables()->of($empresa_areas)->toJson();
-  }
 
-  public function index()
-  {
-    //
+        $empresa_areas = DB::table('empresa_areas as ea')
+            ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
+            ->join('areas as a', 'ea.area_id', '=', 'a.id')
+            ->select('ea.id as eaid', 'e.id as eid', 'a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre');
 
-    $empresas = Empresa::all();
-    $areas = Area::all();
+        return datatables()->of($empresa_areas)->toJson();
+    }
 
-    return view('empresa_area.index', compact('empresas', 'areas'));
-  }
+    public function index()
+    {
+        //
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    //
-  }
+        $empresas = DB::table('empresas')->where('estado','=', '1')->get();
+        $areas = DB::table('areas')->where('estado','=', '1')->get();
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-  public function store(EmpresaAreaRequest $request)
-  {
-    //
+        return view('empresa_area.index', compact('empresas', 'areas'));
+    }
 
-    $empresa_area = EmpresaArea::create($request->all());
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
-    return $empresa_area ? 1 : 0;
-  }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(EmpresaAreaRequest $request)
+    {
+        //
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\EmpresaArea  $empresaArea
-   * @return \Illuminate\Http\Response
-   */
-  public function show(EmpresaArea $empresaArea)
-  {
-    
-  }
+        $empresa_area = EmpresaArea::create($request->all());
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\EmpresaArea  $empresaArea
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(EmpresaArea $empresaArea)
-  {
-    //
-  }
+        return $empresa_area ? 1 : 0;
+    }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\EmpresaArea  $empresaArea
-   * @return \Illuminate\Http\Response
-   */
-  public function update(EmpresaAreaRequest $request, $id)
-  {
-    $empresa_area = EmpresaArea::findOrfail($id);
-    $empresa_area->update($request->all());
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\EmpresaArea  $empresaArea
+     * @return \Illuminate\Http\Response
+     */
+    public function show(EmpresaArea $empresaArea)
+    {
+        //
+    }
 
-    return $empresa_area ? 1 : 0;
-  }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\EmpresaArea  $empresaArea
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(EmpresaArea $empresaArea)
+    {
+        //
+    }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\EmpresaArea  $empresaArea
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(EmpresaArea $empresaArea)
-  {
-    //
-  }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\EmpresaArea  $empresaArea
+     * @return \Illuminate\Http\Response
+     */
+    public function update(EmpresaAreaRequest $request, $id)
+    {
+        $empresa_area = EmpresaArea::findOrfail($id);
+        $empresa_area->update($request->all());
 
-  public function search(Request $request)
-  {
-    $search = $request->get('search');
-    $page = $request->get('page');
-    $filters = $request->get('filters') ?? [];
+        return $empresa_area ? 1 : 0;
+    }
 
-    $empresaAreaModel = new EmpresaArea();
-    $data = $empresaAreaModel->search($search, $page, $filters);
-    return response()->json($data);
-  }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\EmpresaArea  $empresaArea
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(EmpresaArea $empresaArea)
+    {
+        //
+    }
 }
