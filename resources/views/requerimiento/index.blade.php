@@ -372,7 +372,7 @@
 
                 <input type="file"  accept="image/*" class="img form-control-file" id="imn" name="">
 
-                <img id="imag" onerror="this.style.display='none'" class="imagenPrevisualizacion mt-2" style="width: 200px;height: 200px;">
+                <img id="imag" class="imagenPrevisualizacion mt-2" style="width: 200px;height: 200px;">
 
             </div>
 
@@ -387,7 +387,7 @@
 
             <div class="form-group text-center row justify-content-center align-items-center col-md-4">
 
-                <button type="button" id="retirar" class="btn btn-primary">CONSERVAR IMAGEN</button>
+                <button type="button" id="" class="btn btn-primary">CONSERVAR IMAGEN</button>
 
             </div>
 
