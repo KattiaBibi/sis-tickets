@@ -7,6 +7,38 @@
 @section('css')
 
 <style>
+  td.details-control {
+    background: transparent url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+  }
+
+  tr.shown td.details-control {
+    background: transparent url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+  }
+
+  td.details-control2 {
+    background: transparent url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+  }
+
+  tr.shown td.details-control2 {
+    background: transparent url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+  }
+
+  div.dataTables_wrapper {
+    width: 100% !important;
+  }
+
+  .test {
+    width: 8% !important;
+  }
+
+  .color-empresa {
+    display: inline-block;
+    padding: 3px;
+    border-radius: 13px;
+  }
+
   #chart-container {
     font-family: Arial;
     height: 420px;
@@ -32,17 +64,13 @@
 @section('content')
 
 <div class="card">
-
   <div class="card-header">
-
     <div class="row">
       <div class="col-lg-10">
         <h2>Listar</h2>
       </div>
       <div class="col-lg-2">
-
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
-
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalFrmEmpresa" id="btnRegistrarEmpresa">AGREGAR</button>
       </div>
     </div>
   </div>
@@ -55,209 +83,148 @@
     </div>
     @endif
 
-
-    <table id="empresas" class="table table-striped table-bordered" style="">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>RUC</th>
-          <th>NOMBRE</th>
-          <th>DIRECCIÓN</th>
-          <th>TELÉFONO</th>
-          <th colspan="2" style="text-align: center;">ACCIÓN</th>
-
-        </tr>
-      </thead>
-      <tbody>
-
-
-      </tbody>
-      <tfoot>
-        <tr>
-          <th>ID</th>
-          <th>RUC</th>
-          <th>NOMBRE</th>
-          <th>DIRECCIÓN</th>
-          <th>TELÉFONO</th>
-          <th>COLOR</th>
-          <th colspan="2">ACCIÓN</th>
-
-        </tr>
-      </tfoot>
-    </table>
-
-  </div>
-</div>
-
-
-<div class="modal fade" id="modalagregar" tabindex="-1" role="dialog" aria-labelledby="modalagregar" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-        @if ($errors->any())
-        <div class="alert alert-danger">
-          <strong>¡Ups!</strong> Hubo algunos problemas con tus inputs.<br><br>
-          <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-        </div>
-        @endif
-        <form action="{{ route('empresa.store') }}" id="frmguardar">
-
-          <div class="form-group">
-            <label for="">RUC:</label>
-            <input type="text" class="form-control" id="txtRuc" maxlength="11" placeholder="Ingrese el nombre" name="ruc">
-
-          </div>
-          <div class="form-group">
-            <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre">
-          </div>
-          <div class="form-group">
-            <label for="">Dirección:</label>
-            <input type="text" class="form-control" id="txtDireccion" placeholder="Ingrese la dirección" name="direccion">
-          </div>
-          <div class="form-group">
-            <label for="">Teléfono:</label>
-            <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="telefono">
-          </div>
-          <div class="form-group">
-            <label for="txtColor">Color:</label>
-            <input type="color" name="color" id="txtColor" class="form-control">
-          </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-        <button id="btnguardar" class="btn btn-primary">GUARDAR</button>
-      </div>
-      </form>
-
+    <div class="table-responsive">
+      <table id="tablaEmpresas" class="table table-bordered table-sm">
+        <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Ruc</th>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Color</th>
+            <th colspan="2" style="text-align: center;">Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
+@include('empresa.forms.frmEmpresa')
+@include('empresa.forms.frmArea')
+@include('empresa.forms.frmColaborador')
 
 
-<div class="modal fade" id="modaleditar" tabindex="-1" role="dialog" aria-labelledby="modaleditar" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Actualiza registro</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-        @if ($errors->any())
-        <div class="alert alert-danger">
-          <strong>¡Ups!</strong> Hubo algunos problemas con tus inputs.<br><br>
-          <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-        </div>
-        @endif
-        <form id="frmeditar">
-
-          <div class="form-group">
-            <label for="">RUC:</label>
-            <input type="hidden" class="form-control" id="idregistro" name="id">
-
-            <input type="text" class="form-control" maxlength="11" id="editarRuc" placeholder="Ingrese el nombre" name="ruc">
-          </div>
-
-
-          <div class="form-group">
-            <label for="editarNombre">Nombre:</label>
-            <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="nombre">
-          </div>
-          <div class="form-group">
-            <label for="editarDireccion">Dirección:</label>
-            <input type="text" class="form-control" id="editarDireccion" placeholder="Ingrese la dirección" name="direccion">
-          </div>
-          <div class="form-group">
-            <label for="editarTelefono">Teléfono:</label>
-            <input type="text" class="form-control" id="editarTelefono" placeholder="Ingrese la dirección" name="telefono">
-          </div>
-          <div class="form-group">
-            <label for="editarColor">Color:</label>
-            <input type="color" name="color" id="editarColor" class="form-control">
-          </div>
-
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-        <button type="submit" id="btnactualizar" class="btn btn-primary">EDITAR</button>
-      </div>
-      </form>
-
-    </div>
-  </div>
+<!-- <div class="btn-group mb-2" role="group" aria-label="CRUD Buttons">
+  <button type="button" class="btn btn-sm btn-success" id="btnCrear" onclick="demo_create()">CREAR</button>
+  <button type="button" class="btn btn-sm btn-warning" id="btnEditar" onclick="demo_rename()">EDITAR</button>
+  <button type="button" class="btn btn-sm btn-danger" id="btnEliminar" onclick="demo_delete()">ELIMINAR</button>
 </div>
 
+<div class="mb-2">
+  <input type="text" id="searchTreeView" class="form-control form-control-sm w-auto">
+</div>
 
-
-<div id="chart-container"></div>
-
+<div id="treeView"></div> -->
 
 @endsection
 
 
 @section('js')
 
+<script src="{{asset('js/Utils.js')}}"></script>
 <script src="{{asset('js/empresa.js')}}"></script>
 
 <script>
   listar();
 </script>
 
-<script>
-  (function($) {
-    $(function() {
-      var ds = {
-        'name': 'Janina Rivas Cabrejos',
-        'title': 'Jefa de Area (Compusistel)',
-        'children': [{
-            'name': 'Bibiana Cruzado',
-            'title': 'Asistente Sistemas'
-          },
-          {
-            'name': 'David MC',
-            'title': 'Asistente Sistemas',
-          },
-          {
-            'name': 'Maryori',
-            'title': 'Asistente Soporte'
-          },
-          {
-            'name': 'JuanMDH',
-            'title': 'Asistente Soporte'
-          }
-        ]
-      };
+<!-- <script>
+  frmguardar.onsubmit = e => {
+    e.preventDefault();
 
-      var oc = $('#chart-container').orgchart({
-        'data': ds,
-        'depth': 2,
-        'nodeContent': 'title'
+    let data = new FormData(frmguardar);
+    data.append('_token', token_);
+    console.log(data);
+
+    axios.post('empresa', data)
+      .then(function(res) {
+        if (res.data === 1) {
+          let ref = $('#treeView').jstree(true);
+          ref.create_node('#', {text: txtNombre.value, node_type: 'empresa'});
+          $('#modalagregar').modal('hide');
+          frmguardar.reset();
+        }
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  }
+
+  function demo_create() {
+    var ref = $('#treeView').jstree(true),
+      sel = ref.get_selected();
+    if (!sel.length) {
+      // return false;
+      $('#modalagregar').modal('show');
+    }
+    sel = sel[0];
+    sel = ref.create_node(sel, {
+      "type": "file"
+    });
+    if (sel) {
+      ref.edit(sel);
+    }
+  };
+
+  function demo_rename() {
+    var ref = $('#treeView').jstree(true),
+      sel = ref.get_selected();
+    if (!sel.length) {
+      return false;
+    }
+    sel = sel[0];
+    ref.edit(sel);
+  };
+
+  function demo_delete() {
+    var ref = $('#treeView').jstree(true),
+      sel = ref.get_selected();
+    if (!sel.length) {
+      return false;
+    }
+    ref.delete_node(sel);
+  };
+
+  $(function() {
+
+    var to = false;
+    $('#searchTreeView').keyup(function() {
+      if (to) {
+        clearTimeout(to);
+      }
+      to = setTimeout(function() {
+        var v = $('#searchTreeView').val();
+        $('#treeView').jstree(true).search(v);
+      }, 250);
+    });
+
+    $('#treeView')
+      .jstree({
+        "core": {
+          "animation": 0,
+          "check_callback": true,
+          'force_text': true,
+          "themes": {
+            "stripes": true
+          },
+          'data': {
+            'url': 'api/empresa/getOrganigrama',
+            'data': function(node) {
+              return {
+                'id': node.id
+              };
+            }
+          }
+        },
+        "plugins": ["search", "wholerow"]
       });
 
-    });
-  })(jQuery);
-</script>
+  });
+</script> -->
 
 @endsection

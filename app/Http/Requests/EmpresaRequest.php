@@ -29,7 +29,7 @@ class EmpresaRequest extends FormRequest
             'nombre' => 'required',
             'direccion' => 'required',
             'telefono' => 'required',
-            'color' => 'required|size:7|unique:empresas,color,' . $this->color
+            'color' => 'required|size:7|unique:empresas,color,' . $this->id
         ];
     }
 

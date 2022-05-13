@@ -72,49 +72,6 @@ class Colaborador extends Model
 
     $resultSet['pagination'] = ['more' => ($page * $limit) < $countFiltered];
 
-    // if (!empty(trim($search))) {
-
-    //   $filters['nom_ape'] = $search;
-
-    //   $query = DB::table('colaboradores')
-    //     ->select(DB::raw('COUNT(colaboradores.id) AS count_filtered'))
-    //     ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
-    //     ->join('model_has_roles', 'model_hash_roles.model_id', '=', 'users.id', 'inner');
-
-    //   $countFiltered = $this->getFilters($query, $filters)->first()->count_filtered;
-
-    //   $query = DB::table('colaboradores')
-    //     ->select(
-    //       "colaboradores.id AS id",
-    //       DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS text")
-    //     )
-    //     ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
-    //     ->join('model_has_roles', 'model_hash_roles.model_id', '=', 'users.id', 'inner');
-
-    //   $resultSet['results'] = $this->getFilters($query, $filters)->get();
-
-    //   $resultSet['pagination'] = ['more' => ($page * $limit) < $countFiltered];
-    // } else {
-
-    //   $countAllResults = DB::table('colaboradores')
-    //     ->select(DB::raw('COUNT(colaboradores.id) AS count_all_results'))
-    //     ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
-    //     ->join('model_has_roles', 'model_hash_roles.model_id', '=', 'users.id', 'inner')
-    //     ->first()->count_all_results;
-
-    //   $query = DB::table('colaboradores')
-    //     ->select(
-    //       "colaboradores.id AS id",
-    //       DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS text")
-    //     )
-    //     ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
-    //     ->join('model_has_roles', 'model_hash_roles.model_id', '=', 'users.id', 'inner');
-
-    //   $resultSet['results'] = $this->getFilters($query, $filters)->get();
-
-    //   $resultSet['pagination'] = ['more' => ($page * $limit) < $countAllResults];
-    // }
-
     return $resultSet;
   }
 }

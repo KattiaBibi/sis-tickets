@@ -41,8 +41,10 @@ Route::resource('colaborador','ColaboradorController');
 Route::post('datatable/colaboradores', 'ColaboradorController@colaborador')->name('datatable.colaborador');
 Route::get('colaboradores/search', 'ColaboradorController@search');
 
+Route::get('empresa/search', 'EmpresaController@search');
 Route::resource('empresa','EmpresaController');
 Route::post('datatable/empresas', 'EmpresaController@empresa')->name('datatable.empresa');
+Route::get('api/empresa/getOrganigrama', 'EmpresaController@getOrganigrama');
 
 Route::resource('area','AreaController');
 Route::post('datatable/areas', 'AreaController@area')->name('datatable.area');
@@ -58,12 +60,15 @@ Route::resource('servicio','ServicioController');
 Route::post('datatable/servicios', 'ServicioController@servicio')->name('datatable.servicio');
 
 
+Route::get('empresa_area/search', 'EmpresaAreaController@search');
 Route::resource('empresa_area','EmpresaAreaController');
 Route::post('datatable/empresa_areas', 'EmpresaAreaController@empresa_area')->name('datatable.empresa_area');
 
 Route::resource('empresa_servicio','EmpresaServicioController');
 Route::post('datatable/empresa_servicios', 'EmpresaServicioController@empresa_servicio')->name('datatable.empresa_servicio');
 
+Route::resource('atencion','AtencionController');
+// Route::post('datatable/atenciones', 'Atenciones@atencion')->name('datatable.atencion');
 
 Route::get('cita/getForFullCalendar', 'CitaController@getForFullCalendar');
 Route::resource('cita','CitaController');
