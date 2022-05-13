@@ -64,11 +64,7 @@ class Colaborador extends Model
       ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
       ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id', 'inner');
 
-    if (!empty(trim($search))) {
-      $resultSet['results'] = $this->getFilters($query, $filters)->limit($limit)->offset($offset)->get();
-    } else {
-      $resultSet['results'] = $this->getFilters($query, $filters)->get();
-    }
+    $resultSet['results'] = $this->getFilters($query, $filters)->limit($limit)->offset($offset)->get();
 
     $resultSet['pagination'] = ['more' => ($page * $limit) < $countFiltered];
 
