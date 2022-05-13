@@ -32,10 +32,30 @@
 //     });
 // });
 
+
+
+$("#retirar").on("click", function (){
+
+$("#imn").val(null);
+
+$('#imag').hide();
+$('#imag').removeAttr("src");
+
+
+});
+
+
+$('#imag').on("error", function(event) {
+    $(event.target).css("display", "none");
+});
+
+
 const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
 
 
-    function readImage (input) {
+    function readImage (input)
+
+    {
         if (input.files && input.files[0]) {
           var reader = new FileReader();
           reader.onload = function (e) {
@@ -43,32 +63,45 @@ const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
           }
           reader.readAsDataURL(input.files[0]);
         }
+
       }
 
-      $(".img").on("change", function () {
+      $(".img").on("change", function ()
 
+    {
 
     const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
 
-        // Código a ejecutar cuando se detecta un cambio de archivO
+        // Código a ejecutar cuando se detecta un cambio de archivo
 
         if (this.files.length <= 0) return;
 
         const archivo = this.files[0];
 
-    if (archivo.size > MAXIMO_TAMANIO_BYTES) {
+
+
+    if (archivo.size > MAXIMO_TAMANIO_BYTES)
+
+    {
+
         const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
-        alert(`El tamaño máximo es ${tamanioEnMb} MB`);
+        alert(`El tamaño máximo es ${tamanioEnMb}  MB`);
+
         // Limpiar
         this.value = "";
 
     }
+
     else{
 
+        $('#imag').show();
         readImage(this);
+
     }
 
-      });
+}
+
+);
 
 
 
@@ -573,7 +606,7 @@ $("#btnactualizar").on("click", (event) => {
                     });
 
                     datatable.ajax.reload(null, false);
-                    $("#frmguardar")[0].reset();
+                    $("#frmeditar")[0].reset();
 
                     $("#modaleditar").modal("hide");
                 } else {

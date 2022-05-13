@@ -38,8 +38,8 @@ class EmpresaAreaController extends Controller
     {
         //
 
-        $empresas = Empresa::all();
-        $areas = Area::all();
+        $empresas = DB::table('empresas')->where('estado','=', '1')->get();
+        $areas = DB::table('areas')->where('estado','=', '1')->get();
 
         return view('empresa_area.index', compact('empresas', 'areas'));
     }
