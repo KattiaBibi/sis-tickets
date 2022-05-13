@@ -17,8 +17,6 @@ use App\subirimagen;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
-
 
 class RequerimientoController extends Controller
 {
@@ -277,22 +275,22 @@ class RequerimientoController extends Controller
 
         $requerimiento = Requerimiento::findOrfail($id);
 
-    //  RUTA DE LA IMAGEN
-        $ruta = "requerimiento/";
 
-    // IMAGEN NUEVA
-        $file = $request->imagennue;
+        if ($request->estado == "pendiente" || $request->estado == "en espera") {
 
-    // IMAGEN ANTERIOR
+            $requerimiento->update(
+                [
+                    'avance' => $request->avance,
+                    'prioridad' => $request->prioridad,
+                    'estado' => $request->estado
+                ]
+            );
 
-        $file2= $request->imganterior;
-
-    // NOMBRE PARA CONCATENAR A LA NUEVA IMAGEN
-        $nombre = "requerimiento";
-
-        // return response()->json($file2);
+            return $requerimiento ? 1 : 0;
+        } else {
 
 
+<<<<<<< HEAD
         if($file){
 
         // SI EXISTE LA IMAGEN NUEVA
@@ -306,16 +304,34 @@ class RequerimientoController extends Controller
 
             // DESPUÉS GUARDA EN LA BASE DE DATOS 
 
+=======
+>>>>>>> parent of a345b43 (kbhjhgk)
             $requerimiento->update(
                 [
                     'avance' => $request->avance,
                     'prioridad' => $request->prioridad,
+<<<<<<< HEAD
                     'estado' => $request->estado,
                     'imagen'=> $subir,
                 ]
             );
+=======
+                    'estado' => $request->estado
+                ]
+            );
+            $colab = $request->usuario_colab_id;
+            foreach ($colab as $key => $value) {
+                # code...
+                $deta_requerimiento = DetalleRequerimiento::create([
+                    "usuario_colab_id" => $value,
+                    "requerimiento_id" => $requerimiento->id
+                ]);
+            }
+>>>>>>> parent of a345b43 (kbhjhgk)
 
+            return $requerimiento ? 1 : 0;
         }
+<<<<<<< HEAD
 
         else{
 
@@ -350,6 +366,8 @@ class RequerimientoController extends Controller
             return $requerimiento ? 1 : 0;
 
 
+=======
+>>>>>>> parent of a345b43 (kbhjhgk)
     }
 
     /**

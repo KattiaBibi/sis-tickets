@@ -361,15 +361,16 @@
         </div>
         <div class="modal-body">
 
-      <form  id="frmeditar" enctype="multipart/form-data">
+      <form  id="frmeditar">
 
         <input type="hidden" class="form-control" id="idregistro"  name="id">
+
 
         <div class="form-row">
 
             <div class="form-group text-center col-md-4">
 
-                <input type="file"  accept="image/*" class="img form-control-file" id="imn" name="imagennue">
+                <input type="file"  accept="image/*" class="img form-control-file" id="imn" name="">
 
                 <img id="imag" onerror="this.style.display='none'" class="imagenPrevisualizacion mt-2" style="width: 200px;height: 200px;">
 
@@ -379,7 +380,7 @@
 
             <div class="form-group text-center row justify-content-center align-items-end col-md-4">
 
-                   <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  id="mostimg" style="height: 200px; width: 200px;" name="">
+                   <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  id="mostimg" style="height: 200px; width: 200px;">
 
                 </div>
 
@@ -492,7 +493,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-            <button type="" id="btnactualizar" class="btn btn-primary">EDITAR</button>
+            <button type="submit" id="btnactualizar" class="btn btn-primary">EDITAR</button>
         </div>
       </form>
 

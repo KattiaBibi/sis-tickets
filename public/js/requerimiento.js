@@ -497,7 +497,6 @@ $("#requerimientos").on("click", ".editar", function () {
 });
 
 $("#btnguardar").on("click", (event) => {
-
     event.preventDefault();
 
     let route = $("#frmguardar").attr("action");
@@ -545,34 +544,21 @@ $("#btnguardar").on("click", (event) => {
             });
         },
     });
-
-
 });
 
 $("#btnactualizar").on("click", (event) => {
-
+    
     event.preventDefault();
 
+    $("#xy")[0].setAttribute("src", "");
 
     let dataArray = $("#frmeditar").serializeArray();
     let route = "/requerimiento/" + dataArray[0].value;
-    let _CSRF = { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') };
-    var formData = new FormData($("#frmeditar")[0]);
-
-    let valor =$("#mostimg").attr("src");
-
-    let divisiones = valor.split("/", -2);
-
-    let extraer =divisiones.slice(-1);
-
-    formData.append("imganterior", extraer);
-    formData.append("_method", 'PUT');
-
+    dataArray.push({ name: "_token", value: token_ });
+    console.log(dataArray[0].value);
 
     let val = document.getElementById("personal").value;
     let val2 = document.getElementById("estado").value;
-
-
 
     if ((val.length == 0 && val2 == "en proceso") || val == "culminado") {
         Swal.fire({
@@ -583,17 +569,10 @@ $("#btnactualizar").on("click", (event) => {
             timer: 2500,
         });
     } else {
-
-
         $.ajax({
-
-            method: "post",
+            method: "put",
             url: route,
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            headers: _CSRF,
+            data: dataArray,
 
             success: function (Response) {
                 if (Response == 1) {
@@ -624,8 +603,6 @@ $("#btnactualizar").on("click", (event) => {
             },
         });
     }
-
-
 });
 
 $("#colaboradores").on("click", ".desactivar", function () {
