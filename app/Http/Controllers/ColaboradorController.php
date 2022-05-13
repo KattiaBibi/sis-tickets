@@ -21,22 +21,21 @@ class ColaboradorController extends Controller
     $this->middleware('auth');
   }
 
-
-
   public function colaborador()
   {
-
 
     $colaboradores = DB::table('colaboradores as c')
       ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
       ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
       ->join('areas as a', 'ea.area_id', '=', 'a.id')
-      ->select('c.estado as colaborador_estado', 'c.id', 'c.nrodocumento', 'c.nombres', 'c.apellidos', 'c.fechanacimiento', 'c.direccion', 'c.telefono', 'e.nombre as e.nombre', 'a.nombre as a.nombre', 'ea.id as idea');
+      ->select('c.estado as colaborador_estado', 'c.id', 'c.nrodocumento', 'c.nombres', 'c.apellidos', 'c.fechanacimiento', 'c.direccion', 'c.telefono', 'e.nombre as e.nombre', 'a.nombre as a.nombre', 'ea.id as idea', 'e.nombre as nombre_empresa', 'a.nombre as nombre_area', 'ea.id as emprea_area_id');
 
+    if (request()->input('id_empresa_area')) {
+      $colaboradores->where('ea.id', '=', request()->input('id_empresa_area'));
+    }
 
     return datatables()->of($colaboradores)->toJson();
   }
-
 
   public function index()
   {
