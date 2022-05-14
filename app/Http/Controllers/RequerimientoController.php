@@ -130,7 +130,7 @@ class RequerimientoController extends Controller
         $empresa_servicios = DB::table('empresa_servicios as es')
             ->join('empresas as e', 'es.empresa_id', '=', 'e.id')
             ->join('servicios as s', 'es.servicio_id', '=', 's.id')
-            ->select('es.id as esid', 'e.id as eid', 's.id as sid', 's.nombre as snombre', 'e.nombre as enombre', 's.nombre as snombre')->where('empresa_id', $id)->get();
+            ->select('es.id as esid', 'e.id as eid', 's.id as sid', 's.nombre as snombre', 'e.nombre as enombre', 's.nombre as snombre')->where('empresa_id', $id)->where("s.estado","=",1)->get();
 
 
         return $empresa_servicios;
@@ -141,10 +141,12 @@ class RequerimientoController extends Controller
     public function listargerentes($id)
     {
 
+        // listar gerentes por el área de gerencia
+
         $gerentes = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', 1)->where('ea.empresa_id', $id)->get();
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', 1)->where('ea.empresa_id', $id)->where("c.estado","=", 1)->get();
 
         return $gerentes;
     }
@@ -156,7 +158,7 @@ class RequerimientoController extends Controller
         $colaboradores = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.empresa_id', $id)->get();
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.empresa_id', $id)->where("c.estado","=",1)->get();
 
         return $colaboradores;
     }
@@ -168,7 +170,7 @@ class RequerimientoController extends Controller
     {
 
         $servicios = Servicio::all();
-        $empresas = Empresa::all();
+        $empresas = DB::table('empresas')->where('estado','=', '1')->get();
         $usuarios = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->select('u.id as usuario_id', 'c.id as colaborador_id', 'c.nombres', 'c.apellidos')->get();

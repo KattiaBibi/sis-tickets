@@ -38,8 +38,9 @@ class EmpresaServicioController extends Controller
     public function index()
     {
         //
-        $empresas = Empresa::all();
-        $servicios = Servicio::all();
+
+        $empresas = DB::table('empresas')->where('estado','=', '1')->get();
+        $servicios = DB::table('servicios')->where('estado','=', '1')->get();
 
         return view('empresa_servicio.index', compact('empresas', 'servicios'));
     }

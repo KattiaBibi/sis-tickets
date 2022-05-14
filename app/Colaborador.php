@@ -25,7 +25,10 @@ class Colaborador extends Model
   ];
 
   private function getFilters($query, $filters)
+
   {
+    $query->where('colaboradores.estado','=', 1);
+
     if (isset($filters['nom_ape']) && $filters['nom_ape'] !== '') {
       $query->where(function ($query) use ($filters) {
         $query->where('nombres', 'like', '%' . $filters['nom_ape'] . '%');
@@ -40,6 +43,7 @@ class Colaborador extends Model
     return $query;
   }
 
+
   public function search($search, $page, $filters)
   {
     $resultSet = [];
@@ -53,6 +57,7 @@ class Colaborador extends Model
       ->select(DB::raw('COUNT(colaboradores.id) AS count_filtered'))
       ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'inner')
       ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id', 'inner');
+
 
     $countFiltered = $this->getFilters($query, $filters)->first()->count_filtered;
 

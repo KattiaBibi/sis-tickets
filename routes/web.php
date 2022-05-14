@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,6 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 
 
 Route::get('/dashboard', 'HomeController@index')->middleware('can:admin.home')->name('dashboard');
@@ -66,9 +66,6 @@ Route::post('datatable/empresa_areas', 'EmpresaAreaController@empresa_area')->na
 
 Route::resource('empresa_servicio','EmpresaServicioController');
 Route::post('datatable/empresa_servicios', 'EmpresaServicioController@empresa_servicio')->name('datatable.empresa_servicio');
-
-Route::resource('atencion','AtencionController');
-// Route::post('datatable/atenciones', 'Atenciones@atencion')->name('datatable.atencion');
 
 Route::get('cita/getForFullCalendar', 'CitaController@getForFullCalendar');
 Route::resource('cita','CitaController');

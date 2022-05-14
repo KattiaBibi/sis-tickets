@@ -30,8 +30,8 @@ class CitaController extends Controller
 
   public function index()
   {
-    $empresas = Empresa::all();
-    $colaboradores = Colaborador::all();
+    $empresas = DB::table('empresas')->where('estado','=', '1')->get();
+    $colaboradores = DB::table('colaboradores')->where('estado','=', '1')->get();
 
     return view('cita.calendario', compact('empresas', 'colaboradores'));
   }
