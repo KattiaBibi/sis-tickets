@@ -135,7 +135,7 @@
 
             <input type="hidden" name="usuarioregist_id" value="{{ auth()->user()->id}}" id="registro">
 
-            <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese la descripción de la atención." rows="3" name="titulo"></textarea>
+            <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese el nombre del requerimiento." rows="3" name="titulo"></textarea>
 
             <div id="contador">0/200</div>
 
@@ -210,7 +210,7 @@
 
             <label for="">DESCRIPCIÓN:</label>
 
-                <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del problema." rows="10" name="descripcion"></textarea>
+                <textarea maxlength="600" class="form-control" id="txtDetalle" placeholder="Ingrese el detalle del requerimiento." rows="10" name="descripcion"></textarea>
 
                 <div id="contador2">0/600</div>
 
@@ -417,7 +417,7 @@
             <div class="form-group col-md-12">
                 <label for="">TÍTULO:</label>
 
-                <textarea maxlength="200" readonly class="form-control" id="editarTitulo" placeholder="Ingrese la descripción de la atención." rows="2" name="titulo"></textarea>
+                <textarea maxlength="200" readonly class="form-control" id="editarTitulo" placeholder="Ingrese el nombre del requerimiento." rows="2" name="titulo"></textarea>
             </div>
 
 

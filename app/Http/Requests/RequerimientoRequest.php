@@ -43,7 +43,7 @@ class RequerimientoRequest extends FormRequest
 
         return[
 
-            'titulo.required' => 'El nombre es un campo requerido.',
+            'titulo.required' => 'El título es un campo requerido.',
             'descripcion.required' => 'Debe ingresar una descripción.',
             'prioridad.alpha' => 'Debe seleccionar una prioridad.',
             'empresa_servicio_id.integer' => 'Debe seleccionar una empresa con servicio.',
