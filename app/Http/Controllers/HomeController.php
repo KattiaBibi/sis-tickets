@@ -119,7 +119,7 @@ class HomeController extends Controller
 
         if ($role_name === 'Trabajador') {
             $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
-                ->where('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
+                ->orWhere('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
         }
 
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->limit(4)->get();

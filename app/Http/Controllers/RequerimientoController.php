@@ -69,7 +69,7 @@ class RequerimientoController extends Controller
         if ($role_name === 'AdminGerente') {
             $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
                 ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id)
-                ->where('requerimientos.usuarioregist_id', '=', auth()->user()->id);
+                ->orWhere('requerimientos.usuarioregist_id', '=', auth()->user()->id);
         }
 
         if ($role_name === 'Trabajador') {
