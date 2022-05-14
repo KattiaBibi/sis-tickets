@@ -420,16 +420,16 @@ $("#retirar").on("click", function (){
 
         // SI EL USUARIO LOGUEADO NO ES EL MISMO QUE HIZO EL REQUERIMIENTO, NO PODRÁ ACCEDER AL EDITAR
 
-          if($("#registro").val() != $("#UsuarioSolicitante2").val()){
+          if($("#registro").val() != $("#UsuarioSolicitante2").val())
+        {
 
                     $(".divoculto").hide();
-         }
+        }
 
-         else{
+         else
 
+        {
            $(".divoculto").show();
-
-
         }
 
         document.getElementById("avan").innerHTML =
