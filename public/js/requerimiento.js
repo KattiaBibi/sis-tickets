@@ -121,6 +121,7 @@ $("#retirar").on("click", function (){
 
     addEventListener("load", inicio, false);
 
+
     $("#empresa").on("change", function (e) {
 
          $('#gerente').val(null).trigger('change');
@@ -380,13 +381,23 @@ $("#retirar").on("click", function (){
         });
     }
 
-    $("#requerimientos").on("click", ".editar", function () {
+
+
+    $("#requerimientos").on("click", ".editar", function (event)
+    {
+
+        event.preventDefault();
+
         var data = datatable.row($(this).parents("tr")).data(); //Detecta a que fila hago click y me captura los datos en la variable data.
         if (datatable.row(this).child.isShown()) {
             //Cuando esta en tamaño responsive
 
             var data = datatable.row(this).data();
         }
+
+
+
+
         console.log(data);
         $("#idregistro").val(data["id"]);
         $("#editarTitulo").val(data["titulo_requerimiento"]);
@@ -405,6 +416,22 @@ $("#retirar").on("click", function (){
         $("#avance").val(data["avance_requerimiento"]);
         $("#estado").val(data["estado_requerimiento"]);
         $("#prioridad").val(data["prioridad_requerimiento"]);
+
+
+        // SI EL USUARIO LOGUEADO NO ES EL MISMO QUE HIZO EL REQUERIMIENTO, NO PODRÁ ACCEDER AL EDITAR
+
+          if($("#registro").val() != $("#UsuarioSolicitante2").val()){
+
+                    $(".divoculto").hide();
+         }
+
+         else{
+
+           $(".divoculto").show();
+
+
+        }
+
         document.getElementById("avan").innerHTML =
         document.getElementById("avance").value;
 

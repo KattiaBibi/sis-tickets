@@ -133,7 +133,7 @@
         <div class="form-group">
             <label for="">TÍTULO:</label>
 
-            <input type="hidden" name="usuarioregist_id" value="{{ auth()->user()->id}}" id="">
+            <input type="hidden" name="usuarioregist_id" value="{{ auth()->user()->id}}" id="registro">
 
             <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese la descripción de la atención." rows="3" name="titulo"></textarea>
 
@@ -354,7 +354,8 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Actualiza registro de requerimiento</h5>
+            <h5 class="modal-title" id="exampleModalLabel"><span class="divoculto">ACTUALIZA </span>REGISTRO DE MANTENIMIENTO</h5>
+
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -365,7 +366,7 @@
 
         <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-        <div class="form-row">
+        <div class="divoculto form-row" id="">
 
             <div class="form-group text-center col-md-4">
 
@@ -443,7 +444,7 @@
 
             </div>
 
-    <div class="row">
+    <div class="divoculto row">
 
         <div class="form-group col-md-6">
             <label for="">PRIORIDAD</label>
@@ -473,7 +474,7 @@
     </div>
 
 
-    <div class="form-row">
+    <div class="divoculto form-row">
 
         <div class="form-group col-md-12" hidden id="trabajadores">
             <label for="">PERSONAL</label>
@@ -492,7 +493,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-            <button type="" id="btnactualizar" class="btn btn-primary">EDITAR</button>
+            <button type="" id="btnactualizar" class="divoculto btn btn-primary">EDITAR</button>
         </div>
       </form>
 
