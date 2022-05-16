@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
         return [
             //
 
-            'name' => 'required',
+            'name' => 'required|unique:users,name,' . $this->id,
             'email' => 'required',
             'password' => 'required',
             'colaborador_id'=>'required|integer',
@@ -38,10 +38,11 @@ class UserRequest extends FormRequest
     public function messages()
 {
     return [
+        'name.unique' => '¡Usuario con este nombre ya registrado!',
         'name.required' => 'El nombre es un campo requerido.',
         'email.required' => 'El email es un campo requerido.',
         'password.required' => 'La contraseña es un campo requerido.',
-        'colaborador_id.integer' => 'Debe seleccionar una prioridad.',
+        'colaborador_id.integer' => 'Debe seleccionar un colaborador.',
 
 ];
 }

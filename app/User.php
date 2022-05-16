@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-       'name', 'email', 'password','colaborador_id'
+       'name', 'email', 'password','colaborador_id', 'estado'
     ];
 
     /**
@@ -50,7 +50,7 @@ class User extends Authenticatable
 
 
     public function adminlte_desc(){
-        
+
         $role_name = DB::table('model_has_roles')
         ->select('roles.name AS role_name')
         ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')

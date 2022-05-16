@@ -53,12 +53,29 @@ function listar(){
     {data: 'name'},
     {data: 'description'},
 
-    {data:null, render: function (data) {
+    {data:null,
+    className: 'text-center test',
+        render: function (data) {
 
         return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
         }
     },
 
+
+    {data: 'estado',
+    className: 'text-center test',
+    render: function(data){
+
+        if(data=="1"){
+        return "<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>";
+
+        }
+
+        if(data=="0"){
+            return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
+        }
+    }
+    },
 
 ]
 } );
@@ -187,6 +204,81 @@ $.ajax({
 })
 
 });
+
+
+
+$('#permisos').on('click','.desactivar',function(){
+
+    Swal.fire({
+        title: '¿Estás seguro(a)?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí!',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+
+
+            var data = datatable.row($(this).parents('tr')).data();
+            if(datatable.row(this).child.isShown()){
+                var data = datatable.row(this).data();
+            }
+
+            console.log(data)
+            let route="/permiso/"+data['id'];
+            let data2={
+                id:data.id,
+                _token:token_
+            }
+
+            $.ajax({
+                "method":'delete',
+                "url": route,
+                "data": data2,
+
+
+                "success":function(Response){
+
+                    if(Response==1){
+
+                        Swal.fire(
+                            '¡Hecho!',
+                            'Su registro ha sido actualizado.',
+                            'success'
+                          )
+
+                  datatable.ajax.reload(null,false);
+
+                    }
+                        else{
+
+                            alert("no editado");
+                        }
+
+
+                },'error':(response)=>{
+                    console.log(response)
+                   $.each(response.responseJSON.errors, function (key, value){
+                    response.responseJSON.errors[key].forEach(element => {
+
+                        console.log(element);
+                        toastr.error(element);
+
+                       });
+                   });
+                }
+            })
+
+
+        }
+      })
+
+})
+
 
 
 

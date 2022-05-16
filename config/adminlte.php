@@ -300,19 +300,19 @@ return [
             'can'  =>'admin.empresa.listado'
         ],
 
-        [
-            'text' => 'Áreas',
-            'url'  => 'area',
-            'icon' => 'fas fa-fw fa-users',
-            'can'  =>'admin.area.listado'
-        ],
+        // [
+        //     'text' => 'Áreas',
+        //     'url'  => 'area',
+        //     'icon' => 'fas fa-fw fa-users',
+        //     'can'  =>'admin.area.listado'
+        // ],
 
-        [
-            'text' => 'Empresa y Áreas',
-            'url'  => 'empresa_area',
-            'icon' => 'fas fa-fw fa-users',
-            'can'  =>'admin.empresa_area.listado'
-        ],
+        // [
+        //     'text' => 'Empresa y Áreas',
+        //     'url'  => 'empresa_area',
+        //     'icon' => 'fas fa-fw fa-users',
+        //     'can'  =>'admin.empresa_area.listado'
+        // ],
 
         [
             'text' => 'Empresa y Servicios',

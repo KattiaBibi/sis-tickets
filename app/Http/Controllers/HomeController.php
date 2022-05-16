@@ -24,20 +24,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $role_name = DB::table('model_has_roles')
-            ->select('roles.name AS role_name')
+        $role_id = DB::table('model_has_roles')
+            ->select('roles.name AS role_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('model_id', '=', auth()->user()->id)
-            ->get()->first()->role_name;
+            ->get()->first()->role_id;
 
         // $query = DB::table('requerimientos')->select(DB::raw('COUNT(*) AS total_requerimientos'));
 
-        // if ($role_name === 'AdminGerente') {
+        // if ($role_id === 2) {
         //     $query->where('usuarioencarg_id', '=', auth()->user()->id)
         //         ->orWhere('usuarioregist_id', '=', auth()->user()->id);
         // }
 
-        // if ($role_name === 'Trabajador') {
+        // if ($role_id === 'Trabajador') {
         //     $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
         //         ->where('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
         // }
@@ -60,7 +60,7 @@ class HomeController extends Controller
             ->orWhere('detalle_citas.usuario_colab_id', '=', auth()->user()->id)
             ->get()->first()->total_citas;
 
-        // if ($role_name === 'Trabajador') {
+        // if ($role_id === 'Trabajador') {
         //     $query->join('detalle_cita', 'detalle_cita.cita_id', '=', 'citas.id', 'left')
         //         ->where('detalle_cita.usuario_colab_id', '=', auth()->user()->id);
         // }
@@ -70,7 +70,7 @@ class HomeController extends Controller
             ->join('users', 'users.colaborador_id', '=', 'colaboradores.id')
             ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('roles.name', '<>', 'Admin')
+            ->where('roles.id', '<>', 1)
             ->get()->first()->total_colaboradores;
 
         // dd($total_requerimientos, $total_citas);
@@ -83,11 +83,11 @@ class HomeController extends Controller
 
     public function getLastRequerimientos()
     {
-        $role_name = DB::table('model_has_roles')
-            ->select('roles.name AS role_name')
+        $role_id = DB::table('model_has_roles')
+            ->select('roles.id AS role_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('model_id', '=', auth()->user()->id)
-            ->get()->first()->role_name;
+            ->get()->first()->role_id;
 
         $query = DB::table('requerimientos')
             ->select(
@@ -111,13 +111,13 @@ class HomeController extends Controller
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
 
 
-        if ($role_name === 'AdminGerente') {
+        if ($role_id === 2) {
             $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
                 ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id)
                 ->where('requerimientos.usuarioregist_id', '=', auth()->user()->id);
         }
 
-        if ($role_name === 'Trabajador') {
+        if ($role_id === 3) {
             $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
                 ->orWhere('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
         }

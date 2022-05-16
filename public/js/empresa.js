@@ -8,7 +8,7 @@ let COLABORADOR_FORM_ACTION = 'STORE'
 
 function listar() {
   datatable = $('#tablaEmpresas').DataTable({
-    pageLength: 5,
+    pageLength: 10,
     destroy: true,
     async: false,
     autoWidth: false,

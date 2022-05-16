@@ -49,16 +49,49 @@ function listar(){
     return meta.row+1;}},
 
     {data: 'uname'},
+    {data: 'cnombres',
+
+    render: function (data) {
+
+        if(data==null){
+        return "Aún sin colaborador asignado";
+
+        }
+
+        else{
+
+           return data;
+        }
+
+        }
+    },
+
     {data: 'uemail'},
 
     // {data: 'upassword'},
 
-    {data: null, render: function (data) {
+    {data: null,
+    className: 'text-center',
+    render: function (data) {
 
         return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
         }
     },
 
+    {data: 'uestado',
+    className: 'text-center',
+    render: function(data){
+
+        if(data=="1"){
+        return "<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>";
+
+        }
+
+        if(data=="0"){
+            return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
+        }
+    }
+    },
 
 ]
 } );
@@ -216,7 +249,7 @@ $.ajax({
                 }
 
                 console.log(data)
-                let route="/empresa/"+data['id'];
+                let route="/usuario/"+data['uid'];
                 let data2={
                     id:data.id,
                     _token:token_
@@ -233,8 +266,8 @@ $.ajax({
                         if(Response==1){
 
                             Swal.fire(
-                                '¡Desactivado!',
-                                'Su registro ha sido desactivado.',
+                                '¡Hecho!',
+                                'Su registro ha sido actualizado.',
                                 'success'
                               )
 

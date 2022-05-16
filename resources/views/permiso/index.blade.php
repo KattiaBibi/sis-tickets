@@ -48,7 +48,7 @@
                 <th>ID</th>
                 <th>NOMBRE</th>
                 <th>DESCRIPCIÓN</th>
-               <th width="280px" class="text-center">ACCIÓN</th>
+               <th width="" colspan="2" class="text-center">ACCIONES</th>
 
             </tr>
         </thead>
@@ -61,7 +61,7 @@
             <th>ID</th>
             <th>NOMBRE</th>
             <th>DESCRIPCIÓN</th>
-           <th width="280px" class="text-center">ACCIÓN</th>
+           <th width="" colspan="2" class="text-center">ACCIONES</th>
 
             </tr>
         </tfoot>

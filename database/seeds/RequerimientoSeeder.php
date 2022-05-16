@@ -19,7 +19,7 @@ class RequerimientoSeeder extends Seeder
             'prioridad' => 'media',
             'estado' => 'pendiente',
             'empresa_servicio_id' => '2',
-            'usuarioregist_id' => '1',
+            'usuarioregist_id' => '3',
 
         ]);
 
@@ -30,7 +30,7 @@ class RequerimientoSeeder extends Seeder
             'prioridad' => 'alta',
             'estado' => 'pendiente',
             'empresa_servicio_id' => '1',
-            'usuarioregist_id' => '3',
+            'usuarioregist_id' => '2',
 
         ]);
 
@@ -41,7 +41,7 @@ class RequerimientoSeeder extends Seeder
             'prioridad' => 'baja',
             'estado' => 'pendiente',
             'empresa_servicio_id' => '2',
-            'usuarioregist_id' => '1',
+            'usuarioregist_id' => '3',
 
         ]);
 

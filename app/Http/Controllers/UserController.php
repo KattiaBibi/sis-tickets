@@ -32,7 +32,7 @@ class UserController extends Controller
 
         $usuarios=DB::table('users as u')
         ->join('colaboradores as c','u.colaborador_id','=','c.id')
-        ->select('u.id as uid','u.name as uname','u.email as uemail','u.password as upassword', 'u.colaborador_id as ucolaborador_id', 'c.nombres as cnombres')->get();
+        ->select('u.id as uid','u.name as uname','u.email as uemail','u.password as upassword', 'u.estado as uestado', 'u.colaborador_id as ucolaborador_id', 'c.nombres as cnombres')->get();
 
 
         return datatables()->of($usuarios)->toJson();
@@ -42,8 +42,8 @@ class UserController extends Controller
 
      public function getRoll($id){
 
-        $rol=User::findOrfail($id)->getRoleNames();
-        return $rol;
+        $user=User::findOrfail($id)->getRoleNames();
+        return $user;
      }
 
     public function index()
@@ -166,8 +166,19 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+
+    public function destroy($id)
     {
-        //
+        $user = User::findOrfail($id);
+
+        if ($user->estado == 1) {
+            $user->estado = 0;
+        } else {
+            $user->estado = 1;
+        }
+
+        $user->update();
+
+        return $user ? 1 : 0;
     }
 }

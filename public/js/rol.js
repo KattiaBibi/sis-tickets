@@ -50,26 +50,30 @@ function listar(){
     return meta.row+1;}},
 
     {data: 'name'},
-    // {data: 'estado',
-    // render: function(data){
 
-    //     if(data=="1"){
-    //     return "<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>";
-
-    //     }
-
-    //     if(data=="0"){
-    //         return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
-    //     }
-    // }
-    // },
-
-    {data: null, render: function (data) {
+    {data: null,
+    className: 'text-center',
+    render: function (data) {
 
         return "<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
         }
     },
 
+
+    {data: 'estado',
+    className: 'text-center',
+    render: function(data){
+
+        if(data=="1"){
+        return "<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>";
+
+        }
+
+        if(data=="0"){
+            return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
+        }
+    }
+    },
 
 ]
 });

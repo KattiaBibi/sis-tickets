@@ -19,6 +19,7 @@ class AlterUsersTable extends Migration
 
             $table->unsignedBigInteger('colaborador_id')->after('password');
             $table->foreign('colaborador_id','fk_user_colaborador')->references('id')->on('colaboradores');
+            $table->boolean('estado')->default(1)->after('colaborador_id');
 
         });
 

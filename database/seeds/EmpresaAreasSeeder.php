@@ -54,5 +54,11 @@ class EmpresaAreasSeeder extends Seeder
             'area_id' => '6',
         ]);
 
+        EmpresaArea::create([
+            'id' => '8',
+            'empresa_id' => '1',
+            'area_id' => '3',
+        ]);
+
     }
 }

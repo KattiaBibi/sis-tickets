@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Roll_Permiso;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\RolRequest;
 
@@ -45,7 +45,7 @@ class RolController extends Controller
     {
         //
 
-        $permissions= Permission::all();
+        $permissions = DB::table('permissions')->where('estado','=', '1')->get();
 
         return view('rol.index',compact('permissions'));
     }
@@ -131,8 +131,20 @@ class RolController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+
+
+    public function destroy($id)
     {
-        //
+        $rol = Role::findOrfail($id);
+
+        if ($rol->estado == 1) {
+            $rol->estado = 0;
+        } else {
+            $rol->estado = 1;
+        }
+
+        $rol->update();
+
+        return $rol ? 1 : 0;
     }
 }

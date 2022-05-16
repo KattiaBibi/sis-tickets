@@ -107,8 +107,19 @@ class PermisoController extends Controller
      * @param  \App\Spatie\Permission\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission)
+
+    public function destroy($id)
     {
-        //
+        $permiso = Permission::findOrfail($id);
+
+        if ($permiso->estado == 1) {
+            $permiso->estado = 0;
+        } else {
+            $permiso->estado = 1;
+        }
+
+        $permiso->update();
+
+        return $permiso ? 1 : 0;
     }
 }

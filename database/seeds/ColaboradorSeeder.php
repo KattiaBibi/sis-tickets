@@ -15,22 +15,52 @@ class ColaboradorSeeder extends Seeder
         //
 
         Colaborador::create([
-            'id' => '1',
-            'nrodocumento' => '77422337',
-            'nombres' => 'Kattia',
-            'apellidos' => 'Cruzado',
-            'fechanacimiento' => '1997/12/14',
-            'direccion' => 'Av. Los Quipus 565',
+            'nrodocumento' => '42023698',
+            'nombres' => 'Johon',
+            'apellidos' => 'Salazar Baigorria',
+            'fechanacimiento' => '1980/12/14',
+            'direccion' => 'Test 1',
             'telefono' => '979159525',
             'empresa_area_id' => '1',
             'estado' => '1',
         ]);
 
         Colaborador::create([
-            'id' => '2',
+            'nrodocumento' => '74123658',
+            'nombres' => 'Vanessa',
+            'apellidos' => 'Burga',
+            'fechanacimiento' => '1996/02/21',
+            'direccion' => 'Test 2',
+            'telefono' => '966877868',
+            'empresa_area_id' => '5',
+            'estado' => '1',
+        ]);
+        Colaborador::create([
+            'nrodocumento' => '98520369',
+            'nombres' => 'Janina Maricruz',
+            'apellidos' => 'Rivas Cabrejos',
+            'fechanacimiento' => '1995/12/16',
+            'direccion' => 'Test 3',
+            'telefono' => '914845466',
+            'empresa_area_id' => '1',
+            'estado' => '1',
+        ]);
+
+        Colaborador::create([
+            'nrodocumento' => '77422337',
+            'nombres' => 'Kattia Bibiana',
+            'apellidos' => 'Cruzado Chávez',
+            'fechanacimiento' => '1997/12/14',
+            'direccion' => 'Calle Los Quipus 565',
+            'telefono' => '995092702',
+            'empresa_area_id' => '2',
+            'estado' => '1',
+        ]);
+
+        Colaborador::create([
             'nrodocumento' => '74500365',
             'nombres' => 'David',
-            'apellidos' => 'Manayalle',
+            'apellidos' => 'Manayalle Cachay',
             'fechanacimiento' => '1996/10/30',
             'direccion' => 'Calle Los Laureles #401, San Antonio',
             'telefono' => '991817883',
@@ -38,21 +68,30 @@ class ColaboradorSeeder extends Seeder
             'estado' => '1',
         ]);
 
+        Colaborador::create([
+            'nrodocumento' => '73968019',
+            'nombres' => 'Maryori Yaslitd',
+            'apellidos' => 'Tejada Isuiza',
+            'fechanacimiento' => '1997/02/28',
+            'direccion' => 'Mz. Ll. Lt. 16 Las Delicias',
+            'telefono' => '970854239',
+            'empresa_area_id' => '8',
+            'estado' => '1',
+        ]);
+
 
         Colaborador::create([
-            'id' => '3',
-            'nrodocumento' => '44123654',
-            'nombres' => 'Vanessa',
-            'apellidos' => 'Burga',
-            'fechanacimiento' => '1996/11/02',
-            'direccion' => 'Calle Saucedo 354',
-            'telefono' => '995092706',
-            'empresa_area_id' => '5',
+            'nrodocumento' => '71593306',
+            'nombres' => 'Juan Miguel',
+            'apellidos' => 'Díaz Hernández',
+            'fechanacimiento' => '1992/03/16',
+            'direccion' => 'Calle Napo 169 Urb. Quiñonez',
+            'telefono' => '990448430',
+            'empresa_area_id' => '2',
             'estado' => '1',
         ]);
 
         Colaborador::create([
-            'id' => '4',
             'nrodocumento' => '69696958',
             'nombres' => 'Marco',
             'apellidos' => 'Gálvez',
@@ -64,17 +103,18 @@ class ColaboradorSeeder extends Seeder
         ]);
 
 
-
         Colaborador::create([
-            'id' => '5',
-            'nrodocumento' => '74123589',
-            'nombres' => 'Test',
-            'apellidos' => 'test 2',
-            'fechanacimiento' => '1993/01/21',
-            'direccion' => 'Av. Murillo 424',
-            'telefono' => '789562310',
+            'nrodocumento' => '74230658',
+            'nombres' => 'César',
+            'apellidos' => 'Test',
+            'fechanacimiento' => '1990/02/21',
+            'direccion' => 'Test',
+            'telefono' => '979652303',
             'empresa_area_id' => '5',
             'estado' => '1',
         ]);
+
+
+
     }
 }

@@ -40,7 +40,18 @@
               </select>
     </div>
 
-        <div class="col-lg-7" style="text-align: right;">
+    <div class="col-lg-3">
+
+        <select class="form-control" id="filtros">
+            <option value="todos" selected>EMPRESAS</option>
+            <option value="pendiente">PENDIENTE</option>
+            <option value="en espera">EN ESPERA</option>
+            <option value="en proceso">EN PROCESO</option>
+            <option value="culminado">CULMINADO</option>
+            <option value="cancelado">CANCELADO</option>
+          </select>
+</div>
+        <div class="col-lg-4" style="text-align: right;">
 
             @can('admin.requerimientos.agregar')
 

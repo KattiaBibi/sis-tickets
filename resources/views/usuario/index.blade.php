@@ -39,10 +39,11 @@
         <thead>
             <tr>
                 <th></th>
-                <th>NOMBRE</th>
+                <th>USUARIO</th>
+                <th>COLABORADOR</th>
                 <th>EMAIL</th>
                 {{-- <th>CONTRASEÑA</th> --}}
-                <th  style="text-align: center;">ACCIÓN</th>
+                <th colspan="2" style="text-align: center;">ACCIONES</th>
 
             </tr>
         </thead>
@@ -53,11 +54,12 @@
         <tfoot>
             <tr>
                 <th></th>
-                <th>NOMBRE</th>
+                <th>USUARIO</th>
+                <th>COLABORADOR</th>
                 <th>EMAIL</th>
                 {{-- <th>CONTRASEÑA</th> --}}
 
-                <th >ACCIÓN</th>
+                <th colspan="2" style="text-align: center;">ACCIONES</th>
 
             </tr>
         </tfoot>

@@ -36,11 +36,11 @@ class RequerimientoController extends Controller
 
     public function requerimiento()
     {
-        $role_name = DB::table('model_has_roles')
-            ->select('roles.name AS role_name')
+        $role_id = DB::table('model_has_roles')
+            ->select('roles.id AS role_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('model_id', '=', auth()->user()->id)
-            ->get()->first()->role_name;
+            ->get()->first()->role_id;
 
         $estado = request()->all()['filters']['estado'] ?? 'todos';
 
@@ -66,13 +66,13 @@ class RequerimientoController extends Controller
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
 
-        if ($role_name === 'AdminGerente') {
+        if ($role_id === 2) {
             $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
                 ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id)
                 ->orWhere('requerimientos.usuarioregist_id', '=', auth()->user()->id);
         }
 
-        if ($role_name === 'Trabajador') {
+        if ($role_id === 3) {
             $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
                 ->where('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
         }
