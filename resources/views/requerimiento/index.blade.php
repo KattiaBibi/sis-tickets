@@ -44,7 +44,7 @@
 
             @can('admin.requerimientos.agregar')
 
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
+            <button type="button" class="btn btn-success" id="btnagregar" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
 
             @endcan
 
@@ -224,6 +224,9 @@
 
             <img id="prev" class="imagenPrevisualizacion mt-2" style="width: 350px;height: 200;">
 
+
+            <button type="button" id="" class="retirar btn btn-info" style="display: none; border-radius: 0px;">QUITAR IMAGEN</button>
+
         </div>
 
 </div>
@@ -366,13 +369,13 @@
 
         <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-        <div class="divoculto form-row" id="">
+        <div class="form-row" id="">
 
-            <div class="form-group text-center col-md-4">
+            <div class="divoculto form-group text-center col-md-4">
 
                 <input type="file"  accept="image/*" class="img form-control-file" id="imn" name="imagennue">
 
-                <img id="imag" onerror="this.style.display='none'" class="imagenPrevisualizacion mt-2" style="width: 200px;height: 200px;">
+                <img id="imag" onerror="this.style.display='none'" class="imagenPrevisualizacion mt-2" style="width: 200px;height: 200px;display: none;">
 
             </div>
 
@@ -380,14 +383,14 @@
 
             <div class="form-group text-center row justify-content-center align-items-end col-md-4">
 
-                   <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  id="mostimg" style="height: 200px; width: 200px;" name="">
+                   <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt="" id="mostimg" style="height: 200px; width: 200px;" name="">
 
                 </div>
 
 
-            <div class="form-group text-center row justify-content-center align-items-center col-md-4">
+            <div class="divoculto form-group text-center row justify-content-center align-items-center col-md-4">
 
-                <button type="button" id="retirar" class="btn btn-primary">CONSERVAR IMAGEN</button>
+                <button type="button" id="consim" class="retirar btn btn-info" style="display: none;">CONSERVAR IMAGEN</button>
 
             </div>
 

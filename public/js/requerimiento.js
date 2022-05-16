@@ -1,48 +1,34 @@
-// $(function () {
-//     var $avatarImage, $avatarInput, $avatarForm;
+$("#btnagregar").on("click", function (e){
+
+    $("#frmguardar")[0].reset();
+
+    $('#prev').hide();
+    $('#prev').removeAttr("src");
+
+    $(".retirar").hide();
+
+});
+
+$(".retirar").on("click", function (e){
 
 
-//     $avatarImage = $('#imagenPrevisualizacion');
-//     $avatarInput = $('#img');
-//     $avatarForm = $('#frmguardar');
-
-//     $avatarImage.on('click', function () {
-//         $avatarInput.click();
-//     });
-
-//     $avatarInput.on('change', function () {
-//         // alert('change');
-
-//         var formData = new FormData();
-//         formData.append('imagen', $avatarInput[0].files[0]);
-
-//         $.ajax({
-//             url: $avatarForm.attr('action') + '?' + $avatarForm.serialize(),
-//             method: $avatarForm.attr('method'),
-//             data: formData,
-//             processData: false,
-//             contentType: false
-//         }).done(function (data) {
-//             if (data.success)
-//                 $avatarImage.attr('src', data.path);
-//         }).fail(function () {
-//             alert('La imagen subida no tiene un formato correcto');
-//         });
-
-//     });
-// });
-
-
-
-$("#retirar").on("click", function (){
 
     $("#imn").val(null);
+
+    $("#xy").val(null);
 
     $('#imag').hide();
     $('#imag').removeAttr("src");
 
 
+    $('#prev').hide();
+    $('#prev').removeAttr("src");
+
+
+    $(".retirar").hide();
+
     });
+
 
 
     $('#imag').on("error", function(event) {
@@ -95,6 +81,9 @@ $("#retirar").on("click", function (){
         else{
 
             $('#imag').show();
+            $('#prev').show();
+
+             $('.retirar').show();
             readImage(this);
 
         }
@@ -253,10 +242,22 @@ $("#retirar").on("click", function (){
             },
             columns: [
                 {
-                    defaultContent: "",
+                    data: "usuario_que_registro",
                     orderable: false,
                     render: function (data, type, row, meta) {
+
+                        if(data == $("#registro").val()){
+
                         return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>`;
+
+                        }
+
+                        else{
+
+                        return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Mostrar</span></button>`;
+
+                        }
+
                     },
                 },
 
@@ -396,16 +397,28 @@ $("#retirar").on("click", function (){
         }
 
 
-
-
         console.log(data);
         $("#idregistro").val(data["id"]);
         $("#editarTitulo").val(data["titulo_requerimiento"]);
         $("#editarDescripcion").val(data["descripcion_requerimiento"]);
         $("#UsuarioSolicitante").val(data["nom_ape_solicitante"]);
         $("#UsuarioSolicitante2").val(data["usuario_que_registro"]);
+        $('#imn').val("");
+         $('#imag').hide();
+         $(".retirar").hide();
+        $('#imag').removeAttr("src");
+
+        if(data.imagen==0  || data.imagen==null){
+
+        document.getElementById("mostimg").src = "vendor/adminlte/dist/img/sinimg.jpg";
+        }
+
+        else{
 
         document.getElementById("mostimg").src = "storage/"+data.imagen;
+
+        }
+
 
 
         $("#UsuarioResponsable").val(data["encargados"].map((item) => {
@@ -423,7 +436,7 @@ $("#retirar").on("click", function (){
           if($("#registro").val() != $("#UsuarioSolicitante2").val())
         {
 
-                    $(".divoculto").hide();
+                $(".divoculto").hide();
         }
 
          else
