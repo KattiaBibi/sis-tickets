@@ -12,7 +12,6 @@ $("#btnagregar").on("click", function (e){
 $(".retirar").on("click", function (e){
 
 
-
     $("#imn").val(null);
 
     $("#xy").val(null);
@@ -235,7 +234,9 @@ $(".retirar").on("click", function (e){
                     d._token = token_;
                     return $.extend({}, d, {
                         filters: {
+                            nombre_empresa: $("#filtrosempre").val(),
                             estado: $("#filtros").val(),
+
                         },
                     });
                 },
@@ -725,6 +726,10 @@ $(".retirar").on("click", function (e){
     });
 
     $("#filtros").on("change", function (e) {
+        datatable.ajax.reload(null, false);
+    });
+
+    $("#filtrosempre").on("change", function (e) {
         datatable.ajax.reload(null, false);
     });
 

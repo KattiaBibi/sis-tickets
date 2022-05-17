@@ -24,14 +24,15 @@
   <div class="card-header">
 
   <div class="row">
-        <div class="col-lg-2">
-                <h2>Listar</h2>
+        <div class="col-lg-3">
+                <h4>Buscar por:</h4>
         </div>
 
+   
         <div class="col-lg-3">
 
             <select class="form-control" id="filtros">
-                <option value="todos" selected>TODOS</option>
+                <option value="todos" selected>Todos los estados ...</option>
                 <option value="pendiente">PENDIENTE</option>
                 <option value="en espera">EN ESPERA</option>
                 <option value="en proceso">EN PROCESO</option>
@@ -40,18 +41,20 @@
               </select>
     </div>
 
+
     <div class="col-lg-3">
 
-        <select class="form-control" id="filtros">
-            <option value="todos" selected>EMPRESAS</option>
-            <option value="pendiente">PENDIENTE</option>
-            <option value="en espera">EN ESPERA</option>
-            <option value="en proceso">EN PROCESO</option>
-            <option value="culminado">CULMINADO</option>
-            <option value="cancelado">CANCELADO</option>
+        <select class="form-control" id="filtrosempre">
+            <option value="todos" selected>Todas las empresas ...</option>
+            
+            @foreach ($empresas as $e)
+                <option value="{{$e->nombre}}">{{$e->nombre}}</option>
+            @endforeach
+            
+
           </select>
-</div>
-        <div class="col-lg-4" style="text-align: right;">
+    </div>
+        <div class="col-lg-3" style="text-align: right;">
 
             @can('admin.requerimientos.agregar')
 
@@ -63,6 +66,7 @@
 
         </div>
     </div>
+    
     </div>
 
   <div class="card-body">

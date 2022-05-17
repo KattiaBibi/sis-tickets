@@ -42,6 +42,7 @@ class RequerimientoController extends Controller
             ->where('model_id', '=', auth()->user()->id)
             ->get()->first()->role_id;
 
+        $empresa = request()->all()['filters']['nombre_empresa'] ?? 'todos';
         $estado = request()->all()['filters']['estado'] ?? 'todos';
 
         $query = DB::table('requerimientos')
@@ -81,6 +82,10 @@ class RequerimientoController extends Controller
             $query->where('requerimientos.estado', '=', $estado);
         }
 
+        if ($empresa != 'todos') {
+            $query->where('empresas.nombre', '=', $empresa);
+        }
+        
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->get();
 
         $requerimientos = $rpta->all();
