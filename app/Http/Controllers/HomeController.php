@@ -114,12 +114,12 @@ class HomeController extends Controller
         if ($role_id === 2) {
             $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
                 ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id)
-                ->where('requerimientos.usuarioregist_id', '=', auth()->user()->id);
+                ->orWhere('requerimientos.usuarioregist_id', '=', auth()->user()->id);
         }
 
         if ($role_id === 3) {
             $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
-                ->orWhere('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
+                ->where('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
         }
 
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->limit(4)->get();
