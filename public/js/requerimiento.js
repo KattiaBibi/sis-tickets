@@ -243,21 +243,34 @@ $(".retirar").on("click", function (e){
             },
             columns: [
                 {
-                    data: "usuario_que_registro",
+                    data: "elemento",
                     orderable: false,
                     render: function (data, type, row, meta) {
 
-                        if(data == $("#registro").val()){
+                          return data;
 
-                        return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>`;
+                        // SI EL USUARIO LOGUEADO ES ADMIN TOTAL MOSTRARÁ SÓLO DATOS
 
-                        }
 
-                        else{
 
-                        return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Mostrar</span></button>`;
+                        // if(data == "Admin editar"){
 
-                        }
+                        //     return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar Admin </span></button>`;
+
+                        //     }
+
+                        // if(data == "User editar"){
+
+                        //      return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>User editar </span></button>`;
+
+                        // }
+
+                        // if(data == "No Admin editar"){
+
+                        // return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Mostrar</span></button>`;
+
+
+                        // }
 
                     },
                 },
@@ -424,8 +437,7 @@ $(".retirar").on("click", function (e){
 
         $("#UsuarioResponsable").val(data["encargados"].map((item) => {
             return item.nom_ape;
-        })
-        .toString());
+        }).toString());
 
         $("#avance").val(data["avance_requerimiento"]);
         $("#estado").val(data["estado_requerimiento"]);
