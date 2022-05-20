@@ -13,7 +13,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-  
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -23,6 +23,8 @@
     <!-- Tree View CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.12.0/features/searchHighlight/dataTables.searchHighlight.css" />
     @stack('css')
     @yield('css')
 @stop
@@ -97,6 +99,10 @@
 
 <!-- Axios -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="https://cdn.datatables.net/plug-ins/1.12.0/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
+
+<script src="https://bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
 
     @stack('js')
     @yield('js')

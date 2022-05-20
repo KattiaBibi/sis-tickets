@@ -24,11 +24,11 @@
   <div class="card-header">
 
   <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-2">
                 <h4>Buscar por:</h4>
         </div>
 
-   
+
         <div class="col-lg-3">
 
             <select class="form-control" id="filtros">
@@ -42,18 +42,30 @@
     </div>
 
 
-    <div class="col-lg-3">
+    <div class="col-lg-2">
 
         <select class="form-control" id="filtrosempre">
             <option value="todos" selected>Todas las empresas ...</option>
-            
+
             @foreach ($empresas as $e)
                 <option value="{{$e->nombre}}">{{$e->nombre}}</option>
             @endforeach
-            
+
 
           </select>
     </div>
+
+    <div class="col-lg-2">
+
+        <select class="form-control" id="filtronb">
+            <option value="todos" selected>Todo  ...</option>
+            <option value="solicitante">Solicitante</option>
+            <option value="encargado">Encargado</option>
+            <option value="asignado">Asignado</option>
+
+          </select>
+    </div>
+
         <div class="col-lg-3" style="text-align: right;">
 
             @can('admin.requerimientos.agregar')
@@ -66,7 +78,7 @@
 
         </div>
     </div>
-    
+
     </div>
 
   <div class="card-body">
@@ -491,22 +503,17 @@
 
     </div>
 
-
     <div class="form-row">
 
         <div class="form-group col-md-12" hidden id="trabajadores">
+
             <label for="">PERSONAL</label>
-
-
             <select style="width:100%" class="js-example-basic-multiple" id="personal" name="usuario_colab_id[]" multiple="multiple" lang="es">
 
             </select>
-
         </div>
 
-
-      </div>
-
+    </div>
 
         </div>
         <div class="modal-footer">
