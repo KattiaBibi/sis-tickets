@@ -21,7 +21,7 @@ class ColaboradorSeeder extends Seeder
             'fechanacimiento' => '1980/12/14',
             'direccion' => 'Test 1',
             'telefono' => '979159525',
-            'empresa_area_id' => '1',
+            'empresa_id' => '1',
             'estado' => '1',
         ]);
 
@@ -32,7 +32,7 @@ class ColaboradorSeeder extends Seeder
             'fechanacimiento' => '1996/02/21',
             'direccion' => 'Test 2',
             'telefono' => '966877868',
-            'empresa_area_id' => '5',
+            'empresa_id' => '3',
             'estado' => '1',
         ]);
         Colaborador::create([
@@ -42,7 +42,7 @@ class ColaboradorSeeder extends Seeder
             'fechanacimiento' => '1995/12/16',
             'direccion' => 'Test 3',
             'telefono' => '914845466',
-            'empresa_area_id' => '1',
+            'empresa_id' => '1',
             'estado' => '1',
         ]);
 
@@ -53,7 +53,7 @@ class ColaboradorSeeder extends Seeder
             'fechanacimiento' => '1997/12/14',
             'direccion' => 'Calle Los Quipus 565',
             'telefono' => '995092702',
-            'empresa_area_id' => '2',
+            'empresa_id' => '1',
             'estado' => '1',
         ]);
 
@@ -64,7 +64,7 @@ class ColaboradorSeeder extends Seeder
             'fechanacimiento' => '1996/10/30',
             'direccion' => 'Calle Los Laureles #401, San Antonio',
             'telefono' => '991817883',
-            'empresa_area_id' => '2',
+            'empresa_id' => '1',
             'estado' => '1',
         ]);
 
@@ -75,7 +75,7 @@ class ColaboradorSeeder extends Seeder
             'fechanacimiento' => '1997/02/28',
             'direccion' => 'Mz. Ll. Lt. 16 Las Delicias',
             'telefono' => '970854239',
-            'empresa_area_id' => '8',
+            'empresa_id' => '1',
             'estado' => '1',
         ]);
 
@@ -87,7 +87,7 @@ class ColaboradorSeeder extends Seeder
             'fechanacimiento' => '1992/03/16',
             'direccion' => 'Calle Napo 169 Urb. Quiñonez',
             'telefono' => '990448430',
-            'empresa_area_id' => '2',
+            'empresa_id' => '1',
             'estado' => '1',
         ]);
 
@@ -98,7 +98,7 @@ class ColaboradorSeeder extends Seeder
             'fechanacimiento' => '1992/02/21',
             'direccion' => 'Av. Los Andes 424',
             'telefono' => '979652303',
-            'empresa_area_id' => '7',
+            'empresa_id' => '3',
             'estado' => '1',
         ]);
 
@@ -110,7 +110,7 @@ class ColaboradorSeeder extends Seeder
             'fechanacimiento' => '1990/02/21',
             'direccion' => 'Test',
             'telefono' => '979652303',
-            'empresa_area_id' => '5',
+            'empresa_id' => '3',
             'estado' => '1',
         ]);
 

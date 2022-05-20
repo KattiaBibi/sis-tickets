@@ -23,8 +23,8 @@ class CreateColaboradoresTable extends Migration
             $table->char('telefono', 12);
             $table->boolean('estado')->default(1);
 
-            $table->unsignedBigInteger('empresa_area_id');
-            $table->foreign('empresa_area_id','fk_colaborador_empresa_area')->references('id')->on('empresa_areas');
+            $table->unsignedBigInteger('empresa_id');
+            $table->foreign('empresa_id','fk_empresa')->references('id')->on('empresas');
 
 
             $table->timestamps();
