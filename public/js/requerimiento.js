@@ -209,6 +209,10 @@ $(".retirar").on("click", function (e){
         contador3.innerHTML = `${longitudAct}/${longitudMax}`;
     });
 
+
+
+ 
+
     /* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
     var datatable;
 
@@ -243,35 +247,19 @@ $(".retirar").on("click", function (e){
             },
             columns: [
                 {
-                    data: "elemento",
+                    data: "elemento[]",
                     orderable: false,
                     render: function (data, type, row, meta) {
 
-                          return data;
+                            if(data.filter(i => (i === "si")).length ) {
 
-                        // SI EL USUARIO LOGUEADO ES ADMIN TOTAL MOSTRARÁ SÓLO DATOS
-
-
-
-                        // if(data == "Admin editar"){
-
-                        //     return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar Admin </span></button>`;
-
-                        //     }
-
-                        // if(data == "User editar"){
-
-                        //      return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>User editar </span></button>`;
-
-                        // }
-
-                        // if(data == "No Admin editar"){
-
-                        // return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Mostrar</span></button>`;
-
-
-                        // }
-
+                                return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>`;
+                            }
+                            
+                            else {
+                                  return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Mostrar</span></button>`;
+                            }
+                    
                     },
                 },
 
@@ -444,18 +432,23 @@ $(".retirar").on("click", function (e){
         $("#prioridad").val(data["prioridad_requerimiento"]);
 
 
-        // SI EL USUARIO LOGUEADO NO ES EL MISMO QUE HIZO EL REQUERIMIENTO, NO PODRÁ ACCEDER AL EDITAR
+        // SI EL USUARIO LOGUEADO ES EL MISMO QUE HIZO EL REQUERIMIENTO, PODRÁ ACCEDER AL EDITAR
 
-          if($("#registro").val() != $("#UsuarioSolicitante2").val())
+          if(data.log == data.reg)
         {
 
-                $(".divoculto").hide();
+                alert(data.log + " " +data.reg);
+                $(".divocult").show();
+                $(".divoculto").show();
         }
 
          else
 
         {
-           $(".divoculto").show();
+            alert(data.log + " " +data.reg);
+          
+            $(".divocult").hide();
+           $(".divoculto").hide();
         }
 
         document.getElementById("avan").innerHTML =
@@ -682,6 +675,8 @@ $(".retirar").on("click", function (e){
     });
 
     $("#colaboradores").on("click", ".desactivar", function () {
+
+        
         Swal.fire({
             title: "¿Estás seguro(a)?",
             text: "¡No podrás revertir esto!",
@@ -745,7 +740,13 @@ $(".retirar").on("click", function (e){
         datatable.ajax.reload(null, false);
     });
 
+    
+
+
     $("#requerimientos").on("click", ".desactivar", function () {
+
+      
+
         Swal.fire({
             title: "¿Estás seguro(a)?",
             text: "¡No podrás revertir esto!",

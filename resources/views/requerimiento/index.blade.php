@@ -372,7 +372,7 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><span class="divoculto">ACTUALIZA </span>REGISTRO DE MANTENIMIENTO</h5>
+            <h5 class="modal-title" id="exampleModalLabel"><span class="divocult">ACTUALIZA </span>REGISTRO DE MANTENIMIENTO</h5>
 
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -386,7 +386,7 @@
 
         <div class="form-row" id="">
 
-            <div class="divoculto form-group text-center col-md-4">
+            <div class="divocult form-group text-center col-md-4">
 
                 <input type="file"  accept="image/*" class="img form-control-file" id="imn" name="imagennue">
 
@@ -403,7 +403,7 @@
                 </div>
 
 
-            <div class="divoculto form-group text-center row justify-content-center align-items-center col-md-4">
+            <div class="form-group text-center row justify-content-center align-items-center col-md-4">
 
                 <button type="button" id="consim" class="retirar btn btn-info" style="display: none;">CONSERVAR IMAGEN</button>
 
@@ -462,7 +462,7 @@
 
             </div>
 
-    <div class="divoculto row">
+    <div class="divocult row">
 
         <div class="form-group col-md-6">
             <label for="">PRIORIDAD</label>
@@ -492,7 +492,7 @@
     </div>
 
 
-    <div class="divoculto form-row">
+    <div class="form-row">
 
         <div class="form-group col-md-12" hidden id="trabajadores">
             <label for="">PERSONAL</label>
@@ -511,7 +511,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-            <button type="" id="btnactualizar" class="divoculto btn btn-primary">EDITAR</button>
+            <button type="" id="btnactualizar" class="divocult btn btn-primary">EDITAR</button>
         </div>
       </form>
 

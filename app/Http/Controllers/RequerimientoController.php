@@ -94,6 +94,9 @@ class RequerimientoController extends Controller
         foreach ($requerimientos as &$req) {
 
             $logueado=auth()->user()->id;
+
+            $req->log=$logueado;
+            
             $req->asignados = DB::table('detalle_requerimientos')
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape")
@@ -103,27 +106,25 @@ class RequerimientoController extends Controller
                 ->where('detalle_requerimientos.requerimiento_id', '=', $req->id)
                 ->get()->all();
 
+                
             $req->encargados = DB::table('requerimiento_encargados')
+            
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
                     // "users.colaborador_id as colaborador_id",
+                    DB::raw("(CASE  users.colaborador_id
+                WHEN $logueado THEN 1 ELSE 2 END) AS logeado")
 
-                )->select(
-                    DB::raw("CASE WHEN users.colaborador_id == `$logueado` THEN 'User logueado' END as colaborador_id"))
+                )
+         /*        ->select(DB::raw("(CASE  users.colaborador_id
+                WHEN users.colaborador_id = $logueado THEN 1 ELSE 2 END) AS logeado")) */
                 ->join("users", 'users.id', '=', 'requerimiento_encargados.usuarioencarg_id', 'inner')
                 ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
                 ->where('requerimiento_encargados.requerimiento_id', '=', $req->id)
                 ->get();
 
-
-                $encarg =$req->encargados;
-
-                if($encarg->colaborador_id=="User logueado"){
-
-
-                    $req->elemento= "Hola";
-                }
-
+            
+                 $encarg =$req->encargados;
 
                 // OBTENER EL ROL DEL USUARIO LOGUEADO
 
@@ -133,27 +134,64 @@ class RequerimientoController extends Controller
 
                 $usuarioqueregistro=$req->usuario_que_registro;
 
+                $req->reg=$usuarioqueregistro;
 
-                // UNA VEZ OBTENIDO EL ROL, CONDICIONAMOS SI EL USUARIO LOGUEADO ES ADMIN TOTAL
+                 foreach ($encarg as $e){
 
+                // SI EL USUARIO LOGUEADO ES EL ENCARGADO Y SI EL USUARIO QUE REGISTRÓ EL REQUERIMIENTO ES EL MISMO USUARIO LOGUEADO 
 
-                // SI EL USUARIO QUE HIZO EL REQUERIMIENTO ES IGUAL AL USUARIO LOGUEADO Y TAMBIÉN EL USUARIO LOGUEADO ES ADMIN
-                if($usuarioqueregistro== $logueado && $consulta->role_id == 1){
-                    $req->cons="Admin editar";
+                if($e->logeado==1 || $usuarioqueregistro==$logueado){
+
+                    $req->elemento[]= "si";
+               
                 }
-
-                 // SI EL USUARIO QUE HIZO EL REQUERIMIENTO ES IGUAL AL USUARIO LOGUEADO
-
-                if($usuarioqueregistro== $logueado){
-                    $req->cons="User editar";
-                }
-
-
 
                 else{
 
-                 $req->cons="No Admin editar";
+                    $req->elemento[]= "no";
                 }
+
+                    }
+
+                // if($encarg->logeado==1){
+
+                //     $req->elemento= "Edicion";
+                // }
+
+                // else{
+                //     $req->elemento= "No Edicion";
+                // }
+
+
+                // // OBTENER EL ROL DEL USUARIO LOGUEADO
+
+                // $consulta= DB::table('model_has_roles')->select("role_id")
+                // ->where('model_id', '=', $logueado)->get()->first();
+
+
+                // $usuarioqueregistro=$req->usuario_que_registro;
+
+
+                // // UNA VEZ OBTENIDO EL ROL, CONDICIONAMOS SI EL USUARIO LOGUEADO ES ADMIN TOTAL
+
+
+                // // SI EL USUARIO QUE HIZO EL REQUERIMIENTO ES IGUAL AL USUARIO LOGUEADO Y TAMBIÉN EL USUARIO LOGUEADO ES ADMIN
+                // if($usuarioqueregistro== $logueado && $consulta->role_id == 1){
+                //     $req->cons="Admin editar";
+                // }
+
+                //  // SI EL USUARIO QUE HIZO EL REQUERIMIENTO ES IGUAL AL USUARIO LOGUEADO
+
+                // if($usuarioqueregistro== $logueado){
+                //     $req->cons="User editar";
+                // }
+
+
+
+                // else{
+
+                //  $req->cons="No Admin editar";
+                // }
 
 
         }
