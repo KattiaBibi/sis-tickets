@@ -37,14 +37,25 @@ class RequerimientoController extends Controller
 
     public function requerimiento()
     {
+        $logueado=auth()->user()->id;
+
         $role_id = DB::table('model_has_roles')
             ->select('roles.id AS role_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('model_id', '=', auth()->user()->id)
             ->get()->first()->role_id;
 
+
+
+                // OBTENER EL ROL DEL USUARIO LOGUEADO
+
+        $consulta= DB::table('model_has_roles')->select("role_id")
+        ->where('model_id', '=', $logueado)->get()->first();
+
         $empresa = request()->all()['filters']['nombre_empresa'] ?? 'todos';
         $estado = request()->all()['filters']['estado'] ?? 'todos';
+        $nombrado = request()->all()['filters']['nombrado'] ?? 'todos';
+
 
         $query = DB::table('requerimientos')
             ->select(
@@ -69,9 +80,24 @@ class RequerimientoController extends Controller
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
 
         if ($role_id === 2) {
-            $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
-                ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id)
-                ->orWhere('requerimientos.usuarioregist_id', '=', auth()->user()->id);
+
+            if ($nombrado == 'solicitante') {
+                $query->where('requerimientos.usuarioregist_id', '=', auth()->user()->id);
+            } else if ($nombrado == 'encargado') {
+                $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
+                ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id);
+            }
+            else if ($nombrado == 'asignado') {
+                $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
+                    ->where('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
+            } else {
+                $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
+                ->where(function($query) {
+                    $query->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id)
+                    ->orWhere('requerimientos.usuarioregist_id', '=', auth()->user()->id);
+                });
+            }
+
         }
 
         if ($role_id === 3) {
@@ -87,16 +113,35 @@ class RequerimientoController extends Controller
             $query->where('empresas.nombre', '=', $empresa);
         }
 
+
+        if ($role_id === 1) {
+            if ($nombrado == 'solicitante') {
+                $query->where('requerimientos.usuarioregist_id', '=', auth()->user()->id);
+            } else if ($nombrado == 'encargado') {
+                $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
+                ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id);
+            }
+            else if ($nombrado == 'asignado') {
+                $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
+                    ->where('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
+            }
+        }
+
+        // if ($nombrado != 'todos') {
+        //     $query->where('requerimientos.usuarioregist_id', '=', $empresa);
+        // }
+
+
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->get();
 
         $requerimientos = $rpta->all();
 
         foreach ($requerimientos as &$req) {
 
-            $logueado=auth()->user()->id;
+
 
             $req->log=$logueado;
-            
+
             $req->asignados = DB::table('detalle_requerimientos')
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape")
@@ -106,9 +151,9 @@ class RequerimientoController extends Controller
                 ->where('detalle_requerimientos.requerimiento_id', '=', $req->id)
                 ->get()->all();
 
-                
+
             $req->encargados = DB::table('requerimiento_encargados')
-            
+
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
                     // "users.colaborador_id as colaborador_id",
@@ -123,13 +168,9 @@ class RequerimientoController extends Controller
                 ->where('requerimiento_encargados.requerimiento_id', '=', $req->id)
                 ->get();
 
-            
+
                  $encarg =$req->encargados;
 
-                // OBTENER EL ROL DEL USUARIO LOGUEADO
-
-                $consulta= DB::table('model_has_roles')->select("role_id")
-                ->where('model_id', '=', $logueado)->get()->first();
 
 
                 $usuarioqueregistro=$req->usuario_que_registro;
@@ -138,13 +179,26 @@ class RequerimientoController extends Controller
 
                  foreach ($encarg as $e){
 
-                // SI EL USUARIO LOGUEADO ES EL ENCARGADO Y SI EL USUARIO QUE REGISTRÓ EL REQUERIMIENTO ES EL MISMO USUARIO LOGUEADO 
+                if($e->logeado==1 && $usuarioqueregistro==$logueado){
 
-                if($e->logeado==1 || $usuarioqueregistro==$logueado){
-
-                    $req->elemento[]= "si";
-               
+                    $req->elemento[]= "dos";
                 }
+
+                // SI EL USUARIO LOGUEADO ES EL ENCARGADO
+
+                if($e->logeado==1){
+
+                    $req->elemento[]= "silog";
+
+                }
+
+                // SI EL USUARIO QUE REGISTRÓ ESTÁ LOGUEADO
+
+                if($usuarioqueregistro==$logueado){
+
+                    $req->elemento[]= "sireg";
+                }
+
 
                 else{
 

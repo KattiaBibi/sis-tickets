@@ -211,13 +211,14 @@ $(".retirar").on("click", function (e){
 
 
 
- 
+
 
     /* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
     var datatable;
 
     function listar() {
         datatable = $("#requerimientos").DataTable({
+            searchHighlight: true,
             pageLength: 5,
             searching: false,
             ordering: true,
@@ -238,6 +239,7 @@ $(".retirar").on("click", function (e){
                     d._token = token_;
                     return $.extend({}, d, {
                         filters: {
+                            nombrado: $("#filtronb").val(),
                             nombre_empresa: $("#filtrosempre").val(),
                             estado: $("#filtros").val(),
 
@@ -251,15 +253,26 @@ $(".retirar").on("click", function (e){
                     orderable: false,
                     render: function (data, type, row, meta) {
 
-                            if(data.filter(i => (i === "si")).length ) {
+                            if(data.filter(i => (i === "dos")).length ) {
 
-                                return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>`;
+                                return `<button type='button' value="dos" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>`;
                             }
-                            
+
+                            if(data.filter(i => (i === "silog")).length ) {
+
+                                return `<button type='button' value="" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Modificar</span></button>`;
+                            }
+
+                            if(data.filter(i => (i === "sireg")).length ) {
+
+                                return `<button type='button' value="" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>`;
+                            }
+
+
                             else {
-                                  return `<button type='button'  id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Mostrar</span></button>`;
+                                  return `<button type='button' value="mostrar" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Mostrar</span></button>`;
                             }
-                    
+
                     },
                 },
 
@@ -362,13 +375,19 @@ $(".retirar").on("click", function (e){
 
                     render: function (data, type, row, meta) {
                         if (data == "alta") {
+
                             return '<span class="badge badge-danger">ALTA</span>';
+
                         }
 
                         if (data == "media") {
+
                             return '<span class="badge badge-warning">MEDIA</span>';
-                        } else if (data == "baja") {
+                        }
+                        else if (data == "baja") {
+
                             return '<span class="badge badge-info">BAJA</span>';
+
                         }
                     },
                 },
@@ -382,6 +401,13 @@ $(".retirar").on("click", function (e){
             ],
             order: [[9, "desc"]],
         });
+
+        // datatable.on( 'draw', function () {
+        //     var body = $( datatable.table().body() );
+
+        //     body.unhighlight();
+        //     body.highlight("Johon");
+        // } );
     }
 
 
@@ -434,22 +460,6 @@ $(".retirar").on("click", function (e){
 
         // SI EL USUARIO LOGUEADO ES EL MISMO QUE HIZO EL REQUERIMIENTO, PODRÁ ACCEDER AL EDITAR
 
-          if(data.log == data.reg)
-        {
-
-                alert(data.log + " " +data.reg);
-                $(".divocult").show();
-                $(".divoculto").show();
-        }
-
-         else
-
-        {
-            alert(data.log + " " +data.reg);
-          
-            $(".divocult").hide();
-           $(".divoculto").hide();
-        }
 
         document.getElementById("avan").innerHTML =
         document.getElementById("avance").value;
@@ -676,7 +686,7 @@ $(".retirar").on("click", function (e){
 
     $("#colaboradores").on("click", ".desactivar", function () {
 
-        
+
         Swal.fire({
             title: "¿Estás seguro(a)?",
             text: "¡No podrás revertir esto!",
@@ -740,12 +750,16 @@ $(".retirar").on("click", function (e){
         datatable.ajax.reload(null, false);
     });
 
-    
+
+    $("#filtronb").on("change", function (e) {
+        datatable.ajax.reload(null, false);
+    });
+
 
 
     $("#requerimientos").on("click", ".desactivar", function () {
 
-      
+
 
         Swal.fire({
             title: "¿Estás seguro(a)?",

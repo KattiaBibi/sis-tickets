@@ -141,8 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
           end: res.fecha_fin,
           title: res.titulo,
           color:
-            res.asistentes.find((elem) => elem.id == ID_USUARIO_LOGUEADO) ||
-            res.id_registrado_por == ID_USUARIO_LOGUEADO
+            res.asistentes.find((elem) => elem.id == ID_USUARIO_LOGUEADO)
               ? 'red'
               : 'lighblue',
           display: 'block',
