@@ -6,6 +6,7 @@ use App\Cita;
 use App\Empresa;
 use App\Colaborador;
 use App\DetalleCita;
+use App\Http\Requests\CitaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -57,7 +58,8 @@ class CitaController extends Controller
         "citas.empresa_id as empresa_id",
         DB::raw("CONCAT(empresas.nombre, ' (', empresas.direccion, ')') as descripcion_empresa"),
         "empresas.color as color_empresa",
-        "citas.lugarreu AS otra_oficina",
+        "citas.lugarreu as otra_oficina",
+        "usuario_id as id_registrado_por",
         "citas.estado AS estado",
       )
       ->join('empresas', 'empresas.id', '=', 'citas.empresa_id', 'left')
@@ -104,61 +106,9 @@ class CitaController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(CitaRequest $request)
   {
     $input = $request->all();
-
-    $validator = Validator::make($input, [
-      'titulo' => 'required|max:50',
-      'tipocita' => [
-        'required',
-        Rule::in(['presencial', 'virtual'])
-      ],
-      'descripcion' => 'nullable|max:250',
-      'fecha' => 'required|date_format:Y-m-d',
-      'hora_inicio' => 'required|date_format:H:i|after_or_equal:08:30|before_or_equal:18:30|before:hora_fin',
-      'hora_fin' => 'required|date_format:H:i|after_or_equal:08:30|before_or_equal:18:30|after:hora_inicio',
-      'link_reu' => 'nullable|max:150',
-      'empresa_id' => [
-        'nullable',
-        Rule::requiredIf(empty($request->get('lugarreu'))),
-        'exists:empresas,id',
-      ],
-      'lugarreu' => [
-        Rule::requiredIf(empty($request->get('empresa_id'))),
-        'max:150',
-      ],
-      'asistentes' => 'required|exists:colaboradores,id'
-    ], [
-      'titulo.required' => 'El campo Título es obligatorio.',
-      'titulo.max' => 'El campo titulo debe contener max. 50 caracteres.',
-      'tipocita.required' => 'El campo Tipo Cita es obligatorio.',
-      'tipocita.in' => 'El campo Tipo Cita solo puede ser: presencial, virtual',
-      'descripcion.max' => 'El campo Descripcion debe contener max. 250 caracteres.',
-      'fecha.required' => 'El campo Fecha es obligatorio.',
-      'fecha.date_format' => 'El campo Fecha debe tener formato año/mes/dia',
-      'hora_inicio.required' => 'El campo Hora Inicio es obligatorio.',
-      'hora_inicio.date_format' => 'El campo Hora Inicio debe tener formato hora/minutos',
-      'hora_inicio.after_or_equal' => 'El campo Hora Inicio debe ser mayor o igual a las 8:30 am',
-      'hora_inicio.before_or_equal' => 'El campo Hora Inicio debe ser menor o igual a las 6:30 pm',
-      'hora_inicio.before' => 'El campo Hora Inicio debe ser menor al campo Hora Fin',
-      'hora_fin.required' => 'El campo Hora Fin es obligatorio.',
-      'hora_fin.date_format' => 'El campo Hora Fin debe tener formato hora/minutos',
-      'hora_fin.after_or_equal' => 'El campo Hora Fin debe ser mayor o igual a las 8:30 am',
-      'hora_fin.before_or_equal' => 'El campo Hora Fin debe ser menor o igual a las 6:30 pm',
-      'hora_fin.after' => 'El campo Hora Fin debe ser mayor al campo Hora Inicio',
-      'link_reu.max' => 'El campo Link debe contener max. 150 caracteres.',
-      'empresa_id.required' => 'El campo Oficina es obligatorio si el campo Otra Oficina esta vacio.',
-      'empresa_id.exists' => 'El campo Oficina debe estar previamente registrado.',
-      'lugarreu.required' => 'El campo Otra Oficina es obligatorio si el campo Oficina esta vacio.',
-      'lugarreu.max' => 'El campo Otra Oficina debe contener max. 150 caracteres.',
-      'asistentes.required' => 'El campo Asistentes es obligatorio.',
-      'asistentes.exists' => 'El campo Asistentes debe estar previamente registrado.',
-    ]);
-
-    if ($validator->fails()) {
-      return response()->json(['messages' => $validator->errors()], 400);
-    }
 
     $input['usuario_id'] = auth()->user()->id;
     $input['estado'] = 'pendiente';
@@ -243,7 +193,7 @@ class CitaController extends Controller
    * @param  int $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(CitaRequest $request, $id)
   {
     $cita = Cita::find($id);
     if (is_null($cita)) {
@@ -255,58 +205,6 @@ class CitaController extends Controller
     }
 
     $input = $request->all();
-
-    $validator = Validator::make($input, [
-      'titulo' => 'required|max:50',
-      'tipocita' => [
-        'required',
-        Rule::in(['presencial', 'virtual'])
-      ],
-      'descripcion' => 'nullable|max:250',
-      'fecha' => 'required|date_format:Y-m-d',
-      'hora_inicio' => 'required|date_format:H:i|after_or_equal:08:30|before_or_equal:18:30|before:hora_fin',
-      'hora_fin' => 'required|date_format:H:i|after_or_equal:08:30|before_or_equal:18:30|after:hora_inicio',
-      'link_reu' => 'nullable|max:150',
-      'empresa_id' => [
-        'nullable',
-        Rule::requiredIf(empty($request->get('lugarreu'))),
-        'exists:empresas,id',
-      ],
-      'lugarreu' => [
-        Rule::requiredIf(empty($request->get('empresa_id'))),
-        'max:150',
-      ],
-      'asistentes' => 'required|exists:colaboradores,id'
-    ], [
-      'titulo.required' => 'El campo Título es obligatorio.',
-      'titulo.max' => 'El campo titulo debe contener max. 50 caracteres.',
-      'tipocita.required' => 'El campo Tipo Cita es obligatorio.',
-      'tipocita.in' => 'El campo Tipo Cita solo puede ser: presencial, virtual',
-      'descripcion.max' => 'El campo Descripcion debe contener max. 250 caracteres.',
-      'fecha.required' => 'El campo Fecha es obligatorio.',
-      'fecha.date_format' => 'El campo Fecha debe tener formato año/mes/dia',
-      'hora_inicio.required' => 'El campo Hora Inicio es obligatorio.',
-      'hora_inicio.date_format' => 'El campo Hora Inicio debe tener formato hora/minutos',
-      'hora_inicio.after_or_equal' => 'El campo Hora Inicio debe ser mayor o igual a las 8:30 am',
-      'hora_inicio.before_or_equal' => 'El campo Hora Inicio debe ser menor o igual a las 6:30 pm',
-      'hora_inicio.before' => 'El campo Hora Inicio debe ser menor al campo Hora Fin',
-      'hora_fin.required' => 'El campo Hora Fin es obligatorio.',
-      'hora_fin.date_format' => 'El campo Hora Fin debe tener formato hora/minutos',
-      'hora_fin.after_or_equal' => 'El campo Hora Fin debe ser mayor o igual a las 8:30 am',
-      'hora_fin.before_or_equal' => 'El campo Hora Fin debe ser menor o igual a las 6:30 am',
-      'hora_fin.after' => 'El campo Hora Fin debe ser mayor al campo Hora Inicio',
-      'link_reu.max' => 'El campo Link debe contener max. 150 caracteres.',
-      'empresa_id.required' => 'El campo Oficina es obligatorio si el campo Otra Oficina esta vacio.',
-      'empresa_id.exists' => 'El campo Oficina debe estar previamente registrado.',
-      'lugarreu.required' => 'El campo Otra Oficina es obligatorio si el campo Oficina esta vacio.',
-      'lugarreu.max' => 'El campo Otra Oficina debe contener max. 150 caracteres.',
-      'asistentes.required' => 'El campo Asistentes es obligatorio.',
-      'asistentes.exists' => 'El campo Asistentes debe estar previamente registrado.',
-    ]);
-
-    if ($validator->fails()) {
-      return response()->json(['messages' => $validator->errors()], 400);
-    }
 
     $cita->titulo = $request->get('titulo');
     $cita->tipocita = $request->get('tipocita');

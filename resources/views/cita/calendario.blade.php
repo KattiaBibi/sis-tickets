@@ -190,7 +190,7 @@
                     <label for="inputFiltroRolColaboradores">Filtro Colaboradores:</label>
                     <select id="inputFiltroRolColaboradores" class="form-control form-control-sm">
                       <option value="" selected>TODOS</option>
-                      <!-- <option value="1">ADMIN</option> -->
+                      <!-- <option value="1">SEO</option> -->
                       <option value="2">GERENTE</option>
                       <option value="3">TRABAJADOR</option>
                     </select>
@@ -250,7 +250,9 @@
 @stop
 
 @section('js')
-
+<script>
+  const ID_USUARIO_LOGUEADO = "<?= auth()->user()->id ?>";
+</script>
 <script src="{{ asset('fullcalendar/main.js') }}"></script>
 <script src="{{ asset('fullcalendar/locales/es.js') }}"></script>
 <script src="{{ asset('js/Utils.js') }}"></script>

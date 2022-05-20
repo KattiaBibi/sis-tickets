@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Area;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class AreaRequest extends FormRequest
 {
