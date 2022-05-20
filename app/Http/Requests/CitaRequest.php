@@ -31,7 +31,12 @@ class CitaRequest extends FormRequest
         Rule::in(['presencial', 'virtual'])
       ],
       'descripcion' => 'nullable|max:250',
-      'fecha' => 'required|date_format:Y-m-d|after_or_equal:today',
+      'fecha' => [
+        'required',
+        // Rule::requiredIf(empty(request()->input('_method'))),
+        'date_format:Y-m-d',
+        'after_or_equal:today'
+      ],
       'hora_inicio' => 'required|date_format:H:i|after_or_equal:08:30|before_or_equal:18:30|before:hora_fin',
       'hora_fin' => 'required|date_format:H:i|after_or_equal:08:30|before_or_equal:18:30|after:hora_inicio',
       'link_reu' => 'nullable|max:150',

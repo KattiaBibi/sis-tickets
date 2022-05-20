@@ -261,7 +261,9 @@ document.addEventListener('DOMContentLoaded', function () {
         error: (response) => {
           if (response.status === 403) {
             alert('Usted no esta autorizado para editar reuniones.')
-          } else {
+          } else if (response.status === 400) {
+            alert('No se pueden editar reuniones pasadas.')
+          }else {
             console.log(response.responseJSON.errors)
             Utils.showValidationMessages(response.responseJSON.errors)
           }
