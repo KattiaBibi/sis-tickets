@@ -31,8 +31,8 @@ class CitaController extends Controller
 
   public function index()
   {
-    $empresas = DB::table('empresas')->where('estado','=', '1')->get();
-    $colaboradores = DB::table('colaboradores')->where('estado','=', '1')->get();
+    $empresas = DB::table('empresas')->where('estado', '=', '1')->get();
+    $colaboradores = DB::table('colaboradores')->where('estado', '=', '1')->get();
 
     return view('cita.calendario', compact('empresas', 'colaboradores'));
   }
@@ -197,11 +197,15 @@ class CitaController extends Controller
   {
     $cita = Cita::find($id);
     if (is_null($cita)) {
-      return response()->json(['messages' => 'resource not found.'], 404);
+      return response()->json(['errors' => 'resource not found.'], 404);
     }
 
     if (auth()->user()->id != $cita->usuario_id) {
-      return response()->json(['messages' => 'No esta autorizado a editar esta reunion.'], 403);
+      return response()->json(['errors' => 'No esta autorizado a editar esta reunion.'], 403);
+    }
+
+    if (strtotime($cita->fecha) < strtotime(date('Y-m-d'))) {
+      return response()->json(['errors' => 'No se pueden editar reuniones pasadas.'], 400);
     }
 
     $input = $request->all();
@@ -209,9 +213,11 @@ class CitaController extends Controller
     $cita->titulo = $request->get('titulo');
     $cita->tipocita = $request->get('tipocita');
     $cita->descripcion = $request->get('descripcion');
+
     $cita->fecha = $request->get('fecha');
     $cita->hora_inicio = $request->get('hora_inicio');
     $cita->hora_fin = $request->get('hora_fin');
+
     $cita->link_reu = $request->get('link_reu');
     $cita->empresa_id = $request->get('empresa_id');
     $cita->lugarreu = $request->get('lugarreu');
