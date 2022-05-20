@@ -2,44 +2,46 @@
 
 namespace App\Http\Requests;
 
+use App\Servicio;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EmpresaServicioRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
+  /**
+   * Determine if the user is authorized to make this request.
+   *
+   * @return bool
+   */
+  public function authorize()
+  {
+    return true;
+  }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            //
+  public function rules()
+  {
+    Validator::extend('custom_rule', function ($attribute, $value) {
+      $id_empresa = request()->input('id_empresa');
 
-            'empresa_id' => 'required|integer',
-            'servicio_id' => 'required|integer',
-        ];
-    }
+      $query = Servicio::join('empresa_servicios', 'empresa_servicios.servicio_id', '=', 'servicios.id')
+        ->where($attribute, $value)
+        ->where('empresa_servicios.empresa_id', $id_empresa);
 
-    public function messages(){
+      return !$query->count();
+    });
 
-        return[
+    return [
+      'id_empresa' => 'required',
+      'nombre' => 'required|custom_rule'
+    ];
+  }
 
-            'empresa_id.required' => '¡Debe elegir una empresa!',
-            'servicio_id.required' => '¡Debe elegir un servicio!',
-            'empresa_id.integer' => 'Debe seleccionar una empresa.',
-            'servicio_id.integer' => 'Debe seleccionar un servicio.',
-
-        ];
-    }
+  public function messages()
+  {
+    return [
+      'id_empresa.required' => 'La empresa es un campo requerido',
+      'nombre.required' => 'El nombre es un campo requerido',
+      'nombre.custom_rule' => 'El servicio ya existe en esta empresa'
+    ];
+  }
 }

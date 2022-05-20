@@ -21,7 +21,6 @@ class EmpresaController extends Controller
 
   public function empresa()
   {
-
     return datatables()->of(Empresa::all())->toJson();
   }
 

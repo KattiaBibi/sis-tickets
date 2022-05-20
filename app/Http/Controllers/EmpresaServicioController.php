@@ -11,111 +11,134 @@ use Illuminate\Support\Facades\DB;
 
 class EmpresaServicioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
 
-    public function __construct()
-    {
-        $this->middleware('auth');
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
+
+  public function empresa_servicio(Request $request)
+  {
+    $query = DB::table('empresa_servicios')
+      ->select(
+        "empresa_servicios.id as id_empresa_servicio",
+        "empresa_servicios.empresa_id as id_empresa",
+        "empresas.nombre as nombre_empresa",
+        "empresa_servicios.servicio_id as id_servicio",
+        "servicios.nombre as nombre_servicio",
+      )
+      ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
+      ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id');
+
+    if ($request->input('id_empresa')) {
+      $query->where('empresa_servicios.empresa_id', '=', $request->input('id_empresa'));
     }
 
-    public function empresa_servicio()
-    {
+    return datatables()->of($query)->toJson();
+  }
 
 
-        $empresa_servicios = DB::table('empresa_servicios as es')
-            ->join('empresas as e', 'es.empresa_id', '=', 'e.id')
-            ->join('servicios as s', 'es.servicio_id', '=', 's.id')
-            ->select('es.id as esid', 'e.id as eid', 's.id as sid', 'e.nombre as enombre', 's.nombre as snombre');
+  public function index()
+  {
+    //
 
-        return datatables()->of($empresa_servicios)->toJson();
+    $empresas = DB::table('empresas')->where('estado', '=', '1')->get();
+    $servicios = DB::table('servicios')->where('estado', '=', '1')->get();
+
+    return view('empresa_servicio.index', compact('empresas', 'servicios'));
+  }
+
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create()
+  {
+    //
+  }
+
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(EmpresaServicioRequest $request)
+  {
+    $servicio = Servicio::create($request->all());
+    $empresaServicio = EmpresaServicio::create(
+      [
+        'empresa_id' => $request->input('id_empresa'),
+        'servicio_id' => $servicio->id
+      ]
+    );
+
+    return $servicio ? 1 : 0;
+  }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param  \App\EmpresaServicio  $empresaServicio
+   * @return \Illuminate\Http\Response
+   */
+  public function show(EmpresaServicio $empresaServicio)
+  {
+    //
+  }
+
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  \App\EmpresaServicio  $empresaServicio
+   * @return \Illuminate\Http\Response
+   */
+  public function edit(EmpresaServicio $empresaServicio)
+  {
+    //
+  }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  int $id
+   * @return \Illuminate\Http\Response
+   */
+  public function update(EmpresaServicioRequest $request, $id)
+  {
+    $servicio = Servicio::findOrfail($id);
+    $servicio->update($request->all());
+
+    $empresaServicio = EmpresaServicio::findOrfail($request->input('id_empresa_servicio'));
+    $empresaServicio->empresa_id = $request->input('id_empresa');
+    $empresaServicio->servicio_id = $id;
+    $empresaServicio->update(array($empresaServicio));
+
+    return $servicio ? 1 : 0;
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  \App\EmpresaServicio  $empresaServicio
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy(Request $request, $id)
+  {
+    $servicio = Servicio::findOrfail($id);
+
+    if ($servicio) {
+      DB::table('empresa_servicios')->where('servicio_id', $id)->delete();
+      DB::table('servicios')->where('id', $id)->delete();
     }
 
-
-    public function index()
-    {
-        //
-
-        $empresas = DB::table('empresas')->where('estado','=', '1')->get();
-        $servicios = DB::table('servicios')->where('estado','=', '1')->get();
-
-        return view('empresa_servicio.index', compact('empresas', 'servicios'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(EmpresaServicioRequest $request)
-    {
-        //
-
-        $empresa_servicio = EmpresaServicio::create($request->all());
-
-        return $empresa_servicio ? 1 : 0;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\EmpresaServicio  $empresaServicio
-     * @return \Illuminate\Http\Response
-     */
-    public function show(EmpresaServicio $empresaServicio)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\EmpresaServicio  $empresaServicio
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(EmpresaServicio $empresaServicio)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(EmpresaServicioRequest $request, $id)
-    {
-        //
-        $empresaservicio = EmpresaServicio::findOrfail($id);
-        $empresaservicio->update($request->all());
-
-        return $empresaservicio ? 1 : 0;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\EmpresaServicio  $empresaServicio
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(EmpresaServicio $empresaServicio)
-    {
-        //
-    }
+    return $servicio ? 1 : 0;
+  }
 }
