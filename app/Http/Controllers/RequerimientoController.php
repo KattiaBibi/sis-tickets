@@ -272,7 +272,6 @@ class RequerimientoController extends Controller
     public function listarservicios($id)
     {
 
-
         $empresa_servicios = DB::table('empresa_servicios as es')
             ->join('empresas as e', 'es.empresa_id', '=', 'e.id')
             ->join('servicios as s', 'es.servicio_id', '=', 's.id')
@@ -291,8 +290,10 @@ class RequerimientoController extends Controller
 
         $gerentes = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
-            ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', 1)->where('ea.empresa_id', $id)->where("c.estado","=", 1)->get();
+            ->join('empresas as e','c.empresa_id', '=', 'e.id')
+            ->join('model_has_roles as mr', 'mr.model_id', '=', 'u.id')
+            ->join('roles as r','mr.role_id','=','r.id')
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->where('c.empresa_id', $id)->where("c.estado","=", 1)->get();
 
         return $gerentes;
     }
@@ -302,9 +303,12 @@ class RequerimientoController extends Controller
     {
 
         $colaboradores = DB::table('users as u')
-            ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
-            ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.empresa_id', $id)->where("c.estado","=",1)->get();
+        ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
+        ->join('empresas as e','c.empresa_id', '=', 'e.id')
+        ->join('model_has_roles as mr', 'mr.model_id', '=', 'u.id')
+        ->join('roles as r','mr.role_id','=','r.id')
+        ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('c.empresa_id', $id)->where("c.estado","=", 1)->get();
+
 
         return $colaboradores;
     }
@@ -376,23 +380,10 @@ class RequerimientoController extends Controller
      * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         //
-        $registro = Requerimiento::findOrfail($id);
 
-
-        $servicios = Servicio::all();
-        $colaboradores = Colaborador::all();
-
-
-
-        $users = DB::table('users as u')
-            ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
-            ->select('u.id as id', 'c.nombres as nombres', 'c.apellidos as apellidos')->get();
-
-
-        return view('requerimiento.atencion', compact('servicios', 'estados', 'users', 'registro', 'id'));
     }
 
     /**

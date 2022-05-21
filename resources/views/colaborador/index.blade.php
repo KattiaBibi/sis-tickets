@@ -47,8 +47,6 @@
               <th>DIRECCIÓN</th>
               <th>TELÉFONO</th>
               <th>EMPRESA</th>
-              <th>ÁREA</th>
-
 
             </tr>
         </thead>
@@ -118,15 +116,13 @@
         </div>
 
         <div class="form-group">
-            <label for="">Empresa y área:</label>
-
-
+            <label for="">Empresa:</label>
 
             <select class="form-control" name="empresa_area_id">
               <option value="a" selected>Elegir</option>
 
-              @foreach ($empresa_areas as $e)
-              <option value="{{ $e->eaid }}">{{$e->enombre}} - {{$e->anombre}}</option>
+              @foreach ($empresas as $e)
+              <option value="{{ $e->id}}">{{$e->nombre}}</option>
             @endforeach
             </select>
 
@@ -204,15 +200,14 @@
           </div>
 
           <div class="form-group">
-            <label for="">Empresa y área:</label>
+            <label for="">Empresa:</label>
 
 
 
-            <select class="form-control" id="editarEmpresaArea">
-                <option selected>Elegir</option>
-
-                @foreach ($empresa_areas as $e)
-                <option value="{{ $e->eaid }}">{{$e->enombre}} - {{$e->anombre}}</option>
+            <select class="form-control" id="editarEmpresa">
+                <option readonly selected>Elegir</option>
+                @foreach ($empresas as $e)
+                <option value="{{ $e->id}}">{{$e->nombre}}</option>
               @endforeach
               </select>
 
