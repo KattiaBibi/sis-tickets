@@ -118,7 +118,7 @@
         <div class="form-group">
             <label for="">Empresa:</label>
 
-            <select class="form-control" name="empresa_area_id">
+            <select class="form-control" name="empresa_id">
               <option value="a" selected>Elegir</option>
 
               @foreach ($empresas as $e)
@@ -201,10 +201,7 @@
 
           <div class="form-group">
             <label for="">Empresa:</label>
-
-
-
-            <select class="form-control" id="editarEmpresa">
+            <select class="form-control" id="editarEmpresa" name="empresa_id">
                 <option readonly selected>Elegir</option>
                 @foreach ($empresas as $e)
                 <option value="{{ $e->id}}">{{$e->nombre}}</option>
