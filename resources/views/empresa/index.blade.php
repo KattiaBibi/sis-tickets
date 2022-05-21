@@ -105,7 +105,7 @@
 </div>
 
 @include('empresa.forms.frmEmpresa')
-@include('empresa.forms.frmColaborador')
+@include('empresa.forms.frmServicio')
 
 
 <!-- <div class="btn-group mb-2" role="group" aria-label="CRUD Buttons">
