@@ -105,7 +105,6 @@
 </div>
 
 @include('empresa.forms.frmEmpresa')
-@include('empresa.forms.frmArea')
 @include('empresa.forms.frmColaborador')
 
 
