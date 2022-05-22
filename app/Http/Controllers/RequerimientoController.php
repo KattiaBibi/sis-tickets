@@ -293,7 +293,11 @@ class RequerimientoController extends Controller
             ->join('empresas as e','c.empresa_id', '=', 'e.id')
             ->join('model_has_roles as mr', 'mr.model_id', '=', 'u.id')
             ->join('roles as r','mr.role_id','=','r.id')
+<<<<<<< HEAD
             ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->orWhere('mr.role_id', 2)->where('c.empresa_id', $id)->where("c.estado","=", 1)->get();
+=======
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->where('c.empresa_id', $id)->where("c.estado","=", 1)->get();
+>>>>>>> parent of cb94762 (nbmhb)
 
         return $gerentes;
     }
