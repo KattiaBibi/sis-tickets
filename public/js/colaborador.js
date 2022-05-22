@@ -137,7 +137,7 @@ $("#btnguardar").on("click", (event) => {
         error: (response) => {
             console.log(response);
             $.each(response.responseJSON.errors, function (key, value) {
-                response.responseJSON.errors[key].forEach((element) => { 
+                response.responseJSON.errors[key].forEach((element) => {
                     console.log(element);
                     toastr.error(element);
                 });
@@ -171,7 +171,7 @@ $("#btnactualizar").on("click", (event) => {
 
                 datatable.ajax.reload(null, false);
 
-                $("#mo   daleditar").modal("hide");
+                $("#modaleditar").modal("hide");
             } else {
                 alert("no editado");
             }

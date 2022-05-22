@@ -284,9 +284,10 @@ class RequerimientoController extends Controller
 
 
     public function listargerentes($id)
+    {
 
-    {     
-    // listar gerentes por el área de gerencia
+        // listar gerentes por el área de gerencia
+
         $gerentes = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('empresas as e','c.empresa_id', '=', 'e.id')
@@ -297,9 +298,10 @@ class RequerimientoController extends Controller
         return $gerentes;
     }
 
-    public function listarcolaboradores($id)
 
+    public function listarcolaboradores($id)
     {
+
         $colaboradores = DB::table('users as u')
         ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
         ->join('empresas as e','c.empresa_id', '=', 'e.id')
@@ -307,13 +309,16 @@ class RequerimientoController extends Controller
         ->join('roles as r','mr.role_id','=','r.id')
         ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('c.empresa_id', $id)->where("c.estado","=", 1)->get();
 
+
         return $colaboradores;
     }
+
 
 
     public function index()
 
     {
+
         $servicios = Servicio::all();
         $empresas = DB::table('empresas')->where('estado','=', '1')->get();
         $usuarios = DB::table('users as u')
@@ -340,8 +345,8 @@ class RequerimientoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(RequerimientoRequest $request)
-
     {
+
         $ruta = "requerimiento/";
         $file = $request->imagenpost;
         $nombre = "requerimiento";
@@ -360,6 +365,7 @@ class RequerimientoController extends Controller
             $encargado_requerimiento = RequerimientoEncargados::create([
                 "requerimiento_id" => $requerimiento->id,
                 "usuarioencarg_id" => $value
+
 
             ]);
         }
@@ -407,6 +413,7 @@ class RequerimientoController extends Controller
     {
 
         DB::table('detalle_requerimientos')->where('requerimiento_id', $id)->delete();
+
         $requerimiento = Requerimiento::findOrfail($id);
 
     //  RUTA DE LA IMAGEN
@@ -416,6 +423,7 @@ class RequerimientoController extends Controller
         $file = $request->imagennue;
 
     // IMAGEN ANTERIOR
+
         $file2= $request->imganterior;
 
     // NOMBRE PARA CONCATENAR A LA NUEVA IMAGEN
@@ -423,17 +431,20 @@ class RequerimientoController extends Controller
 
         // return response()->json($file2);
 
+
         if($file){
 
         // SI EXISTE LA IMAGEN NUEVA
 
             // PRIMERO ELIMINA LA IMAGEN ANTERIOR
+
             Storage::disk('public')->delete($ruta.$file2);
 
             // LUEGO SUBE LA IMAGEN A LA CARPETA  STORAGE
             $subir = subirimagen::imagen($file, $nombre, $ruta);
 
             // DESPUÉS GUARDA EN LA BASE DE DATOS
+
             $requerimiento->update(
                 [
                     'avance' => $request->avance,
@@ -448,6 +459,7 @@ class RequerimientoController extends Controller
         else{
 
             // SI NO MANDA IMAGEN NUEVA
+
             $requerimiento->update(
                 [
                     'avance' => $request->avance,
@@ -491,6 +503,7 @@ class RequerimientoController extends Controller
     {
         //delete
         $requerimiento = Requerimiento::findOrfail($id);
+
         $requerimiento->estado = "cancelado";
 
 
