@@ -2,7 +2,7 @@
 var datatable;
 function listar() {
     datatable = $("#colaboradores").DataTable({
-        pageLength: 7,
+        pageLength: 5,
         destroy: true,
         async: false,
         responsive: true,
@@ -76,8 +76,8 @@ function listar() {
             { data: "fechanacimiento" },
             { data: "direccion" },
             { data: "telefono" },
-            { data: "nombre_empresa" },
-
+            { data: "e.nombre" },
+            { data: "a.nombre" },
         ],
     });
 }
@@ -98,7 +98,8 @@ $("#colaboradores").on("click", ".editar", function () {
     $("#editarDireccion").val(data["direccion"]);
     $("#editarTelefono").val(data["telefono"]);
 
-    $("#editarEmpresa").val(data.empresa_id);
+    console.log(data.idea);
+    $("#editarEmpresaArea").val(data.idea);
 
     $("#modaleditar").modal("show");
 });
@@ -170,6 +171,7 @@ $("#btnactualizar").on("click", (event) => {
                 });
 
                 datatable.ajax.reload(null, false);
+                $("#frmguardar")[0].reset();
 
                 $("#modaleditar").modal("hide");
             } else {
