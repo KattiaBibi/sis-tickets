@@ -172,7 +172,7 @@
         <div class="form-row">
 
             <div class="form-group col-md-6">
-                <label for="">EMPRESA</label>
+                <label for="">EMPRESA RESPONSABLE</label>
 
                 <select class="form-control" id="empresa" name="">
                     <option value="a" >Elegir</option>
