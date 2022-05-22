@@ -290,28 +290,10 @@ class RequerimientoController extends Controller
         // listar gerentes por el área de gerencia
 
         $gerentes = DB::table('users as u')
-            ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
-<<<<<<< HEAD
-            ->join('empresas as e','c.empresa_id', '=', 'e.id')
-            ->join('model_has_roles as mr', 'mr.model_id', '=', 'u.id')
-            ->join('roles as r','mr.role_id','=','r.id')
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->orWhere('mr.role_id', 2)->where('c.empresa_id', $id)->where("c.estado","=", 1)->get();
-=======
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->where('c.empresa_id', $id)->where("c.estado","=", 1)->get();
->>>>>>> parent of cb94762 (nbmhb)
-=======
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->where('mr.role_id', 2)->where('c.empresa_id', $id)->where("c.estado","=", 1)->get();
->>>>>>> parent of 731d57b (cvbv)
-=======
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->where('mr.role_id', 2)->where('c.empresa_id', $id)->where("c.estado","=", 1)->get();
->>>>>>> parent of 731d57b (cvbv)
-=======
-            ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', 1)->where('ea.empresa_id', $id)->where("c.estado","=", 1)->get();
->>>>>>> parent of faa2e2e (ytdryd)
+        ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
+        ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
+        ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')
+        ->where('ea.area_id', 1)->where('ea.empresa_id', $id)->where("c.estado","=", 1)->get();
 
         return $gerentes;
     }
