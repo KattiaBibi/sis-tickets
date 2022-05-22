@@ -37,15 +37,30 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'admin.servicio.editar', 'description' => 'Editar servicio', 'estado' => '1'])->syncRoles([$role1]);
         Permission::create(['name' => 'admin.servicio.desactivar', 'description' => 'Desactivar servicio', 'estado' => '1'])->syncRoles([$role1]);
 
+
         Permission::create(['name' => 'admin.colaborador.listado', 'description' => 'Listar colaboradores', 'estado' => '1'])->syncRoles([$role1]);
         Permission::create(['name' => 'admin.colaborador.crear', 'description' => 'Crear colaborador', 'estado' => '1'])->syncRoles([$role1]);
         Permission::create(['name' => 'admin.colaborador.editar', 'description' => 'Editar colaborador', 'estado' => '1'])->syncRoles([$role1]);
         Permission::create(['name' => 'admin.colaborador.desactivar', 'description' => 'Desactivar colaborador', 'estado' => '1'])->syncRoles([$role1]);
 
+
         Permission::create(['name' => 'admin.empresa.listado', 'description' => 'Listar empresas', 'estado' => '1'])->syncRoles([$role1]);
         Permission::create(['name' => 'admin.empresa.crear', 'description' => 'Crear empresa', 'estado' => '1'])->syncRoles([$role1]);
         Permission::create(['name' => 'admin.empresa.editar', 'description' => 'Editar empresa', 'estado' => '1'])->syncRoles([$role1]);
         Permission::create(['name' => 'admin.empresa.desactivar', 'description' => 'Desactivar empresa', 'estado' => '1'])->syncRoles([$role1]);
+
+
+        Permission::create(['name' => 'admin.area.listado', 'description' => 'Listar áreas', 'estado' => '1'])->syncRoles([$role1]);
+        Permission::create(['name' => 'admin.area.crear', 'description' => 'Crear área', 'estado' => '1'])->syncRoles([$role1]);
+        Permission::create(['name' => 'admin.area.editar', 'description' => 'Editar área', 'estado' => '1'])->syncRoles([$role1]);
+        Permission::create(['name' => 'admin.area.desactivar', 'description' => 'Desactivar área', 'estado' => '1'])->syncRoles([$role1]);
+
+
+        Permission::create(['name' => 'admin.empresa_area.listado', 'description' => 'Listar empresas con áreas', 'estado' => '1'])->syncRoles([$role1]);
+        Permission::create(['name' => 'admin.empresa_area.crear', 'description' => 'Crear empresas con área', 'estado' => '1'])->syncRoles([$role1]);
+        Permission::create(['name' => 'admin.empresa_area.editar', 'description' => 'Editar empresas con área', 'estado' => '1'])->syncRoles([$role1]);
+        Permission::create(['name' => 'admin.empresa_area.desactivar', 'description' => 'Desactivar empresas con área', 'estado' => '1'])->syncRoles([$role1]);
+
 
         Permission::create(['name' => 'admin.empresa_servicio.listado', 'description' => 'Listar empresas con servicios', 'estado' => '1'])->syncRoles([$role1]);
         Permission::create(['name' => 'admin.empresa_servicio.crear', 'description' => 'Crear empresa con servicio', 'estado' => '1'])->syncRoles([$role1]);
