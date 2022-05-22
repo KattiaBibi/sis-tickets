@@ -290,10 +290,16 @@ class RequerimientoController extends Controller
         // listar gerentes por el área de gerencia
 
         $gerentes = DB::table('users as u')
+<<<<<<< HEAD
         ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
         ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
         ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')
         ->where('ea.area_id', 1)->where('ea.empresa_id', $id)->where("c.estado","=", 1)->get();
+=======
+            ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
+            ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', 1)->where('ea.empresa_id', $id)->where("c.estado","=", 1)->get();
+>>>>>>> parent of 758c92e (Merge branch 'main' of https://github.com/KattiaBibi/sistema-compusistel)
 
         return $gerentes;
     }
