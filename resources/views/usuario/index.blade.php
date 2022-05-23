@@ -90,7 +90,28 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('usuario.store') }}" id="frmguardar" >
+    <form action="{{ route('usuario.store') }}" id="frmguardar" enctype="multipart/form-data">
+@csrf
+      <div class="row">
+
+        <div class="form-group text-center col-md-12">
+
+            <label for=""><h2>FOTO</h2></label>
+
+            <input type="file"  accept="image/*" class="img form-control-file" id="xy" name="imagenpost">
+
+            <div>
+              <img id="prev" class="imagenPrevisualizacion mt-2" style="width: 200px;height: auto;">
+            </div>
+            
+
+
+            <button type="button" id="" class="retirar btn btn-info mt-2" style="display: none; border-radius: 0px;">QUITAR IMAGEN</button>
+
+        </div>
+
+</div>
+
 
         <div class="form-group">
             <label for="">Nombre:</label>
@@ -171,7 +192,7 @@
               </ul>
           </div>
       @endif
-      <form  id="frmeditar">
+      <form  id="frmeditar" enctype="multipart/form-data">
 
           <div class="form-group">
               <label for="">Nombre:</label>

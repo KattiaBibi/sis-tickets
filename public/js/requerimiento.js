@@ -1,3 +1,201 @@
+var datatable;
+
+function listar() {
+    datatable = $("#requerimientos").DataTable({
+        searchHighlight: true,
+        pageLength: 5,
+        searching: false,
+        ordering: true,
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        autoWidth: false,
+        dom: "Bfrtip",
+
+        language: {
+            url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+        },
+        ajax: {
+            url: "datatable/requerimientos",
+            type: "GET",
+            //   data : { '_token' : token_ },
+            data: function (d) {
+                d._token = token_;
+                return $.extend({}, d, {
+                    filters: {
+                        nombrado: $("#filtronb").val(),
+                        nombre_empresa: $("#filtrosempre").val(),
+                        estado: $("#filtros").val(),
+
+                    },
+                });
+            },
+        },
+        columns: [
+            {
+                data: "elemento[]",
+                orderable: false,
+                render: function (data, type, row, meta) {
+
+                        if(data.filter(i => (i === "dos")).length ) {
+
+                            return `<button type='button' value="dos" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>`;
+                        }
+
+                        else if(data.filter(i => (i === "silog")).length ) {
+
+                            return `<button type='button' value="silog" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Modificar</span></button>`;
+                        }
+
+                        else if(data.filter(i => (i === "sireg")).length ) {
+
+                            return `<button type='button' value="sireg" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>`;
+                        }
+
+
+                        else if(data.filter(i => (i === "mostrar")).length ) {
+
+                            return `<button type='button' value="mostrar" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Mostrar</span></button>`;
+                        }
+
+                },
+            },
+
+            {
+                data: "estado_requerimiento",
+                orderable: false,
+                render: function (data, type, row, meta) {
+                    if (data == "cancelado") {
+                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
+                    } else {
+                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
+                    }
+                },
+            },
+
+            {
+                data: "id",
+                orderable: false,
+            },
+
+            {
+                data: "titulo_requerimiento",
+                orderable: false,
+            },
+
+            {
+                data: "nom_ape_solicitante",
+                orderable: false,
+            },
+            {
+                data: "encargados",
+                orderable: false,
+                render: function (data, type, row, meta) {
+                    let encargados = data
+                        .map((item) => {
+                            return item.nom_ape;
+                        })
+                        .toString();
+                    return `<span>${encargados}</span>`;
+                },
+            },
+            {
+                data: "asignados",
+                orderable: false,
+                render: function (data, type, row, meta) {
+                    let asignados = data
+                        .map((item) => {
+                            return item.nom_ape;
+                        })
+                        .toString();
+                    return `<span>${asignados}</span>`;
+                },
+            },
+            {
+                data: "nombre_empresa",
+                orderable: false,
+            },
+            {
+                data: "nombre_servicio",
+                orderable: false,
+            },
+            {
+                data: "avance_requerimiento",
+                orderable: false,
+                render: function (data, type, row, meta) {
+                    return `<div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${data}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">${data}%</div>
+              </div>`;
+                },
+            },
+            {
+                data: "estado_requerimiento",
+                orderable: false,
+
+                render: function (data, type, row, meta) {
+                    if (data == "pendiente") {
+                        return '<span class="badge badge-warning">PENDIENTE</span>';
+                    }
+
+                    if (data == "en espera") {
+                        return '<span class="badge badge-primary">EN ESPERA</span>';
+                    }
+
+                    if (data == "en proceso") {
+                        return '<span class="badge badge-info">EN PROCESO</span>';
+                    }
+
+                    if (data == "culminado") {
+                        return '<span class="badge badge-success">CULMINADO</span>';
+                    }
+
+                    if (data == "cancelado") {
+                        return '<span class="badge badge-danger">CANCELADO</span>';
+                    }
+                },
+            },
+            {
+                data: "prioridad_requerimiento",
+                orderable: false,
+
+                render: function (data, type, row, meta) {
+                    if (data == "alta") {
+
+                        return '<span class="badge badge-danger">ALTA</span>';
+
+                    }
+
+                    else if (data == "media") {
+
+                        return '<span class="badge badge-warning">MEDIA</span>';
+                    }
+                    else if (data == "baja") {
+
+                        return '<span class="badge badge-info">BAJA</span>';
+
+                    }
+                },
+            },
+            {
+                data: "fecha_creacion",
+                orderable: true,
+                render: function (data, type, row, meta) {
+                  return `${new Date(data).toLocaleDateString()} ${new Date(data).toLocaleTimeString('es-PE', { hour12: true })}`
+                },
+            },
+        ],
+        order: [[9, "desc"]],
+    });
+
+    // datatable.on( 'draw', function () {
+    //     var body = $( datatable.table().body() );
+
+    //     body.unhighlight();
+    //     body.highlight("Johon");
+    // } );
+}
+
+
 $("#btnagregar").on("click", function (e){
 
     $("#frmguardar")[0].reset();
@@ -96,18 +294,18 @@ $(".retirar").on("click", function (e){
 
     $(".js-example-basic-multiple").select2();
 
-    function cambioAvance() {
-        document.getElementById("avan").innerHTML =
-            document.getElementById("avance").value;
-    }
+    // function cambioAvance() {
+    //     document.getElementById("avan").innerHTML =
+    //         document.getElementById("avance").value;
+    // }
 
-    function inicio() {
-        document
-            .getElementById("avance")
-            .addEventListener("change", cambioAvance, false);
-    }
+    // function inicio() {
+    //     document
+    //         .getElementById("avance")
+    //         .addEventListener("change", cambioAvance, false);
+    // }
 
-    addEventListener("load", inicio, false);
+    // addEventListener("load", inicio, false);
 
 
     $("#empresa").on("change", function (e) {
@@ -210,210 +408,46 @@ $(".retirar").on("click", function (e){
     });
 
 
-
-
-
-    /* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
-    var datatable;
-
-    function listar() {
-        datatable = $("#requerimientos").DataTable({
-            searchHighlight: true,
-            pageLength: 5,
-            searching: false,
-            ordering: true,
-            processing: true,
-            serverSide: true,
-            responsive: true,
-            autoWidth: false,
-            dom: "Bfrtip",
-
-            language: {
-                url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
-            },
-            ajax: {
-                url: "datatable/requerimientos",
-                type: "GET",
-                //   data : { '_token' : token_ },
-                data: function (d) {
-                    d._token = token_;
-                    return $.extend({}, d, {
-                        filters: {
-                            nombrado: $("#filtronb").val(),
-                            nombre_empresa: $("#filtrosempre").val(),
-                            estado: $("#filtros").val(),
-
-                        },
-                    });
-                },
-            },
-            columns: [
-                {
-                    data: "elemento[]",
-                    orderable: false,
-                    render: function (data, type, row, meta) {
-
-                            if(data.filter(i => (i === "dos")).length ) {
-
-                                return `<button type='button' value="dos" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>`;
-                            }
-
-                            if(data.filter(i => (i === "silog")).length ) {
-
-                                return `<button type='button' value="" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Modificar</span></button>`;
-                            }
-
-                            if(data.filter(i => (i === "sireg")).length ) {
-
-                                return `<button type='button' value="" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>`;
-                            }
-
-
-                            else {
-                                  return `<button type='button' value="mostrar" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Mostrar</span></button>`;
-                            }
-
-                    },
-                },
-
-                {
-                    data: "estado_requerimiento",
-                    orderable: false,
-                    render: function (data, type, row, meta) {
-                        if (data == "cancelado") {
-                            return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
-                        } else {
-                            return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
-                        }
-                    },
-                },
-
-                {
-                    data: "id",
-                    orderable: false,
-                },
-
-                {
-                    data: "titulo_requerimiento",
-                    orderable: false,
-                },
-
-                {
-                    data: "nom_ape_solicitante",
-                    orderable: false,
-                },
-                {
-                    data: "encargados",
-                    orderable: false,
-                    render: function (data, type, row, meta) {
-                        let encargados = data
-                            .map((item) => {
-                                return item.nom_ape;
-                            })
-                            .toString();
-                        return `<span>${encargados}</span>`;
-                    },
-                },
-                {
-                    data: "asignados",
-                    orderable: false,
-                    render: function (data, type, row, meta) {
-                        let asignados = data
-                            .map((item) => {
-                                return item.nom_ape;
-                            })
-                            .toString();
-                        return `<span>${asignados}</span>`;
-                    },
-                },
-                {
-                    data: "nombre_empresa",
-                    orderable: false,
-                },
-                {
-                    data: "nombre_servicio",
-                    orderable: false,
-                },
-                {
-                    data: "avance_requerimiento",
-                    orderable: false,
-                    render: function (data, type, row, meta) {
-                        return `<div class="progress">
-                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${data}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">${data}%</div>
-                  </div>`;
-                    },
-                },
-                {
-                    data: "estado_requerimiento",
-                    orderable: false,
-
-                    render: function (data, type, row, meta) {
-                        if (data == "pendiente") {
-                            return '<span class="badge badge-warning">PENDIENTE</span>';
-                        }
-
-                        if (data == "en espera") {
-                            return '<span class="badge badge-primary">EN ESPERA</span>';
-                        }
-
-                        if (data == "en proceso") {
-                            return '<span class="badge badge-info">EN PROCESO</span>';
-                        }
-
-                        if (data == "culminado") {
-                            return '<span class="badge badge-success">CULMINADO</span>';
-                        }
-
-                        if (data == "cancelado") {
-                            return '<span class="badge badge-danger">CANCELADO</span>';
-                        }
-                    },
-                },
-                {
-                    data: "prioridad_requerimiento",
-                    orderable: false,
-
-                    render: function (data, type, row, meta) {
-                        if (data == "alta") {
-
-                            return '<span class="badge badge-danger">ALTA</span>';
-
-                        }
-
-                        if (data == "media") {
-
-                            return '<span class="badge badge-warning">MEDIA</span>';
-                        }
-                        else if (data == "baja") {
-
-                            return '<span class="badge badge-info">BAJA</span>';
-
-                        }
-                    },
-                },
-                {
-                    data: "fecha_creacion",
-                    orderable: true,
-                    render: function (data, type, row, meta) {
-                      return `${new Date(data).toLocaleDateString()} ${new Date(data).toLocaleTimeString('es-PE', { hour12: true })}`
-                    },
-                },
-            ],
-            order: [[9, "desc"]],
-        });
-
-        // datatable.on( 'draw', function () {
-        //     var body = $( datatable.table().body() );
-
-        //     body.unhighlight();
-        //     body.highlight("Johon");
-        // } );
-    }
-
-
-
     $("#requerimientos").on("click", ".editar", function (event)
     {
+
+        let valorboton=$(this).val();
+
+        
+        if(valorboton == "dos"){
+
+            // alert("dos");
+            $(".divoculto").show();
+            $(".divocult").show();
+            $(".datosocultos").attr("readonly", false); 
+          
+        }
+
+
+        if(valorboton == "sireg"){
+
+            // alert("usuario que registró");
+            $(".divoculto").show();
+            $(".datosocultos").attr("readonly", false); 
+          
+        }
+
+        else if(valorboton == "silog"){
+
+            // alert("usuario que está encargado");
+            $(".divocult").hide();
+            $(".div").show();
+            $(".datosocultos").attr("readonly", true); 
+
+        }
+ 
+        else if(valorboton == "mostrar"){
+
+            // alert("Mostrar");              
+            $(".divoculto").hide();
+            $(".datosocultos").attr("readonly", true); 
+        }
+
 
         event.preventDefault();
 
@@ -453,7 +487,8 @@ $(".retirar").on("click", function (e){
             return item.nom_ape;
         }).toString());
 
-        $("#avance").val(data["avance_requerimiento"]);
+        $('#avance').width(data["avance_requerimiento"] + "%");
+        document.getElementById("avan").innerHTML= data["avance_requerimiento"] + "%";
         $("#estado").val(data["estado_requerimiento"]);
         $("#prioridad").val(data["prioridad_requerimiento"]);
 
@@ -461,50 +496,43 @@ $(".retirar").on("click", function (e){
         // SI EL USUARIO LOGUEADO ES EL MISMO QUE HIZO EL REQUERIMIENTO, PODRÁ ACCEDER AL EDITAR
 
 
-        document.getElementById("avan").innerHTML =
-        document.getElementById("avance").value;
+        // document.getElementById("avan").innerHTML =
+        // $("#avance").width();
 
-        if (data["estado_requerimiento"] == "en proceso") {
-            document.getElementById("elemento").removeAttribute("hidden");
-            document.getElementById("trabajadores").removeAttribute("hidden");
-        } else if (data["estado_requerimiento"] == "culminado") {
-            document.getElementById("elemento").removeAttribute("hidden");
-            document.getElementById("trabajadores").removeAttribute("hidden");
-        } else {
-            document.getElementById("elemento").setAttribute("hidden", "");
-            document.getElementById("trabajadores").setAttribute("hidden", "");
-        }
+        // if (data["estado_requerimiento"] == "en proceso") {
+        //     document.getElementById("elemento").removeAttribute("hidden");
+        //     document.getElementById("trabajadores").removeAttribute("hidden");
+        // } else if (data["estado_requerimiento"] == "culminado") {
+        //     document.getElementById("elemento").removeAttribute("hidden");
+        //     document.getElementById("trabajadores").removeAttribute("hidden");
+        // } else {
+        //     document.getElementById("elemento").setAttribute("hidden", "");
+        //     document.getElementById("trabajadores").setAttribute("hidden", "");
+        // }
 
-        $("#estado").on("change", function (e) {
-            let estado = e.target.value;
-            let el = document.getElementById("elemento");
-            let tr = document.getElementById("trabajadores");
+        // $("#estado").on("change", function (e) {
+        //     let estado = e.target.value;
+        //     let el = document.getElementById("elemento");
+        //     let tr = document.getElementById("trabajadores");
 
-            if (estado == "pendiente" || estado == "en espera") {
-                el.setAttribute("hidden", "");
-                tr.setAttribute("hidden", "");
-                $("#avance").val(0);
 
-                cambioAvance();
-            }
+        //     if (estado == "en proceso" || estado == "pendiente" || estado == "en espera") {
+        //         el.removeAttribute("hidden");
+        //         tr.removeAttribute("hidden");
 
-            if (estado == "en proceso") {
-                el.removeAttribute("hidden");
-                tr.removeAttribute("hidden");
+        //         // $('#personal').val(null).trigger('change');
+        //         $("#avance").val(0);
+        //         // cambioAvance();
+        //     }
 
-                // $('#personal').val(null).trigger('change');
-                $("#avance").val(0);
-                cambioAvance();
-            }
+        //     // if (estado == "culminado") {
+        //     //     el.removeAttribute("hidden");
+        //     //     tr.removeAttribute("hidden");
 
-            if (estado == "culminado") {
-                el.removeAttribute("hidden");
-                tr.removeAttribute("hidden");
-
-                $("#avance").val(100);
-                cambioAvance();
-            }
-        });
+        //     //     $("#avance").val(100);
+        //     //     cambioAvance();
+        //     // }
+        // });
 
         $("#avance").on("change", function (e) {
             let avance = e.target.value;
@@ -626,15 +654,13 @@ $(".retirar").on("click", function (e){
 
 
         let val = document.getElementById("personal").value;
-        let val2 = document.getElementById("estado").value;
+        // let val2 = document.getElementById("estado").value;
 
-
-
-        if ((val.length == 0 && val2 == "en proceso") || val == "culminado") {
+        if (val.length == 0) {
             Swal.fire({
-                position: "top-center",
+                position: "top",
                 icon: "error",
-                title: "Si su estado es en proceso o culminado debe asignar personal.",
+                title: "Debe asignar personal.",
                 showConfirmButton: false,
                 timer: 2500,
             });

@@ -16,6 +16,8 @@ VALIDAR A LOS USUARIOS QUE TENGAN YA UNA REUNIÓN AGENDADA Y QUE MUESTRE UN MSJE
 modificar areas en empresas quitar empresas y servicios- david
 arreglar colaboradores - bibiana
 
+modificar proceso - bibiana 
+
 EST
 
 ADMIN:

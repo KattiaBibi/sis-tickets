@@ -98,6 +98,88 @@ function listar(){
 }
 
 
+$(".retirar").on("click", function (e){
+
+
+    $("#imn").val(null);
+
+    $("#xy").val(null);
+
+    $('#imag').hide();
+    $('#imag').removeAttr("src");
+
+
+    $('#prev').hide();
+    $('#prev').removeAttr("src");
+
+
+    $(".retirar").hide();
+
+    });
+
+
+
+    $('#imag').on("error", function(event) {
+        $(event.target).css("display", "none");
+    });
+
+
+    const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
+
+
+        function readImage (input)
+
+        {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                  $('.imagenPrevisualizacion').attr('src', e.target.result); // Renderizamos la imagen
+              }
+              reader.readAsDataURL(input.files[0]);
+            }
+
+          }
+
+          $(".img").on("change", function ()
+
+        {
+
+        const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
+
+            // Código a ejecutar cuando se detecta un cambio de archivo
+
+            if (this.files.length <= 0) return;
+
+            const archivo = this.files[0];
+
+
+
+        if (archivo.size > MAXIMO_TAMANIO_BYTES)
+
+        {
+
+            const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
+            alert(`El tamaño máximo es ${tamanioEnMb}  MB`);
+
+            // Limpiar
+            this.value = "";
+
+        }
+
+        else{
+
+            $('#imag').show();
+            $('#prev').show();
+
+             $('.retirar').show();
+            readImage(this);
+
+        }
+
+    }
+
+    );
+
 
 $('#usuarios').on('click','.editar',function(){
     var data = datatable.row($(this).parents('tr')).data();//Detecta a que fila hago click y me captura los datos en la variable data.
@@ -119,16 +201,19 @@ $('#usuarios').on('click','.editar',function(){
 $('#btnguardar').on("click" ,(event)=>{
     event.preventDefault();
 
-let route=$('#frmguardar').attr("action");
-let dataArray=$('#frmguardar').serializeArray()
-dataArray.push({name:'_token',value:token_})
-console.log(dataArray)
+    let route = $("#frmguardar").attr("action");
 
-$.ajax({
-    "method":'POST',
-    "url": route,
-    "data": dataArray,
+    let dataArray = new FormData($("#frmguardar")[0]);
 
+    console.log(dataArray);
+    
+    $.ajax({
+        method: "POST",
+        url: route,
+        data: dataArray,
+        cache: false,
+        contentType: false,
+        processData: false,
 
     "success":function(Response){
 

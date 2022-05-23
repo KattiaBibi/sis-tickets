@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use App\subirimagen;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -76,10 +81,21 @@ class UserController extends Controller
     public function store(UserRequest $request)
 
     {
-        $usuario=User::create(['name' => $request->name,
+
+        $ruta = "foto/";
+        $file = $request->imagenpost;
+        $nombre = "foto";
+        $subir = subirimagen::imagen($file, $nombre, $ruta);
+
+
+        $usuario=User::create(
+        ['name' => $request->name,
         'email' => $request->email,
         'password' => Hash::make($request->password),
-        'colaborador_id' => $request->colaborador_id])->assignRole($request->role);
+        'colaborador_id' => $request->colaborador_id,
+        'imagen'=> $subir
+        ]
+        )->assignRole($request->role);
 
         return $usuario?1:0;
 

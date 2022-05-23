@@ -162,7 +162,7 @@
 
             <input type="hidden" name="usuarioregist_id" value="{{ auth()->user()->id}}" id="registro">
 
-            <textarea maxlength="200" class="form-control" id="txtProblema" placeholder="Ingrese el nombre del requerimiento." rows="3" name="titulo"></textarea>
+            <textarea maxlength="100" class="form-control" id="txtProblema" placeholder="Ingrese el nombre del requerimiento." rows="3" name="titulo"></textarea>
 
             <div id="contador">0/200</div>
 
@@ -384,7 +384,7 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><span class="divocult">ACTUALIZA </span>REGISTRO DE MANTENIMIENTO</h5>
+            <h5 class="modal-title" id="exampleModalLabel"><span class="div divoculto divocult">ACTUALIZA </span>REGISTRO DE MANTENIMIENTO</h5>
 
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -398,7 +398,7 @@
 
         <div class="form-row" id="">
 
-            <div class="divocult form-group text-center col-md-4">
+            <div class="divoculto divocult form-group text-center col-md-4">
 
                 <input type="file"  accept="image/*" class="img form-control-file" id="imn" name="imagennue">
 
@@ -447,7 +447,7 @@
             <div class="form-group col-md-12">
                 <label for="">TÍTULO:</label>
 
-                <textarea maxlength="200" readonly class="form-control" id="editarTitulo" placeholder="Ingrese el nombre del requerimiento." rows="2" name="titulo"></textarea>
+                <textarea maxlength="100" readonly class="datosocultos form-control" id="editarTitulo" placeholder="Ingrese el nombre del requerimiento." rows="2" name="titulo"></textarea>
             </div>
 
 
@@ -459,22 +459,28 @@
             <div class="form-group col-md-12">
 
                 <label for="">DESCRIPCIÓN:</label>
-                <textarea maxlength="200" readonly class="form-control" id="editarDescripcion" placeholder="Ingrese la descripción de la atención." rows="3" name="titulo"></textarea>
+                <textarea maxlength="200" readonly class="datosocultos form-control" id="editarDescripcion" placeholder="Ingrese la descripción de la atención." rows="5" name="descripcion"></textarea>
             </div>
 
 
           </div>
 
 
-            <div class="form-group" id="elemento" hidden>
+            <div class="form-group" id="elemento">
                 <label for="">AVANCE:</label>
 
-                <input class="progress-bar progress-bar-striped progress-bar-animated" name="avance" type="range" id="avance" min="0" value="0" max="100" step="5" style="width: 100%;">
-                <span id="avan">0</span><span>%</span>
+            <div class="progress progress-md">
+              <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" id="avance" style="width: 100%" value="30" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <span id="avan">0</span>
+                {{-- <input class="progress-bar bg-primary progress-bar-striped progress-bar-animated" name="avance" role="progressbar" id="avance" min="0" value="0" max="100" step="5" style="width: 100%;"> --}}
+                
 
             </div>
 
-    <div class="divocult row">
+
+
+    <div class="divoculto divocult row">
 
         <div class="form-group col-md-6">
             <label for="">PRIORIDAD</label>
@@ -497,15 +503,15 @@
                 <option value="pendiente">PENDIENTE</option>
                 <option value="en espera">EN ESPERA</option>
                 <option value="en proceso">EN PROCESO</option>
-                <option value="culminado">CULMINADO</option>
+                {{-- <option value="culminado">CULMINADO</option> --}}
               </select>
         </div>
 
     </div>
 
-    <div class="form-row">
+    <div class="divoculto form-row">
 
-        <div class="form-group col-md-12" hidden id="trabajadores">
+        <div class="form-group col-md-12" id="trabajadores">
 
             <label for="">PERSONAL</label>
             <select style="width:100%" class="js-example-basic-multiple" id="personal" name="usuario_colab_id[]" multiple="multiple" lang="es">
@@ -518,7 +524,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-            <button type="" id="btnactualizar" class="divocult btn btn-primary">EDITAR</button>
+            <button type="" id="btnactualizar" class="div divoculto divocult btn btn-primary">EDITAR</button>
         </div>
       </form>
 

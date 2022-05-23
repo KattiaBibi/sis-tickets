@@ -202,7 +202,7 @@ class RequerimientoController extends Controller
 
                 else{
 
-                    $req->elemento[]= "no";
+                    $req->elemento[]= "mostrar";
                 }
 
                     }
@@ -417,7 +417,7 @@ class RequerimientoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, $id)
+    public function update(RequerimientoRequest $request, $id)
 
     {
 
@@ -455,8 +455,9 @@ class RequerimientoController extends Controller
             // DESPUÉS GUARDA EN LA BASE DE DATOS
 
             $requerimiento->update(
-                [
-                    'avance' => $request->avance,
+                [   
+                    'titulo' => $request->titulo,
+                    'descripcion' => $request->descripcion,
                     'prioridad' => $request->prioridad,
                     'estado' => $request->estado,
                     'imagen'=> $subir,
@@ -471,7 +472,8 @@ class RequerimientoController extends Controller
 
             $requerimiento->update(
                 [
-                    'avance' => $request->avance,
+                    'titulo' => $request->titulo,
+                    'descripcion' => $request->descripcion,
                     'prioridad' => $request->prioridad,
                     'estado' => $request->estado,
                 ]
@@ -479,8 +481,6 @@ class RequerimientoController extends Controller
 
         }
 
-
-        if ($request->estado == "en proceso" || $request->estado == "culminado") {
 
             $colab = $request->usuario_colab_id;
             foreach ($colab as $key => $value) {
@@ -490,9 +490,6 @@ class RequerimientoController extends Controller
                     "requerimiento_id" => $requerimiento->id
                 ]);
             }
-
-
-        }
 
 
             return $requerimiento ? 1 : 0;

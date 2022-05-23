@@ -27,8 +27,8 @@ class UserRequest extends FormRequest
             //
 
             'name' => 'required|unique:users,name,' . $this->id,
-            'email' => 'required',
-            'password' => 'required',
+            'email' => 'required|unique:users,email,' . $this->id,
+            'password' => 'required|max:20|min:4',
             'colaborador_id'=>'required|integer',
         ];
     }
@@ -40,8 +40,11 @@ class UserRequest extends FormRequest
     return [
         'name.unique' => '¡Usuario con este nombre ya registrado!',
         'name.required' => 'El nombre es un campo requerido.',
+        'email.unique' => '¡Usuario con este correo ya registrado!',
         'email.required' => 'El email es un campo requerido.',
         'password.required' => 'La contraseña es un campo requerido.',
+        'password.max' => 'La contraseña debe contener menos de 20 carácteres.',
+        'password.min' => 'La contraseña debe contener más de 4 carácteres.',
         'colaborador_id.integer' => 'Debe seleccionar un colaborador.',
 
 ];
