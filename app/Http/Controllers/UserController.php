@@ -37,7 +37,9 @@ class UserController extends Controller
 
         $usuarios=DB::table('users as u')
         ->join('colaboradores as c','u.colaborador_id','=','c.id')
-        ->select('u.id as uid','u.name as uname','u.email as uemail','u.password as upassword', 'u.estado as uestado', 'u.colaborador_id as ucolaborador_id', 'c.nombres as cnombres')->get();
+        ->join('model_has_roles as mr','u.id','=','mr.model_id')
+        ->join('roles as r','mr.role_id','=','r.id')
+        ->select('u.id as uid','u.name as uname','u.email as uemail','u.password as upassword', 'u.estado as uestado', 'u.colaborador_id as ucolaborador_id', 'c.nombres as cnombres', 'u.imagen as imagen','mr.role_id as role_id')->get();
 
 
         return datatables()->of($usuarios)->toJson();
@@ -134,35 +136,67 @@ class UserController extends Controller
     {
         //
 
+        // dd($request);
         $usuario=User::findOrfail($id);
 
+        $ruta = "foto/";
+        $file = $request->imagennue;
+        $file2= $request->imganterior;
+        $nombre = "foto";
 
         $valor=$usuario->password; // VALOR DE LA CONSULTA
         $valo2=$request->password; // VALOR DE FORMULARIO
 
+        // SI EL VALOR DEL FORMULARIO PARA EDITAR LA CONTRASEÑA ES NULA, SE PONE EN LA VARIABLE $PASS EL VALOR DE LA CONTRASEÑA GUARDADA EN LA BASE DE DATOS
         if($valo2=='null'){
 
-            $usuario->update([
-
-                'name'   => $request->name,
-                'email' => $request->email,
-                $valor,
-                'colaborador_id' => $request->colaborador_id,
-            ]);
+            $pass= $valor;
 
         };
 
+        // SI EL VALOR DEL FORMULARIO PARA EDITAR LA CONTRASEÑA NO ES NULA, SE PONE EN LA VARIABLE $PASS EL VALOR DEL FORMULARIO CON LA NUEVA CONTRASEÑA LA CUAL CON HASG SE LOGRA ENCRIPTAR
+
         if($valo2 != 'null'){
+
+            $pass=Hash::make($valo2);
+        };
+
+    if($file){
+
+        Storage::disk('public')->delete($ruta.$file2);
+
+        // LUEGO SUBE LA IMAGEN A LA CARPETA  STORAGE
+        $subir = subirimagen::imagen($file, $nombre, $ruta);
+
+        // DESPUÉS GUARDA EN LA BASE DE DATOS
+
 
             $usuario->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => $pass,
                 'colaborador_id' => $request->colaborador_id,
+                'imagen' => $subir
+                ]
+            );
 
-            ]);
+            $usuario->syncRoles($request->role);
 
-        };
+    }
+
+    else{
+
+            $usuario->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $pass,
+                'colaborador_id' => $request->colaborador_id
+            ]
+            );
+            $usuario->syncRoles($request->role);
+
+    }
+
 
         return $usuario?1:0;
 

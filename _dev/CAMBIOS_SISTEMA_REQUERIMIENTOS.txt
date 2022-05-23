@@ -2,7 +2,7 @@ EMPRESAS SERVICIOS MOSTRAR EN TABLAS ANIDADA -> David
 
 REGISTRAR REQUERIMIENTO, CAMBIAR EL NOMBRE DEL LABEL EMPRESA -> Bibiana
 
-FILTRO EN REQUERIMIENTOS, EN LOS QUE SOLICITA Y ENCARGADO -> Bibiana
+FILTRO EN REQUERIMIENTOS, EN LOS QUE SOLICITA Y ENCARGADO -> Bibiana ✅
 
 QUE EL  ASIGNADO PUEDA MODIFICAR SU AVANCE - BIBIANA
 
@@ -11,12 +11,12 @@ eliminar filtros - BIBI
 
 VALIDAR A LOS USUARIOS QUE TENGAN YA UNA REUNIÓN AGENDADA Y QUE MUESTRE UN MSJE - MANAYALLE
  sacar validación de hora para agewndar una reunion REUNIÓN
- PONER FOTO PARA EL USER EDITABLE - BIBIANA
+ PONER FOTO PARA EL USER EDITABLE - BIBIANA ✅
 
 modificar areas en empresas quitar empresas y servicios- david
-arreglar colaboradores - bibiana
+arreglar colaboradores - bibiana ✅
 
-modificar proceso - bibiana 
+modificar proceso - bibiana
 
 EST
 

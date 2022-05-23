@@ -5,13 +5,15 @@ function listar(){
 
 
     datatable= $('#usuarios').DataTable( {
-        "pageLength": 5,
-        "destroy": true,
-        "async": false,
+        searchHighlight: true,
+        pageLength: 5,
+        searching: true,
+        ordering: true,
+        processing: true,
+        serverSide: true,
         responsive: true,
         autoWidth: false,
-        dom: 'Bfrtip',
-        lengthChange: false,
+        dom: "Bfrtip",
 
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
@@ -93,10 +95,23 @@ function listar(){
     }
     },
 
-]
-} );
-}
+],
 
+        // order: [[1, "desc"]],
+} );
+};
+
+
+$("#btnagregar").on("click", function (e){
+
+    $("#frmguardar")[0].reset();
+
+    $('#prev').hide();
+    $('#prev').removeAttr("src");
+
+    $(".retirar").hide();
+
+});
 
 $(".retirar").on("click", function (e){
 
@@ -191,10 +206,30 @@ $('#usuarios').on('click','.editar',function(){
     $('#editarEmail').val(data['uemail']);
 
     $("#editarColaborador").val(data.ucolaborador_id);
+    $("#editarRol").val(data.role_id);
+
+
+    $('#imn').val("");
+    $('#imag').hide();
+    $(".retirar").hide();
+   $('#imag').removeAttr("src");
+
+   if(data.imagen==0  || data.imagen==null){
+
+   document.getElementById("mostimg").src = "vendor/adminlte/dist/img/sinimg.jpg";
+   }
+
+   else{
+
+   document.getElementById("mostimg").src = "storage/"+data.imagen;
+
+   }
+
+
 
     $('#modaleditar').modal('show');
 
-})
+});
 
 
 
@@ -206,7 +241,7 @@ $('#btnguardar').on("click" ,(event)=>{
     let dataArray = new FormData($("#frmguardar")[0]);
 
     console.log(dataArray);
-    
+
     $.ajax({
         method: "POST",
         url: route,

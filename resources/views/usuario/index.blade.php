@@ -20,7 +20,7 @@
         </div>
         <div class="col-lg-2">
 
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
+            <button type="button" class="btn btn-success" id="btnagregar" data-toggle="modal" data-target="#modalagregar">AGREGAR</button>
 
         </div>
     </div>
@@ -103,7 +103,7 @@
             <div>
               <img id="prev" class="imagenPrevisualizacion mt-2" style="width: 200px;height: auto;">
             </div>
-            
+
 
 
             <button type="button" id="" class="retirar btn btn-info mt-2" style="display: none; border-radius: 0px;">QUITAR IMAGEN</button>
@@ -119,7 +119,7 @@
         </div>
         <div class="form-group">
             <label for="">Email:</label>
-            <input type="email" class="form-control" id="txtEmail" placeholder="Ingrese la dirección" name="email">
+            <input type="email" class="form-control" id="txtEmail" placeholder="Ingrese el correo" name="email">
         </div>
 
         <div class="form-group">
@@ -127,7 +127,11 @@
             <input type="text" class="form-control" id="txtPassword" placeholder="Ingrese una contraseña" name="password">
         </div>
 
-        <div class="form-group">
+
+        <div class="row">
+
+            <div class="form-group col-md-6">
+
             <label for="">Colaborador:</label>
 
             <select name="colaborador_id" id="txtColaboradorId" class="form-control">
@@ -136,27 +140,29 @@
               @foreach ($colaboradores as $c)
               <option value="{{ $c->id }}">{{$c->nombres}}</option>
             @endforeach
-            </select>
-
-        </div>
-
-
-
-        <div class="form-group">
-            <label for="">Rol:</label>
-
-            <select name="role" class="form-control" id="editarEmpresaArea">
-
-                <option selected>Elegir</option>
-
-                @foreach ($roles as $r)
-                <option value="{{ $r->id }}">{{$r->name}}</option>
-              @endforeach
 
             </select>
+            </div>
+
+            <div class="form-group col-md-6">
+
+                <label for="">Rol:</label>
+
+                <select name="role" class="form-control" id="">
+
+                    <option selected>Elegir</option>
+
+                    @foreach ($roles as $r)
+                    <option value="{{ $r->id }}">{{$r->name}}</option>
+                  @endforeach
+
+                </select>
 
 
-        </div>
+            </div>
+
+    </div>
+
 
       </div>
       <div class="modal-footer">
@@ -172,7 +178,7 @@
 
 
 <div class="modal fade" id="modaleditar" tabindex="-1" role="dialog" aria-labelledby="modaleditar" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Actualiza registro</h5>
@@ -194,34 +200,96 @@
       @endif
       <form  id="frmeditar" enctype="multipart/form-data">
 
+        <div class="form-row" id="">
+
+            <div class="divoculto divocult form-group text-center col-md-4">
+
+                <input type="hidden" class="form-control" id="idregistro"  name="id">
+
+                <input type="file"  accept="image/*" class="img form-control-file" id="imn" name="imagennue">
+
+                <img id="imag" onerror="this.style.display='none'" class="imagenPrevisualizacion mt-2" style="width: 150px;height: 150px;display: none;">
+
+            </div>
+
+
+
+            <div class="form-group text-center row justify-content-center align-items-end col-md-4">
+
+                   <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt="" id="mostimg" style="height: 150px; width: 150px;" name="">
+
+                </div>
+
+
+            <div class="form-group text-center row justify-content-center align-items-center col-md-4">
+
+                <button type="button" id="consim" class="retirar btn btn-info btn-sm" style="display: none;">CONSERVAR IMAGEN</button>
+
+            </div>
+
+        </div>
+
           <div class="form-group">
               <label for="">Nombre:</label>
-              <input type="hidden" class="form-control" id="idregistro"  name="id">
+
 
               <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="name">
           </div>
-          <div class="form-group">
+
+
+          <div class="row">
+
+            <div class="form-group col-md-6">
+
               <label for="">Email:</label>
-              <input type="text" class="form-control" id="editarEmail" placeholder="Ingrese la dirección" name="email">
-          </div>
+              <input type="email" class="form-control" id="editarEmail" placeholder="Ingrese el email" name="email">
 
-          <div class="form-group">
+            </div>
+
+            <div class="form-group col-md-6">
+
             <label for="">Contraseña:</label>
-            <input type="text" class="form-control" id="editarContrasena" placeholder="Ingrese la dirección" name="password">
-        </div>
+            <input type="text" class="form-control" id="editarContrasena" placeholder="Ingrese la nueva contraseña" name="password">
 
-        <div class="form-group">
-            <label for="">Colaborador:</label>
+            </div>
 
-            <select name="colaborador_id" id="editarColaborador" class="form-control">
-              <option value="a">Elegir</option>
+    </div>
 
-              @foreach ($colaboradores as $c)
-              <option value="{{ $c->id }}">{{$c->nombres}}</option>
-            @endforeach
-            </select>
 
-        </div>
+        <div class="row">
+
+            <div class="form-group col-md-6">
+
+                <label for="">Colaborador:</label>
+
+                <select name="colaborador_id" id="editarColaborador" class="form-control">
+                  <option value="a">Elegir</option>
+
+                  @foreach ($colaboradores as $c)
+                  <option value="{{ $c->id }}">{{$c->nombres}}</option>
+                @endforeach
+                </select>
+
+            </div>
+
+            <div class="form-group col-md-6">
+
+                <label for="">Rol:</label>
+
+                <select name="role" class="form-control" id="editarRol">
+
+                    <option selected>Elegir</option>
+
+                    @foreach ($roles as $r)
+                    <option value="{{ $r->id }}">{{$r->name}}</option>
+                  @endforeach
+
+                </select>
+
+
+            </div>
+
+    </div>
 
 
         </div>

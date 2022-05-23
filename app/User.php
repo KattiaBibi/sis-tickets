@@ -44,7 +44,19 @@ class User extends Authenticatable
 
     public function adminlte_image(){
 
-    return 'https://picsum.photos/300/300';
+
+
+    $img=auth()->user()->imagen;
+
+    if($img==""){
+
+        return 'https://picsum.photos/300/300';
+    }
+    else{
+        
+        return asset('storage/'.$img);
+
+    }
 
     }
 
@@ -64,5 +76,6 @@ class User extends Authenticatable
     public function adminlte_profile_url(){
 
         return 'profile/username';
+
     }
 }
