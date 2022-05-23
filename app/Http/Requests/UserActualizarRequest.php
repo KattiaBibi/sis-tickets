@@ -26,9 +26,11 @@ class UserActualizarRequest extends FormRequest
         return [
             //
 
-            'name' => 'required',
-            'email' => 'required',
-            'colaborador_id'=>'required|integer',
+            'name' => 'required|unique:users,name,' . $this->id,
+            'email' => 'required|unique:users,email,' . $this->id,
+            'colaborador_id'=>'integer|unique:users,colaborador_id,' . $this->id,
+            'role'=>'integer'
+
         ];
     }
 
@@ -37,9 +39,14 @@ class UserActualizarRequest extends FormRequest
     public function messages()
 {
     return [
+
+        'name.unique' => '¡Usuario con este nombre ya registrado!',
         'name.required' => 'El nombre es un campo requerido.',
+        'email.unique' => '¡Usuario con este correo ya registrado!',
         'email.required' => 'El email es un campo requerido.',
-        'colaborador_id.integer' => 'Debe seleccionar una prioridad.',
+        'colaborador_id.unique' => '¡Usuario con este colaborador ya registrado!',
+        'colaborador_id.integer' => 'Debe seleccionar un colaborador.',
+        'role.integer' => 'Debe seleccionar un rol.'
 
 ];
 }

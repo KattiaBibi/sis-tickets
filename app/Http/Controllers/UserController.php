@@ -134,9 +134,8 @@ class UserController extends Controller
      */
     public function update(UserActualizarRequest $request, $id)
     {
-        //
+        //dd($request);
 
-        // dd($request);
         $usuario=User::findOrfail($id);
 
         $ruta = "foto/";

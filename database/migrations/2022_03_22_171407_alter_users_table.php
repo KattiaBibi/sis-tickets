@@ -17,7 +17,7 @@ class AlterUsersTable extends Migration
 
         Schema::table('users', function (Blueprint $table) {
 
-            $table->unsignedBigInteger('colaborador_id')->after('password');
+            $table->unsignedBigInteger('colaborador_id')->unique()->after('password');
             $table->foreign('colaborador_id','fk_user_colaborador')->references('id')->on('colaboradores');
             $table->string('imagen')->nullable()->after('colaborador_id');
 

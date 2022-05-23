@@ -474,7 +474,7 @@
             </div>
             <span id="avan">0</span>
                 {{-- <input class="progress-bar bg-primary progress-bar-striped progress-bar-animated" name="avance" role="progressbar" id="avance" min="0" value="0" max="100" step="5" style="width: 100%;"> --}}
-                
+
 
             </div>
 
@@ -509,12 +509,12 @@
 
     </div>
 
-    <div class="divoculto form-row">
+    <div class="divoculto divocu form-row">
 
         <div class="form-group col-md-12" id="trabajadores">
 
             <label for="">PERSONAL</label>
-            <select style="width:100%" class="js-example-basic-multiple" id="personal" name="usuario_colab_id[]" multiple="multiple" lang="es">
+            <select style="width:100%" class="js-example-basic-multiple" id="personal" name="usuario_colab_id[]" multiple="multiple" readonly lang="es">
 
             </select>
         </div>

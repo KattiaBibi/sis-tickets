@@ -137,19 +137,19 @@ function listar() {
                         return '<span class="badge badge-warning">PENDIENTE</span>';
                     }
 
-                    if (data == "en espera") {
+                    else if (data == "en espera") {
                         return '<span class="badge badge-primary">EN ESPERA</span>';
                     }
 
-                    if (data == "en proceso") {
+                    else if (data == "en proceso") {
                         return '<span class="badge badge-info">EN PROCESO</span>';
                     }
 
-                    if (data == "culminado") {
+                    else if (data == "culminado") {
                         return '<span class="badge badge-success">CULMINADO</span>';
                     }
 
-                    if (data == "cancelado") {
+                    else if (data == "cancelado") {
                         return '<span class="badge badge-danger">CANCELADO</span>';
                     }
                 },
@@ -413,14 +413,16 @@ $(".retirar").on("click", function (e){
 
         let valorboton=$(this).val();
 
-        
+
         if(valorboton == "dos"){
 
             // alert("dos");
             $(".divoculto").show();
             $(".divocult").show();
-            $(".datosocultos").attr("readonly", false); 
-          
+            $(".divocu").hide();
+            $(".div").prop("disabled", false);
+            $(".datosocultos").attr("readonly", false);
+
         }
 
 
@@ -428,24 +430,29 @@ $(".retirar").on("click", function (e){
 
             // alert("usuario que registró");
             $(".divoculto").show();
-            $(".datosocultos").attr("readonly", false); 
-          
+            $(".divocu").hide();
+            $(".div").prop("disabled", true);
+            $(".datosocultos").attr("readonly", false);
+
         }
 
         else if(valorboton == "silog"){
 
             // alert("usuario que está encargado");
             $(".divocult").hide();
-            $(".div").show();
-            $(".datosocultos").attr("readonly", true); 
+            $(".divocu").show();
+            $(".div").prop("disabled", false);
+            $(".datosocultos").attr("readonly", true);
 
         }
- 
+
         else if(valorboton == "mostrar"){
 
-            // alert("Mostrar");              
+            // alert("Mostrar");
             $(".divoculto").hide();
-            $(".datosocultos").attr("readonly", true); 
+            $(".divocu").hide();
+            $(".div").prop("disabled", true);
+            $(".datosocultos").attr("readonly", true);
         }
 
 
@@ -637,6 +644,8 @@ $(".retirar").on("click", function (e){
 
         event.preventDefault();
 
+        $(".div").prop("disabled", false);
+
 
         let dataArray = $("#frmeditar").serializeArray();
         let route = "/requerimiento/" + dataArray[0].value;
@@ -710,63 +719,6 @@ $(".retirar").on("click", function (e){
 
     });
 
-    $("#colaboradores").on("click", ".desactivar", function () {
-
-
-        Swal.fire({
-            title: "¿Estás seguro(a)?",
-            text: "¡No podrás revertir esto!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "¡Sí!",
-            cancelButtonText: "Cancelar",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var data = datatable.row($(this).parents("tr")).data();
-                if (datatable.row(this).child.isShown()) {
-                    var data = datatable.row(this).data();
-                }
-
-                console.log(data);
-                let route = "/colaborador/" + data["id"];
-                let data2 = {
-                    id: data.id,
-                    _token: token_,
-                };
-
-                $.ajax({
-                    method: "delete",
-                    url: route,
-                    data: data2,
-
-                    success: function (Response) {
-                        if (Response == 1) {
-                            Swal.fire(
-                                "¡Desactivado!",
-                                "Su registro ha sido desactivado.",
-                                "success"
-                            );
-
-                            datatable.ajax.reload(null, false);
-                        } else {
-                            alert("no editado");
-                        }
-                    },
-                    error: (response) => {
-                        console.log(response);
-                        $.each(response.responseJSON.errors, function (key, value) {
-                            response.responseJSON.errors[key].forEach((element) => {
-                                console.log(element);
-                                toastr.error(element);
-                            });
-                        });
-                    },
-                });
-            }
-        });
-    });
 
     $("#filtros").on("change", function (e) {
         datatable.ajax.reload(null, false);

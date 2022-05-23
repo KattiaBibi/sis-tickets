@@ -206,7 +206,20 @@ $('#usuarios').on('click','.editar',function(){
     $('#editarEmail').val(data['uemail']);
 
     $("#editarColaborador").val(data.ucolaborador_id);
-    $("#editarRol").val(data.role_id);
+
+    if(data.role_id == "1"){
+
+    // alert("administrador total");
+        $("#editarRol").prop("disabled", true);
+        $("#editarRol").val(data.role_id);
+
+    }
+    else{
+        $("#editarRol").prop("disabled", false);
+        $("#editarRol").val(data.role_id);
+
+    }
+
 
 
     $('#imn').val("");
@@ -294,16 +307,30 @@ $('#btnguardar').on("click" ,(event)=>{
 $('#btnactualizar').on("click" ,(event)=>{
     event.preventDefault();
 
-    let dataArray=$('#frmeditar').serializeArray();
-    let route="/usuario/"+dataArray[0].value;
-dataArray.push({name:'_token',value:token_})
-console.log(dataArray[0].value)
+    $("#editarRol").prop("disabled", false);
 
-$.ajax({
-    "method":'put',
-    "url": route,
-    "data": dataArray,
+    let dataArray = $("#frmeditar").serializeArray();
+    let route = "/usuario/" + dataArray[0].value;
+    let _CSRF = { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') };
+    var formData = new FormData($("#frmeditar")[0]);
 
+    let valor =$("#mostimg").attr("src");
+
+    let divisiones = valor.split("/", -2);
+
+    let extraer =divisiones.slice(-1);
+
+    formData.append("imganterior", extraer);
+    formData.append("_method", 'PUT');
+
+    $.ajax({
+    method: "post",
+    url: route,
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false,
+    headers: _CSRF,
 
     "success":function(Response){
 
@@ -319,7 +346,6 @@ $.ajax({
 
       datatable.ajax.reload(null,false);
         $('#frmeditar')[0].reset();
-
 
         $('#modaleditar').modal('hide');
 

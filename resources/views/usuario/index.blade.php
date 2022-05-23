@@ -277,8 +277,7 @@
                 <label for="">Rol:</label>
 
                 <select name="role" class="form-control" id="editarRol">
-
-                    <option selected>Elegir</option>
+                <option value="a">Elegir</option>
 
                     @foreach ($roles as $r)
                     <option value="{{ $r->id }}">{{$r->name}}</option>
