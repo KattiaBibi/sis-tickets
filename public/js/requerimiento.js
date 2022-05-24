@@ -61,14 +61,47 @@ function listar() {
                 },
             },
 
+            {data: "valor[]",
+            orderable: false,
+            render: function (data, type, row, meta) {
+
+                    // if(data.filter(i => (i === "logue")).length ) {
+
+                    //     return `Asignado logueado`;
+                    // }
+
+                    if(data.filter(i => (i === "permisos")).length ) {
+
+                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
+
+                    }
+
+                    else if(data.filter(i => (i === "cancelado")).length ) {
+
+
+                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
+                    }
+
+
+                }
+            },
+
             {
-                data: "estado_requerimiento",
+                data: "avancelog[]",
                 orderable: false,
                 render: function (data, type, row, meta) {
-                    if (data == "cancelado") {
-                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
-                    } else {
-                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
+
+                    if(data.filter(i => (i === "log")).length ) {
+
+
+                        return `<button type='button' value="log" id='ButtonEditarAvance' class='editaravance edit-modal btn btn-info'><span class='fa fa-edit'></span><span class='hidden-xs'>Avance</span></button>`;
+
+                    }
+
+                    else
+                    {
+                        return `<button type='button' value="log" id='ButtonEditarAvance' class='editaravance edit-modal btn btn-info' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Avance</span></button>`;
+
                     }
                 },
             },
@@ -294,19 +327,6 @@ $(".retirar").on("click", function (e){
 
     $(".js-example-basic-multiple").select2();
 
-    // function cambioAvance() {
-    //     document.getElementById("avan").innerHTML =
-    //         document.getElementById("avance").value;
-    // }
-
-    // function inicio() {
-    //     document
-    //         .getElementById("avance")
-    //         .addEventListener("change", cambioAvance, false);
-    // }
-
-    // addEventListener("load", inicio, false);
-
 
     $("#empresa").on("change", function (e) {
 
@@ -380,7 +400,6 @@ $(".retirar").on("click", function (e){
 
     const mensaje = document.getElementById("txtProblema");
     const mensaje2 = document.getElementById("txtDetalle");
-    const mensaje3 = document.getElementById("txtDescripcion");
 
     const contador = document.getElementById("contador");
     const contador2 = document.getElementById("contador2");
@@ -400,11 +419,94 @@ $(".retirar").on("click", function (e){
         contador2.innerHTML = `${longitudAct}/${longitudMax}`;
     });
 
-    mensaje3.addEventListener("input", function (e) {
-        const target = e.target;
-        const longitudMax = target.getAttribute("maxlength");
-        const longitudAct = target.value.length;
-        contador3.innerHTML = `${longitudAct}/${longitudMax}`;
+    function cambioAvance() {
+        document.getElementById("editavan").innerHTML =
+            document.getElementById("editavance").value + "%";
+    }
+
+
+    $("#editavance").on("change", function (e) {
+        let avance = e.target.value;
+
+        cambioAvance();
+
+
+        // if (avance == "100") {
+        //     $("#estado").val("culminado");
+        // } else {
+        //     $("#estado").val("en proceso");
+        // }
+    });
+
+
+
+
+    $("#requerimientos").on("click", ".editaravance", function (event)
+    {
+
+        event.preventDefault();
+
+        var data = datatable.row($(this).parents("tr")).data(); //Detecta a que fila hago click y me captura los datos en la variable data.
+        if (datatable.row(this).child.isShown()) {
+            //Cuando esta en tamaño responsive
+
+            var data = datatable.row(this).data();
+        }
+
+        $('#editavance').val(data["avance_requerimiento"]);
+        document.getElementById("editavan").innerHTML= data["avance_requerimiento"] + "%";
+
+        $("#modaleditaravance").modal("show");
+
+    });
+
+
+    $("#btnactualizaravance").on("click", (event) => {
+
+        event.preventDefault();
+
+
+        let dataArray=$('#frmeditar').serializeArray();
+        let route="/requerimiento/"+dataArray[0].value;
+    dataArray.push({name:'_token',value:token_})
+    console.log(dataArray[0].value)
+
+    $.ajax({
+        "method":'get',
+        "url": route,
+        "data": dataArray,
+
+
+                success: function (Response) {
+                    if (Response == 1) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Avance editado correctamente",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+
+                        datatable.ajax.reload(null, false);
+                        $("#frmeditar")[0].reset();
+
+                        $("#modaleditaravance").modal("hide");
+                    } else {
+                        alert("no editado");
+                    }
+                },
+                error: (response) => {
+                    console.log(response);
+                    $.each(response.responseJSON.errors, function (key, value) {
+                        response.responseJSON.errors[key].forEach((element) => {
+                            console.log(element);
+                            toastr.error(element);
+                        });
+                    });
+                },
+            });
+
+
     });
 
 
@@ -506,56 +608,6 @@ $(".retirar").on("click", function (e){
         $("#prioridad").val(data["prioridad_requerimiento"]);
 
 
-        // SI EL USUARIO LOGUEADO ES EL MISMO QUE HIZO EL REQUERIMIENTO, PODRÁ ACCEDER AL EDITAR
-
-
-        // document.getElementById("avan").innerHTML =
-        // $("#avance").width();
-
-        // if (data["estado_requerimiento"] == "en proceso") {
-        //     document.getElementById("elemento").removeAttribute("hidden");
-        //     document.getElementById("trabajadores").removeAttribute("hidden");
-        // } else if (data["estado_requerimiento"] == "culminado") {
-        //     document.getElementById("elemento").removeAttribute("hidden");
-        //     document.getElementById("trabajadores").removeAttribute("hidden");
-        // } else {
-        //     document.getElementById("elemento").setAttribute("hidden", "");
-        //     document.getElementById("trabajadores").setAttribute("hidden", "");
-        // }
-
-        // $("#estado").on("change", function (e) {
-        //     let estado = e.target.value;
-        //     let el = document.getElementById("elemento");
-        //     let tr = document.getElementById("trabajadores");
-
-
-        //     if (estado == "en proceso" || estado == "pendiente" || estado == "en espera") {
-        //         el.removeAttribute("hidden");
-        //         tr.removeAttribute("hidden");
-
-        //         // $('#personal').val(null).trigger('change');
-        //         $("#avance").val(0);
-        //         // cambioAvance();
-        //     }
-
-        //     // if (estado == "culminado") {
-        //     //     el.removeAttribute("hidden");
-        //     //     tr.removeAttribute("hidden");
-
-        //     //     $("#avance").val(100);
-        //     //     cambioAvance();
-        //     // }
-        // });
-
-        $("#avance").on("change", function (e) {
-            let avance = e.target.value;
-
-            if (avance == "100") {
-                $("#estado").val("culminado");
-            } else {
-                $("#estado").val("en proceso");
-            }
-        });
 
         $.get("/personal/" + data["id_empresa"] + "/listado", function (dato) {
             if (dato.length == 0) {

@@ -42,15 +42,10 @@ class RequerimientoController extends Controller
         $role_id = DB::table('model_has_roles')
             ->select('roles.id AS role_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('model_id', '=', auth()->user()->id)
+            ->where('model_id', '=', $logueado)
             ->get()->first()->role_id;
 
 
-
-                // OBTENER EL ROL DEL USUARIO LOGUEADO
-
-        $consulta= DB::table('model_has_roles')->select("role_id")
-        ->where('model_id', '=', $logueado)->get()->first();
 
         $empresa = request()->all()['filters']['nombre_empresa'] ?? 'todos';
         $estado = request()->all()['filters']['estado'] ?? 'todos';
@@ -82,14 +77,14 @@ class RequerimientoController extends Controller
         if ($role_id === 2) {
 
             if ($nombrado == 'solicitante') {
-                $query->where('requerimientos.usuarioregist_id', '=', auth()->user()->id);
+                $query->where('requerimientos.usuarioregist_id', '=', $logueado);
             } else if ($nombrado == 'encargado') {
                 $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
-                ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id);
+                ->where('requerimiento_encargados.usuarioencarg_id', '=', $logueado);
             }
             else if ($nombrado == 'asignado') {
                 $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
-                    ->where('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
+                    ->where('detalle_requerimientos.usuario_colab_id', '=', $logueado);
             } else {
                 $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
                 ->where(function($query) {
@@ -138,13 +133,13 @@ class RequerimientoController extends Controller
 
         foreach ($requerimientos as &$req) {
 
-
-
             $req->log=$logueado;
 
             $req->asignados = DB::table('detalle_requerimientos')
                 ->select(
-                    DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape")
+                    DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
+                    DB::raw("(CASE  users.colaborador_id
+                    WHEN $logueado THEN 1 ELSE 2 END) AS logeado")
                 )
                 ->join("users", 'users.id', '=', 'detalle_requerimientos.usuario_colab_id', 'inner')
                 ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
@@ -169,11 +164,33 @@ class RequerimientoController extends Controller
                 ->get();
 
 
-                 $encarg =$req->encargados;
-
-
+                $encarg =$req->encargados;
+                $asig= $req->asignados;
 
                 $usuarioqueregistro=$req->usuario_que_registro;
+                $estado=$req->estado_requerimiento;
+
+              if($estado=="cancelado" || $usuarioqueregistro!=$logueado){
+
+                      $req->valor[]="cancelado";
+                }
+
+                else if($role_id === 1 || $usuarioqueregistro==$logueado || $estado!="cancelado"){
+                        $req->valor[]="permisos";
+
+                }
+
+                foreach ($asig as $a){
+
+                    if($a->logeado==1){
+                    $req->avancelog[]= "log";
+                    }
+
+                    else{
+                    $req->avancelog[]= "nolog";
+                    }
+                }
+
 
                 $req->reg=$usuarioqueregistro;
 
@@ -207,45 +224,6 @@ class RequerimientoController extends Controller
 
                     }
 
-                // if($encarg->logeado==1){
-
-                //     $req->elemento= "Edicion";
-                // }
-
-                // else{
-                //     $req->elemento= "No Edicion";
-                // }
-
-
-                // // OBTENER EL ROL DEL USUARIO LOGUEADO
-
-                // $consulta= DB::table('model_has_roles')->select("role_id")
-                // ->where('model_id', '=', $logueado)->get()->first();
-
-
-                // $usuarioqueregistro=$req->usuario_que_registro;
-
-
-                // // UNA VEZ OBTENIDO EL ROL, CONDICIONAMOS SI EL USUARIO LOGUEADO ES ADMIN TOTAL
-
-
-                // // SI EL USUARIO QUE HIZO EL REQUERIMIENTO ES IGUAL AL USUARIO LOGUEADO Y TAMBIÉN EL USUARIO LOGUEADO ES ADMIN
-                // if($usuarioqueregistro== $logueado && $consulta->role_id == 1){
-                //     $req->cons="Admin editar";
-                // }
-
-                //  // SI EL USUARIO QUE HIZO EL REQUERIMIENTO ES IGUAL AL USUARIO LOGUEADO
-
-                // if($usuarioqueregistro== $logueado){
-                //     $req->cons="User editar";
-                // }
-
-
-
-                // else{
-
-                //  $req->cons="No Admin editar";
-                // }
 
 
         }
@@ -376,23 +354,41 @@ class RequerimientoController extends Controller
      * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         //
-        $registro = Requerimiento::findOrfail($id);
+
+        $requerimiento = Requerimiento::findOrfail($id);
+
+        $newestado = "cancelado";
+
+        $avance =$request->avance;
+
+        if($avance=="100"){
+
+        $requerimiento->update(
+
+            [
+                'avance' => $request->avance,
+                'estado' => $newestado
+            ]
+        );
+
+        }
+
+        else{
+
+            $requerimiento->update(
+                [
+                    'avance' => $request->avance,
+
+                ]
+            );
+        }
 
 
-        $servicios = Servicio::all();
-        $colaboradores = Colaborador::all();
+        return $requerimiento ? 1 : 0;
 
-
-
-        $users = DB::table('users as u')
-            ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
-            ->select('u.id as id', 'c.nombres as nombres', 'c.apellidos as apellidos')->get();
-
-
-        return view('requerimiento.atencion', compact('servicios', 'estados', 'users', 'registro', 'id'));
     }
 
     /**
@@ -455,7 +451,7 @@ class RequerimientoController extends Controller
             // DESPUÉS GUARDA EN LA BASE DE DATOS
 
             $requerimiento->update(
-                [   
+                [
                     'titulo' => $request->titulo,
                     'descripcion' => $request->descripcion,
                     'prioridad' => $request->prioridad,

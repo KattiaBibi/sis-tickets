@@ -92,7 +92,7 @@
     <table id="requerimientos" class="table table-striped table-bordered" style="overflow-x:auto;">
         <thead>
             <tr>
-                <th colspan="2">OPCIONES</th>
+                <th colspan="3">OPCIONES</th>
                 <th>ID</th>
                 <th>TITULO</th>
                 <th>SOLICITANTE</th>
@@ -129,24 +129,6 @@
       <div class="modal-body">
 
 
-{{-- <form action="{{ route('requerimiento.store') }}" id="frmguardar" enctype="multipart/form-data" method="post">
-
-@csrf
-
-<div class="form-group col-md-6">
-
-    <label for="">IMAGEN</label>
-
-    <input type="file"  accept="image/*" class="form-control-file" id="img" name="imagen">
-
-    <img id="imagenPrevisualizacion" class="mt-2" style="width: 350px;height: 200;">
-
-</div>
-
-<button type="submit" class="btn btn-primary">ENVIAR</button>
-
-
-</form> --}}
 
  <form action="{{ route('requerimiento.store') }}" id="frmguardar" enctype="multipart/form-data">
     @csrf
@@ -272,110 +254,44 @@
 </div>
 
 
-
-
-  <!-- Modal -->
-  <div class="modal fade bd-example-modal-xl"  id="modalatender" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
-
+<div class="modal fade" id="modaleditaravance" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Generar atención</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Editar avance</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
 
-          <form  id="frmguardaratencion" >
+            <form  id="frmeditar">
 
-              <input type="hidden" name="usuarioadmin_id" value="{{ auth()->user()->id}}" id="">
-
-                <div class="form-row">
-
-                  <div class="form-group col-md-3">
-                    <label for="inputEmail4">PROBLEMA</label>
-                    <textarea class="form-control" id="mostrarProblema" rows="8" readonly></textarea>
-
-                  </div>
-
-                  <div class="form-group col-md-6">
-                    <label for="inputAddress">DETALLE</label>
-                    <textarea class="form-control" id="mostrarDetalle" rows="8" readonly></textarea>
-                  </div>
-
-                  <div class="form-group text-center col-md-3">
-                    <p>
-                     <img src="{{ asset('vendor/adminlte/dist/img/req.png') }}" alt=""  style="height: 200px; width: 200px;">
-                    </p>
-
-                  </div>
-
-                </div>
+                <input type="hidden" class="form-control" id="idregistro"  name="id">
 
                 <div class="form-row">
 
-                  <div class="form-group col-md-4">
-                    <label for="inputState">Servicio</label>
+                    <div class="form-group col-md-12">
 
-                <select class="form-control" name="servicio_id">
-                  <option selected disabled>Elegir</option>
+                        <label for="">Avance</label>
+                        <input class="progress-bar progress-bar-striped progress-bar-animated" name="avance" type="range" id="editavance" min="0" value="0" max="100" step="5" style="width: 100%;">
+                        <span id="editavan">0</span>
+                    </div>
 
-                  @foreach ($servicios as $s)
-                  <option value="{{ $s->id }}">{{$s->nombre}}</option>
-                @endforeach
-                </select>
+
 
                   </div>
-
-                  <div class="form-group col-md-4">
-                    <label for="inputState">Prioridad</label>
-
-                    <select class="form-control" name="prioridad_id">
-                      <option selected disabled>Elegir</option>
-
-                      <option value=""></option>
-
-                    </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                    <label for="inputState">Estado</label>
-                  <select class="form-control" name="estado">
-                  <option selected disabled>Elegir</option>
-                  <option value=""></option>
-
-                </select>
-                  </div>
-                </div>
-
-
-
-                <div class="form-row">
-
-                  <div class="form-group col-md-12">
-                    <label for="inputAddress2">Descripción</label>
-                    <textarea maxlength="200" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción de la atención." rows="3" name="descripcion"></textarea>
-
-                    <div id="contador3">0/200</div>
-                  </div>
-
-                </div>
-
-
-
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-
-          <button  id="btnguardaratencion" class="btn btn-primary">GUARDAR</button>
-
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="" id="btnactualizaravance" class="btn btn-primary">Guardar</button>
         </div>
-</form>
 
-
+            </form>
       </div>
     </div>
   </div>
+
 
   <!-- Modal editar -->
 
