@@ -45,12 +45,9 @@ class RequerimientoController extends Controller
             ->where('model_id', '=', $logueado)
             ->get()->first()->role_id;
 
-
-
         $empresa = request()->all()['filters']['nombre_empresa'] ?? 'todos';
         $estado = request()->all()['filters']['estado'] ?? 'todos';
         $nombrado = request()->all()['filters']['nombrado'] ?? 'todos';
-
 
         $query = DB::table('requerimientos')
             ->select(
@@ -59,7 +56,7 @@ class RequerimientoController extends Controller
                 "requerimientos.descripcion AS descripcion_requerimiento",
                 DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
-                DB::raw("empresas.ID AS id_empresa"),
+                DB::raw("empresas.id AS id_empresa"),
                 DB::raw("servicios.nombre AS nombre_servicio"),
                 "requerimientos.usuarioregist_id AS usuario_que_registro",
                 "requerimientos.avance AS avance_requerimiento",
@@ -72,7 +69,8 @@ class RequerimientoController extends Controller
             ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
-            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
+            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
+            ->groupBy('requerimientos.id', 'requerimientos.titulo', 'requerimientos.descripcion', 'solicitante.nombres', 'solicitante.apellidos', 'empresas.nombre', 'empresas.id', 'servicios.nombre', 'requerimientos.usuarioregist_id', 'requerimientos.avance', 'requerimientos.estado', 'requerimientos.prioridad', 'requerimientos.created_at', 'requerimientos.imagen');
 
         if ($role_id === 2) {
 
@@ -87,9 +85,9 @@ class RequerimientoController extends Controller
                     ->where('detalle_requerimientos.usuario_colab_id', '=', $logueado);
             } else {
                 $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
-                ->where(function($query) {
-                    $query->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id)
-                    ->orWhere('requerimientos.usuarioregist_id', '=', auth()->user()->id);
+                ->where(function($query) use ($logueado) {
+                    $query->where('requerimiento_encargados.usuarioencarg_id', '=', $logueado)
+                    ->orWhere('requerimientos.usuarioregist_id', '=', $logueado);
                 });
             }
 
@@ -108,7 +106,6 @@ class RequerimientoController extends Controller
             $query->where('empresas.nombre', '=', $empresa);
         }
 
-
         if ($role_id === 1) {
             if ($nombrado == 'solicitante') {
                 $query->where('requerimientos.usuarioregist_id', '=', auth()->user()->id);
@@ -122,10 +119,8 @@ class RequerimientoController extends Controller
             }
         }
 
-        // if ($nombrado != 'todos') {
-        //     $query->where('requerimientos.usuarioregist_id', '=', $empresa);
-        // }
-
+        // var_dump($query->toSql());
+        // dd();
 
         $rpta = $query->orderBy('requerimientos.created_at', 'desc')->get();
 
@@ -233,8 +228,6 @@ class RequerimientoController extends Controller
 
 
         }
-
-        // dd($requerimientos);
 
         return datatables()->of($requerimientos)->toJson();
     }

@@ -60,7 +60,7 @@ class CitaRequest extends FormRequest
 
       foreach ($query->get()->all() as $value) {
         $customMessage .= $value->nom_ape_colaborador . ', ';
-      } 
+      }
 
       $validator->addReplacer(
         'custom_rule',
@@ -91,11 +91,12 @@ class CitaRequest extends FormRequest
       'link_reu' => 'nullable|max:150',
       'empresa_id' => [
         'nullable',
-        Rule::requiredIf(empty(request()->input('lugarreu'))),
+        // Rule::requiredIf(empty(request()->input('lugarreu'))),
         'exists:empresas,id',
       ],
       'lugarreu' => [
-        Rule::requiredIf(empty(request()->input('empresa_id'))),
+        'nullable',
+        // Rule::requiredIf(empty(request()->input('empresa_id'))),
         'max:150',
       ],
       'asistentes' => 'required|exists:colaboradores,id|custom_rule'

@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
       toggleDisabledInputLinkZoom()
       toggleDisabledInputOtraOficina()
 
-      document.querySelector('.modal-title').innerHTML = 'REGISTRAR REUNION'
+      document.querySelector('.modal-title').innerHTML = 'REGISTRAR REUNIÓN'
       action_form = 'registrar'
       btnEliminar.style.display = 'none'
 

@@ -26,9 +26,16 @@
             <p>Reuniones</p>
           </div>
           <div class="icon">
-            <i class="ion ion-bag"></i>
+            <i class="ion ion-calendar"></i>
           </div>
+
+          @can('admin.reuniones')
+
           <a href="{{('cita')}}" class="small-box-footer">Ver todos <i class="fas fa-arrow-circle-right"></i></a>
+
+       @endcan
+
+
         </div>
       </div>
       <!-- ./col -->
@@ -43,7 +50,10 @@
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
           </div>
-          <a href="{{('requerimiento')}}" class="small-box-footer">Ver todos <i class="fas fa-arrow-circle-right"></i></a>
+
+          @can('admin.requerimientos')
+             <a href="{{('requerimiento')}}" class="small-box-footer">Ver todos <i class="fas fa-arrow-circle-right"></i></a>
+          @endcan
         </div>
       </div>
       <!-- ./col -->
@@ -58,7 +68,13 @@
           <div class="icon">
             <i class="ion ion-person-add"></i>
           </div>
-          <a href="{{('colaborador')}}" class="small-box-footer">Ver todos <i class="fas fa-arrow-circle-right"></i></a>
+
+        @can('admin.colaborador.listado')
+
+            <a href="{{('colaborador')}}" class="small-box-footer">Ver todos<i class="fas fa-arrow-circle-right"></i></a>
+
+       @endcan
+
         </div>
       </div>
 
@@ -115,7 +131,7 @@
   <!-- /.card-body -->
   <div class="card-footer clearfix">
     <!-- <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Nuevo requerimiento</a> -->
-    <a href="{{('requerimiento')}}" class="btn btn-sm btn-secondary float-right">Ver todos</a>
+    <a href="{{('requerimiento')}}" class="btn btn-sm btn-secondary float-right">Mostrar completo</a>
   </div>
   <!-- /.card-footer -->
 </div>

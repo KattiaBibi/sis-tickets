@@ -57,6 +57,10 @@
 
     <div class="col-lg-2">
 
+
+        @can('admin.requerimientos.listartipopersonal')
+
+
         <select class="form-control" id="filtronb">
             <option value="todos" selected>Todo  ...</option>
             <option value="solicitante">Solicitante</option>
@@ -64,6 +68,10 @@
             <option value="asignado">Asignado</option>
 
           </select>
+
+        @endcan
+
+
     </div>
 
         <div class="col-lg-3" style="text-align: right;">

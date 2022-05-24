@@ -44,14 +44,16 @@ class HomeController extends Controller
 
         // $total_requerimientos =  $query->get()->first()->total_requerimientos;
 
-        $total_requerimientos = DB::table('requerimientos')
-            ->select(DB::raw('COUNT(requerimientos.id) AS total_requerimientos'))
+        $total_requerimientos = count(DB::table('requerimientos')
+            ->select(DB::raw('requerimientos.id as id_requerimiento'))
             ->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
             ->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
             ->where('requerimientos.usuarioregist_id', '=', auth()->user()->id)
             ->orWhere('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id)
             ->orWhere('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id)
-            ->get()->first()->total_requerimientos;
+            ->groupBy('requerimientos.id')
+            ->get()->all());
+
 
         $total_citas = DB::table('citas')
             ->select(DB::raw('COUNT(citas.id) AS total_citas'))
@@ -108,7 +110,8 @@ class HomeController extends Controller
             ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
-            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id');
+            ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
+            ->groupBy('requerimientos.id', 'requerimientos.titulo', 'requerimientos.descripcion', 'solicitante.nombres', 'solicitante.apellidos', 'empresas.nombre', 'empresas.id', 'servicios.nombre', 'requerimientos.usuarioregist_id', 'requerimientos.avance', 'requerimientos.estado', 'requerimientos.prioridad', 'requerimientos.created_at', 'requerimientos.imagen');
 
 
         if ($role_id === 2) {
