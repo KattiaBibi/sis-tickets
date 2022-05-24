@@ -24,6 +24,8 @@ proteger rutas
 botón cancelar requerimiento bibiana✅
 
 
+validar inputs
+
 EST
 
 ADMIN:
