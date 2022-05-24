@@ -419,7 +419,9 @@ $(".retirar").on("click", function (e){
             // alert("dos");
             $(".divoculto").show();
             $(".divocult").show();
-            $(".divocu").hide();
+            $(".divocu").show();
+            $("#btnactualizar").show();
+
             $(".div").prop("disabled", false);
             $(".datosocultos").attr("readonly", false);
 
@@ -428,6 +430,7 @@ $(".retirar").on("click", function (e){
 
         if(valorboton == "sireg"){
 
+            $("#btnactualizar").show();
             // alert("usuario que registró");
             $(".divoculto").show();
             $(".divocu").hide();
@@ -437,6 +440,8 @@ $(".retirar").on("click", function (e){
         }
 
         else if(valorboton == "silog"){
+
+            $("#btnactualizar").show();
 
             // alert("usuario que está encargado");
             $(".divocult").hide();
@@ -449,6 +454,7 @@ $(".retirar").on("click", function (e){
         else if(valorboton == "mostrar"){
 
             // alert("Mostrar");
+            $("#btnactualizar").hide();
             $(".divoculto").hide();
             $(".divocu").hide();
             $(".div").prop("disabled", true);
@@ -644,8 +650,6 @@ $(".retirar").on("click", function (e){
 
         event.preventDefault();
 
-        $(".div").prop("disabled", false);
-
 
         let dataArray = $("#frmeditar").serializeArray();
         let route = "/requerimiento/" + dataArray[0].value;
@@ -658,22 +662,15 @@ $(".retirar").on("click", function (e){
 
         let extraer =divisiones.slice(-1);
 
+        let x= $(".editar").val();
+        console.log(x);
+
         formData.append("imganterior", extraer);
         formData.append("_method", 'PUT');
 
 
         let val = document.getElementById("personal").value;
         // let val2 = document.getElementById("estado").value;
-
-        if (val.length == 0) {
-            Swal.fire({
-                position: "top",
-                icon: "error",
-                title: "Debe asignar personal.",
-                showConfirmButton: false,
-                timer: 2500,
-            });
-        } else {
 
 
             $.ajax({
@@ -714,7 +711,6 @@ $(".retirar").on("click", function (e){
                     });
                 },
             });
-        }
 
 
     });

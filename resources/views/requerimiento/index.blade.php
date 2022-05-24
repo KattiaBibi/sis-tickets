@@ -524,7 +524,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-            <button type="" id="btnactualizar" class="div divoculto divocult btn btn-primary">EDITAR</button>
+            <button type="" id="btnactualizar" class="btn btn-primary">EDITAR</button>
         </div>
       </form>
 

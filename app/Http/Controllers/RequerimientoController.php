@@ -482,8 +482,12 @@ class RequerimientoController extends Controller
         }
 
 
+
             $colab = $request->usuario_colab_id;
-            foreach ($colab as $key => $value) {
+
+            if($colab!=""){
+
+                foreach ($colab as $key => $value) {
                 # code...
                 $deta_requerimiento = DetalleRequerimiento::create([
                     "usuario_colab_id" => $value,
@@ -491,6 +495,7 @@ class RequerimientoController extends Controller
                 ]);
             }
 
+            }
 
             return $requerimiento ? 1 : 0;
 
