@@ -95,7 +95,7 @@
       {{-- modal   modal-lg --}}
 
       <div class="modal" id="citamodal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">AGENDAR REUNIÓN</h5>
@@ -137,13 +137,13 @@
 
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="inputHoraInicio">Hora Inicio (8:30 am)</label>
+                    <label for="inputHoraInicio">Hora Inicio</label>
                     <input type="time" name="hora_inicio" id="inputHoraInicio" class="form-control" data-label-validation="hora_inicio">
                     <div class="show-validation-message"></div>
                   </div>
 
                   <div class="form-group col-md-6">
-                    <label for="inputHoraFin">Hora Fin (6:30 pm)</label>
+                    <label for="inputHoraFin">Hora Fin</label>
                     <input type="time" name="hora_fin" id="inputHoraFin" class="form-control" data-label-validation="hora_fin">
                     <div class="show-validation-message"></div>
                   </div>

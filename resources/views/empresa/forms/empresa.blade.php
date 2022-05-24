@@ -1,35 +1,37 @@
-<div class="modal fade" id="modalFrmEmpresa" tabindex="-1" role="dialog" aria-labelledby="modalFrmEmpresa" aria-hidden="true">
+<div class="modal fade" id="modalEmpresa" tabindex="-1" role="dialog" aria-labelledby="modalEmpresa" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalFrmEmpresaLabel">NUEVA EMPRESA</h5>
+        <h5 class="modal-title" id="modalEmpresaLabel">NUEVA EMPRESA</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="{{ route('empresa.store') }}" id="frmEmpresa">
-          <input type="hidden" id="txtIdEmpresa" name="id">
+        <form id="frmEmpresa">
+
+          <input type="hidden" id="inputEmpresaID" name="id">
           <div class="form-group">
             <label for="">RUC:</label>
-            <input type="text" class="form-control" id="txtRuc" maxlength="11" placeholder="Ingrese el nombre" name="ruc" autocomplete="off">
+            <input type="text" class="form-control" id="inputRuc" maxlength="11"  name="ruc" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombre" autocomplete="off">
+            <input type="text" class="form-control" id="inputNombre" name="nombre" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="">Dirección:</label>
-            <input type="text" class="form-control" id="txtDireccion" placeholder="Ingrese la dirección" name="direccion" autocomplete="off">
+            <input type="text" class="form-control" id="inputDireccion" name="direccion" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="">Teléfono:</label>
-            <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="telefono" autocomplete="off">
+            <input type="text" class="form-control" id="inputTelefono" name="telefono" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="txtColor">Color:</label>
-            <input type="color" name="color" id="txtColor" class="form-control">
+            <label for="inputColor">Color:</label>
+            <input type="color" name="color" id="inputColor" class="form-control">
           </div>
+          
         </form>
       </div>
       <div class="modal-footer">

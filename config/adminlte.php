@@ -294,7 +294,7 @@ return [
         'can'  =>'admin.empresa.listado'],
 
         [
-            'text' => 'Empresas ',
+            'text' => 'Empresas',
             'url'  => 'empresa',
             'icon' => 'fas fa-fw fa-users',
             'can'  =>'admin.empresa.listado'

@@ -26,11 +26,17 @@ class AreaController extends Controller
   public function area(Request $request)
   {
     $areas = DB::table('empresa_areas')
-      ->select('areas.id as id', 'areas.nombre as nombre', 'areas.estado as estado', 'empresas.id as empresa_id', 'empresas.nombre as nombre_empresa', 'empresa_areas.id AS empresa_areas_id')
+      ->select(
+        'areas.id as id', 
+        'areas.nombre as nombre', 
+        'areas.estado as estado', 
+        'empresas.id as empresa_id', 
+        'empresas.nombre as nombre_empresa', 
+        'empresa_areas.id AS empresa_area_id')
       ->join('areas', 'areas.id', '=', 'empresa_areas.area_id')
       ->join('empresas', 'empresas.id', '=', 'empresa_areas.empresa_id');
-    if ($request->input('id_empresa')) {
-      $areas->where('empresa_areas.empresa_id', '=', $request->input('id_empresa'));
+    if ($request->input('empresa_id')) {
+      $areas->where('empresa_areas.empresa_id', '=', $request->input('empresa_id'));
     }
 
     return datatables()->of($areas)->toJson();
@@ -64,13 +70,6 @@ class AreaController extends Controller
   public function store(AreaRequest $request)
   {
     $area = Area::create($request->all());
-    $empresaArea = EmpresaArea::create(
-      [
-        'empresa_id' => $request->input('empresa_id'),
-        'area_id' => $area->id
-      ]
-    );
-
     return $area ? 1 : 0;
   }
 
@@ -109,11 +108,6 @@ class AreaController extends Controller
     $area = Area::findOrfail($id);
     $area->update($request->all());
 
-    $empresaArea = EmpresaArea::findOrfail($request->input('empresa_area_id'));
-    $empresaArea->empresa_id = $request->input('empresa_id');
-    $empresaArea->area_id = $id;
-    $empresaArea->update(array ($empresaArea));
-
     return $area ? 1 : 0;
   }
 
@@ -125,8 +119,6 @@ class AreaController extends Controller
    */
   public function destroy(Request $request, $id)
   {
-    //
-
     $area = Area::findOrfail($id);
 
     if ($area->estado == 1) {

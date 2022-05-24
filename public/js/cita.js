@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
       document
         .querySelectorAll('.show-validation-message')
         .forEach((item) => (item.innerHTML = ''))
+      inputId.value = '';
 
       toggleDisabledInputLinkZoom()
       toggleDisabledInputOtraOficina()

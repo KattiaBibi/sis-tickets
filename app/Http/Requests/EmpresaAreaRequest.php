@@ -2,44 +2,51 @@
 
 namespace App\Http\Requests;
 
+use App\Area;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
 
 class EmpresaAreaRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
+  /**
+   * Determine if the user is authorized to make this request.
+   *
+   * @return bool
+   */
+  public function authorize()
+  {
+    return true;
+  }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            //
+  /**
+   * Get the validation rules that apply to the request.
+   *
+   * @return array
+   */
+  public function rules()
+  {
+    Validator::extend('custom_rule', function ($attribute, $value) {
+      $empresa_id = request()->input('empresa_id');
 
-            'empresa_id' => 'required|integer',
-            'area_id' => 'required|integer',
-        ];
-    }
+      $query = Area::join('empresa_areas', 'empresa_areas.area_id', '=', 'areas.id')
+        ->where($attribute, $value)
+        ->where('empresa_areas.empresa_id', $empresa_id);
 
-    public function messages(){
+      return !$query->count();
+    });
 
-        return[
+    return [
+      'nombre' => 'required|custom_rule',
+      'empresa_id' => 'required'
+    ];
+  }
 
-            'empresa_id.required' => '¡Debe elegir una empresa!',
-            'area_id.required' => '¡Debe elegir una área!',
-            'empresa_id.integer' => 'Debe seleccionar una ampresa.',
-            'area_id.integer' => 'Debe seleccionar una área.',
-
-        ];
-    }
+  public function messages()
+  {
+    return [
+      'nombre.required' => 'El nombre es un campo requerido',
+      'nombre.custom_rule' => 'El area ya existe en esta empresa',
+      'empresa_id.required' => 'El campo empresa es requerido'
+    ];
+  }
 }
