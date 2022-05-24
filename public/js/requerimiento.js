@@ -70,16 +70,16 @@ function listar() {
                     //     return `Asignado logueado`;
                     // }
 
-                    if(data.filter(i => (i === "permisos")).length ) {
+                    if(data.filter(i => (i === "disabled")).length ) {
 
-                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
+                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
 
                     }
 
-                    else if(data.filter(i => (i === "cancelado")).length ) {
+                    else if(data.filter(i => (i === "nodisabled")).length ) {
 
 
-                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
+                        return `<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar' ><span class='fa fa-edit'></span><span class='hidden-xs'>Cancelar</span></button>`;
                     }
 
 
@@ -453,6 +453,7 @@ $(".retirar").on("click", function (e){
             var data = datatable.row(this).data();
         }
 
+        $("#idregistroavance").val(data["id"]);
         $('#editavance').val(data["avance_requerimiento"]);
         document.getElementById("editavan").innerHTML= data["avance_requerimiento"] + "%";
 
@@ -466,7 +467,7 @@ $(".retirar").on("click", function (e){
         event.preventDefault();
 
 
-        let dataArray=$('#frmeditar').serializeArray();
+        let dataArray=$('#frmeditaravance').serializeArray();
         let route="/requerimiento/"+dataArray[0].value;
     dataArray.push({name:'_token',value:token_})
     console.log(dataArray[0].value)
@@ -705,6 +706,7 @@ $(".retirar").on("click", function (e){
 
         let dataArray = $("#frmeditar").serializeArray();
         let route = "/requerimiento/" + dataArray[0].value;
+
         let _CSRF = { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') };
         var formData = new FormData($("#frmeditar")[0]);
 

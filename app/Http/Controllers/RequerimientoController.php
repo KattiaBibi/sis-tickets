@@ -170,15 +170,21 @@ class RequerimientoController extends Controller
                 $usuarioqueregistro=$req->usuario_que_registro;
                 $estado=$req->estado_requerimiento;
 
-              if($estado=="cancelado" || $usuarioqueregistro!=$logueado){
 
-                      $req->valor[]="cancelado";
+              if($estado=="cancelado" || $role_id!==1 && $usuarioqueregistro!=$logueado){
+
+                      $req->valor[]="disabled";
                 }
 
-                else if($role_id === 1 || $usuarioqueregistro==$logueado || $estado!="cancelado"){
-                        $req->valor[]="permisos";
+
+                else if($estado!="cancelado" || $role_id===1 && $usuarioqueregistro==$logueado)
+                {
+                        $req->valor[]="nodisabled";
 
                 }
+
+
+
 
                 foreach ($asig as $a){
 
@@ -360,7 +366,7 @@ class RequerimientoController extends Controller
 
         $requerimiento = Requerimiento::findOrfail($id);
 
-        $newestado = "cancelado";
+        $newestado = "culminado";
 
         $avance =$request->avance;
 

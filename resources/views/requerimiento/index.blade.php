@@ -265,9 +265,9 @@
         </div>
         <div class="modal-body">
 
-            <form  id="frmeditar">
+            <form  id="frmeditaravance">
 
-                <input type="hidden" class="form-control" id="idregistro"  name="id">
+                <input type="hidden" class="form-control" id="idregistroavance"  name="id">
 
                 <div class="form-row">
 
