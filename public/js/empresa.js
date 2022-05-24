@@ -1,8 +1,10 @@
 var datatable = null
-var dataTableServicio = null
+var dataTableArea = null
+var dataTableColaborador = null
 
 let EMPRESA_FORM_ACTION = 'STORE'
-let SERVICIO_FORM_ACTION = 'STORE'
+let AREA_FORM_ACTION = 'STORE'
+let COLABORADOR_FORM_ACTION = 'STORE'
 
 function listar() {
   datatable = $('#tablaEmpresas').DataTable({
@@ -105,10 +107,9 @@ function listar() {
 // #########################
 // ######## EMPRESAS #######
 // #########################
-
 $('#tablaEmpresas').on('click', '.btnEditar', function () {
   EMPRESA_FORM_ACTION = 'UPDATE'
-  modalFrmEmpresaLabel.textContent = 'EDITAR EMPRESA'
+  modalEmpresaLabel.textContent = 'EDITAR EMPRESA'
 
   var data = datatable.row($(this).parents('tr')).data()
 
@@ -116,19 +117,19 @@ $('#tablaEmpresas').on('click', '.btnEditar', function () {
     var data = datatable.row(this).data()
   }
 
-  $('#txtIdEmpresa').val(data['id'])
-  $('#txtRuc').val(data['ruc'])
-  $('#txtNombre').val(data['nombre'])
-  $('#txtDireccion').val(data['direccion'])
-  $('#txtTelefono').val(data['telefono'])
-  $('#txtColor').val(data['color'])
+  $('#inputIdEmpresa').val(data['id'])
+  $('#inputRuc').val(data['ruc'])
+  $('#inputNombre').val(data['nombre'])
+  $('#inputDireccion').val(data['direccion'])
+  $('#inputTelefono').val(data['telefono'])
+  $('#inputColor').val(data['color'])
 
-  $('#modalFrmEmpresa').modal('show')
+  $('#modalEmpresa').modal('show')
 })
 
 btnRegistrarEmpresa.onclick = (e) => {
   EMPRESA_FORM_ACTION = 'STORE'
-  modalFrmEmpresaLabel.textContent = 'REGISTRAR EMPRESA'
+  modalEmpresaLabel.textContent = 'REGISTRAR EMPRESA'
   frmEmpresa.reset()
 }
 
@@ -139,7 +140,7 @@ $('#frmEmpresa').on('submit', (event) => {
   let route =
     EMPRESA_FORM_ACTION === 'STORE'
       ? '/empresa'
-      : `/empresa/${txtIdEmpresa.value}`
+      : `/empresa/${inputIdEmpresa.value}`
 
   dataArray.push({ name: '_token', value: token_ })
 
@@ -160,10 +161,10 @@ $('#frmEmpresa').on('submit', (event) => {
 
         datatable.ajax.reload(null, false)
         frmEmpresa.reset()
-        $('#modalFrmEmpresa').modal('hide')
+        $('#modalEmpresa').modal('hide')
       } else {
         alert(
-          'Ocurrio un error inspereado, recargue el navegador o cominiquese con el administrador.'
+          'Ocurrio un error inesperado, recargue el navegador o cominiquese con el administrador.'
         )
       }
     },
@@ -231,27 +232,27 @@ $('#tablaEmpresas').on('click', '.btnOnOff', function () {
     }
   })
 })
-
 // #########################
 // ######## ./EMPRESAS #####
 // #########################
 
+// #########################
+// ######## AREAS ##########
+// #########################
 
-// #########################
-// ######## SERVICIOS ######
-// #########################
 function displayChildOfTable1(row, data) {
   string = `
-    <table class="DTTable2 table table-responsive table-bordered" id="" style="width: 100%; display: table; border: 3px solid tomato;">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th colspan='2' class='text-center'>Opciones</th>
-        </tr>
-      </thead>
-    </table>
-    `
+  <table class="DTTable2 table table-responsive table-bordered" id="" style="width: 100%; display: table; font-size: small; border: 3px solid tomato;">
+    <thead>
+      <tr>
+        <th></th>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th colspan='2' class='text-center'>Opciones</th>
+      </tr>
+    </thead>
+  </table>
+  `
   var table = $(string)
 
   row.child(table).show()
@@ -273,11 +274,11 @@ function displayChildOfTable1(row, data) {
     dom: 'Bfrtip',
     buttons: [
       {
-        text: 'NUEVO SERVICIO',
+        text: 'NUEVA AREA',
         className: 'btn btn-sm btn-success mt-2',
         action: function (e, dt, node, config) {
-          SERVICIO_FORM_ACTION = 'STORE'
-          modalServicioLabel.textContent = 'NUEVO SERVICIO'
+          AREA_FORM_ACTION = 'STORE'
+          modalAreaLabel.textContent = 'NUEVA AREA'
 
           $('#inputEmpresa').find('option').remove()
           Utils.establecerOpcionSelect2('#inputEmpresa', {
@@ -285,31 +286,62 @@ function displayChildOfTable1(row, data) {
             text: data.nombre,
           })
 
-          $('#modalServicio').modal('show')
-          dataTableServicio = dt
-          frmServicio.reset()
+          $('#modalArea').modal('show')
+          dataTableArea = dt
+          frmArea.reset()
         },
       },
     ],
     ajax: {
-      url: 'datatable/empresa_servicios',
+      url: 'datatable/areas',
       type: 'POST',
-      data: { _token: token_, id_empresa: data.id },
+      data: { _token: token_, empresa_id: data.id },
     },
     columns: [
-      { data: 'id_servicio' },
-      { data: 'nombre_servicio' },
       {
-        defaultContent: '',
+        className: 'details-control2',
         orderable: false,
-        className: 'text-center',
-        render: function (data, type, row, meta) {
-          return `
-          <button class="btn btn-sm btn-warning btnEditarServicio">Editar</button>
-          <button class="btn btn-sm btn-danger btnEliminarServicio">Eliminar</button>`
+        data: null,
+        defaultContent: '',
+        width: '50px',
+      },
+      { data: 'id' },
+      { data: 'nombre' },
+      {
+        data: 'estado',
+        className: 'text-center test',
+        render: function (data) {
+          if (data == '1') {
+            return "<button type='button' class='btn btn-danger btn-sm btnOnOffArea text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>"
+          }
+
+          if (data == '0') {
+            return "<button type='button' class='btn btn-info btn-sm btnOnOffArea text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>"
+          }
+        },
+      },
+      {
+        data: null,
+        className: 'text-center test',
+        render: function (data) {
+          return "<button type='button' class='btn btn-warning btn-sm btnEditarArea text-truncate'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>"
         },
       },
     ],
+  })
+
+  $('.DTTable2 tbody').on('click', 'td.details-control2', function (event) {
+    event.stopImmediatePropagation()
+    var tr = $(this).closest('tr'),
+      row = $('.DTTable2').DataTable().row(tr)
+
+    if (row.child.isShown()) {
+      destroyChild2(row)
+      tr.removeClass('shown')
+    } else {
+      displayChildOfTable2(row, row.data())
+      tr.addClass('shown')
+    }
   })
 }
 
@@ -321,18 +353,18 @@ function destroyChild(row) {
   row.child.hide()
 }
 
-$('#frmServicio').on('submit', (event) => {
+$('#frmArea').on('submit', (event) => {
   event.preventDefault()
 
-  let dataArray = $('#frmServicio').serializeArray()
+  let dataArray = $('#frmArea').serializeArray()
   let route =
-    SERVICIO_FORM_ACTION === 'STORE'
-      ? '/empresa_servicio'
-      : `/empresa_servicio/${inputIdServicio.value}`
+    AREA_FORM_ACTION === 'STORE'
+      ? '/empresa_area'
+      : `/empresa_area/${inputAreaID.value}`
   dataArray.push({ name: '_token', value: token_ })
 
   $.ajax({
-    method: SERVICIO_FORM_ACTION === 'STORE' ? 'POST' : 'PUT',
+    method: AREA_FORM_ACTION === 'STORE' ? 'POST' : 'PUT',
     url: route,
     data: dataArray,
 
@@ -346,9 +378,9 @@ $('#frmServicio').on('submit', (event) => {
           timer: 1500,
         })
 
-        dataTableServicio.ajax.reload(null, false)
-        frmServicio.reset()
-        $('#modalServicio').modal('hide')
+        $('#modalArea').modal('hide')
+        dataTableArea.ajax.reload(null, false)
+        frmArea.reset()
       } else {
         alert(
           'Ocurrio un error inesperado, recargue el navegador o comuniquese con el administrador.'
@@ -366,10 +398,10 @@ $('#frmServicio').on('submit', (event) => {
   })
 })
 
-$('#tablaEmpresas').on('click', '.btnEditarServicio', function () {
-  SERVICIO_FORM_ACTION = 'UPDATE'
-  modalServicioLabel.textContent = 'EDITAR SERVICIO'
-  $('#modalServicio').modal('show')
+$('#tablaEmpresas').on('click', '.btnEditarArea', function () {
+  AREA_FORM_ACTION = 'UPDATE'
+  modalAreaLabel.textContent = 'EDITAR AREA'
+  $('#modalArea').modal('show')
 
   let data = $(this)
     .parents('table')
@@ -377,20 +409,20 @@ $('#tablaEmpresas').on('click', '.btnEditarServicio', function () {
     .row($(this).parents('tr'))
     .data()
 
-  $('#inputIdServicio').val(data['id_servicio'])
-  $('#inputNombreServicio').val(data['nombre_servicio'])
-  $('#inputIdEmpresaServicio').val(data['id_empresa_servicio'])
+  $('#inputEmpreaAreaID').val(data['empresa_area_id'])
+  $('#inputAreaID').val(data['id'])
+  $('#inputNombreArea').val(data['nombre'])
 
   $('#inputEmpresa').find('option').remove()
   Utils.establecerOpcionSelect2('#inputEmpresa', {
-    id: data.id_empresa,
+    id: data.empresa_id,
     text: data.nombre_empresa,
   })
 
-  dataTableServicio = $($(this).parents('table')[0]).DataTable()
+  dataTableArea = $($(this).parents('table')[0]).DataTable()
 })
 
-$('#tablaEmpresas').on('click', '.btnEliminarServicio', function () {
+$('#tablaEmpresas').on('click', '.btnOnOffArea', function () {
   Swal.fire({
     title: '¿Estás seguro(a)?',
     text: '¡No podrás revertir esto!',
@@ -402,15 +434,15 @@ $('#tablaEmpresas').on('click', '.btnEliminarServicio', function () {
     cancelButtonText: 'Cancelar',
   }).then((result) => {
     if (result.isConfirmed) {
-      let btnEliminarServicio = this
+      let btnOnOffArea = this
 
-      let data = $(btnEliminarServicio)
+      let data = $(btnOnOffArea)
         .parents('table')
         .DataTable()
-        .row($(btnEliminarServicio).parents('tr'))
+        .row($(btnOnOffArea).parents('tr'))
         .data()
 
-      let route = '/empresa_servicio/' + data['id_servicio']
+      let route = '/area/' + data['id']
       let data2 = {
         id: data.id,
         _token: token_,
@@ -423,13 +455,9 @@ $('#tablaEmpresas').on('click', '.btnEliminarServicio', function () {
 
         success: function (Response) {
           if (Response == 1) {
-            Swal.fire(
-              '¡Eliminado!',
-              'Su registro ha sido eliminado.',
-              'success'
-            )
+            Swal.fire('¡Hecho!', 'Su registro ha sido desactivado.', 'success')
 
-            $($(btnEliminarServicio).parents('table')[0])
+            $($(btnOnOffArea).parents('table')[0])
               .DataTable()
               .ajax.reload(null, false)
           } else {
@@ -439,6 +467,7 @@ $('#tablaEmpresas').on('click', '.btnEliminarServicio', function () {
           }
         },
         error: (response) => {
+          console.log(response)
           $.each(response.responseJSON.errors, function (key, value) {
             response.responseJSON.errors[key].forEach((element) => {
               toastr.error(element)
@@ -449,10 +478,6 @@ $('#tablaEmpresas').on('click', '.btnEliminarServicio', function () {
     }
   })
 })
-// #########################
-// ######## ./SERVICIOS ####
-// #########################
-
 
 searchEmpresa('#inputEmpresa')
 
@@ -473,6 +498,279 @@ function searchEmpresa(control, _filters = null) {
           filters: _filters ? _filters() : [],
         }
 
+        return query
+      },
+      processResults: function (data, params) {
+        return {
+          results: data.results,
+          pagination: data.pagination,
+        }
+      },
+      cache: true,
+    },
+  })
+}
+// #########################
+// ######## ./AREAS ########
+// #########################
+
+// #########################
+// ##### COLABORADORES #####
+// #########################
+function displayChildOfTable2(row, data) {
+  string = `
+    <table class="DTTable2 table table-responsive table-bordered" id="" style="width: 100%; display: table; font-size: small; border: 3px solid steelblue;">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>F. Nac.</th>
+          <th>Direccion</th>
+          <th>Telefono</th>
+          <th colspan='2' class='text-center'>Opciones</th>
+        </tr>
+      </thead>
+    </table>
+  `
+
+  var table = $(string)
+
+  row.child(table).show()
+
+  var Table3 = table.DataTable({
+    processing: true,
+    serverSide: true,
+    destroy: true,
+    searching: false,
+    paging: false,
+    pageLength: 10,
+    ordering: false,
+    lengthChange: false,
+    info: true,
+    autoWidth: false,
+    language: {
+      url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json',
+    },
+    dom: 'Bfrtip',
+    buttons: [
+      {
+        text: 'NUEVO COLABORADOR',
+        className: 'btn btn-sm btn-success mt-2',
+        action: function (e, dt, node, config) {
+          COLABORADOR_FORM_ACTION = 'STORE'
+          modalColaboradorLabel.textContent = 'NUEVO COLABORADOR'
+
+          $('#inputEmpresaArea').find('option').remove()
+          Utils.establecerOpcionSelect2('#inputEmpresaArea', {
+            id: data.empresa_area_id,
+            text: `${data.nombre_empresa} - ${data.nombre}`,
+          })
+
+          $('#modalColaborador').modal('show')
+          dataTableColaborador = dt
+          frmColaborador.reset()
+        },
+      },
+    ],
+    ajax: {
+      url: 'datatable/colaboradores',
+      type: 'POST',
+      data: {
+        _token: token_,
+        empresa_area_id: data.empresa_area_id,
+      },
+    },
+    columns: [
+      { data: 'id' },
+      { data: 'nombres' },
+      { data: 'apellidos' },
+      { data: 'fechanacimiento' },
+      { data: 'direccion' },
+      { data: 'telefono' },
+      {
+        data: 'colaborador_estado',
+        className: 'text-center test',
+        render: function (data) {
+          if (data == '1') {
+            return "<button type='button' class='btn btn-danger btn-sm btnOnOffColaborador'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>"
+          }
+
+          if (data == '0') {
+            return "<button type='button' class='btn btn-info btn-sm btnOnOffColaborador'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>"
+          }
+        },
+      },
+      {
+        data: null,
+        className: 'text-center test',
+        render: function (data) {
+          return "<button type='button' class='btn btn-warning btn-sm btnEditarColaborador'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>"
+        },
+      },
+    ],
+  })
+}
+
+function destroyChild2(row) {
+  var table = $('Table3', row.child())
+  table.detach()
+  table.DataTable().destroy()
+
+  row.child.hide()
+}
+
++$('#frmColaborador').on('submit', (event) => {
+  event.preventDefault()
+
+  let dataArray = $('#frmColaborador').serializeArray()
+  let route =
+    COLABORADOR_FORM_ACTION === 'STORE'
+      ? '/colaborador'
+      : `/colaborador/${inputColaboradorID.value}`
+  dataArray.push({ name: '_token', value: token_ })
+
+  $.ajax({
+    method: COLABORADOR_FORM_ACTION === 'STORE' ? 'POST' : 'PUT',
+    url: route,
+    data: dataArray,
+
+    success: function (Response) {
+      if (Response == 1) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Datos Guardados',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+
+        dataTableColaborador.ajax.reload(null, false)
+        frmColaborador.reset()
+        $('#modalColaborador').modal('hide')
+      } else {
+        alert(
+          'Ocurrio un error inesperado, recargue el navegador o comuniquese con el administrador.'
+        )
+      }
+    },
+    error: (response) => {
+      $.each(response.responseJSON.errors, function (key, value) {
+        response.responseJSON.errors[key].forEach((element) => {
+          toastr.error(element)
+        })
+      })
+    },
+  })
+})
+
+$('#tablaEmpresas').on('click', '.btnEditarColaborador', function () {
+  COLABORADOR_FORM_ACTION = 'UPDATE'
+  modalColaboradorLabel.textContent = 'EDITAR COLABORADOR'
+  $('#modalColaborador').modal('show')
+
+  let data = $(this)
+    .parents('table')
+    .DataTable()
+    .row($(this).parents('tr'))
+    .data()
+
+  console.log(data);
+
+  $('#inputColaboradorID').val(data['id'])
+  $('#inputNroDocumentoColaborador').val(data['nrodocumento'])
+  $('#inputNombreColaborador').val(data['nombres'])
+  $('#inputApellidoColaborador').val(data['apellidos'])
+  $('#inputFechanacColaborador').val(data['fechanacimiento'])
+  $('#inputDireccionColaborador').val(data['direccion'])
+  $('#inputTelefonoColaborador').val(data['telefono'])
+
+  $('#inputEmpresaArea').find('option').remove()
+  Utils.establecerOpcionSelect2('#inputEmpresaArea', {
+    id: data.empresa_area_id,
+    text: `${data.nombre_empresa} - ${data.nombre_area}`,
+  })
+
+  dataTableColaborador = $($(this).parents('table')[0]).DataTable()
+})
+
+$('#tablaEmpresas').on('click', '.btnOnOffColaborador', function () {
+  Swal.fire({
+    title: '¿Estás seguro(a)?',
+    text: '¡No podrás revertir esto!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '¡Sí!',
+    cancelButtonText: 'Cancelar',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let btnOnOffColaborador = this
+
+      let data = $(btnOnOffColaborador)
+        .parents('table')
+        .DataTable()
+        .row($(btnOnOffColaborador).parents('tr'))
+        .data()
+
+      let route = '/colaborador/' + data['id']
+      let data2 = {
+        id: data.id,
+        _token: token_,
+      }
+
+      $.ajax({
+        method: 'delete',
+        url: route,
+        data: data2,
+        success: function (Response) {
+          if (Response == 1) {
+            Swal.fire(
+              '¡Desactivado!',
+              'Su registro ha sido desactivado.',
+              'success'
+            )
+
+            $($(btnOnOffColaborador).parents('table')[0])
+              .DataTable()
+              .ajax.reload(null, false)
+          } else {
+            alert(
+              'Ocurrio un error inesperado, recargue el navegador o comuniquese con el administrador.'
+            )
+          }
+        },
+        error: (response) => {
+          $.each(response.responseJSON.errors, function (key, value) {
+            response.responseJSON.errors[key].forEach((element) => {
+              toastr.error(element)
+            })
+          })
+        },
+      })
+    }
+  })
+})
+
+searchEmpresaArea('#inputEmpresaArea')
+
+function searchEmpresaArea(control, _filters = null) {
+  return $(`${control}`).select2({
+    width: '100%',
+    placeholder: 'Buscar',
+    allowClear: true,
+    ajax: {
+      url: `empresa_area/search`,
+      dataType: 'json',
+      type: 'get',
+      delay: 250,
+      data: function (params) {
+        let query = {
+          search: params.term,
+          page: params.page || 1,
+          filters: _filters ? _filters() : [],
+        }
         return query
       },
       processResults: function (data, params) {

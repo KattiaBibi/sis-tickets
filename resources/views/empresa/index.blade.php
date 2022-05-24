@@ -70,18 +70,12 @@
         <h2>Listar</h2>
       </div>
       <div class="col-lg-2">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalFrmEmpresa" id="btnRegistrarEmpresa">AGREGAR</button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalEmpresa" id="btnRegistrarEmpresa">AGREGAR</button>
       </div>
     </div>
   </div>
 
   <div class="card-body">
-
-    @if ($message = Session::get('success'))
-    <div class="alert alert-success" id="mensaje">
-      <p>{{ $message }}</p>
-    </div>
-    @endif
 
     <div class="table-responsive">
       <table id="tablaEmpresas" class="table table-bordered table-sm">
@@ -104,8 +98,9 @@
   </div>
 </div>
 
-@include('empresa.forms.frmEmpresa')
-@include('empresa.forms.frmServicio')
+@include('empresa.forms.empresa')
+@include('empresa.forms.area')
+@include('empresa.forms.colaborador')
 
 
 <!-- <div class="btn-group mb-2" role="group" aria-label="CRUD Buttons">
@@ -131,99 +126,5 @@
 <script>
   listar();
 </script>
-
-<!-- <script>
-  frmguardar.onsubmit = e => {
-    e.preventDefault();
-
-    let data = new FormData(frmguardar);
-    data.append('_token', token_);
-    console.log(data);
-
-    axios.post('empresa', data)
-      .then(function(res) {
-        if (res.data === 1) {
-          let ref = $('#treeView').jstree(true);
-          ref.create_node('#', {text: txtNombre.value, node_type: 'empresa'});
-          $('#modalagregar').modal('hide');
-          frmguardar.reset();
-        }
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-  }
-
-  function demo_create() {
-    var ref = $('#treeView').jstree(true),
-      sel = ref.get_selected();
-    if (!sel.length) {
-      // return false;
-      $('#modalagregar').modal('show');
-    }
-    sel = sel[0];
-    sel = ref.create_node(sel, {
-      "type": "file"
-    });
-    if (sel) {
-      ref.edit(sel);
-    }
-  };
-
-  function demo_rename() {
-    var ref = $('#treeView').jstree(true),
-      sel = ref.get_selected();
-    if (!sel.length) {
-      return false;
-    }
-    sel = sel[0];
-    ref.edit(sel);
-  };
-
-  function demo_delete() {
-    var ref = $('#treeView').jstree(true),
-      sel = ref.get_selected();
-    if (!sel.length) {
-      return false;
-    }
-    ref.delete_node(sel);
-  };
-
-  $(function() {
-
-    var to = false;
-    $('#searchTreeView').keyup(function() {
-      if (to) {
-        clearTimeout(to);
-      }
-      to = setTimeout(function() {
-        var v = $('#searchTreeView').val();
-        $('#treeView').jstree(true).search(v);
-      }, 250);
-    });
-
-    $('#treeView')
-      .jstree({
-        "core": {
-          "animation": 0,
-          "check_callback": true,
-          'force_text': true,
-          "themes": {
-            "stripes": true
-          },
-          'data': {
-            'url': 'api/empresa/getOrganigrama',
-            'data': function(node) {
-              return {
-                'id': node.id
-              };
-            }
-          }
-        },
-        "plugins": ["search", "wholerow"]
-      });
-
-  });
-</script> -->
 
 @endsection
