@@ -75,7 +75,7 @@ class CitaRequest extends FormRequest
         }
       );
 
-      return !$query->count();
+      return empty($asistentes) || !$query->count();
       // return false;
     }, 'Los asistentes :custom_message ya tienen reuniones agendadas en este horario.');
 
