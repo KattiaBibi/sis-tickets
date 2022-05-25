@@ -109,9 +109,26 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
         //
+
+        $empresa_areas = DB::table('empresa_areas as ea')
+        ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
+        ->join('areas as a', 'ea.area_id', '=', 'a.id')
+        ->select('ea.id as eaid', 'e.id as eid', 'a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre')->get();
+
+        $usuario=DB::table('users as u')
+        ->join('colaboradores as c','u.colaborador_id','=','c.id')
+        ->join('empresa_areas as ea','c.empresa_area_id','=','ea.id')
+        ->join('model_has_roles as mr','u.id','=','mr.model_id')
+        ->join('roles as r','mr.role_id','=','r.id')
+        ->select('u.id as uid','u.name as uname','u.email as uemail','u.password as upassword', 'u.estado as uestado', 'u.colaborador_id as ucolaborador_id', 'c.nrodocumento as nrodoc','nombres as cnombres','c.apellidos as capellidos','c.fechanacimiento as fechanac','c.direccion as direccion','c.telefono as tf', 'u.imagen as imagen','mr.role_id as role_id', 'c.empresa_area_id as empresa_area_id')
+        ->where('u.id', auth()->user()->id)
+        ->first();
+
+        $roles= Role::all();
+        return view('usuario.perfil', compact('usuario', 'empresa_areas','roles'));
     }
 
     /**
@@ -134,7 +151,7 @@ class UserController extends Controller
      */
     public function update(UserActualizarRequest $request, $id)
     {
-        //dd($request);
+        // dd($request);
 
         $usuario=User::findOrfail($id);
 

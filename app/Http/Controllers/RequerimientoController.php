@@ -374,6 +374,16 @@ class RequerimientoController extends Controller
 
         }
 
+        else if($avance>"0"){
+
+        $requerimiento->update(
+
+            [
+                'avance' => $request->avance,
+                'estado' => "en proceso"
+            ]
+        );
+    }
         else{
 
             $requerimiento->update(

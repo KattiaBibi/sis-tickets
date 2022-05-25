@@ -309,11 +309,7 @@
 
 @section('js')
 
-<script> console.log('¡HOLA!');
-
-</script>
 <script src="{{asset('js/usuario.js')}}"></script>
-
 
 
 <script>
