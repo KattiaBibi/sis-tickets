@@ -53,14 +53,20 @@ class CitaRequest extends FormRequest
         ->join('users', 'detalle_citas.usuario_colab_id', '=', 'users.id')
         ->join('colaboradores', 'colaboradores.id', '=', 'users.colaborador_id')
         ->whereIn('detalle_citas.usuario_colab_id', $asistentes)
-        ->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '>=', $request['fecha'] . ' ' . $request['hora_inicio'])
-        ->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '<=', $request['fecha'] . ' ' . $request['hora_fin']);
+        ->where(function($query) use ($request) {
+          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '<=', $request['fecha'] . ' ' . $request['hora_inicio']);
+          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '<=', $request['fecha'] . ' ' . $request['hora_inicio']);
+        })
+        ->orWhere(function($query) use ($request) {
+          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '<=', $request['fecha'] . ' ' . $request['hora_fin']);
+          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '<=', $request['fecha'] . ' ' . $request['hora_fin']);
+        });
 
       $customMessage = "";
 
       foreach ($query->get()->all() as $value) {
         $customMessage .= $value->nom_ape_colaborador . ', ';
-      }
+      } 
 
       $validator->addReplacer(
         'custom_rule',
@@ -69,7 +75,7 @@ class CitaRequest extends FormRequest
         }
       );
 
-      return empty($asistentes) || !$query->count();
+      return !$query->count();
       // return false;
     }, 'Los asistentes :custom_message ya tienen reuniones agendadas en este horario.');
 
@@ -91,12 +97,11 @@ class CitaRequest extends FormRequest
       'link_reu' => 'nullable|max:150',
       'empresa_id' => [
         'nullable',
-        // Rule::requiredIf(empty(request()->input('lugarreu'))),
+        Rule::requiredIf(empty(request()->input('lugarreu'))),
         'exists:empresas,id',
       ],
       'lugarreu' => [
-        'nullable',
-        // Rule::requiredIf(empty(request()->input('empresa_id'))),
+        Rule::requiredIf(empty(request()->input('empresa_id'))),
         'max:150',
       ],
       'asistentes' => 'required|exists:colaboradores,id|custom_rule'
