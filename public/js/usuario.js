@@ -316,6 +316,7 @@ $('#btnactualizar').on("click" ,(event)=>{
 
     let valor =$("#mostimg").attr("src");
 
+
     let divisiones = valor.split("/", -2);
 
     let extraer =divisiones.slice(-1);
