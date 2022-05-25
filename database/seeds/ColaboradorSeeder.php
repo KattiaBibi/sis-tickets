@@ -16,7 +16,7 @@ class ColaboradorSeeder extends Seeder
 
         Colaborador::create([
             'nrodocumento' => '42023698',
-            'nombres' => 'Johon',
+            'nombres' => 'Johan',
             'apellidos' => 'Salazar Baigorria',
             'fechanacimiento' => '1980/12/14',
             'direccion' => 'Test 1',
