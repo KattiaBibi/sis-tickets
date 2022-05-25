@@ -359,7 +359,6 @@ class RequerimientoController extends Controller
 
         $requerimiento = Requerimiento::findOrfail($id);
 
-        $newestado = "culminado";
 
         $avance =$request->avance;
 
@@ -369,7 +368,7 @@ class RequerimientoController extends Controller
 
             [
                 'avance' => $request->avance,
-                'estado' => $newestado
+                'estado' => "culminado"
             ]
         );
 
@@ -380,6 +379,7 @@ class RequerimientoController extends Controller
             $requerimiento->update(
                 [
                     'avance' => $request->avance,
+                    'estado' => "pendiente"
 
                 ]
             );
