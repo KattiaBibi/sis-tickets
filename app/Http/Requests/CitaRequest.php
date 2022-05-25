@@ -54,12 +54,12 @@ class CitaRequest extends FormRequest
         ->join('colaboradores', 'colaboradores.id', '=', 'users.colaborador_id')
         ->whereIn('detalle_citas.usuario_colab_id', $asistentes)
         ->where(function($query) use ($request) {
-          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '<=', $request['fecha'] . ' ' . $request['hora_inicio']);
-          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '<=', $request['fecha'] . ' ' . $request['hora_inicio']);
+          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '>=', $request['fecha'] . ' ' . $request['hora_inicio']);
+          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '>=', $request['fecha'] . ' ' . $request['hora_inicio']);
         })
         ->orWhere(function($query) use ($request) {
-          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '<=', $request['fecha'] . ' ' . $request['hora_fin']);
-          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '<=', $request['fecha'] . ' ' . $request['hora_fin']);
+          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '>=', $request['fecha'] . ' ' . $request['hora_fin']);
+          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '>=', $request['fecha'] . ' ' . $request['hora_fin']);
         });
 
       $customMessage = "";
