@@ -289,6 +289,7 @@ function displayChildOfTable1(row, data) {
           $('#modalArea').modal('show')
           dataTableArea = dt
           frmArea.reset()
+          inputAreaID.value = '';
         },
       },
     ],

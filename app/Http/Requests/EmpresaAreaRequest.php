@@ -28,6 +28,15 @@ class EmpresaAreaRequest extends FormRequest
     Validator::extend('custom_rule', function ($attribute, $value) {
       $empresa_id = request()->input('empresa_id');
 
+      $id_area = request()->input('id');
+
+      if ($id_area) {
+        $area = Area::find($id_area);
+        if (strtolower($area->nombre) == strtolower($value)) {
+          return true;
+        }
+      }
+
       $query = Area::join('empresa_areas', 'empresa_areas.area_id', '=', 'areas.id')
         ->where($attribute, $value)
         ->where('empresa_areas.empresa_id', $empresa_id);
