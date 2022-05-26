@@ -47,27 +47,28 @@ class CitaRequest extends FormRequest
       }
 
       $query = Cita::select(
-        DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_colaborador")
+        DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_colaborador"),
+        DB::raw("CONCAT(TIME_FORMAT(citas.hora_inicio, '%h:%i %p'), ' - ', TIME_FORMAT(citas.hora_fin, '%h:%i %p')) AS horario")
       )
         ->join('detalle_citas', 'detalle_citas.cita_id', '=', 'citas.id')
         // ->join('users', 'detalle_citas.usuario_colab_id', '=', 'users.id')
         ->join('colaboradores', 'colaboradores.id', '=', 'detalle_citas.usuario_colab_id')
         ->whereIn('detalle_citas.usuario_colab_id', $asistentes)
         ->where(function($query) use ($request) {
-          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '>=', $request['fecha'] . ' ' . $request['hora_inicio']);
-          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '>=', $request['fecha'] . ' ' . $request['hora_inicio']);
+          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '<=', $request['fecha'] . ' ' . $request['hora_inicio']);
+          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '<=', $request['fecha'] . ' ' . $request['hora_inicio']);
         })
-        ->orWhere(function($query) use ($request) {
-          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '>=', $request['fecha'] . ' ' . $request['hora_fin']);
-          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '>=', $request['fecha'] . ' ' . $request['hora_fin']);
+        ->where(function($query) use ($request) {
+          $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '<=', $request['fecha'] . ' ' . $request['hora_fin']);
+          $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '<=', $request['fecha'] . ' ' . $request['hora_fin']);
         });
 
-      // dd($asistentes);
+      // dd($query->toSql());
 
       $customMessage = "";
 
       foreach ($query->get()->all() as $value) {
-        $customMessage .= $value->nom_ape_colaborador . ', ';
+        $customMessage .= $value->nom_ape_colaborador . ' (' . $value->horario . '), ';
       } 
 
       $validator->addReplacer(
