@@ -96,12 +96,12 @@
 
         <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control sinespacio" id="txtNombre" onkeyup="javascript:this.value=this.value.toLowerCase();" placeholder="Ingrese el nombre separado con puntos." name="name">
+            <input type="text" class="form-control sinespacio" maxlength="50" id="txtNombre" onkeyup="javascript:this.value=this.value.toLowerCase();" placeholder="Ingrese el nombre separado con puntos." name="name">
         </div>
 
         <div class="form-group">
             <label for="">Descripción:</label>
-            <input type="text" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripción" name="description">
+            <input type="text" class="form-control" id="txtDescripcion" maxlength="50" placeholder="Ingrese la descripción" name="description">
         </div>
 
       </div>
@@ -134,13 +134,13 @@
           <label for="">Nombre:</label>
           <input type="hidden" class="form-control " id="idregistro"  name="id">
 
-          <input type="text" class="form-control sinespacio" maxlength="11" id="editarNombre" onkeyup="javascript:this.value=this.value.toLowerCase();" placeholder="Ingrese el nombre separado con puntos." name="name">
+          <input type="text" class="form-control sinespacio" maxlength="50" id="editarNombre" onkeyup="javascript:this.value=this.value.toLowerCase();" placeholder="Ingrese el nombre separado con puntos." name="name">
       </div>
 
           <div class="form-group">
               <label for="">Descripción:</label>
 
-              <input type="text" class="form-control" id="editarDescripcion" placeholder="Ingrese el nombre" name="description">
+              <input type="text" class="form-control" id="editarDescripcion" maxlength="50" placeholder="Ingrese el nombre" name="description">
           </div>
 
 

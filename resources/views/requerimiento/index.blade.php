@@ -24,12 +24,16 @@
   <div class="card-header">
 
   <div class="row">
+
         <div class="col-lg-2">
+        @can('admin.requerimientos.filtros')
                 <h4>Buscar por:</h4>
+        @endcan
         </div>
 
 
     <div class="col-lg-2">
+        @can('admin.requerimientos.filtros')
 
             <select class="form-control" id="filtros">
                 <option value="todos" selected>Todos los estados ...</option>
@@ -39,11 +43,12 @@
                 <option value="culminado">CULMINADO</option>
                 <option value="cancelado">CANCELADO</option>
               </select>
+        @endcan
     </div>
 
 
     <div class="col-lg-2">
-
+        @can('admin.requerimientos.filtros')
         <select class="form-control" id="filtrosempre">
             <option value="todos" selected>Todas las empresas ...</option>
 
@@ -51,14 +56,15 @@
                 <option value="{{$e->nombre}}">{{$e->nombre}}</option>
             @endforeach
 
-
           </select>
+
+          @endcan
     </div>
 
     <div class="col-lg-2">
 
 
-        @can('admin.requerimientos.listartipopersonal')
+        @can('admin.requerimientos.filtros')
 
 
         <select class="form-control" id="filtronb">
@@ -76,11 +82,11 @@
 
     <div class="col-lg-2" style="text-align: center;">
 
-        {{-- @can('admin.requerimientos.listartipopersonal') --}}
+        @can('admin.requerimientos.filtros')
 
         <button type="button" class="btn btn-info" id="btnquitarfiltros">BORRAR FILTROS</button>
 
-        {{-- @endcan --}}
+        @endcan
 
 
     </div>
