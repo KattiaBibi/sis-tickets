@@ -30,8 +30,8 @@ class ColaboradorRequest extends FormRequest
             'nombres' => 'required',
             'apellidos' => 'required',
             'fechanacimiento' => 'required|before:-18 years',
-            'direccion' => 'required',
-            'telefono' => 'required',
+            // 'direccion' => 'required',
+            // 'telefono' => 'required',
             'empresa_area_id' => 'required|integer',
         ];
     }
