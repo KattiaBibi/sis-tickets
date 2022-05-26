@@ -284,7 +284,7 @@ $.ajax({
 
                             Swal.fire(
                                 '¡Desactivado!',
-                                'Su registro ha sido desactivado.',
+                                'Su registro ha sido actualizado.',
                                 'success'
                               )
 

@@ -210,7 +210,7 @@ $('#tablaEmpresas').on('click', '.btnOnOff', function () {
           if (Response == 1) {
             Swal.fire(
               '¡Desactivado!',
-              'Su registro ha sido desactivado.',
+              'Su registro ha sido actualizado.',
               'success'
             )
 
@@ -455,7 +455,7 @@ $('#tablaEmpresas').on('click', '.btnOnOffArea', function () {
 
         success: function (Response) {
           if (Response == 1) {
-            Swal.fire('¡Hecho!', 'Su registro ha sido desactivado.', 'success')
+            Swal.fire('¡Hecho!', 'Su registro ha sido actualizado.', 'success')
 
             $($(btnOnOffArea).parents('table')[0])
               .DataTable()
@@ -728,7 +728,7 @@ $('#tablaEmpresas').on('click', '.btnOnOffColaborador', function () {
           if (Response == 1) {
             Swal.fire(
               '¡Desactivado!',
-              'Su registro ha sido desactivado.',
+              'Su registro ha sido actualizado.',
               'success'
             )
 

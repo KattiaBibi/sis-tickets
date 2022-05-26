@@ -223,7 +223,7 @@ $("#colaboradores").on("click", ".desactivar", function () {
                     if (Response == 1) {
                         Swal.fire(
                             "¡Desactivado!",
-                            "Su registro ha sido desactivado.",
+                            "Su registro ha sido actualizado.",
                             "success"
                         );
 
