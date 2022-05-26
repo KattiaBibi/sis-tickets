@@ -3,15 +3,10 @@
 
 <div class="container-fluid">
     <div class="row mb-2">
-      <div class="col-sm-6">
+      <div class="col-sm-12">
         <h1>Perfil</h1>
       </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">User Profile</li>
-        </ol>
-      </div>
+
     </div>
   </div><!-- /.container-fluid -->
 
@@ -45,16 +40,14 @@
 
                 </div>
 
-                <h3 class="profile-username text-center">Janina Rivas</h3>
+                <h3 class="profile-username text-center">{{ $usuario->uname }}</h3>
 
-                <p class="text-muted text-center">Trabajador</p>
+                <p class="text-muted text-center">{{ $usuario->role_name }}</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
+
                   <li class="list-group-item">
-                    <b>Usuario:</b> <a class="float-right">1,322</a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Correo:</b> <a class="float-right">543</a>
+                    <b>Correo:</b> <a class="">{{ $usuario->uemail }}</a>
                   </li>
 
                 </ul>
@@ -74,28 +67,20 @@
                 <strong><i class="fas fa-book mr-1"></i> Nombres y Apellidos</strong>
 
                 <p class="text-muted">
-                  Janina Rivas Cabrejos
+                  {{ $usuario->apellidos_nombres }}
                 </p>
 
                 <hr>
 
-                <strong><i class="fas fa-map-marker-alt mr-1"></i> Localidad</strong>
+                <strong><i class="fas fa-map-marker-alt mr-1"></i> Dirección</strong>
 
-                <p class="text-muted">Lambayeque, Chiclayo</p>
-
-                <hr>
-
-                <strong><i class="fas fa-pencil-alt mr-1"></i> Dirección</strong>
-
-                <p class="text-muted">
-                    Av. Los Próceres 454
-                </p>
+                <p class="text-muted">{{ $usuario->direccion }}</p>
 
                 <hr>
 
                 <strong><i class="far fa-file-alt mr-1"></i> Edad </strong>
 
-                <p class="text-muted">24 años.</p>
+                <p class="text-muted">{{ $usuario->edad }} años.</p>
               </div>
               <!-- /.card-body -->
             </div>
@@ -219,39 +204,49 @@
                         <input type="hidden" value="{{ $usuario->ucolaborador_id }}" name="colaborador_id">
                       <div class="form-group row" >
                         <label for="inputFoto" class="col-sm-2 col-form-label">Nueva foto</label>
-                        <div class="col-sm-10" style="text-align: center;">
-                            <input type="file"  accept="image/*" class="img form-control-file" id="xy" name="imagenpost">
-                            <img src="{{ asset('vendor/adminlte/dist/img/soporte.png') }}"   style="height: 200px; width: 200px;" >
+                        <div class="col-sm-8" style="text-align: center;">
+                          
 
+                            <input type="file"  accept="image/*" class="img form-control-file" id="imn" name="imagennue">
+
+                            
+                            <img id="imag"  onerror="this.style.display='none'" class="imagenPrevisualizacion mt-2" style="height: 200px; width: 200px;display: none;">
+
+
+                        </div>
+
+                        <div class="col-sm-2 row justify-content-center align-items-center" style="text-align: center;">
+           
+
+                          <button type="button" id="consim" style="display: none;" class="retirar btn btn-info btn-sm" style="">QUITAR IMAGEN</button>
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">Nombre usuario</label>
-                        <div class="col-sm-10">
+                        <label for="inputName" class="col-sm-4 col-form-label">Nombre usuario</label>
+                        <div class="col-sm-8">
                           <input type="text"  value="{{ $usuario->uname }}" name="name" class="form-control" id="inputName" placeholder="Nombre usuario">
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Correo</label>
-                        <div class="col-sm-10">
+                        <label for="inputEmail" class="col-sm-4 col-form-label">Correo</label>
+                        <div class="col-sm-8">
                           <input type="email" value="{{ $usuario->uemail }}" name="email" class="form-control" id="inputEmail" placeholder="Correo">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="inputName2" class="col-sm-2 col-form-label">Contraseña nueva</label>
-                        <div class="col-sm-10">
+                        <label for="inputName2" class="col-sm-4 col-form-label">Contraseña nueva</label>
+                        <div class="col-sm-8">
                           <input type="text" class="form-control" id="inputName2" name="password" placeholder="Nueva contraseña">
                         </div>
                       </div>
 
                     <div class="form-group row">
-                        <label for="inputName2" class="col-sm-2 col-form-label">Rol</label>
-                        <div class="col-sm-10">
+                        <label for="inputName2" class="col-sm-4 col-form-label">Rol</label>
+                        <div class="col-sm-8">
 
-                            <select name="role" class="form-control" value="{{ $usuario->role_id }}"  id="rol" disabled>
-
+                            <select name="role" class="form-control disabled_class" value="{{ $usuario->role_id }}"  id="rol">
 
                                 @foreach ($roles as $r)
                                 <option value="{{ $r->id }}">{{$r->name}}</option>
@@ -262,7 +257,7 @@
                       </div>
 
                       <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
+                        <div class="offset-sm-4 col-sm-8">
                           <button type="" id="btnactualizaruser" class="btn btn-danger">Editar</button>
                         </div>
                       </div>
@@ -274,58 +269,56 @@
                   <div class="tab-pane" id="datoscolaborador">
                      <form  id="frmeditarcolab" class="form-horizontal">
 
-                        <input type="text" value="{{ $usuario->ucolaborador_id }}" name="id">
+                        <input type="hidden" value="{{ $usuario->ucolaborador_id }}" name="id">
 
                       <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">N° DOCUMENTO:</label>
-                        <div class="col-sm-10">
-                          <input type="number"  value="{{ $usuario->nrodoc }}" class="form-control" id="inputName" placeholder="N° documento">
+                        <label for="inputName" class="col-sm-4 col-form-label">N° documento:</label>
+                        <div class="col-sm-8">
+                          <input type="number"  value="{{ $usuario->nrodoc }}" class="form-control" id="inputName" name="nrodocumento" placeholder="N° documento">
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">NOMBRES:</label>
-                        <div class="col-sm-10">
-                          <input type="text" value="{{ $usuario->cnombres }}" class="form-control" id="inputNombre" placeholder="Nombre(s) colaborador">
+                        <label for="inputName" class="col-sm-4 col-form-label">Nombre(s):</label>
+                        <div class="col-sm-8">
+                          <input type="text" value="{{ $usuario->cnombres }}" class="form-control" id="inputNombre" name="nombres" placeholder="Nombre(s) colaborador">
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">APELLIDOS:</label>
-                        <div class="col-sm-10">
-                          <input type="text" value="{{ $usuario->capellidos }}"b class="form-control" id="inputNombre" placeholder="Apellidos colaborador">
+                        <label for="inputName" class="col-sm-4 col-form-label">Apellidos:</label>
+                        <div class="col-sm-8">
+                          <input type="text" value="{{ $usuario->capellidos }}"b class="form-control" id="inputApellidos" name="apellidos" placeholder="Apellidos colaborador">
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">FECHA DE NACIMIENTO:</label>
-                        <div class="col-sm-10">
-                          <input type="date" value="{{ $usuario->fechanac }}" class="form-control" id="inputFechaNac">
+                        <label for="inputName" class="col-sm-4 col-form-label">Fecha de nacimiento:</label>
+                        <div class="col-sm-8">
+                          <input type="date" name="fechanacimiento" value="{{ $usuario->fechanac }}" class="form-control" id="inputFechaNac">
                         </div>
                       </div>
 
 
                       <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">DIRECCIÓN:</label>
-                        <div class="col-sm-10">
-                          <input type="text" value="{{ $usuario->direccion }}" class="form-control" id="inputNombre" placeholder="Dirección">
+                        <label for="inputName" class="col-sm-4 col-form-label">Dirección:</label>
+                        <div class="col-sm-8">
+                          <input type="text" name="direccion" value="{{ $usuario->direccion }}" class="form-control" id="inputNombre" placeholder="Dirección">
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">TELÉFONO:</label>
-                        <div class="col-sm-10">
-                          <input type="text" value="{{ $usuario->tf }}" class="form-control" id="inputNombre" placeholder="Teléfono colaborador">
+                        <label for="inputName" class="col-sm-4 col-form-label">Teléfono:</label>
+                        <div class="col-sm-8">
+                          <input type="text" name="telefono" value="{{ $usuario->tf }}" class="form-control" id="inputNombre" placeholder="Teléfono colaborador">
                         </div>
                       </div>
 
                       <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">EMPRESA Y ÁREA:</label>
-                        <div class="col-sm-10">
+                        <label for="inputName" class="col-sm-4 col-form-label">Empresa y área:</label>
+                        <div class="col-sm-8">
 
-                            <select class="form-control"  value="{{ $usuario->empresa_area_id }}" id="empresa_area" disabled name="empresa_area_id">
-                                <option value="a" selected="">Elegir</option>
-
+                            <select class="form-control disabled_class"  value="{{ $usuario->empresa_area_id }}" id="empresa_area" name="empresa_area_id">
 
                                 @foreach ($empresa_areas as $e)
                                 <option value="{{ $e->eaid }}">{{$e->enombre}} - {{$e->anombre}}</option>
@@ -336,7 +329,7 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
+                        <div class="offset-sm-4 col-sm-8">
                             <button type="" id="btnactualizarcolab" class="btn btn-danger">Editar</button>
                         </div>
                       </div>

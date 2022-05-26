@@ -101,7 +101,7 @@ class ColaboradorController extends Controller
    * @param  \App\Colaborador  $colaborador
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(ColaboradorRequest $request, $id)
   {
     $colaborador = Colaborador::findOrfail($id);
     $colaborador->update($request->all());

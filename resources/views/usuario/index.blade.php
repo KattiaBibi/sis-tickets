@@ -6,6 +6,7 @@
 
 @section('css')
 
+
 @endsection
 
 @section('content')
@@ -150,7 +151,7 @@
 
                 <select name="role" class="form-control" id="">
 
-                    <option selected>Elegir</option>
+                    <option value="a" selected>Elegir</option>
 
                     @foreach ($roles as $r)
                     <option value="{{ $r->id }}">{{$r->name}}</option>
@@ -276,7 +277,7 @@
 
                 <label for="">Rol:</label>
 
-                <select name="role" class="form-control" id="editarRol">
+                <select name="role" class="form-control disabled_class" id="editarRol">
                 <option value="a">Elegir</option>
 
                     @foreach ($roles as $r)

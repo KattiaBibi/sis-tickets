@@ -123,7 +123,10 @@ class UserController extends Controller
         ->join('empresa_areas as ea','c.empresa_area_id','=','ea.id')
         ->join('model_has_roles as mr','u.id','=','mr.model_id')
         ->join('roles as r','mr.role_id','=','r.id')
-        ->select('u.id as uid','u.name as uname','u.email as uemail','u.password as upassword', 'u.estado as uestado', 'u.colaborador_id as ucolaborador_id', 'c.nrodocumento as nrodoc','nombres as cnombres','c.apellidos as capellidos','c.fechanacimiento as fechanac','c.direccion as direccion','c.telefono as tf', 'u.imagen as imagen','mr.role_id as role_id', 'c.empresa_area_id as empresa_area_id')
+        ->select(
+            DB::raw("TIMESTAMPDIFF(YEAR, fechanacimiento, CURDATE()) as edad"),
+            DB::raw("CONCAT(c.nombres, ' ', c.apellidos) AS apellidos_nombres"),
+            'u.id as uid','u.name as uname','u.email as uemail','u.password as upassword', 'u.estado as uestado', 'u.colaborador_id as ucolaborador_id', 'c.nrodocumento as nrodoc','c.nombres as cnombres','c.apellidos as capellidos','c.fechanacimiento as fechanac','c.direccion as direccion','c.telefono as tf', 'u.imagen as imagen','mr.role_id as role_id','r.name as role_name', 'c.empresa_area_id as empresa_area_id')
         ->where('u.id', auth()->user()->id)
         ->first();
 
