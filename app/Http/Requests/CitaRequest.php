@@ -50,8 +50,8 @@ class CitaRequest extends FormRequest
         DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_colaborador")
       )
         ->join('detalle_citas', 'detalle_citas.cita_id', '=', 'citas.id')
-        ->join('users', 'detalle_citas.usuario_colab_id', '=', 'users.id')
-        ->join('colaboradores', 'colaboradores.id', '=', 'users.colaborador_id')
+        // ->join('users', 'detalle_citas.usuario_colab_id', '=', 'users.id')
+        ->join('colaboradores', 'colaboradores.id', '=', 'detalle_citas.usuario_colab_id')
         ->whereIn('detalle_citas.usuario_colab_id', $asistentes)
         ->where(function($query) use ($request) {
           $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '>=', $request['fecha'] . ' ' . $request['hora_inicio']);
@@ -61,6 +61,8 @@ class CitaRequest extends FormRequest
           $query->where(DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio)"), '>=', $request['fecha'] . ' ' . $request['hora_fin']);
           $query->orWhere(DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin)"), '>=', $request['fecha'] . ' ' . $request['hora_fin']);
         });
+
+      // dd($asistentes);
 
       $customMessage = "";
 
