@@ -161,7 +161,7 @@
                 </div>
 
                 <div class="form-group" id="formGroupLinkZoom" style="display: none;">
-                  <label for="inputLinkZoom">Link (Opcional)</label>
+                  <label for="inputLinkZoom">Link</label>
                   <input type="text" class="form-control" id="inputLinkZoom" placeholder="Inserte el link de la reunión" name="link_reu" data-label-validation="link_reu">
                   <div class="show-validation-message"></div>
                 </div>
