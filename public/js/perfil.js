@@ -29,8 +29,6 @@ $( document ).ready( function() {
 $('#btnactualizaruser').on("click" ,(event)=>{
     event.preventDefault();
 
-    $("#rol").prop("disabled", false);
-
     let dataArray = $("#frmeditar").serializeArray();
     let route = "/usuario/" + dataArray[0].value;
     let _CSRF = { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') };
@@ -69,9 +67,6 @@ $('#btnactualizaruser').on("click" ,(event)=>{
         })
 
       datatable.ajax.reload(null,false);
-        $('#frmeditar')[0].reset();
-
-        $('#modaleditar').modal('hide');
 
         }
             else{
@@ -99,6 +94,7 @@ $('#btnactualizaruser').on("click" ,(event)=>{
 $("#btnactualizarcolab").on("click", (event) => {
     event.preventDefault();
 
+
     let dataArray = $("#frmeditarcolab").serializeArray();
     let route = "/colaborador/" + dataArray[0].value;
     dataArray.push({ name: "_token", value: token_ });
@@ -120,9 +116,7 @@ $("#btnactualizarcolab").on("click", (event) => {
                 });
 
                 datatable.ajax.reload(null, false);
-                $("#frmguardar")[0].reset();
-
-                $("#modaleditar").modal("hide");
+                
             } else {
                 alert("no editado");
             }
@@ -138,3 +132,72 @@ $("#btnactualizarcolab").on("click", (event) => {
         },
     });
 });
+
+
+$(".retirar").on("click", function (e){
+
+
+    $("#imn").val(null);
+
+    $('#imag').hide();
+    $('#imag').removeAttr("src");
+
+    $(".retirar").hide();
+
+    });
+
+const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
+
+
+function readImage (input)
+
+{
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+          $('.imagenPrevisualizacion').attr('src', e.target.result); // Renderizamos la imagen
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+
+  }
+
+  $(".img").on("change", function ()
+
+{
+
+const MAXIMO_TAMANIO_BYTES = 2000000; // 1MB = 1 millón de bytes
+
+    // Código a ejecutar cuando se detecta un cambio de archivo
+
+    if (this.files.length <= 0) return;
+
+    const archivo = this.files[0];
+
+
+
+if (archivo.size > MAXIMO_TAMANIO_BYTES)
+
+{
+
+    const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
+    alert(`El tamaño máximo es ${tamanioEnMb}  MB`);
+
+    // Limpiar
+    this.value = "";
+
+}
+
+else{
+
+    $('#imag').show();
+    $('#prev').show();
+
+     $('.retirar').show();
+    readImage(this);
+
+}
+
+}
+
+);

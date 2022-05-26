@@ -210,12 +210,12 @@ $('#usuarios').on('click','.editar',function(){
     if(data.role_id == "1"){
 
     // alert("administrador total");
-        $("#editarRol").prop("disabled", true);
+        $("#editarRol").addClass("disabled_class");
         $("#editarRol").val(data.role_id);
 
     }
     else{
-        $("#editarRol").prop("disabled", false);
+        $("#editarRol").removeClass("disabled_class");
         $("#editarRol").val(data.role_id);
 
     }
@@ -307,8 +307,6 @@ $('#btnguardar').on("click" ,(event)=>{
 $('#btnactualizar').on("click" ,(event)=>{
     event.preventDefault();
 
-    $("#editarRol").prop("disabled", false);
-
     let dataArray = $("#frmeditar").serializeArray();
     let route = "/usuario/" + dataArray[0].value;
     let _CSRF = { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') };
@@ -332,6 +330,7 @@ $('#btnactualizar').on("click" ,(event)=>{
     contentType: false,
     processData: false,
     headers: _CSRF,
+    
 
     "success":function(Response){
 
@@ -345,6 +344,8 @@ $('#btnactualizar').on("click" ,(event)=>{
         timer: 1500
         })
 
+        $("#editarRol").prop("disabled", false);
+        
       datatable.ajax.reload(null,false);
         $('#frmeditar')[0].reset();
 

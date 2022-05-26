@@ -27,6 +27,19 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.12.0/features/searchHighlight/dataTables.searchHighlight.css" />
     @stack('css')
     @yield('css')
+
+    <style>
+
+        .disabled_class{
+        
+          pointer-events: none;
+            opacity: 0.7;
+            background: #e9e9e9;
+            color: black;
+            border-color: rgba(118, 118, 118, 0.3);
+        }
+        
+        </style>
 @stop
 
 @section('classes_body', $layoutHelper->makeBodyClasses())
