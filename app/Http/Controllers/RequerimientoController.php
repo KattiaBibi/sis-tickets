@@ -129,6 +129,7 @@ class RequerimientoController extends Controller
         foreach ($requerimientos as &$req) {
 
             $req->log=$logueado;
+            $log=auth()->user()->id;
 
             $req->asignados = DB::table('detalle_requerimientos')
                 ->select(
@@ -147,8 +148,7 @@ class RequerimientoController extends Controller
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
                     // "users.colaborador_id as colaborador_id",
-                    DB::raw("(CASE  users.colaborador_id
-                WHEN $logueado THEN 1 ELSE 2 END) AS logeado")
+                    DB::raw("(CASE WHEN users.id = $log THEN 1 ELSE 2 END) AS logeado")
 
                 )
          /*        ->select(DB::raw("(CASE  users.colaborador_id
@@ -156,7 +156,7 @@ class RequerimientoController extends Controller
                 ->join("users", 'users.id', '=', 'requerimiento_encargados.usuarioencarg_id', 'inner')
                 ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
                 ->where('requerimiento_encargados.requerimiento_id', '=', $req->id)
-                ->get();
+                ->get()->all();
 
 
                 $encarg =$req->encargados;
@@ -166,6 +166,7 @@ class RequerimientoController extends Controller
                 $estado=$req->estado_requerimiento;
 
 
+            
               if($estado=="cancelado" || $role_id!==1 && $usuarioqueregistro!=$logueado){
 
                       $req->valor[]="disabled";
