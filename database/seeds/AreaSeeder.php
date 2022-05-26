@@ -12,13 +12,13 @@ class AreaSeeder extends Seeder
    */
   public function run()
   {
-
+    
     Area::create([
       'id' => '1',
       'nombre' => 'GERENTE GENERAL',
       'estado' => '1'
     ]);
-
+    
     // JM DESARROLLADOR
     Area::create([
       'id' => '2',
@@ -178,7 +178,7 @@ class AreaSeeder extends Seeder
       'estado' => '1'
     ]);
 
-
+    
     Area::create([
       'id' => '27',
       'nombre' => 'AGENTE COMERCIAL',
@@ -240,19 +240,19 @@ class AreaSeeder extends Seeder
     ]);
 
     Area::create([
-      'id' => '37',
+      'id' => '36',
       'nombre' => 'ASISTENTE DE RRHH',
       'estado' => '1'
     ]);
 
     Area::create([
-      'id' => '38',
+      'id' => '37',
       'nombre' => 'ASISTENTE CONTABLE',
       'estado' => '1'
     ]);
 
     Area::create([
-      'id' => '39',
+      'id' => '38',
       'nombre' => 'CONTADORA GENERAL',
       'estado' => '1'
     ]);
@@ -261,25 +261,25 @@ class AreaSeeder extends Seeder
 
     // RUEDA DE NEGOCIOS
     Area::create([
-      'id' => '40',
+      'id' => '39',
       'nombre' => 'PUBLICIDAD',
       'estado' => '1'
     ]);
 
     Area::create([
-      'id' => '41',
+      'id' => '40',
       'nombre' => 'JEFE DE CAPACITACIONES',
       'estado' => '1'
     ]);
 
     Area::create([
-      'id' => '45',
+      'id' => '41',
       'nombre' => 'SUPERVISOR DE CUENTAS',
       'estado' => '1'
     ]);
 
     Area::create([
-      'id' => '46',
+      'id' => '42',
       'nombre' => 'PRACTICANTE',
       'estado' => '1'
     ]);
