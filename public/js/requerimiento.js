@@ -644,10 +644,13 @@ $('#filtronb').on('change', function (e) {
 })
 
 $('#btnquitarfiltros').on('click', function (e) {
-  $('#filtros').val('')
-  $('#filtrosempre').val('')
-  $('#filtronb').val('')
+
+  $('#filtros').val('todos')
+  $('#filtrosempre').val('todos')
+  $('#filtronb').val('todos')
+
   datatable.ajax.reload(null, false)
+  
 })
 
 $('#requerimientos').on('click', '.desactivar', function () {
