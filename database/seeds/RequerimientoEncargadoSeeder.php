@@ -12,28 +12,28 @@ class RequerimientoEncargadoSeeder extends Seeder
      */
     public function run()
     {
-        //
-        RequerimientoEncargados::create([
-            'requerimiento_id' => '1',
-            'usuarioencarg_id' => '2'
-        ]);
+        // //
+        // RequerimientoEncargados::create([
+        //     'requerimiento_id' => '1',
+        //     'usuarioencarg_id' => '2'
+        // ]);
 
 
-        RequerimientoEncargados::create([
-            'requerimiento_id' => '2',
-            'usuarioencarg_id' => '3'
-        ]);
+        // RequerimientoEncargados::create([
+        //     'requerimiento_id' => '2',
+        //     'usuarioencarg_id' => '3'
+        // ]);
 
-        RequerimientoEncargados::create([
-            'requerimiento_id' => '3',
-            'usuarioencarg_id' => '2'
-        ]);
+        // RequerimientoEncargados::create([
+        //     'requerimiento_id' => '3',
+        //     'usuarioencarg_id' => '2'
+        // ]);
 
 
-        RequerimientoEncargados::create([
-            'requerimiento_id' => '3',
-            'usuarioencarg_id' => '9'
-        ]);
+        // RequerimientoEncargados::create([
+        //     'requerimiento_id' => '3',
+        //     'usuarioencarg_id' => '9'
+        // ]);
 
     }
 }
