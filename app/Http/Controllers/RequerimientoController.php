@@ -269,7 +269,8 @@ class RequerimientoController extends Controller
         $gerentes = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.area_id', 1)->where('ea.empresa_id', $id)->where("c.estado","=", 1)->get();
+            ->join('model_has_roles as mr','u.id','=','mr.model_id')
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->orWhere('mr.role_id', 2)->where('ea.empresa_id', $id)->where("c.estado","=", 1)->get();
 
         return $gerentes;
     }
