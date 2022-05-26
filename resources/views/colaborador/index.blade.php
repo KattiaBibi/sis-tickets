@@ -208,7 +208,7 @@
 
 
 
-            <select class="form-control" id="editarEmpresaArea">
+            <select class="form-control" id="editarEmpresaArea" name="empresa_area_id">
                 <option selected>Elegir</option>
 
                 @foreach ($empresa_areas as $e)

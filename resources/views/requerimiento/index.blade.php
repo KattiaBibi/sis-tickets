@@ -29,7 +29,7 @@
         </div>
 
 
-        <div class="col-lg-3">
+    <div class="col-lg-2">
 
             <select class="form-control" id="filtros">
                 <option value="todos" selected>Todos los estados ...</option>
@@ -74,7 +74,18 @@
 
     </div>
 
-        <div class="col-lg-3" style="text-align: right;">
+    <div class="col-lg-2" style="text-align: center;">
+
+        {{-- @can('admin.requerimientos.listartipopersonal') --}}
+
+        <button type="button" class="btn btn-info" id="btnquitarfiltros">BORRAR FILTROS</button>
+
+        {{-- @endcan --}}
+
+
+    </div>
+
+        <div class="col-lg-2" style="text-align: right;">
 
             @can('admin.requerimientos.agregar')
 

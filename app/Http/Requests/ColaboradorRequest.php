@@ -51,8 +51,8 @@ class ColaboradorRequest extends FormRequest
             'apellidos.required' => 'Apellidos es un campo requerido.',
             'fechanacimiento.required' => 'Fecha de nacimiento es un campo requerido.',
             'fechanacimiento.before' => 'Debe ser mayor de edad.',
-            'direccion.required' => 'La dirección es un campo requerido.',
-            'telefono.required' => 'El teléfono es un campo requerido.',
+            // 'direccion.required' => 'La dirección es un campo requerido.',
+            // 'telefono.required' => 'El teléfono es un campo requerido.',
             'empresa_area_id.integer' => 'Debe seleccionar una ampresa con área.',
 
 

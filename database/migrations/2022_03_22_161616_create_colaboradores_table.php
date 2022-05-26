@@ -19,8 +19,8 @@ class CreateColaboradoresTable extends Migration
             $table->string('nombres',50);
             $table->string('apellidos',50);
             $table->date('fechanacimiento');
-            $table->string('direccion', 50);
-            $table->char('telefono', 12);
+            $table->string('direccion', 50)->nullable();
+            $table->char('telefono', 12)->nullable();
             $table->boolean('estado')->default(1);
 
             $table->unsignedBigInteger('empresa_area_id');
