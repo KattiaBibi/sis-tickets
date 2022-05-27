@@ -10,6 +10,7 @@
 @section('css')
 
 <link rel="stylesheet" href="{{ asset('fullcalendar/main.css') }}">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 <style>
   .select2-container--default .select2-selection--multiple .select2-selection__choice {
 
@@ -69,7 +70,7 @@
 @section('content')
 
 <div class="row">
-  <div class="col-lg-3">
+  <div class="col-lg-auto">
     <div class="form-group">
       <label for="">Estado</label>
       <select id="inputFiltroEstado" class="form-control form-control-sm">
@@ -109,55 +110,45 @@
 
                 <input type="hidden" name="id" id="inputId">
 
-                <div class="form-row">
-                  <div class="form-group col-md-12">
-                    <label for="inputTitulo">Título</label>
-                    <input type="text" class="form-control" id="inputTitulo" name="titulo" placeholder="Escriba el título de su reunión" data-label-validation="titulo">
-                    <div class="show-validation-message"></div>
-                  </div>
+                <div class="form-group">
+                  <label for="inputTitulo">Título</label>
+                  <input type="text" class="form-control" id="inputTitulo" name="titulo" placeholder="Escriba el título de su reunión" data-label-validation="titulo">
+                  <div class="show-validation-message"></div>
+                </div>
 
+                <div class="form-group">
+                  <label for="inputDescripcion">Descripción (Opcional)</label>
+                  <textarea class="form-control" name="descripcion" id="inputDescripcion" rows="3" data-label-validation="descripcion"></textarea>
+                  <div class="show-validation-message"></div>
                 </div>
 
                 <div class="form-row">
-                  <div class="form-group col-md-12">
-                    <label for="inputDescripcion">Descripción (Opcional)</label>
-                    <textarea class="form-control" name="descripcion" id="inputDescripcion" rows="3" data-label-validation="descripcion"></textarea>
-                    <div class="show-validation-message"></div>
-                  </div>
-
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group col-12">
+                  <div class="form-group col-lg-4">
                     <label for="inputFecha">Fecha</label>
                     <input type="date" name="fecha" id="inputFecha" class="form-control" readonly data-label-validation="fecha">
                     <div class="show-validation-message"></div>
                   </div>
-                </div>
 
-                <div class="form-row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-lg-4">
                     <label for="inputHoraInicio">Hora Inicio</label>
-                    <input type="time" name="hora_inicio" id="inputHoraInicio" class="form-control" data-label-validation="hora_inicio">
+                    <input type="text" id="inputHoraInicio" class="form-control timepicker" data-label-validation="hora_inicio" autocomplete="off">
                     <div class="show-validation-message"></div>
                   </div>
 
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-lg-4">
                     <label for="inputHoraFin">Hora Fin</label>
-                    <input type="time" name="hora_fin" id="inputHoraFin" class="form-control" data-label-validation="hora_fin">
+                    <input type="text" id="inputHoraFin" class="form-control timepicker" data-label-validation="hora_fin" autocomplete="off">
                     <div class="show-validation-message"></div>
                   </div>
                 </div>
 
-                <div class="form-row">
-                  <div class="form-group col-12">
-                    <label for="inputTipoReunion">Tipo reunión</label>
-                    <select id="inputTipoReunion" class="form-control" name="tipocita" data-label-validation="tipocita">
-                      <option value="presencial" selected>PRESENCIAL</option>
-                      <option value="virtual">VIRTUAL</option>
-                    </select>
-                    <div class="show-validation-message"></div>
-                  </div>
+                <div class="form-group">
+                  <label for="inputTipoReunion">Tipo reunión</label>
+                  <select id="inputTipoReunion" class="form-control" name="tipocita" data-label-validation="tipocita">
+                    <option value="presencial" selected>PRESENCIAL</option>
+                    <option value="virtual">VIRTUAL</option>
+                  </select>
+                  <div class="show-validation-message"></div>
                 </div>
 
                 <div class="form-group" id="formGroupLinkZoom" style="display: none;">
@@ -166,61 +157,56 @@
                   <div class="show-validation-message"></div>
                 </div>
 
-                <div class="form-row">
-                  <div class="form-group col-12">
-                    <label for="inputOficina">Oficina</label>
-                    <select id="inputOficina" class="form-control" name="empresa_id" data-label-validation="empresa_id">
-                      <option value="" selected>Elegir...</option>
-                      @foreach ($empresas as $e)
-                      <option value="{{ $e->id }}">{{ $e->nombre }}
-                        ({{ $e->direccion }})
-                      </option>
-                      @endforeach
-                    </select>
-                    <div class="show-validation-message"></div>
-                  </div>
-
-                  <div class="form-group col-12" id="formGroupOtraOficina" style="display: none;">
-                    <label for="inputOtraOficina">Otra Oficina (Opcional)</label>
-                    <input type="text" name="lugarreu" id="inputOtraOficina" class="form-control" data-label-validation="lugarreu">
-                    <div class="show-validation-message"></div>
-                  </div>
-
-                  <div class="form-group col-auto">
-                    <label for="inputFiltroRolColaboradores">Filtro Colaboradores:</label>
-                    <select id="inputFiltroRolColaboradores" class="form-control form-control-sm">
-                      <option value="" selected>TODOS</option>
-                      <!-- <option value="1">SEO</option> -->
-                      <option value="2">GERENTE</option>
-                      <option value="3">TRABAJADOR</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group col-12">
-                    <label for="inputAsistentes">Colaboradores que asistirán:</label>
-                    <select style="width:100%" id="inputAsistentes" name="asistentes[]" multiple="multiple" lang="es" data-label-validation="asistentes" class="form-control">
-                    </select>
-                    <div class="show-validation-message"></div>
-                  </div>
-
-                  <div class="form-group col-12" id="formGroupInputEstado" style="display: none;" data-label-validation="estado">
-                    <label for="inputEstado">Estado</label>
-                    <select name="estado" id="inputEstado" class="form-control" disabled>
-                      <option value="pendiente">PENDIENTE</option>
-                      <option value="concluida">CONCLUIDA</option>
-                      <option value="cancelada">CANCELADA</option>
-                    </select>
-                    <div class="show-validation-message"></div>
-                  </div>
-
-                  <div class="validaciones w-100"></div>
+                <div class="form-group" id="formGroupOficina">
+                  <label for="inputOficina">Oficina</label>
+                  <select id="inputOficina" class="form-control" name="empresa_id" data-label-validation="empresa_id">
+                    <option value="" selected>Elegir...</option>
+                    @foreach ($empresas as $e)
+                    <option value="{{ $e->id }}">{{ $e->nombre }}
+                      ({{ $e->direccion }})
+                    </option>
+                    @endforeach
+                  </select>
+                  <div class="show-validation-message"></div>
                 </div>
 
+                <div class="form-group" id="formGroupOtraOficina" style="display: none;">
+                  <label for="inputOtraOficina">Otra Oficina:</label>
+                  <input type="text" name="lugarreu" id="inputOtraOficina" class="form-control" data-label-validation="lugarreu">
+                  <div class="show-validation-message"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputAsistentes">Asistentes:</label>
+                  <div>
+                    <select id="inputFiltroRolColaboradores" class="form-control form-control-sm w-auto">
+                      <option value="" selected>Todos</option>
+                      <!-- <option value="1">SEO</option> -->
+                      <option value="2">Gerentes</option>
+                      <option value="3">Trabajadores</option>
+                    </select>
+                  </div>
+                  <select style="width:100%" id="inputAsistentes" name="asistentes[]" multiple="multiple" lang="es" data-label-validation="asistentes" class="form-control">
+                  </select>
+                  <div class="show-validation-message"></div>
+                </div>
+
+                <div class="form-group" id="formGroupInputEstado" style="display: none;" data-label-validation="estado">
+                  <label for="inputEstado">Estado</label>
+                  <select name="estado" id="inputEstado" class="form-control" disabled>
+                    <option value="pendiente">PENDIENTE</option>
+                    <option value="concluida">CONCLUIDA</option>
+                    <option value="cancelada">CANCELADA</option>
+                  </select>
+                  <div class="show-validation-message"></div>
+                </div>
+
+                <div class="validaciones"></div>
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger btn-sm" style="display: none; margin-right: auto;" id="btnEliminar">Eliminar</button>
-                  <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
                   <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
                 </div>
 
               </form>
@@ -260,5 +246,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js" integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg==" crossorigin="anonymous"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <script src="{{ asset('js/cita.js') }}"></script>
 @stop

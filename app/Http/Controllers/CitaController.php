@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Cita;
-use App\Empresa;
-use App\Colaborador;
+
 use App\DetalleCita;
 use App\Http\Requests\CitaRequest;
-use Illuminate\Http\Request;
+use App\Mail\TestSendEmail;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
+
 
 class CitaController extends Controller
 {
@@ -20,8 +19,12 @@ class CitaController extends Controller
    * @return \Illuminate\Http\Response
    */
 
+  private $model;
+
   public function __construct()
   {
+    $this->model = new Cita();
+
     $this->middleware('auth');
 
     $this->middleware('can:admin.reuniones.agregar')->only('store');
@@ -32,9 +35,8 @@ class CitaController extends Controller
   public function index()
   {
     $empresas = DB::table('empresas')->where('estado', '=', '1')->get();
-    $colaboradores = DB::table('colaboradores')->where('estado', '=', '1')->get();
 
-    return view('cita.calendario', compact('empresas', 'colaboradores'));
+    return view('cita.calendario', compact('empresas'));
   }
 
   public function getForFullCalendar()
@@ -43,46 +45,11 @@ class CitaController extends Controller
     $end = request('end');
     $estado = request('estado');
 
-    $query = DB::table('citas')
-      ->select(
-        "citas.id as id",
-        "citas.titulo as titulo",
-        "citas.descripcion as descripcion",
-        "citas.fecha as fecha",
-        DB::raw("TIMESTAMP(citas.fecha, citas.hora_inicio) as fecha_inicio"),
-        DB::raw("TIMESTAMP(citas.fecha, citas.hora_fin) as fecha_fin"),
-        "citas.hora_inicio as hora_inicio",
-        "citas.hora_fin as hora_fin",
-        "citas.tipocita as tipo",
-        "citas.link_reu as link",
-        "citas.empresa_id as empresa_id",
-        DB::raw("CONCAT(empresas.nombre, ' (', empresas.direccion, ')') as descripcion_empresa"),
-        "empresas.color as color_empresa",
-        "citas.lugarreu as otra_oficina",
-        "usuario_id as id_registrado_por",
-        "citas.estado AS estado",
-      )
-      ->join('empresas', 'empresas.id', '=', 'citas.empresa_id', 'left')
-      ->where('citas.fecha', '>=', $start)
-      ->where('citas.fecha', '<=', $end);
-
-    if (isset($estado) && $estado !== 'todos') {
-      $query->where('citas.estado', '=', $estado);
-    }
-
-    $citas = $query->get()->all();
-
-    foreach ($citas as &$cita) {
-      $cita->asistentes = DB::table('detalle_citas')
-        ->select(
-          "detalle_citas.usuario_colab_id as id",
-          "colaboradores.nombres AS nombres",
-          "colaboradores.apellidos AS apellidos"
-        )
-        ->join('colaboradores', 'colaboradores.id', '=', 'detalle_citas.usuario_colab_id')
-        ->where('cita_id', $cita->id)
-        ->get()->all();
-    }
+    $citas = $this->model->index([
+      'fecha_inicio' => $start,
+      'fecha_fin' => $end,
+      'estado' => $estado,
+    ]);
 
     return response()->json([
       "messages" => "Resource retrieved successfully.",
@@ -142,11 +109,12 @@ class CitaController extends Controller
    */
   public function show($id)
   {
-    $resource = DB::table('citas')
+    $cita = DB::table('citas')
       ->select(
+        "citas.id AS id",
         "citas.titulo as titulo",
         "citas.descripcion as descripcion",
-        "citas.fecha as fecha_",
+        "citas.fecha as fecha",
         "citas.hora_inicio as hora_inicio",
         "citas.hora_fin as hora_fin",
         "citas.tipocita as tipo",
@@ -160,11 +128,13 @@ class CitaController extends Controller
       ->where('citas.id', '=', $id)
       ->get()->first();
 
-    $resource->asistente = DB::table('detalle_citas')
+    $cita->asistentes = DB::table('detalle_citas')
       ->select(
         "detalle_citas.usuario_colab_id as id",
         "colaboradores.nombres AS nombres",
-        "colaboradores.apellidos AS apellidos"
+        "colaboradores.apellidos AS apellidos",
+        "detalle_citas.confirmation AS confirmation",
+        "detalle_citas.confirmation_at AS confirmation_at"
       )
       ->join('colaboradores', 'colaboradores.id', '=', 'detalle_citas.usuario_colab_id')
       ->where('cita_id', $id)
@@ -172,7 +142,7 @@ class CitaController extends Controller
 
     return response()->json([
       "messages" => "Resource retrieved successfully.",
-      "data" => $resource
+      "data" => $cita
     ]);
   }
 
@@ -213,11 +183,9 @@ class CitaController extends Controller
     $cita->titulo = $request->get('titulo');
     $cita->tipocita = $request->get('tipocita');
     $cita->descripcion = $request->get('descripcion');
-
     $cita->fecha = $request->get('fecha');
     $cita->hora_inicio = $request->get('hora_inicio');
     $cita->hora_fin = $request->get('hora_fin');
-
     $cita->link_reu = $request->get('link_reu');
     $cita->empresa_id = $request->get('empresa_id');
     $cita->lugarreu = $request->get('lugarreu');
@@ -267,5 +235,16 @@ class CitaController extends Controller
       "messages" => "Resource deleted successfully.",
       "data" => $cita
     ]);
+  }
+
+  public function sendEmail()
+  {
+    $cita = $this->model->index(['id_cita' => 1])[0];
+
+    // dd($cita);
+
+    foreach ($cita->asistentes as $asistente) {
+      Mail::to($asistente->email)->send(new TestSendEmail($cita, $asistente));
+    }
   }
 }

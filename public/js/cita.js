@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
   var calendarEl = document.getElementById('calendar')
   $('#inputAsistentes').select2()
 
+  $('.timepicker').timepicker({
+    timeFormat: 'h:mm p',
+    interval: 15,
+    zindex: 9999,
+  })
+
   var calendar = new FullCalendar.Calendar(calendarEl, {
     selectable: true,
     longPressDelay: 1,
@@ -21,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
       document
         .querySelectorAll('.show-validation-message')
         .forEach((item) => (item.innerHTML = ''))
-      inputId.value = '';
+      inputId.value = ''
 
       toggleDisabledInputLinkZoom()
       toggleDisabledInputOtraOficina()
@@ -58,59 +64,60 @@ document.addEventListener('DOMContentLoaded', function () {
         .querySelectorAll('.show-validation-message')
         .forEach((item) => (item.innerHTML = ''))
 
-      console.log(arg.event.extendedProps)
+      axios
+        .get(`cita/${arg.event.extendedProps.id}`)
+        .then(function (response) {
+          let data = response.data.data
+          console.log(data);
 
-      btnEliminar.style.display = 'inline-block'
-      document.querySelector('.modal-title').innerHTML = 'EDITAR REUNION'
-      action_form = 'editar'
+          btnEliminar.style.display = 'inline-block'
+          document.querySelector('.modal-title').innerHTML = 'EDITAR REUNION'
+          action_form = 'editar'
 
-      formGroupInputEstado.style.display = 'block'
-      inputEstado.disabled = false
+          formGroupInputEstado.style.display = 'block'
+          inputEstado.disabled = false
 
-      inputId.value = arg.event.extendedProps.id
-      inputTitulo.value = arg.event.extendedProps.titulo
-      inputDescripcion.value = arg.event.extendedProps.descripcion
-      inputFecha.value = Utils.getDateForDateInput(
-        arg.event.extendedProps.fecha
-      )
-      inputHoraInicio.value =
-        arg.event.extendedProps.hora_inicio.split(':')[0] +
-        ':' +
-        arg.event.extendedProps.hora_inicio.split(':')[1]
-      inputHoraFin.value =
-        arg.event.extendedProps.hora_fin.split(':')[0] +
-        ':' +
-        arg.event.extendedProps.hora_fin.split(':')[1]
+          inputId.value = data.id
+          inputTitulo.value = data.titulo
+          inputDescripcion.value = data.descripcion
+          inputFecha.value = Utils.getDateForDateInput(data.fecha)
+          inputHoraInicio.value = moment(data.hora_inicio, ['HH:mm']).format('h:mm A')
+          inputHoraFin.value = moment(data.hora_fin, ['HH:mm']).format('h:mm A')
 
-      $('#inputTipoReunion').val(arg.event.extendedProps.tipo)
+          $('#inputTipoReunion').val(data.tipo)
 
-      toggleDisabledInputLinkZoom()
+          toggleDisabledInputLinkZoom()
 
-      if (arg.event.extendedProps.tipo !== 'presencial') {
-        inputLinkZoom.value = arg.event.extendedProps.link
-      }
+          if (arg.event.extendedProps.tipo !== 'presencial') {
+            inputLinkZoom.value = data.link
+          }
 
-      if (arg.event.extendedProps.empresa_id != null) {
-        $('#inputOficina').val(arg.event.extendedProps.empresa_id)
-      }
+          if (arg.event.extendedProps.empresa_id != null) {
+            $('#inputOficina').val(data.empresa_id)
+          }
 
-      toggleDisabledInputOtraOficina()
+          toggleDisabledInputOtraOficina()
 
-      if ($('#inputOficina').find(':selected').val() === '') {
-        inputOtraOficina.value = arg.event.extendedProps.otra_oficina
-      }
+          if ($('#inputOficina').find(':selected').val() === '') {
+            inputOtraOficina.value = data.otra_oficina
+          }
 
-      $('#inputAsistentes').find('option').remove()
-      arg.event.extendedProps.asistentes.forEach((item) => {
-        Utils.establecerOpcionSelect2('#inputAsistentes', {
-          id: item.id,
-          text: `${item.nombres} ${item.apellidos}`,
+          $('#inputAsistentes').find('option').remove()
+          data.asistentes.forEach((item) => {
+            Utils.establecerOpcionSelect2('#inputAsistentes', {
+              id: item.id,
+              text: `${item.nombres} ${item.apellidos}`,
+            })
+          })
+
+          $('#inputEstado').val(data.estado)
+
+          $('#citamodal').modal('show')
         })
-      })
-
-      $('#inputEstado').val(arg.event.extendedProps.estado)
-
-      $('#citamodal').modal('show')
+        .catch(function (error) {
+          console.log(error)
+        })
+        .then(function () {})
     },
     eventTimeFormat: {
       hour: 'numeric',
@@ -141,10 +148,9 @@ document.addEventListener('DOMContentLoaded', function () {
           start: res.fecha_inicio,
           end: res.fecha_fin,
           title: res.titulo,
-          color:
-            res.asistentes.find((elem) => elem.id == ID_USUARIO_LOGUEADO)
-              ? 'red'
-              : 'lighblue',
+          color: res.asistentes.find((elem) => elem.id == ID_USUARIO_LOGUEADO)
+            ? 'red'
+            : 'lighblue',
           display: 'block',
           extendedProps: {
             id: res.id,
@@ -177,7 +183,23 @@ document.addEventListener('DOMContentLoaded', function () {
       inputLinkZoom.disabled = true
       inputLinkZoom.value = ''
       formGroupLinkZoom.style.display = 'none'
+
+      inputOficina.disabled = false;
+      formGroupOficina.style.display = 'block';
+
+      inputOtraOficina.disabled = false
+      formGroupOtraOficina.style.display = 'block'
+
+      toggleDisabledInputOtraOficina();
+
     } else {
+      inputOficina.disabled = true;
+      formGroupOficina.style.display = 'none';
+
+      inputOtraOficina.disabled = true
+      inputOtraOficina.value = ''
+      formGroupOtraOficina.style.display = 'none'
+
       inputLinkZoom.disabled = false
       formGroupLinkZoom.style.display = 'block'
     }
@@ -210,6 +232,19 @@ document.addEventListener('DOMContentLoaded', function () {
       name: '_token',
       value: token_,
     })
+
+    dataArray.push(
+      {
+        name: 'hora_inicio',
+        value: moment(inputHoraInicio.value, ['h:mm A']).format('HH:mm'),
+      },
+      {
+        name: 'hora_fin',
+        value: moment(inputHoraFin.value, ['h:mm A']).format('HH:mm'),
+      }
+    )
+
+    console.log(dataArray)
 
     if (action_form === 'registrar') {
       $.ajax({
@@ -263,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Usted no esta autorizado para editar reuniones.')
           } else if (response.status === 400) {
             alert('No se pueden editar reuniones pasadas.')
-          }else {
+          } else {
             console.log(response.responseJSON.errors)
             Utils.showValidationMessages(response.responseJSON.errors)
           }

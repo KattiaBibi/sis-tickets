@@ -20,7 +20,10 @@ class CreateDetalleCitasTable extends Migration
             $table->foreign('cita_id','fk_detalle_cita_cita')->references('id')->on('citas');
 
             $table->unsignedBigInteger('usuario_colab_id');
-            $table->foreign('usuario_colab_id','fk_detalle_cita_user')->references('id')->on('users');
+            $table->foreign('usuario_colab_id','fk_detalle_cita_user')->references('id')->on('colaboradores');
+
+            $table->tinyInteger('confirmation')->default(0);
+            $table->dateTime('confirmation_at')->nullable();
 
             // $table->timestamps();
         });

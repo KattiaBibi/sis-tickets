@@ -21,7 +21,6 @@ class CreateCitasTable extends Migration
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->string('link_reu', 250)->nullable();
-            $table->string('otro_cliente', 50)->nullable();
             $table->string('lugarreu', 250)->nullable();
             $table->enum('tipocita', ['presencial', 'virtual']);
             $table->enum('estado', ['pendiente', 'concluida', 'cancelada']);

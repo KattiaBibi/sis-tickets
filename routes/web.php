@@ -68,6 +68,7 @@ Route::post('datatable/empresa_areas', 'EmpresaAreaController@empresa_area')->na
 Route::resource('empresa_servicio','EmpresaServicioController');
 Route::post('datatable/empresa_servicios', 'EmpresaServicioController@empresa_servicio')->name('datatable.empresa_servicio');
 
+Route::get('cita/sendEmail', 'CitaController@sendEmail');
 Route::get('cita/getForFullCalendar', 'CitaController@getForFullCalendar');
 Route::resource('cita','CitaController');
 Route::get('cita/{id}', 'CitaController@show');

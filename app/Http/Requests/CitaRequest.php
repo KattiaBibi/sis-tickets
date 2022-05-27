@@ -51,7 +51,6 @@ class CitaRequest extends FormRequest
         DB::raw("CONCAT(TIME_FORMAT(citas.hora_inicio, '%h:%i %p'), ' - ', TIME_FORMAT(citas.hora_fin, '%h:%i %p')) AS horario")
       )
         ->join('detalle_citas', 'detalle_citas.cita_id', '=', 'citas.id')
-        // ->join('users', 'detalle_citas.usuario_colab_id', '=', 'users.id')
         ->join('colaboradores', 'colaboradores.id', '=', 'detalle_citas.usuario_colab_id')
         ->whereIn('detalle_citas.usuario_colab_id', $asistentes)
         ->where(function ($query) use ($request) {
