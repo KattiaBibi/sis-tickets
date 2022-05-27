@@ -6,7 +6,7 @@
 
     {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"/>
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"/> --}}
     <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" rel="stylesheet"/>
   <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap4.min.css" rel="stylesheet"/>
 
@@ -31,14 +31,14 @@
     <style>
 
         .disabled_class{
-        
+
           pointer-events: none;
             opacity: 0.7;
             background: #e9e9e9;
             color: black;
             border-color: rgba(118, 118, 118, 0.3);
         }
-        
+
         </style>
 @stop
 

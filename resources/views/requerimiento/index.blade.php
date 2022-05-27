@@ -293,6 +293,22 @@
             <form  id="frmeditaravance">
 
                 <input type="hidden" class="form-control" id="idregistroavance"  name="id">
+                <div class="form-row">
+
+                    <div class="form-group col-md-12">
+
+                        <label for="">Fecha y hora estimada, para finalizar requerimiento</label>
+
+                              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                  <input type="text" id="fechayhora" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
+                                  <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                  </div>
+                              </div>
+
+                    </div>
+
+                </div>
 
                 <div class="form-row">
 
@@ -303,12 +319,13 @@
                         <span id="editavan">0</span>
                     </div>
 
+                </div>
 
 
-                  </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-secondary" id="prac">prac</button>
+          <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
           <button type="" id="btnactualizaravance" class="btn btn-primary">Guardar</button>
         </div>
 

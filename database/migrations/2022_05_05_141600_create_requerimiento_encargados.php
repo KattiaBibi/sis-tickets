@@ -17,7 +17,7 @@ class CreateRequerimientoEncargados extends Migration
             $table->id();
 
             $table->unsignedBigInteger('requerimiento_id');
-            $table->foreign('requerimiento_id','fk_requerimiento_encargado:requerimiento')->references('id')->on('requerimientos');
+            $table->foreign('requerimiento_id','fk_requerimiento_encargado_requerimiento')->references('id')->on('requerimientos');
 
             $table->unsignedBigInteger('usuarioencarg_id');
             $table->foreign('usuarioencarg_id','fk_requerimientos_usersencarg')->references('id')->on('users');

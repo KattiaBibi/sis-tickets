@@ -37,7 +37,7 @@ class RequerimientoController extends Controller
 
     public function requerimiento()
     {
-        $logueado=auth()->user()->id;
+        $logueado = auth()->user()->id;
 
         $role_id = DB::table('model_has_roles')
             ->select('roles.id AS role_id')
@@ -78,19 +78,17 @@ class RequerimientoController extends Controller
                 $query->where('requerimientos.usuarioregist_id', '=', $logueado);
             } else if ($nombrado == 'encargado') {
                 $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
-                ->where('requerimiento_encargados.usuarioencarg_id', '=', $logueado);
-            }
-            else if ($nombrado == 'asignado') {
+                    ->where('requerimiento_encargados.usuarioencarg_id', '=', $logueado);
+            } else if ($nombrado == 'asignado') {
                 $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
                     ->where('detalle_requerimientos.usuario_colab_id', '=', $logueado);
             } else {
                 $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
-                ->where(function($query) use ($logueado) {
-                    $query->where('requerimiento_encargados.usuarioencarg_id', '=', $logueado)
-                    ->orWhere('requerimientos.usuarioregist_id', '=', $logueado);
-                });
+                    ->where(function ($query) use ($logueado) {
+                        $query->where('requerimiento_encargados.usuarioencarg_id', '=', $logueado)
+                            ->orWhere('requerimientos.usuarioregist_id', '=', $logueado);
+                    });
             }
-
         }
 
         if ($role_id === 3) {
@@ -111,9 +109,8 @@ class RequerimientoController extends Controller
                 $query->where('requerimientos.usuarioregist_id', '=', auth()->user()->id);
             } else if ($nombrado == 'encargado') {
                 $query->join('requerimiento_encargados', 'requerimiento_encargados.requerimiento_id', '=', 'requerimientos.id', 'left')
-                ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id);
-            }
-            else if ($nombrado == 'asignado') {
+                    ->where('requerimiento_encargados.usuarioencarg_id', '=', auth()->user()->id);
+            } else if ($nombrado == 'asignado') {
                 $query->join('detalle_requerimientos', 'detalle_requerimientos.requerimiento_id', '=', 'requerimientos.id', 'left')
                     ->where('detalle_requerimientos.usuario_colab_id', '=', auth()->user()->id);
             }
@@ -128,13 +125,13 @@ class RequerimientoController extends Controller
 
         foreach ($requerimientos as &$req) {
 
-            $req->log=$logueado;
-            $log=auth()->user()->id;
+            $req->log = $logueado;
+
 
             $req->asignados = DB::table('detalle_requerimientos')
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
-                    DB::raw("(CASE  users.colaborador_id
+                    DB::raw("(CASE  users.id
                     WHEN $logueado THEN 1 ELSE 2 END) AS logeado")
                 )
                 ->join("users", 'users.id', '=', 'detalle_requerimientos.usuario_colab_id', 'inner')
@@ -148,10 +145,10 @@ class RequerimientoController extends Controller
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
                     // "users.colaborador_id as colaborador_id",
-                    DB::raw("(CASE WHEN users.id = $log THEN 1 ELSE 2 END) AS logeado")
+                    DB::raw("(CASE WHEN users.id = $logueado THEN 1 ELSE 2 END) AS logeado")
 
                 )
-         /*        ->select(DB::raw("(CASE  users.colaborador_id
+                /*        ->select(DB::raw("(CASE  users.colaborador_id
                 WHEN users.colaborador_id = $logueado THEN 1 ELSE 2 END) AS logeado")) */
                 ->join("users", 'users.id', '=', 'requerimiento_encargados.usuarioencarg_id', 'inner')
                 ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
@@ -159,75 +156,56 @@ class RequerimientoController extends Controller
                 ->get()->all();
 
 
-                $encarg =$req->encargados;
-                $asig= $req->asignados;
+            $encarg = $req->encargados;
+            $asig = $req->asignados;
 
-                $usuarioqueregistro=$req->usuario_que_registro;
-                $estado=$req->estado_requerimiento;
+            $usuarioqueregistro = $req->usuario_que_registro;
+            $estado = $req->estado_requerimiento;
 
 
-            
-              if($estado=="cancelado" || $role_id!==1 && $usuarioqueregistro!=$logueado){
 
-                      $req->valor[]="disabled";
+            if ($estado == "cancelado" || $role_id !== 1 && $usuarioqueregistro != $logueado) {
+
+                $req->valor[] = "disabled";
+            } else if ($estado != "cancelado" || $role_id === 1 && $usuarioqueregistro == $logueado) {
+                $req->valor[] = "nodisabled";
+            }
+
+            foreach ($asig as $a) {
+
+                if ($a->logeado == 1) {
+                    $req->avancelog[] = "log";
+                } else {
+                    $req->avancelog[] = "nolog";
                 }
+            }
 
+            $req->reg = $usuarioqueregistro;
 
-                else if($estado!="cancelado" || $role_id===1 && $usuarioqueregistro==$logueado)
-                {
-                        $req->valor[]="nodisabled";
+            foreach ($encarg as $e) {
 
-                }
+                if ($e->logeado == 1 && $usuarioqueregistro == $logueado) {
 
-
-
-
-                foreach ($asig as $a){
-
-                    if($a->logeado==1){
-                    $req->avancelog[]= "log";
-                    }
-
-                    else{
-                    $req->avancelog[]= "nolog";
-                    }
-                }
-
-
-                $req->reg=$usuarioqueregistro;
-
-                 foreach ($encarg as $e){
-
-                if($e->logeado==1 && $usuarioqueregistro==$logueado){
-
-                    $req->elemento[]= "dos";
+                    $req->elemento[] = "dos";
                 }
 
                 // SI EL USUARIO LOGUEADO ES EL ENCARGADO
 
-                if($e->logeado==1){
+                else if ($e->logeado == 1) {
 
-                    $req->elemento[]= "silog";
-
+                    $req->elemento[] = "silog";
                 }
 
                 // SI EL USUARIO QUE REGISTRÓ ESTÁ LOGUEADO
 
-                if($usuarioqueregistro==$logueado){
+                else if ($usuarioqueregistro == $logueado) {
 
-                    $req->elemento[]= "sireg";
+                    $req->elemento[] = "sireg";
+                } else {
+
+                    $req->elemento[] = "mostrar";
                 }
-
-
-                else{
-
-                    $req->elemento[]= "mostrar";
-                }
-
-                    }
-
-
-
+            }
         }
 
         return datatables()->of($requerimientos)->toJson();
@@ -250,12 +228,10 @@ class RequerimientoController extends Controller
     public function listarservicios($id)
     {
 
-
         $empresa_servicios = DB::table('empresa_servicios as es')
             ->join('empresas as e', 'es.empresa_id', '=', 'e.id')
             ->join('servicios as s', 'es.servicio_id', '=', 's.id')
-            ->select('es.id as esid', 'e.id as eid', 's.id as sid', 's.nombre as snombre', 'e.nombre as enombre', 's.nombre as snombre')->where('empresa_id', $id)->where("s.estado","=",1)->get();
-
+            ->select('es.id as esid', 'e.id as eid', 's.id as sid', 's.nombre as snombre', 'e.nombre as enombre', 's.nombre as snombre')->where('empresa_id', $id)->where("s.estado", "=", 1)->get();
 
         return $empresa_servicios;
     }
@@ -270,9 +246,8 @@ class RequerimientoController extends Controller
         $gerentes = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->join('model_has_roles as mr','u.id','=','mr.model_id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->orWhere('mr.role_id', 2)->where('ea.empresa_id', $id)->where("c.estado","=", 1)->get();
-
+            ->join('model_has_roles as mr', 'u.id', '=', 'mr.model_id')
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('mr.role_id', 1)->orWhere('mr.role_id', 2)->where('ea.empresa_id', $id)->where("c.estado", "=", 1)->get();
         return $gerentes;
     }
 
@@ -283,7 +258,7 @@ class RequerimientoController extends Controller
         $colaboradores = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.empresa_id', $id)->where("c.estado","=",1)->get();
+            ->select('u.id', 'u.name', 'u.colaborador_id', 'c.nombres', 'c.apellidos')->where('ea.empresa_id', $id)->where("c.estado", "=", 1)->get();
 
         return $colaboradores;
     }
@@ -295,7 +270,7 @@ class RequerimientoController extends Controller
     {
 
         $servicios = Servicio::all();
-        $empresas = DB::table('empresas')->where('estado','=', '1')->get();
+        $empresas = DB::table('empresas')->where('estado', '=', '1')->get();
         $usuarios = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->select('u.id as usuario_id', 'c.id as colaborador_id', 'c.nombres', 'c.apellidos')->get();
@@ -345,7 +320,6 @@ class RequerimientoController extends Controller
             ]);
         }
         return $requerimiento ? 1 : 0;
-
     }
 
 
@@ -362,31 +336,27 @@ class RequerimientoController extends Controller
         $requerimiento = Requerimiento::findOrfail($id);
 
 
-        $avance =$request->avance;
+        $avance = $request->avance;
 
-        if($avance=="100"){
+        if ($avance == "100") {
 
-        $requerimiento->update(
+            $requerimiento->update(
 
-            [
-                'avance' => $request->avance,
-                'estado' => "culminado"
-            ]
-        );
+                [
+                    'avance' => $request->avance,
+                    'estado' => "culminado"
+                ]
+            );
+        } else if ($avance > "0") {
 
-        }
+            $requerimiento->update(
 
-        else if($avance>"0"){
-
-        $requerimiento->update(
-
-            [
-                'avance' => $request->avance,
-                'estado' => "en proceso"
-            ]
-        );
-    }
-        else{
+                [
+                    'avance' => $request->avance,
+                    'estado' => "en proceso"
+                ]
+            );
+        } else {
 
             $requerimiento->update(
                 [
@@ -399,7 +369,6 @@ class RequerimientoController extends Controller
 
 
         return $requerimiento ? 1 : 0;
-
     }
 
     /**
@@ -432,29 +401,29 @@ class RequerimientoController extends Controller
 
         $requerimiento = Requerimiento::findOrfail($id);
 
-    //  RUTA DE LA IMAGEN
+        //  RUTA DE LA IMAGEN
         $ruta = "requerimiento/";
 
-    // IMAGEN NUEVA
+        // IMAGEN NUEVA
         $file = $request->imagennue;
 
-    // IMAGEN ANTERIOR
+        // IMAGEN ANTERIOR
 
-        $file2= $request->imganterior;
+        $file2 = $request->imganterior;
 
-    // NOMBRE PARA CONCATENAR A LA NUEVA IMAGEN
+        // NOMBRE PARA CONCATENAR A LA NUEVA IMAGEN
         $nombre = "requerimiento";
 
         // return response()->json($file2);
 
 
-        if($file){
+        if ($file) {
 
-        // SI EXISTE LA IMAGEN NUEVA
+            // SI EXISTE LA IMAGEN NUEVA
 
             // PRIMERO ELIMINA LA IMAGEN ANTERIOR
 
-            Storage::disk('public')->delete($ruta.$file2);
+            Storage::disk('public')->delete($ruta . $file2);
 
             // LUEGO SUBE LA IMAGEN A LA CARPETA  STORAGE
             $subir = subirimagen::imagen($file, $nombre, $ruta);
@@ -467,13 +436,10 @@ class RequerimientoController extends Controller
                     'descripcion' => $request->descripcion,
                     'prioridad' => $request->prioridad,
                     'estado' => $request->estado,
-                    'imagen'=> $subir,
+                    'imagen' => $subir,
                 ]
             );
-
-        }
-
-        else{
+        } else {
 
             // SI NO MANDA IMAGEN NUEVA
 
@@ -485,28 +451,24 @@ class RequerimientoController extends Controller
                     'estado' => $request->estado,
                 ]
             );
-
         }
 
 
 
-            $colab = $request->usuario_colab_id;
+        $colab = $request->usuario_colab_id;
 
-            if($colab!=""){
+        if ($colab != "") {
 
-                foreach ($colab as $key => $value) {
+            foreach ($colab as $key => $value) {
                 # code...
                 $deta_requerimiento = DetalleRequerimiento::create([
                     "usuario_colab_id" => $value,
                     "requerimiento_id" => $requerimiento->id
                 ]);
             }
+        }
 
-            }
-
-            return $requerimiento ? 1 : 0;
-
-
+        return $requerimiento ? 1 : 0;
     }
 
     /**

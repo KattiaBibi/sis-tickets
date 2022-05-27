@@ -1,3 +1,20 @@
+
+$(document).ready(function(){
+        $('#reservationdatetime').datetimepicker({
+            locale: 'es',
+            icons: { time: 'far fa-clock' },
+            daysOfWeekDisabled: [0, 6],
+
+        }
+            );
+    });
+
+    $("#prac").on("click", function() {
+
+        alert($('#fechayhora').val());
+
+    });
+
 var datatable
 
 function listar() {
@@ -650,7 +667,7 @@ $('#btnquitarfiltros').on('click', function (e) {
   $('#filtronb').val('todos')
 
   datatable.ajax.reload(null, false)
-  
+
 })
 
 $('#requerimientos').on('click', '.desactivar', function () {
