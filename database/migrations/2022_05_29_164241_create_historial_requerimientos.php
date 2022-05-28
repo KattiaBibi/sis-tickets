@@ -17,6 +17,9 @@ class CreateHistorialRequerimientos extends Migration
             $table->id();
             $table->dateTime('fechahoraprogramada');
             $table->string('motivo',200);
+            
+            $table->unsignedBigInteger('detalle_requerimiento_id');
+            $table->foreign('detalle_requerimiento_id','fk_historial_requerimiento_detalle')->references('id')->on('detalle_requerimientos');
 
         });
     }

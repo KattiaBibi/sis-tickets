@@ -22,8 +22,7 @@ class CreateDetalleRequerimientosTable extends Migration
             $table->unsignedBigInteger('requerimiento_id');
             $table->foreign('requerimiento_id','fk_detalle_requerimiento_requerimiento')->references('id')->on('requerimientos');
 
-            $table->unsignedBigInteger('historial_requerimiento_id');
-            $table->foreign('historial_requerimiento_id','fk_historial_requerimiento_detalle')->references('id')->on('historial_requerimientos');
+
         });
     }
 

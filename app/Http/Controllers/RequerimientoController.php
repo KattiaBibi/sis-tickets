@@ -9,6 +9,7 @@ use App\Servicio;
 use App\Empresa;
 use App\Colaborador;
 use App\EmpresaServicio;
+use App\HistorialFechaHora;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\RequerimientoRequest;
@@ -131,11 +132,13 @@ class RequerimientoController extends Controller
             $req->asignados = DB::table('detalle_requerimientos')
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
-                    DB::raw("(CASE  users.id
-                    WHEN $logueado THEN 1 ELSE 2 END) AS logeado")
+                    'users.id as id_user','detalle_requerimientos.id as detalle_id',
+                    DB::raw("(CASE  users.id WHEN $logueado THEN 1 ELSE 2 END) AS logeado")
+
                 )
                 ->join("users", 'users.id', '=', 'detalle_requerimientos.usuario_colab_id', 'inner')
                 ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
+                // ->join('historial_requerimientos as h_req','h_req.id', '=','detalle_requerimientos.historial_requerimiento_id')
                 ->where('detalle_requerimientos.requerimiento_id', '=', $req->id)
                 ->get()->all();
 
@@ -144,16 +147,19 @@ class RequerimientoController extends Controller
 
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
-                    // "users.colaborador_id as colaborador_id",
                     DB::raw("(CASE WHEN users.id = $logueado THEN 1 ELSE 2 END) AS logeado")
-
                 )
-                /*        ->select(DB::raw("(CASE  users.colaborador_id
-                WHEN users.colaborador_id = $logueado THEN 1 ELSE 2 END) AS logeado")) */
                 ->join("users", 'users.id', '=', 'requerimiento_encargados.usuarioencarg_id', 'inner')
                 ->join("colaboradores", 'colaboradores.id', '=', 'users.colaborador_id', 'inner')
                 ->where('requerimiento_encargados.requerimiento_id', '=', $req->id)
                 ->get()->all();
+
+
+            $req->historial = DB::table('historial_requerimientos as his_req')
+                    ->select('*')
+                    ->join('detalle_requerimientos as det_req','det_req.id','=','his_req.detalle_requerimiento_id')
+                    ->where('det_req.requerimiento_id','=', $req->id)
+                    ->get()->all();
 
 
             $encarg = $req->encargados;
@@ -323,6 +329,7 @@ class RequerimientoController extends Controller
     }
 
 
+
     /**
      * Display the specified resource.
      *
@@ -332,7 +339,7 @@ class RequerimientoController extends Controller
     public function show(Request $request, $id)
     {
         //
-
+        $historial= DB::table('');
         $requerimiento = Requerimiento::findOrfail($id);
 
 

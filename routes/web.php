@@ -26,6 +26,7 @@ Route::get('/dashboard/getLastRequerimientos', 'HomeController@getLastRequerimie
 
 
 Route::resource('requerimiento','RequerimientoController');
+Route::resource('historialfechahora','HistorialFechaHoraController');
 Route::get('datatable/requerimientos', 'RequerimientoController@requerimiento')->name('datatable.requerimiento');
 Route::get('requerimiento/{id}/listado', 'RequerimientoController@listarservicios')->name('requerimiento.listado');
 Route::get('requerimiento/{id}/getdetalle', 'RequerimientoController@getdetalle')->name('requerimiento.detalle');

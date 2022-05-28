@@ -117,8 +117,8 @@
     <table id="requerimientos" class="table table-striped table-bordered" style="overflow-x:auto;">
         <thead>
             <tr>
-                <th colspan="3">OPCIONES</th>
-                <th>ID</th>
+                <th colspan="4" class="text-center">OPCIONES</th>
+                {{-- <th>ID</th> --}}
                 <th>TITULO</th>
                 <th>SOLICITANTE</th>
                 <th>ENCARGADO(S)</th>
@@ -128,7 +128,9 @@
                 <th>AVANCE</th>
                 <th>ESTADO</th>
                 <th>PRIORIDAD</th>
-                <th>FECHA</th>
+                <th>FECHA HORA REGISTRO</th>
+                <th>FECHAS Y HORAS PROGRAMADAS:</th>
+
             </tr>
         </thead>
        <tbody>
@@ -279,6 +281,7 @@
 </div>
 
 
+
 <div class="modal fade" id="modaleditaravance" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -293,22 +296,6 @@
             <form  id="frmeditaravance">
 
                 <input type="hidden" class="form-control" id="idregistroavance"  name="id">
-                <div class="form-row">
-
-                    <div class="form-group col-md-12">
-
-                        <label for="">Fecha y hora estimada, para finalizar requerimiento</label>
-
-                              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                  <input type="text" id="fechayhora" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                                  <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                  </div>
-                              </div>
-
-                    </div>
-
-                </div>
 
                 <div class="form-row">
 
@@ -324,9 +311,68 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="prac">prac</button>
           <button type="button" class="btn btn-secondary" id="cerrar" data-dismiss="modal">Cerrar</button>
           <button type="" id="btnactualizaravance" class="btn btn-primary">Guardar</button>
+        </div>
+
+            </form>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="modal fade" id="modalfechahora" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Fecha y hora para requerimiento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+                <form action="{{ route('historialfechahora.store') }}" id="frmguardarfechahora">
+                    @csrf
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-12">
+
+                        <label id="fecha" for="">Fecha y hora estimada, para finalizar requerimiento</label>
+
+                        <label id="fechanueva" for="">Nueva fecha y hora estimada, para finalizar requerimiento</label>
+
+                              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                  <input type="text" id="fechayhora" name="fechahoraprogramada" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
+                                  <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                  </div>
+                              </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-row" id="">
+
+                    <div class="form-group col-md-12">
+
+                        <label for="">Motivo:</label>
+                        <input type="text" class="form-control" id="" maxlength="200" placeholder="Ingrese el motivo por el que se asignará nueva fecha y hora para el requerimiento" name="motivo">
+
+                    </div>
+
+                </div>
+
+                <input type="text" name="detalle_requerimiento_id" id="iddetalle">
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="" data-dismiss="modal">Cerrar</button>
+          <button type="" id="btnfechahora" class="btn btn-primary">Guardar</button>
         </div>
 
             </form>

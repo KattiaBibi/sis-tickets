@@ -1,20 +1,3 @@
-
-$(document).ready(function(){
-        $('#reservationdatetime').datetimepicker({
-            locale: 'es',
-            icons: { time: 'far fa-clock' },
-            daysOfWeekDisabled: [0, 6],
-
-        }
-            );
-    });
-
-    $("#prac").on("click", function() {
-
-        alert($('#fechayhora').val());
-
-    });
-
 var datatable
 
 function listar() {
@@ -32,6 +15,8 @@ function listar() {
     language: {
       url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json',
     },
+
+
     ajax: {
       url: 'datatable/requerimientos',
       type: 'GET',
@@ -51,6 +36,7 @@ function listar() {
       {
         data: 'elemento[]',
         orderable: false,
+        className: 'text-center',
         render: function (data, type, row, meta) {
           if (data.filter((i) => i === 'dos').length) {
             return `<button type='button' value="dos" id='ButtonEditar' class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'>Editar</span></button>`
@@ -67,6 +53,7 @@ function listar() {
       {
         data: 'valor[]',
         orderable: false,
+        className: 'text-center',
         render: function (data, type, row, meta) {
           // if(data.filter(i => (i === "logue")).length ) {
 
@@ -83,6 +70,7 @@ function listar() {
 
       {
         data: 'avancelog[]',
+        className: 'text-center',
         orderable: false,
         render: function (data, type, row, meta) {
           if (data.filter((i) => i === 'log').length) {
@@ -94,9 +82,21 @@ function listar() {
       },
 
       {
-        data: 'id',
+        data: null,
+        className: 'text-center',
         orderable: false,
+        render: function (data, type, row, meta) {
+
+            return `<button type='button' value="" id='ButtonEditarFechaHora' class='guardarfechahora edit-modal btn btn-secondary'><span class='fa fa-clock'></span><span class='hidden-xs'>Fecha y hora </span></button>`
+
+        },
       },
+
+
+    //   {
+    //     data: 'id',
+    //     orderable: false,
+    //   },
 
       {
         data: 'titulo_requerimiento',
@@ -189,6 +189,30 @@ function listar() {
           ).toLocaleTimeString('es-PE', { hour12: true })}`
         },
       },
+
+      {
+        data: 'historial',
+        orderable: false,
+        render: function (data, type, row, meta) {
+
+
+          let historial = data.map((item) => {
+            return `[${new Date(item.fechahoraprogramada).toLocaleDateString()} ${new Date(item.fechahoraprogramada).toLocaleTimeString('es-PE', { hour12: true })}]`
+            });
+
+
+        if(historial==""){
+            return `<span>Falta asignar fecha y hora</span>`
+
+        }
+
+        else{
+            return `<span>${historial}</span>`
+        }
+
+        },
+      },
+
     ],
     order: [[9, 'desc']],
   })
@@ -200,6 +224,18 @@ function listar() {
   //     body.highlight("Johon");
   // } );
 }
+
+
+
+$(document).ready(function(){
+    $('#reservationdatetime').datetimepicker({
+        locale: 'es',
+        icons: { time: 'far fa-clock' },
+        daysOfWeekDisabled: [0, 6],
+    });
+
+
+});
 
 $('#btnagregar').on('click', function (e) {
   $('#frmguardar')[0].reset()
@@ -380,6 +416,93 @@ $('#requerimientos').on('click', '.editaravance', function (event) {
 
   $('#modaleditaravance').modal('show')
 })
+
+
+$('#requerimientos').on('click', '.guardarfechahora', function (event) {
+    event.preventDefault()
+
+    var data = datatable.row($(this).parents('tr')).data() //Detecta a que fila hago click y me captura los datos en la variable data.
+    if (datatable.row(this).child.isShown()) {
+      //Cuando esta en tamaño responsive
+
+      var data = datatable.row(this).data()
+    }
+
+        let fechahora = data['historial'].map((item) => {return item.fechahoraprogramada}).toString();
+
+        let iddetalle=data['asignados'].map((item) => {return item.detalle_id}).toString();
+
+        $("#iddetalle").val(iddetalle[0]);
+
+    if(fechahora==""){
+        alert("No hay fechas programadas")
+
+        $("#fecha").show();
+        $("#fechanueva").hide();
+    }
+
+    else{
+
+        alert("hay fechas programadas")
+        $("#fecha").hide();
+        $("#fechanueva").show();
+    }
+
+    $('#modalfechahora').modal('show')
+
+  })
+
+
+  $('#btnfechahora').on('click', (event) => {
+    event.preventDefault()
+
+    let route = $('#frmguardarfechahora').attr('action')
+
+    /* let dataArray=$('#frmguardar').serialize() */
+    let dataArray = new FormData($('#frmguardarfechahora')[0])
+
+    // dataArray.push({name:'_token',value:token_})
+    console.log(dataArray)
+
+    $.ajax({
+      method: 'POST',
+      url: route,
+      data: dataArray,
+      cache: false,
+      contentType: false,
+      processData: false,
+
+      success: function (Response) {
+        if (Response == 1) {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Datos guardados correctamente',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+
+          datatable.ajax.reload(null, false)
+          $('#frmguardar')[0].reset()
+          $('#prev')[0].setAttribute('src', '')
+
+          $('#modalagregar').modal('hide')
+        } else {
+          alert('no guardado')
+        }
+      },
+      error: (response) => {
+        console.log(response)
+        $.each(response.responseJSON.errors, function (key, value) {
+          response.responseJSON.errors[key].forEach((element) => {
+            console.log(element)
+            toastr.error(element)
+          })
+        })
+      },
+    })
+  })
+
 
 $('#btnactualizaravance').on('click', (event) => {
   event.preventDefault()
