@@ -60,7 +60,8 @@ class Cita extends Model
     foreach ($citas as &$cita) {
       $cita->asistentes = DB::table('detalle_citas')
         ->select(
-          "detalle_citas.usuario_colab_id as id",
+          "detalle_citas.id as detalle_cita_id",
+          "detalle_citas.usuario_colab_id as asistente_id",
           "colaboradores.nombres AS nombres",
           "colaboradores.apellidos AS apellidos",
           "detalle_citas.confirmation AS confirmation",
@@ -90,7 +91,7 @@ class Cita extends Model
       $query->where('citas.fecha', '<=',  $filters['fecha_fin']);
     }
 
-    if (isset($filters['estado']) && $filters['estado'] !== '') {
+    if (isset($filters['estado']) && $filters['estado'] !== 'todos') {
       $query->where('citas.estado', '=',  $filters['estado']);
     }
 

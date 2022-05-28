@@ -22,8 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
     selectMirror: true,
     select: function (start, end) {
       action_form = 'registrar'
+      confirmacionesAcordion.style.display = 'none'
 
-      Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes'])
+      Utils.resetForm('#frmRegistrarReunion', ['#inputAsistentes'])
       document
         .querySelectorAll('.show-validation-message')
         .forEach((item) => (item.innerHTML = ''))
@@ -59,16 +60,16 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     },
     eventClick: function (arg) {
-      Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes'])
+      Utils.resetForm('#frmRegistrarReunion', ['#inputAsistentes'])
       document
         .querySelectorAll('.show-validation-message')
         .forEach((item) => (item.innerHTML = ''))
 
       axios
-        .get(`cita/${arg.event.extendedProps.id}`)
+        .get(`cita/${arg.event.id}`)
         .then(function (response) {
           let data = response.data.data
-          console.log(data);
+          console.log(data)
 
           btnEliminar.style.display = 'inline-block'
           document.querySelector('.modal-title').innerHTML = 'EDITAR REUNION'
@@ -81,18 +82,20 @@ document.addEventListener('DOMContentLoaded', function () {
           inputTitulo.value = data.titulo
           inputDescripcion.value = data.descripcion
           inputFecha.value = Utils.getDateForDateInput(data.fecha)
-          inputHoraInicio.value = moment(data.hora_inicio, ['HH:mm']).format('h:mm A')
+          inputHoraInicio.value = moment(data.hora_inicio, ['HH:mm']).format(
+            'h:mm A'
+          )
           inputHoraFin.value = moment(data.hora_fin, ['HH:mm']).format('h:mm A')
 
           $('#inputTipoReunion').val(data.tipo)
 
           toggleDisabledInputLinkZoom()
 
-          if (arg.event.extendedProps.tipo !== 'presencial') {
+          if (data.tipo !== 'presencial') {
             inputLinkZoom.value = data.link
           }
 
-          if (arg.event.extendedProps.empresa_id != null) {
+          if (data.empresa_id != null) {
             $('#inputOficina').val(data.empresa_id)
           }
 
@@ -109,6 +112,10 @@ document.addEventListener('DOMContentLoaded', function () {
               text: `${item.nombres} ${item.apellidos}`,
             })
           })
+
+          confirmacionesAcordion.style.display = 'block'
+
+          renderConfirmaciones(data.asistentes)
 
           $('#inputEstado').val(data.estado)
 
@@ -141,7 +148,6 @@ document.addEventListener('DOMContentLoaded', function () {
       },
     ],
     eventSourceSuccess: function (content, xhr) {
-      console.log(content)
       return content.data.map((res) => {
         return {
           id: res.id,
@@ -152,23 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
             ? 'red'
             : 'lighblue',
           display: 'block',
-          extendedProps: {
-            id: res.id,
-            titulo: res.titulo,
-            descripcion: res.descripcion,
-            fecha: res.fecha,
-            fecha_inicio: res.fecha_inicio,
-            fecha_fin: res.fecha_fin,
-            hora_inicio: res.hora_inicio,
-            hora_fin: res.hora_fin,
-            tipo: res.tipo,
-            link: res.link,
-            empresa_id: res.empresa_id,
-            descripcion_empresa: res.descripcion_empresa,
-            otra_oficina: res.otra_oficina,
-            estado: res.estado,
-            asistentes: res.asistentes,
-          },
         }
       })
     },
@@ -178,23 +167,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let action_form = 'registrar'
 
+  function renderConfirmaciones(asistentes) {
+    let ul = '<ul style="font-size: 12px; line-height: 0.9;">'
+
+    ul += asistentes.map((asistente) => {
+      let nom_ape = `${asistente.nombres} ${asistente.apellidos}`
+      let rpta = null
+
+      if (asistente.confirmation === 1) {
+        rpta = 'SI'
+      } else if (asistente.confirmation === 0) {
+        rpta = 'NO'
+      }
+
+      let li =
+        asistente.confirmation != null
+          ? `<li>${nom_ape} (${rpta}) (${asistente.confirmation_at})</li>`
+          : `<li>${nom_ape} (<a href='#'>reenviar</a>)</li>`
+
+      return li;
+    })
+
+    ul += '</ul>'
+
+    showConfirmacionAsistentes.innerHTML = ul
+  }
+
   function toggleDisabledInputLinkZoom() {
     if ($('#inputTipoReunion').find(':selected').val() === 'presencial') {
       inputLinkZoom.disabled = true
       inputLinkZoom.value = ''
       formGroupLinkZoom.style.display = 'none'
 
-      inputOficina.disabled = false;
-      formGroupOficina.style.display = 'block';
+      inputOficina.disabled = false
+      formGroupOficina.style.display = 'block'
 
       inputOtraOficina.disabled = false
       formGroupOtraOficina.style.display = 'block'
 
-      toggleDisabledInputOtraOficina();
-
+      toggleDisabledInputOtraOficina()
     } else {
-      inputOficina.disabled = true;
-      formGroupOficina.style.display = 'none';
+      inputOficina.disabled = true
+      formGroupOficina.style.display = 'none'
 
       inputOtraOficina.disabled = true
       inputOtraOficina.value = ''
@@ -227,84 +241,50 @@ document.addEventListener('DOMContentLoaded', function () {
   frmRegistrarReunion.addEventListener('submit', function (e) {
     e.preventDefault()
 
-    let dataArray = $('#frmRegistrarReunion').serializeArray()
-    dataArray.push({
-      name: '_token',
-      value: token_,
-    })
+    btnGuardar.disabled = true
+    document.querySelector('.loader.btnGuardar').style.display = 'inline-block'
 
-    dataArray.push(
-      {
-        name: 'hora_inicio',
-        value: moment(inputHoraInicio.value, ['h:mm A']).format('HH:mm'),
-      },
-      {
-        name: 'hora_fin',
-        value: moment(inputHoraFin.value, ['h:mm A']).format('HH:mm'),
-      }
+    let data = new FormData(this)
+    data.append('_token', token_)
+
+    data.append(
+      'hora_inicio',
+      moment(inputHoraInicio.value, ['h:mm A']).format('HH:mm')
+    )
+    data.append(
+      'hora_fin',
+      moment(inputHoraFin.value, ['h:mm A']).format('HH:mm')
     )
 
-    console.log(dataArray)
+    let url = action_form === 'registrar' ? 'cita' : `cita/${inputId.value}`
+    if (action_form === 'editar') data.append('_method', 'PUT')
 
-    if (action_form === 'registrar') {
-      $.ajax({
-        method: 'POST',
-        url: 'cita',
-        data: dataArray,
-        success: function (Response) {
-          console.log(Response)
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Datos guardados correctamente',
-            showConfirmButton: false,
-            timer: 1500,
-          })
-          calendar.refetchEvents()
-          Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes'])
-          $('#citamodal').modal('hide')
-        },
-        error: (response) => {
-          console.log(response)
-          if (response.status === 403) {
-            alert('Usted no esta autorizado para registrar reuniones.')
-          } else {
-            console.log(response.responseJSON.errors)
-            Utils.showValidationMessages(response.responseJSON.errors)
-          }
-        },
+    axios
+      .post(url, data)
+      .then(function (response) {
+        calendar.refetchEvents()
+        Utils.resetForm('#frmRegistrarReunion', ['#inputAsistentes'])
+        $('#citamodal').modal('hide')
       })
-    } else {
-      $.ajax({
-        method: 'PUT',
-        url: `cita/${inputId.value}`,
-        data: dataArray,
-        success: function (Response) {
-          console.log(Response)
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Datos actualizados correctamente',
-            showConfirmButton: false,
-            timer: 1500,
-          })
-          calendar.refetchEvents()
-          Utils.resetearFormulario(frmRegistrarReunion, ['#inputAsistentes'])
-          $('#inputAsistentes').val(null).trigger('change')
-          $('#citamodal').modal('hide')
-        },
-        error: (response) => {
-          if (response.status === 403) {
-            alert('Usted no esta autorizado para editar reuniones.')
-          } else if (response.status === 400) {
-            alert('No se pueden editar reuniones pasadas.')
-          } else {
-            console.log(response.responseJSON.errors)
-            Utils.showValidationMessages(response.responseJSON.errors)
+      .catch(function (error) {
+        console.log(error)
+        if (error.response) {
+          if (error.response.status === 422) {
+            Utils.showValidationMessages(
+              '#frmRegistrarReunion',
+              error.response.data.errors
+            )
+          } else if (error.response.status === 403) {
+            alertify.error(
+              'No esta autorizado para registrar o editar reuniones.'
+            )
           }
-        },
+        }
       })
-    }
+      .then(function () {
+        btnGuardar.disabled = false
+        document.querySelector('.loader.btnGuardar').style.display = 'none'
+      })
   })
 
   btnEliminar.addEventListener('click', function (e) {
@@ -354,6 +334,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   inputFiltroEstado.addEventListener('change', (e) => {
     calendar.refetchEvents()
+  })
+
+  btnReloadConfirmaciones.addEventListener('click', function (e) {
+    e.preventDefault()
+
+    $('#confirmacionesCollapse').collapse('show')
+
+    showConfirmacionAsistentes.innerHTML =
+      '<img src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" class="loader btnGuardar" style="width: 18px;display: block;margin: 0 auto;margin-bottom: 13px;">'
+
+    axios
+      .get(`cita/${inputId.value}`)
+      .then(function (response) {
+        renderConfirmaciones(response.data.data.asistentes)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   })
 
   search('#inputAsistentes', function () {

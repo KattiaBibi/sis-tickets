@@ -11,6 +11,15 @@
 
 <link rel="stylesheet" href="{{ asset('fullcalendar/main.css') }}">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
+<!-- Alertify css cdn -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+
+<!-- Alertify bootstrap theme css cdn -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
   .select2-container--default .select2-selection--multiple .select2-selection__choice {
 
@@ -191,6 +200,24 @@
                   <div class="show-validation-message"></div>
                 </div>
 
+                <div class="accordion" id="confirmacionesAcordion" style="display: none;">
+                  <div class="card">
+                    <div class="card-header p-0" id="headingOne">
+                      <h2 class="mb-0">
+                        <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target="#confirmacionesCollapse" aria-expanded="true" aria-controls="confirmacionesCollapse" style="text-decoration: none; color: #000; font-size: 13px;">
+                          VER CONFIRMACIONES
+                        </button>
+                        <button id="btnReloadConfirmaciones" class="btn btn-sm"><i class="fa-solid fa-rotate"></i></button>
+                      </h2>
+                    </div>
+
+                    <div id="confirmacionesCollapse" class="collapse show" aria-labelledby="headingOne" data-parent="#confirmacionesAcordion">
+                      <div class="card-body p-0 pt-3" id="showConfirmacionAsistentes">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="form-group" id="formGroupInputEstado" style="display: none;" data-label-validation="estado">
                   <label for="inputEstado">Estado</label>
                   <select name="estado" id="inputEstado" class="form-control" disabled>
@@ -201,12 +228,13 @@
                   <div class="show-validation-message"></div>
                 </div>
 
-                <div class="validaciones"></div>
-
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger btn-sm" style="display: none; margin-right: auto;" id="btnEliminar">Eliminar</button>
-                  <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
-                  <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">CERRAR</button>
+                  <button type="submit" class="btn btn-primary btn-sm" id="btnGuardar">
+                    GUARDAR
+                    <img src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" class="loader btnGuardar" style="width: 18px; display: none;">
+                  </button>
                 </div>
 
               </form>
@@ -247,5 +275,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<!-- Alertify js cdn -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <script src="{{ asset('js/cita.js') }}"></script>
 @stop

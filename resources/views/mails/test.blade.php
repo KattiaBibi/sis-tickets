@@ -12,9 +12,9 @@
   <p>
     <span>¿Confirmas tu asistencia?</span>
     <br>
-    <a href="#">SI</a>
+    <a href="{{url('/')}}/cita/confirmar-asistencia?respuesta=SI&detalle_cita_id={{$asistente->detalle_cita_id}}&hash={{password_hash($asistente->detalle_cita_id, PASSWORD_DEFAULT)}}" target="_blank">SI</a>
     <br>
-    <a href="#">NO</a>
+    <a href="{{url('/')}}/cita/confirmar-asistencia?respuesta=NO&detalle_cita_id={{$asistente->detalle_cita_id}}&hash={{password_hash($asistente->detalle_cita_id, PASSWORD_DEFAULT)}}" target="_blank">NO</a>
   </p>
 </body>
 

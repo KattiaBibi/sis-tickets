@@ -1,18 +1,37 @@
 class Utils {
 
-  static showValidationMessages(messages = null) {
+  static resetForm(formSelector, selects2 = null) {
+    document.querySelector(formSelector).reset();
+    this.cleanValidationMessages(formSelector);
+    this.cleanSelects2(selects2);
+  }
+
+  static cleanValidationMessages(formSelector) {
+    document.querySelectorAll(`${formSelector} .show-validation-message`).forEach(item => item.innerHTML = '');
+  }
+
+  static showValidationMessages(formSelector, messages = null) {
     if (messages === null) return;
 
-    document.querySelectorAll('.show-validation-message').forEach(item => item.innerHTML = '');
+    document.querySelectorAll(`${formSelector} .show-validation-message`).forEach(item => item.innerHTML = '');
 
     Object.entries(messages).forEach((item) => {
-      $(`[data-label-validation="${item[0]}"] ~ div.show-validation-message`)
+      $(`${formSelector} [data-label-validation="${item[0]}"] ~ div.show-validation-message`)
         .html(`${item[1]}`)
         .addClass('invalid-feedback')
         .css('display', 'block');
     });
   }
 
+  static cleanSelects2(selects2 = null) {
+    if (selects2 !== null) {
+      selects2.forEach(select2 => {
+        $(`${select2}`).val(null).trigger('change');
+      });
+    }
+  }
+
+  // Deprecated
   static validarResponse(response) {
     if (response.status === 500) {
       alertify.alert("ERROR", "Ocurrio un error inesperado!, recargue el navegador o ponganse encontacto con el administrador");

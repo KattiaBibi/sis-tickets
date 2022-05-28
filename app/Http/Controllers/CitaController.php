@@ -9,7 +9,8 @@ use App\Http\Requests\CitaRequest;
 use App\Mail\TestSendEmail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CitaController extends Controller
 {
@@ -45,7 +46,7 @@ class CitaController extends Controller
     $end = request('end');
     $estado = request('estado');
 
-    $citas = $this->model->index([
+    $citas = $this->model->index(null, null, [
       'fecha_inicio' => $start,
       'fecha_fin' => $end,
       'estado' => $estado,
@@ -81,18 +82,19 @@ class CitaController extends Controller
     $input['estado'] = 'pendiente';
 
     DB::transaction(function () use ($input) {
-      $resource = Cita::create($input);
+      $cita = Cita::create($input);
       $detallesCita = [];
       foreach ($input['asistentes'] as $asistente) {
         array_push(
           $detallesCita,
           [
-            'cita_id' => $resource->id,
+            'cita_id' => $cita->id,
             'usuario_colab_id' => $asistente
           ]
         );
       }
       DetalleCita::insert($detallesCita);
+      $this->sendEmail($cita->id);
     });
 
     return response()->json([
@@ -130,7 +132,8 @@ class CitaController extends Controller
 
     $cita->asistentes = DB::table('detalle_citas')
       ->select(
-        "detalle_citas.usuario_colab_id as id",
+        "detalle_citas.id as detalle_cita_id",
+        "detalle_citas.usuario_colab_id as asistente_id",
         "colaboradores.nombres AS nombres",
         "colaboradores.apellidos AS apellidos",
         "detalle_citas.confirmation AS confirmation",
@@ -171,11 +174,11 @@ class CitaController extends Controller
     }
 
     if (auth()->user()->id != $cita->usuario_id) {
-      return response()->json(['errors' => 'No esta autorizado a editar esta reunion.'], 403);
+      return response()->json(['no_autorizado' => 'No esta autorizado a editar esta reunion.'], 403);
     }
 
     if (strtotime($cita->fecha) < strtotime(date('Y-m-d'))) {
-      return response()->json(['errors' => 'No se pueden editar reuniones pasadas.'], 400);
+      return response()->json(['fecha' => 'No se pueden editar reuniones pasadas.'], 400);
     }
 
     $input = $request->all();
@@ -237,14 +240,41 @@ class CitaController extends Controller
     ]);
   }
 
-  public function sendEmail()
+  public function sendEmail($idCita)
   {
-    $cita = $this->model->index(['id_cita' => 1])[0];
-
-    // dd($cita);
+    $cita = $this->model->index(null, null, ['id_cita' => $idCita])[0];
 
     foreach ($cita->asistentes as $asistente) {
       Mail::to($asistente->email)->send(new TestSendEmail($cita, $asistente));
     }
+  }
+
+  public function confirmarAsistencia()
+  {
+    $validation = Validator::make(request()->all(), [
+      'respuesta' => ['required', Rule::in(['SI', 'NO'])],
+      'detalle_cita_id' => 'required|exists:detalle_citas,id',
+      'hash' => 'required',
+    ]);
+
+    if ($validation->fails()) {
+      return "¡Ocurrio un error, vuelva a intentarlo!";
+    }
+
+    $detalleCita = DetalleCita::find(request()->input('detalle_cita_id'));
+
+    if ($detalleCita->confirmation) {
+      return "¡Su confirmación ya fue enviada!";
+    }
+
+    if (!password_verify(request()->input('detalle_cita_id'), request()->input('hash'))) {
+      return "¡Ocurrio un error, vuelva a intentarlo!";
+    }
+
+    $detalleCita->confirmation = request()->input('respuesta') === 'SI' ? 1 : 0;
+    $detalleCita->confirmation_at = date('Y-m-d H:i:s');
+    $detalleCita->save();
+
+    return "¡Gracias, su confirmación fue registrada!";
   }
 }
