@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
     select: function (start, end) {
       action_form = 'registrar'
       confirmacionesAcordion.style.display = 'none'
+      currentEditCita = {}
 
       Utils.resetForm('#frmRegistrarReunion', ['#inputAsistentes'])
       document
