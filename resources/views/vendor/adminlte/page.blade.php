@@ -118,7 +118,7 @@
 <script src="https://cdn.datatables.net/plug-ins/1.12.0/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
 
 <script src="https://bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
-
+<script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
 
     @stack('js')
     @yield('js')

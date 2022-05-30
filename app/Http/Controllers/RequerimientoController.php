@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Carbon;
 
 use function PHPSTORM_META\map;
 
@@ -155,30 +156,34 @@ class RequerimientoController extends Controller
                 ->get()->all();
 
 
-            $req->historial = DB::table('historial_requerimientos as his_req')
-                    ->select('*')
+            $ho=$req->historial = DB::table('historial_requerimientos as his_req')
+                    ->select('his_req.id','his_req.fechahoraprogramada as fechahoraprogramada', 'his_req.motivo as motivo', 'his_req.created_at as created_at',
+                    DB::raw("CONCAT(c.nombres,' ' ,c.apellidos) AS nom_ape"))
                     ->join('detalle_requerimientos as det_req','det_req.id','=','his_req.detalle_requerimiento_id')
+                    ->join('users as u','det_req.usuario_colab_id','=','u.id')
+                    ->join('colaboradores as c','u.colaborador_id','=','c.id')
                     ->where('det_req.requerimiento_id','=', $req->id)
+                    ->orderBy('created_at', 'DESC')
                     ->get()->all();
 
-        
+
         // SACAR EL ÚLTIMO REGISTRO DEL HISTORIAL DEL REQUERIMIENTO
             $req->ultimafecha=DB::table('historial_requerimientos as his_req')
             ->select('*')
             ->join('detalle_requerimientos as det_req','det_req.id','=','his_req.detalle_requerimiento_id')
-            ->where('det_req.requerimiento_id','=', $req->id)            
+            ->where('det_req.requerimiento_id','=', $req->id)
             ->orderBy('created_at', 'desc')
             ->take(1)
             ->get();
 
-        // SACAR EL ID DE LOS DETALLES DE REQUERIMIENTO CON EL USUARIO QUE ESTÉ LOGUEADO 
+        // SACAR EL ID DE LOS DETALLES DE REQUERIMIENTO CON EL USUARIO QUE ESTÉ LOGUEADO
             $req->usuariodetalle= DB::table('detalle_requerimientos as deta_req')
             ->select('deta_req.id as detalle_id')
             ->join('users as u','deta_req.usuario_colab_id','=','u.id')
             ->where('deta_req.requerimiento_id','=', $req->id)
             ->where('deta_req.usuario_colab_id','=', $logueado)
             ->get();
-            
+
             $encarg = $req->encargados;
             $asig = $req->asignados;
 
@@ -197,9 +202,9 @@ class RequerimientoController extends Controller
             foreach ($asig as $a) {
 
                 if ($a->logeado == 1) {
-                    $req->avancelog[] = "log";
+                    $req->asignadolog[] = "log";
                 } else {
-                    $req->avancelog[] = "nolog";
+                    $req->asignadolog[] = "nolog";
                 }
             }
 
@@ -249,6 +254,7 @@ class RequerimientoController extends Controller
 
 
     public function listarservicios($id)
+
     {
 
         $empresa_servicios = DB::table('empresa_servicios as es')
@@ -258,7 +264,6 @@ class RequerimientoController extends Controller
 
         return $empresa_servicios;
     }
-
 
 
     public function listargerentes($id)
@@ -285,7 +290,6 @@ class RequerimientoController extends Controller
 
         return $colaboradores;
     }
-
 
 
     public function index()
@@ -356,11 +360,16 @@ class RequerimientoController extends Controller
     public function show(Request $request, $id)
     {
         //
-        
+
+
+            $fechaActual = date('Y-m-d H:i:s');
+
+
         $requerimiento = Requerimiento::findOrfail($id);
 
 
         $avance = $request->avance;
+
 
         if ($avance == "100") {
 
@@ -371,6 +380,13 @@ class RequerimientoController extends Controller
                     'estado' => "culminado"
                 ]
             );
+
+            HistorialFechaHora::create([
+                "fechahoraprogramada" => $fechaActual,
+                "motivo" => "Finalización del requerimiento",
+                'detalle_requerimiento_id'=>$request->detalle_requerimiento_id
+            ]);
+
         } else if ($avance > "0") {
 
             $requerimiento->update(
@@ -437,9 +453,7 @@ class RequerimientoController extends Controller
 
         // NOMBRE PARA CONCATENAR A LA NUEVA IMAGEN
         $nombre = "requerimiento";
-
         // return response()->json($file2);
-
 
         if ($file) {
 
@@ -477,12 +491,11 @@ class RequerimientoController extends Controller
             );
         }
 
-
-
         $colab = $request->usuario_colab_id;
 
-        if ($colab != "") {
+        if ($colab != "")
 
+        {
             foreach ($colab as $key => $value) {
                 # code...
                 $deta_requerimiento = DetalleRequerimiento::create([
@@ -493,6 +506,7 @@ class RequerimientoController extends Controller
         }
 
         return $requerimiento ? 1 : 0;
+
     }
 
     /**

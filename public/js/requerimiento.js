@@ -69,26 +69,30 @@ function listar() {
       },
 
       {
-        data: 'avancelog[]',
+        data: 'asignadolog[]',
         className: 'text-center',
         orderable: false,
         render: function (data, type, row, meta) {
           if (data.filter((i) => i === 'log').length) {
             return `<button type='button' value="log" id='ButtonEditarAvance' class='editaravance edit-modal btn btn-info'><span class='fa fa-edit'></span><span class='hidden-xs'>Avance</span></button>`
           } else {
-            return `<button type='button' value="log" id='ButtonEditarAvance' class='editaravance edit-modal btn btn-info' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Avance</span></button>`
+            return `<button type='button' value="nolog" id='ButtonEditarAvance' class='editaravance edit-modal btn btn-info' disabled><span class='fa fa-edit'></span><span class='hidden-xs'>Avance</span></button>`
           }
         },
       },
 
       {
-        data: null,
+        data: 'asignadolog[]',
         className: 'text-center',
         orderable: false,
         render: function (data, type, row, meta) {
+          if (data.filter((i) => i === 'log').length) {
+            return `<button type='button' value="log" id='ButtonEditarFechaHora' class='guardarfechahora edit-modal btn btn-secondary'><span class='fa fa-clock'></span><span class='hidden-xs'>Fecha y hora </span></button>`
+          } else {
 
-            return `<button type='button' value="" id='ButtonEditarFechaHora' class='guardarfechahora edit-modal btn btn-secondary'><span class='fa fa-clock'></span><span class='hidden-xs'>Fecha y hora </span></button>`
+            return `<button type='button' value="nolog" id='ButtonEditarFechaHora' class='guardarfechahora edit-modal btn btn-secondary'><span class='fa fa-clock'></span><span class='hidden-xs'>Historial </span></button>`
 
+          }
         },
       },
 
@@ -405,17 +409,66 @@ $('#requerimientos').on('click', '.editaravance', function (event) {
     var data = datatable.row(this).data()
   }
 
+  if(data.avance_requerimiento==100){
+
+      Swal.fire({
+        icon: 'info',
+        html:
+          '¡Su requerimiento está culminado, si desea volver al estado <b>EN PROCESO</b> debe asignar nueva fecha de finalización!',
+        showCloseButton: true,
+        timer: 6000,
+        timerProgressBar: true,
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log('I was closed by the timer')
+        }
+      })
+
+  }
+
+  else{
+
+      let iddetalle=data['usuariodetalle'].map((item) => {return item.detalle_id}).toString();
+
+
+
   $('#idregistroavance').val(data['id'])
   $('#editavance').val(data['avance_requerimiento'])
+  $('#iddetallereq').val(iddetalle)
   document.getElementById('editavan').innerHTML =
     data['avance_requerimiento'] + '%'
 
   $('#modaleditaravance').modal('show')
+
+  }
+
 })
 
 
 $('#requerimientos').on('click', '.guardarfechahora', function (event) {
     event.preventDefault()
+
+    document.getElementById("divhisto").innerHTML = "";
+
+    let log= event.target.value;
+
+    var foo = document.getElementById("oculto");
+    if (foo.hasAttribute("style")) {
+       alert("oculto")
+
+    if(log=="log"){
+
+    }
+
+    else{
+
+
+
+
+    }
+    }
+
 
     var data = datatable.row($(this).parents('tr')).data() //Detecta a que fila hago click y me captura los datos en la variable data.
     if (datatable.row(this).child.isShown()) {
@@ -424,23 +477,70 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
       var data = datatable.row(this).data()
     }
 
+
         let fechahora = data['historial'].map((item) => {return item.fechahoraprogramada}).toString();
         let fechacreacion = data['ultimafecha'].map((item) => {return item.created_at});
         let fechaprogramada=data['ultimafecha'].map((item) => {return item.fechahoraprogramada});
         let iddetalle=data['usuariodetalle'].map((item) => {return item.detalle_id}).toString();
 
-  
+
         $("#iddetalle").val(iddetalle);
+        $("#avance").val(data.avance_requerimiento);
+        $("#id_requerimiento").val(data.id);
 
         let historial=data['historial'];
 
+
+        $('#reservationdatetime').datetimepicker({
+          locale: 'es',
+          dateFormat: "mm/dd/yy",
+          minDate: new Date(),
+          icons: { time: 'far fa-clock' }
+      });
+
+    if(fechahora==""){
+
+        // alert("No hay fechas programadas");
+        $("#fecha").show();
+        $("#fechanueva").hide();
+        $("#oculto").hide();
+        $("#ocultar").hide();
+        $("#motivo").val("Primer registro de fecha");
+
+    }
+
+    else{
+
+        // alert("hay fechas programadas");
+        $("#fecha").hide();
+        $("#fechanueva").show();
+        $("#oculto").show();
+        $("#motivo").val("");
+        $("#ocultar").show();
+
+        $("#datafecha").html(`Se creó el:  ${fechacreacion} / para el día: ${fechaprogramada}`);
+
+    }
+
+
+
       historial.find(object =>{
-        $("#app").append(
-          `<div class="card text-white bg-dark mb-6">${object.fechahoraprogramada}`+`<div class="card-header">${object.created_at} </div></div>`);
+
+            moment.locale('es');
+            let date = moment(object.fechahoraprogramada);
+            let date2 = moment(object.created_at);
+            let  fechaprogr=  date.format('LL')
+            let  horaprogr=   date.format('LTS');
+
+            let  fecharegis=  date2.format('LL')
+            let  horaregis=   date2.format('LTS');
+
+        $("#divhisto").append(
+          `<div class="card text-white bg-dark mb-6"><div class="card-header" style="text-decoration: underline;">HISTORIAL:</div><div class="card-body"><h1 class="card-title">El COLABORADOR ASIGNADO: ${object.nom_ape}</h1><p class="card-text">REGISTRÓ EL DÍA: ${fecharegis} / HORA - ${horaregis}</p><p class="card-text">PARA EL DÍA: ${fechaprogr} / HORA - ${horaprogr}</p><p class="card-text">DETALLE: ${object.motivo}</p></div></div>`);
     });
 
 
-        // let app = document.querySelector('#app');
+        // let app = document.querySelector('#app');p
 
         // let nodes = nfechas.map(lang => {
         //     let li = document.createElement('div');
@@ -448,50 +548,17 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
         //     li.textContent = lang;
         //     return li;
         // });
-        
+
         // app.append(...nodes);
 
-        
 
-
-    if(fechahora==""){
-        alert("No hay fechas programadas")
-
-        $("#fecha").show();
-        $("#fechanueva").hide();
-
-        $('#reservationdatetime').datetimepicker({
-          locale: 'es',
-          dateFormat: "mm/dd/yy", 
-          minDate: new Date(),
-          icons: { time: 'far fa-clock' }
-      });
-
-        
-    }
-
-    else{
-
-        alert("hay fechas programadas")
-        $("#fecha").hide();
-        $("#fechanueva").show();
-
-        alert("Se creó el: " + fechacreacion + " para el día: " + fechaprogramada);
-
-        $('#reservationdatetime').datetimepicker({
-          locale: 'es',
-          dateFormat: "mm/dd/yy", 
-          minDate: new Date(),
-          icons: { time: 'far fa-clock' }
-      });
-    
-    }
 
     $('#modalfechahora').modal('show')
 
   })
 
-  $('#btnhistorial').on('click', (event) => {
+
+  $('.btnhistorial').on('click', (event) => {
 
     event.preventDefault()
 
@@ -520,6 +587,7 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
     let dataArray = new FormData($('#frmguardarfechahora')[0])
     dataArray.append("fechahora", formatted_date);
 
+
     $.ajax({
       method: 'POST',
       url: route,
@@ -539,10 +607,11 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
           })
 
           datatable.ajax.reload(null, false)
-          $('#frmguardar')[0].reset()
-          $('#prev')[0].setAttribute('src', '')
 
-          $('#modalagregar').modal('hide')
+          $('#frmguardarfechahora')[0].reset()
+
+          $('#modalfechahora').modal('hide')
+
         } else {
           alert('no guardado')
         }
@@ -605,7 +674,7 @@ $('#btnactualizaravance').on('click', (event) => {
 
 $('#requerimientos').on('click', '.editar', function (event) {
 
-  
+
   console.log(event)
   let valorboton = $(this).val()
 

@@ -308,6 +308,7 @@
 
                 </div>
 
+                <input type="hidden" name="detalle_requerimiento_id" id="iddetallereq">
 
         </div>
         <div class="modal-footer">
@@ -326,7 +327,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalLongTitle">Fecha y hora para requerimiento</h4>
+          <h4 class="modal-title" id="exampleModalLongTitle">FECHA Y HORA PARA REQUERIMIENTO</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -336,18 +337,23 @@
                 <form action="{{ route('historialfechahora.store') }}" id="frmguardarfechahora">
                     @csrf
 
-                        <h5>Popover in a modal</h5> 
-                        <p>This <a  role="button" id="btnhistorial" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
+                    <div id="oculto">
+                        <h5>Historial de fechas para requerimiento</h5>
+                        <p><a  role="button" id="" class="btnhistorial btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute." style="
+                            font-size: 12px;padding: 7px;">AQUÍ</a> para conocerlos.</p>
                         <hr>
-                        <h5>Tooltips in a modal</h5>
-                        <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> have tooltips on hover.</p>           
-                      
+
+                        <p class="text-info">Último registro de fecha: </p>
+                        <p class="text-secondary" id="datafecha"></p>
+
+                        <hr>
+                </div>
+
                 <div class="form-row">
 
                     <div class="form-group col-md-12">
-
+                        <h5>Registrar nueva fecha</h5>
                         <label id="fecha" for="">Fecha y hora estimada, para finalizar requerimiento</label>
-
                         <label id="fechanueva" for="">Nueva fecha y hora estimada, para finalizar requerimiento</label>
 
                               <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
@@ -361,18 +367,20 @@
 
                 </div>
 
-                <div class="form-row" id="">
+                <div class="form-row" id="ocultar">
 
                     <div class="form-group col-md-12">
 
                         <label for="">Motivo:</label>
-                        <input type="text" class="form-control" id="" maxlength="200" placeholder="Ingrese el motivo por el que se asignará nueva fecha y hora para el requerimiento" name="motivo">
+                        <input type="text" class="form-control" id="motivo" value="" maxlength="200" placeholder="Ingrese el motivo por el que se asignará nueva fecha y hora para el requerimiento" name="motivo">
 
                     </div>
 
                 </div>
 
-                <input type="text" name="detalle_requerimiento_id" id="iddetalle">
+                <input type="hidden" name="detalle_requerimiento_id" id="iddetalle">
+                <input type="hidden" name="avance" id="avance">
+                <input type="hidden" name="idrequerimiento" id="id_requerimiento">
 
 
         </div>
@@ -397,6 +405,7 @@
             <h5 class="modal-title" id="exampleModalLabel"><span class="div divoculto divocult">ACTUALIZA </span>REGISTRO DE MANTENIMIENTO</h5>
 
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -442,6 +451,13 @@
                 <input class="form-control"  type="text" value=""  id="UsuarioSolicitante" readonly>
 
             </div>
+
+
+
+
+          </div>
+
+          <div class="form-row">
 
             <div class="form-group col-md-12">
                 <label for="">GERENTE(S) RESPONSABLE(S)</label>

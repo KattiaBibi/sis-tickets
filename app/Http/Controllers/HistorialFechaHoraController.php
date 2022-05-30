@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\HistorialFechaHora;
+use App\Requerimiento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DateTime;
 
@@ -36,7 +37,23 @@ class HistorialFechaHoraController extends Controller
      */
     public function store(Request $request)
     {
-        //    dd($request);
+       //dd($request);
+
+       $requerimiento = Requerimiento::findOrfail($request->idrequerimiento);
+
+       if($request->avance==100){
+
+
+        $requerimiento->update(
+
+            [
+                'avance' => '0',
+                'estado' => "pendiente"
+            ]
+        );
+
+       }
+
 
         $historialfechahora =  HistorialFechaHora::create([
         'fechahoraprogramada'=>$request->fechahora,
