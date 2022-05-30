@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\HistorialFechaHora;
 use Illuminate\Http\Request;
+use App\Http\Controllers\DateTime;
 
 class HistorialFechaHoraController extends Controller
 {
@@ -33,12 +34,14 @@ class HistorialFechaHoraController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(HistorialFechaHora $request)
+    public function store(Request $request)
     {
-        //
+        //    dd($request);
 
-        dd($request);
-        $historialfechahora =  HistorialFechaHora::create($request->all());
+        $historialfechahora =  HistorialFechaHora::create([
+        'fechahoraprogramada'=>$request->fechahora,
+        'motivo'=>$request->motivo,
+        'detalle_requerimiento_id'=>$request->detalle_requerimiento_id]);
 
         return $historialfechahora ? 1 : 0;
     }

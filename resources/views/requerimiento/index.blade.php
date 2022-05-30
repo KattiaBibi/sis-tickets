@@ -326,7 +326,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Fecha y hora para requerimiento</h5>
+          <h4 class="modal-title" id="exampleModalLongTitle">Fecha y hora para requerimiento</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -336,6 +336,12 @@
                 <form action="{{ route('historialfechahora.store') }}" id="frmguardarfechahora">
                     @csrf
 
+                        <h5>Popover in a modal</h5> 
+                        <p>This <a  role="button" id="btnhistorial" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
+                        <hr>
+                        <h5>Tooltips in a modal</h5>
+                        <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> have tooltips on hover.</p>           
+                      
                 <div class="form-row">
 
                     <div class="form-group col-md-12">
@@ -345,7 +351,7 @@
                         <label id="fechanueva" for="">Nueva fecha y hora estimada, para finalizar requerimiento</label>
 
                               <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                  <input type="text" id="fechayhora" name="fechahoraprogramada" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
+                                  <input type="text" id="fechayhora" name="" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
                                   <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
                                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                   </div>
@@ -537,6 +543,9 @@
   </div>
 
   </div>
+
+
+@include('requerimiento.historialfechas')
 
 @endsection
 

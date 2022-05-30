@@ -8,8 +8,6 @@ class Roll_Permiso extends Model
 {
     //
 
-
-
     protected $table ='role_has_permissions';
 
     protected $fillable = [

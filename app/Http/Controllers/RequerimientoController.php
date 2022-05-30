@@ -161,7 +161,24 @@ class RequerimientoController extends Controller
                     ->where('det_req.requerimiento_id','=', $req->id)
                     ->get()->all();
 
+        
+        // SACAR EL ÚLTIMO REGISTRO DEL HISTORIAL DEL REQUERIMIENTO
+            $req->ultimafecha=DB::table('historial_requerimientos as his_req')
+            ->select('*')
+            ->join('detalle_requerimientos as det_req','det_req.id','=','his_req.detalle_requerimiento_id')
+            ->where('det_req.requerimiento_id','=', $req->id)            
+            ->orderBy('created_at', 'desc')
+            ->take(1)
+            ->get();
 
+        // SACAR EL ID DE LOS DETALLES DE REQUERIMIENTO CON EL USUARIO QUE ESTÉ LOGUEADO 
+            $req->usuariodetalle= DB::table('detalle_requerimientos as deta_req')
+            ->select('deta_req.id as detalle_id')
+            ->join('users as u','deta_req.usuario_colab_id','=','u.id')
+            ->where('deta_req.requerimiento_id','=', $req->id)
+            ->where('deta_req.usuario_colab_id','=', $logueado)
+            ->get();
+            
             $encarg = $req->encargados;
             $asig = $req->asignados;
 
@@ -339,7 +356,7 @@ class RequerimientoController extends Controller
     public function show(Request $request, $id)
     {
         //
-        $historial= DB::table('');
+        
         $requerimiento = Requerimiento::findOrfail($id);
 
 

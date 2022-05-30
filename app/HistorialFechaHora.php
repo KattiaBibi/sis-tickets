@@ -8,12 +8,11 @@ class HistorialFechaHora extends Model
 {
     //
 
-
     protected $table ='historial_requerimientos';
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'fecha_hora_programada',
+        'fechahoraprogramada',
         'motivo',
         'detalle_requerimiento_id'
     ];

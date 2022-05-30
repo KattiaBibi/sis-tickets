@@ -228,11 +228,7 @@ function listar() {
 
 
 $(document).ready(function(){
-    $('#reservationdatetime').datetimepicker({
-        locale: 'es',
-        icons: { time: 'far fa-clock' },
-        daysOfWeekDisabled: [0, 6],
-    });
+
 
 
 });
@@ -429,16 +425,49 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
     }
 
         let fechahora = data['historial'].map((item) => {return item.fechahoraprogramada}).toString();
+        let fechacreacion = data['ultimafecha'].map((item) => {return item.created_at});
+        let fechaprogramada=data['ultimafecha'].map((item) => {return item.fechahoraprogramada});
+        let iddetalle=data['usuariodetalle'].map((item) => {return item.detalle_id}).toString();
 
-        let iddetalle=data['asignados'].map((item) => {return item.detalle_id}).toString();
+  
+        $("#iddetalle").val(iddetalle);
 
-        $("#iddetalle").val(iddetalle[0]);
+        let historial=data['historial'];
+
+      historial.find(object =>{
+        $("#app").append(
+          `<div class="card text-white bg-dark mb-6">${object.fechahoraprogramada}`+`<div class="card-header">${object.created_at} </div></div>`);
+    });
+
+
+        // let app = document.querySelector('#app');
+
+        // let nodes = nfechas.map(lang => {
+        //     let li = document.createElement('div');
+        //     li.className = "card text-white bg-dark mb-6";
+        //     li.textContent = lang;
+        //     return li;
+        // });
+        
+        // app.append(...nodes);
+
+        
+
 
     if(fechahora==""){
         alert("No hay fechas programadas")
 
         $("#fecha").show();
         $("#fechanueva").hide();
+
+        $('#reservationdatetime').datetimepicker({
+          locale: 'es',
+          dateFormat: "mm/dd/yy", 
+          minDate: new Date(),
+          icons: { time: 'far fa-clock' }
+      });
+
+        
     }
 
     else{
@@ -446,23 +475,50 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
         alert("hay fechas programadas")
         $("#fecha").hide();
         $("#fechanueva").show();
+
+        alert("Se creó el: " + fechacreacion + " para el día: " + fechaprogramada);
+
+        $('#reservationdatetime').datetimepicker({
+          locale: 'es',
+          dateFormat: "mm/dd/yy", 
+          minDate: new Date(),
+          icons: { time: 'far fa-clock' }
+      });
+    
     }
 
     $('#modalfechahora').modal('show')
 
   })
 
+  $('#btnhistorial').on('click', (event) => {
+
+    event.preventDefault()
+
+
+
+  $('#modalhistorial').modal('show');
+
+  });
+
 
   $('#btnfechahora').on('click', (event) => {
     event.preventDefault()
 
+    let fecha_hora=$("#fechayhora").val();
+    let dateComponents = fecha_hora.split(' ');
+
+    var arrFecha=dateComponents[0].split("/");
+    var arrHora=dateComponents[1].split(":");
+
+    let fecha=new Date(arrFecha[2]+"/"+arrFecha[1]+"/"+arrFecha[0]);
+
+    let formatted_date = fecha.getFullYear() + "-" + (fecha.getMonth() + 1) + "-" + fecha.getDate() + " " + arrHora[0] + ":" + arrHora[1] + ":00";
+
     let route = $('#frmguardarfechahora').attr('action')
 
-    /* let dataArray=$('#frmguardar').serialize() */
     let dataArray = new FormData($('#frmguardarfechahora')[0])
-
-    // dataArray.push({name:'_token',value:token_})
-    console.log(dataArray)
+    dataArray.append("fechahora", formatted_date);
 
     $.ajax({
       method: 'POST',
@@ -501,7 +557,7 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
         })
       },
     })
-  })
+  });
 
 
 $('#btnactualizaravance').on('click', (event) => {
@@ -548,6 +604,9 @@ $('#btnactualizaravance').on('click', (event) => {
 })
 
 $('#requerimientos').on('click', '.editar', function (event) {
+
+  
+  console.log(event)
   let valorboton = $(this).val()
 
   if (valorboton == 'dos') {
