@@ -6,7 +6,7 @@ use App\Cita;
 
 use App\DetalleCita;
 use App\Http\Requests\CitaRequest;
-use App\Mail\TestSendEmail;
+use App\Mail\CitaEmail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -71,12 +71,12 @@ class CitaController extends Controller
   /**
    * Store a newly created resource in storage.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  \Illuminate\Http\Request  $idsAsistentes
    * @return \Illuminate\Http\Response
    */
-  public function store(CitaRequest $request)
+  public function store(CitaRequest $idsAsistentes)
   {
-    $input = $request->all();
+    $input = $idsAsistentes->all();
 
     $input['usuario_id'] = auth()->user()->id;
     $input['estado'] = 'pendiente';
@@ -94,7 +94,8 @@ class CitaController extends Controller
         );
       }
       DetalleCita::insert($detallesCita);
-      $this->sendEmail($cita->id);
+      $cita = $this->model->index(null, null, ['id_cita' => $cita->id])[0];
+      $this->sendEmail($cita, $cita->asistentes, 'INVITACION');
     });
 
     return response()->json([
@@ -111,41 +112,13 @@ class CitaController extends Controller
    */
   public function show($id)
   {
-    $cita = DB::table('citas')
-      ->select(
-        "citas.id AS id",
-        "citas.titulo as titulo",
-        "citas.descripcion as descripcion",
-        "citas.fecha as fecha",
-        "citas.hora_inicio as hora_inicio",
-        "citas.hora_fin as hora_fin",
-        "citas.tipocita as tipo",
-        "citas.link_reu as link",
-        "citas.empresa_id as empresa_id",
-        DB::raw("CONCAT(empresas.nombre, ' (', empresas.direccion, ')') as descripcion_empresa"),
-        "citas.lugarreu AS otra_oficina",
-        "citas.estado AS estado",
-      )
-      ->join('empresas', 'empresas.id', '=', 'citas.empresa_id', 'left')
-      ->where('citas.id', '=', $id)
-      ->get()->first();
-
-    $cita->asistentes = DB::table('detalle_citas')
-      ->select(
-        "detalle_citas.id as detalle_cita_id",
-        "detalle_citas.usuario_colab_id as asistente_id",
-        "colaboradores.nombres AS nombres",
-        "colaboradores.apellidos AS apellidos",
-        "detalle_citas.confirmation AS confirmation",
-        "detalle_citas.confirmation_at AS confirmation_at"
-      )
-      ->join('colaboradores', 'colaboradores.id', '=', 'detalle_citas.usuario_colab_id')
-      ->where('cita_id', $id)
-      ->get()->all();
+    if (is_null(Cita::find($id))) {
+      return response()->json(['errors' => 'resource not found.'], 404);
+    }
 
     return response()->json([
       "messages" => "Resource retrieved successfully.",
-      "data" => $cita
+      "data" => $this->model->index(null, null, ['id_cita' => $id])[0]
     ]);
   }
 
@@ -162,7 +135,7 @@ class CitaController extends Controller
   /**
    * Update the specified resource in storage.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  \Illuminate\Http\Request  $idsAsistentes
    * @param  int $id
    * @return \Illuminate\Http\Response
    */
@@ -174,11 +147,11 @@ class CitaController extends Controller
     }
 
     if (auth()->user()->id != $cita->usuario_id) {
-      return response()->json(['no_autorizado' => 'No esta autorizado a editar esta reunion.'], 403);
+      return response()->json(['no_autorizado' => 'No estas autorizado a editar esta reunion.'], 403);
     }
 
     if (strtotime($cita->fecha) < strtotime(date('Y-m-d'))) {
-      return response()->json(['fecha' => 'No se pueden editar reuniones pasadas.'], 400);
+      return response()->json(['errors' => ['fecha' => 'No se pueden editar reuniones pasadas.']], 422);
     }
 
     $input = $request->all();
@@ -193,6 +166,8 @@ class CitaController extends Controller
     $cita->empresa_id = $request->get('empresa_id');
     $cita->lugarreu = $request->get('lugarreu');
     $cita->estado = $request->get('estado');
+
+    $asistentes = $this->getAsistentesPorTipoEnvioEmail($id, $input['asistentes']);
 
     DB::transaction(function () use ($id, $cita, $input) {
       $cita->save();
@@ -210,10 +185,75 @@ class CitaController extends Controller
       DetalleCita::insert($detallesCita);
     });
 
+    $citaActual = $this->model->index(null, null, ['id_cita' => $id])[0];
+
+    $this->sendEmail($citaActual, $asistentes['paraInvitacion'], 'INVITACION');
+    $this->sendEmail($citaActual, $asistentes['paraReprogramacion'], 'REPROGRAMACION');
+    $this->sendEmail($citaActual, $asistentes['paraEliminacion'], 'ELIMINACION');
+
     return response()->json([
       "messages" => "Resource updated successfully.",
       "data" => $input
     ]);
+  }
+
+  private function getAsistentesPorTipoEnvioEmail($idCita, $idsAsistentes)
+  {
+    $idsAsistentesActuales = array_map(function ($asistente) {
+      return $asistente->asistente_id;
+    }, $this->model->index(null, null, ['id_cita' => $idCita])[0]->asistentes);
+
+    $idsInvitacion = array_diff($idsAsistentes, $idsAsistentesActuales);
+    $idsEliminacion = array_diff($idsAsistentesActuales, $idsAsistentes);
+    $idsReprogramacion = array_diff($idsAsistentesActuales, $idsEliminacion);
+
+    $paraInvitacion = $this->getAsistentesIn($idsInvitacion);
+    $paraEliminacion = $this->getAsistentesIn($idsEliminacion);
+    $paraReprogramacion = $this->getAsistentesIn($idsReprogramacion);
+
+    return [
+      'paraInvitacion' => $paraInvitacion,
+      'paraEliminacion' => $paraEliminacion,
+      'paraReprogramacion' => $paraReprogramacion,
+    ];
+  }
+
+  private function getAsistentesIn($ids)
+  {
+    return  DB::table('colaboradores')
+      ->select(
+        "detalle_citas.id as detalle_cita_id",
+        "colaboradores.nombres AS nombres",
+        "colaboradores.apellidos AS apellidos",
+        "users.email AS email",
+      )
+      ->join('detalle_citas', 'colaboradores.id', '=', 'detalle_citas.usuario_colab_id', 'left')
+      ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'left')
+      ->whereIn('colaboradores.id', $ids)
+      ->get()->all();
+  }
+
+  public function reenviarEmail()
+  {
+    $idCita = request()->input('id_cita');
+    $id_asistente = request()->input('id_asistente');
+
+    $this->sendEmail(
+      $this->model->index(null, null, ['id_cita' => $idCita])[0],
+      $this->getAsistentesIn([$id_asistente]),
+      'INVITACION'
+    );
+
+    return response()->json([
+      "messages" => "Email enviado con exito.",
+    ], 200);
+  }
+
+  private function sendEmail($cita, $asistentes, $tipoAsunto)
+  {
+    foreach ($asistentes as $asistente) {
+      Mail::to($asistente->email)->send(new CitaEmail($cita, $asistente, $tipoAsunto));
+    }
   }
 
   /**
@@ -229,24 +269,19 @@ class CitaController extends Controller
       return response()->json(['messages' => 'Resource not found.'], 404);
     }
 
+    $citaActual = $this->model->index(null, null, ['id_cita' => $id])[0];
+
     DB::transaction(function () use ($id, $cita) {
       DetalleCita::where('cita_id', '=', $id)->delete();
       $cita->delete();
     });
 
+    $this->sendEmail($citaActual, $citaActual->asistentes, 'ELIMINACION');
+
     return response()->json([
       "messages" => "Resource deleted successfully.",
       "data" => $cita
     ]);
-  }
-
-  public function sendEmail($idCita)
-  {
-    $cita = $this->model->index(null, null, ['id_cita' => $idCita])[0];
-
-    foreach ($cita->asistentes as $asistente) {
-      Mail::to($asistente->email)->send(new TestSendEmail($cita, $asistente));
-    }
   }
 
   public function confirmarAsistencia()

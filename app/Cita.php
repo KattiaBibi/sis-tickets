@@ -79,15 +79,15 @@ class Cita extends Model
 
   private function getFilters($query, $filters)
   {
-    if (isset($filters['id_cita']) && $filters['id_cita'] !== '') {
+    if (isset($filters['id_cita']) && !empty($filters['id_cita'])) {
       $query->where('citas.id', '=',  $filters['id_cita']);
     }
 
-    if (isset($filters['fecha_inicio']) && $filters['fecha_inicio'] !== '') {
+    if (isset($filters['fecha_inicio']) && !empty($filters['fecha_inicio'])) {
       $query->where('citas.fecha', '>=',  $filters['fecha_inicio']);
     }
 
-    if (isset($filters['fecha_fin']) && $filters['fecha_fin'] !== '') {
+    if (isset($filters['fecha_fin']) && !empty($filters['fecha_fin'])) {
       $query->where('citas.fecha', '<=',  $filters['fecha_fin']);
     }
 

@@ -212,7 +212,7 @@
                     </div>
 
                     <div id="confirmacionesCollapse" class="collapse show" aria-labelledby="headingOne" data-parent="#confirmacionesAcordion">
-                      <div class="card-body p-0 pt-3" id="showConfirmacionAsistentes">
+                      <div class="card-body p-0 pt-3" id="showConfirmacionAsistentes" style="height: 100px; overflow-y: scroll;">
                       </div>
                     </div>
                   </div>

@@ -15,3 +15,33 @@ CASO DE USO
   FECHA Y HORA.
 
 #EDITAR UNA REUNION
+- VALIDAR DATOS
+- GUARDAR DATOS
+- ENVIAR CORREO DE REPROGRAMACION A LOS ASISTENTES ACTUALES
+- ENVIAR CORREO DE INVITACION A LOS NUEVOS ASISTENTES
+- ENVIAR CORREO DE ELIMINACION A LOS ASISTENTES ELIMINADOS
+
+EJ: 
+REQUEST[47, 49, 50]  (DIFF)  DB[47, 49, 50] = [] NO HAY NUEVOS ASISTENTES (ENVIAR CORREO DE REPROGRAMACION)
+REQUEST[47, 49, 50, 51]  (DIFF)  DB[47, 49, 50] = [51] ASISTENTE NUEVO (ENVIAR CORREO DE INVITACION)
+DB[47, 49, 50]  (DIFF) REQUEST[47, 49, 52, 51]  = [50] ASISTENTE ELIMINADO (ENVIAR CORREO DE ELIMINACION)
+
+invitacion[51, 52]
+reprogramacion[47, 49]
+eliminado[50]
+
+$tipo:
+-invitacion
+-reprogramacion
+-eliminacion
+
+function sendEmail($cita, $asistentes, $tipo)
+{
+  foreach ($asistentes as $asistente) {
+    Mail::to($asistente->email)->send(new CitaEmail($cita, $asistente, $tipo));
+  }
+}
+
+
+
+

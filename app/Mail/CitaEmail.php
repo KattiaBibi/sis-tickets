@@ -7,21 +7,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class TestSendEmail extends Mailable
+class CitaEmail extends Mailable
 {
   use Queueable, SerializesModels;
 
-  protected $cita, $asistente;
+  protected $cita, $asistente, $tipoAsunto;
 
   /**
    * Create a new message instance.
    *
    * @return void
    */
-  public function __construct($cita, $asistente)
+  public function __construct($cita, $asistente, $tipoAsunto)
   {
     $this->cita = $cita;
     $this->asistente = $asistente;
+    $this->tipoAsunto = $tipoAsunto;
   }
 
   /**
@@ -31,11 +32,12 @@ class TestSendEmail extends Mailable
    */
   public function build()
   {
-    return $this->view('mails.test')
+    return $this->view('mails.cita')
       ->subject('Invitación a la reunion: ' . $this->cita->titulo)
       ->with([
         'cita' => $this->cita,
-        'asistente' => $this->asistente
+        'asistente' => $this->asistente,
+        'tipoAsunto' => $this->tipoAsunto
       ]);
   }
 }

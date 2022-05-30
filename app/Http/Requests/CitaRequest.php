@@ -96,7 +96,8 @@ class CitaRequest extends FormRequest
       'descripcion' => 'nullable|max:250',
       'fecha' => [
         'required',
-        // Rule::requiredIf(empty(request()->input('_method'))),
+        // 'nullable',
+        // Rule::requiredIf(request()->input('_method') !== null),
         'date_format:Y-m-d',
         'after_or_equal:today'
       ],

@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   var calendarEl = document.getElementById('calendar')
+
+  let currentEditCita = {}
+
   $('#inputAsistentes').select2()
 
   $('.timepicker').timepicker({
@@ -30,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
         .forEach((item) => (item.innerHTML = ''))
       inputId.value = ''
 
-      toggleDisabledInputLinkZoom()
-      toggleDisabledInputOtraOficina()
+      toggleInputsPorTipoCita()
+      toggleInputsPorOficina()
 
       document.querySelector('.modal-title').innerHTML = 'REGISTRAR REUNIÓN'
       action_form = 'registrar'
@@ -69,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .get(`cita/${arg.event.id}`)
         .then(function (response) {
           let data = response.data.data
+          currentEditCita = data
           console.log(data)
 
           btnEliminar.style.display = 'inline-block'
@@ -89,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
           $('#inputTipoReunion').val(data.tipo)
 
-          toggleDisabledInputLinkZoom()
+          toggleInputsPorTipoCita()
 
           if (data.tipo !== 'presencial') {
             inputLinkZoom.value = data.link
@@ -99,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#inputOficina').val(data.empresa_id)
           }
 
-          toggleDisabledInputOtraOficina()
+          toggleInputsPorOficina()
 
           if ($('#inputOficina').find(':selected').val() === '') {
             inputOtraOficina.value = data.otra_oficina
@@ -108,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
           $('#inputAsistentes').find('option').remove()
           data.asistentes.forEach((item) => {
             Utils.establecerOpcionSelect2('#inputAsistentes', {
-              id: item.id,
+              id: item.asistente_id,
               text: `${item.nombres} ${item.apellidos}`,
             })
           })
@@ -178,14 +182,16 @@ document.addEventListener('DOMContentLoaded', function () {
         rpta = 'SI'
       } else if (asistente.confirmation === 0) {
         rpta = 'NO'
+      } else {
+        rpta = 'Pendiente'
       }
 
       let li =
         asistente.confirmation != null
-          ? `<li>${nom_ape} (${rpta}) (${asistente.confirmation_at})</li>`
-          : `<li>${nom_ape} (<a href='#'>reenviar</a>)</li>`
+          ? `<li><strong>${nom_ape}</strong> (${rpta}) (${asistente.confirmation_at})</li>`
+          : `<li><strong>${nom_ape}</strong> (${rpta}) (<button style='font-size: 10px;' class="btn btn-sm p-0 btnReenviarEmail" data-id-asistente='${asistente.asistente_id}'>reenviar</button>)</li>`
 
-      return li;
+      return li
     })
 
     ul += '</ul>'
@@ -193,21 +199,24 @@ document.addEventListener('DOMContentLoaded', function () {
     showConfirmacionAsistentes.innerHTML = ul
   }
 
-  function toggleDisabledInputLinkZoom() {
+  function toggleInputsPorTipoCita() {
     if ($('#inputTipoReunion').find(':selected').val() === 'presencial') {
       inputLinkZoom.disabled = true
       inputLinkZoom.value = ''
       formGroupLinkZoom.style.display = 'none'
 
       inputOficina.disabled = false
+      $('#inputOficina').val(currentEditCita.empresa_id || null)
       formGroupOficina.style.display = 'block'
 
       inputOtraOficina.disabled = false
+      inputOtraOficina.value = currentEditCita.otra_oficina || null
       formGroupOtraOficina.style.display = 'block'
 
-      toggleDisabledInputOtraOficina()
+      toggleInputsPorOficina()
     } else {
       inputOficina.disabled = true
+      $('#inputOficina').val(null)
       formGroupOficina.style.display = 'none'
 
       inputOtraOficina.disabled = true
@@ -215,13 +224,15 @@ document.addEventListener('DOMContentLoaded', function () {
       formGroupOtraOficina.style.display = 'none'
 
       inputLinkZoom.disabled = false
+      inputLinkZoom.value = currentEditCita.link || null
       formGroupLinkZoom.style.display = 'block'
     }
   }
 
-  function toggleDisabledInputOtraOficina() {
+  function toggleInputsPorOficina() {
     if ($('#inputOficina').find(':selected').val() === '') {
       inputOtraOficina.disabled = false
+      inputOtraOficina.value = currentEditCita.otra_oficina || null
       formGroupOtraOficina.style.display = 'block'
     } else {
       inputOtraOficina.disabled = true
@@ -231,11 +242,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   inputTipoReunion.addEventListener('change', function (e) {
-    toggleDisabledInputLinkZoom()
+    toggleInputsPorTipoCita()
   })
 
   inputOficina.addEventListener('change', function (e) {
-    toggleDisabledInputOtraOficina()
+    toggleInputsPorOficina()
   })
 
   frmRegistrarReunion.addEventListener('submit', function (e) {
@@ -262,6 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
     axios
       .post(url, data)
       .then(function (response) {
+        console.log(response.data)
         calendar.refetchEvents()
         Utils.resetForm('#frmRegistrarReunion', ['#inputAsistentes'])
         $('#citamodal').modal('hide')
@@ -284,6 +296,31 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(function () {
         btnGuardar.disabled = false
         document.querySelector('.loader.btnGuardar').style.display = 'none'
+      })
+  })
+
+  $('#frmRegistrarReunion').on('click', '.btnReenviarEmail', function (e) {
+    e.preventDefault()
+    let btn = this
+
+    let idAsistente = $(this).data('idAsistente')
+
+    this.disabled = true
+    $(
+      '<img src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" class="loader btnGuardar" style="width: 18px;">'
+    ).insertAfter($(this))
+
+    axios
+      .get(`cita/reenviarEmail?id_cita=${inputId.value}&id_asistente=${idAsistente}`)
+      .then(function (response) {
+        alertify.success(response.data.messages)
+      })
+      .catch(function (error) {
+        alertify.error('Ocurrio un error, vuelva a intentarlo.')
+      })
+      .then(function () {
+        btn.disabled = false
+        $(btn).next('.loader').remove()
       })
   })
 
