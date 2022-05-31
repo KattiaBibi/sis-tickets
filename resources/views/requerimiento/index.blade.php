@@ -349,7 +349,7 @@
                         <hr>
                 </div>
 
-                <div class="form-row">
+                <div class="ocult form-row" id="">
 
                     <div class="form-group col-md-12">
                         <h5>Registrar nueva fecha</h5>
@@ -386,7 +386,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="" data-dismiss="modal">Cerrar</button>
-          <button type="" id="btnfechahora" class="btn btn-primary">Guardar</button>
+          <button type="" id="btnfechahora" class="ocult btn btn-primary">Guardar</button>
         </div>
 
             </form>

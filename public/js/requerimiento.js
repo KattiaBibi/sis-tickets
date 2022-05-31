@@ -451,24 +451,6 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
 
     document.getElementById("divhisto").innerHTML = "";
 
-    let log= event.target.value;
-
-    var foo = document.getElementById("oculto");
-    if (foo.hasAttribute("style")) {
-       alert("oculto")
-
-    if(log=="log"){
-
-    }
-
-    else{
-
-
-
-
-    }
-    }
-
 
     var data = datatable.row($(this).parents('tr')).data() //Detecta a que fila hago click y me captura los datos en la variable data.
     if (datatable.row(this).child.isShown()) {
@@ -551,9 +533,50 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
 
         // app.append(...nodes);
 
+        
+    let log= event.target.value;
+
+    if(log=="log"){
+      // alert("Asignado logueado")
+
+      $('#modalfechahora').modal('show')
+    }
+
+    else{
+
+      // alert("Asignado no logueado")
+
+      
+    let valor = document.getElementById("oculto");
+
+    let style = $(valor).css('display');
+    if ( style == 'none'){
+
+      Swal.fire({
+        icon: 'info',
+        title: 'No hay fechas registradas',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+
+    }
+
+    else{
+      // alert("no oculto")
+      $('#ocultar').hide();
+      $('.ocult').hide();
+
+      $('#modalfechahora').modal('show')
+
+    }
+
+  
+
+    }
+ 
 
 
-    $('#modalfechahora').modal('show')
+ 
 
   })
 
