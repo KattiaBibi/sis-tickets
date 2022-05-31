@@ -36,5 +36,6 @@ JANINA
 CALENDARIO -> MARCAR EN ROJO LAS REUNIONES EN LAS QUE ESTOY ASIGNADO, TODO EL CUADRO -> David
 
 
-form request de historial 
+form request de historial
+en el requerimiento dejar poner pdf
 

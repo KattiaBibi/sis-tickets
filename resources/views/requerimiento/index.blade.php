@@ -267,6 +267,23 @@
 
 </div>
 
+<div class="row">
+
+
+
+    <div class="form-group col-md-6">
+
+        <label for="">ARCHIVO</label>
+
+        <input type="file"  accept="" class="form-control-file" id="" name="archivopost">
+
+
+        <button type="button" id="" class="btn btn-info" style="display: none; border-radius: 0px;">QUITAR ARCHIVO</button>
+
+    </div>
+
+</div>
+
 
 
       </div>
@@ -346,9 +363,15 @@
                         <p class="text-info">Último registro de fecha: </p>
                         <p class="text-secondary" id="datafecha"></p>
 
-                        <hr>
-                </div>
+                        <hr class="ocult">
 
+                        <div class="vencimiento alert alert-danger" id="" role="alert">
+                            <h5 class="alert-heading">FECHA VENCIDA</h5>
+                            <hr>
+                            <p id="fragmento"></p>
+
+                </div>
+                <hr class="vencimiento">
                 <div class="ocult form-row" id="">
 
                     <div class="form-group col-md-12">
@@ -356,12 +379,13 @@
                         <label id="fecha" for="">Fecha y hora estimada, para finalizar requerimiento</label>
                         <label id="fechanueva" for="">Nueva fecha y hora estimada, para finalizar requerimiento</label>
 
-                              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                  <input type="text" id="fechayhora" name="" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                                  <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                              <div class="input-group date" id="requerimientodatetime" data-target-input="nearest">
+                                  <input type="text"  id="fechayhora" name="fechahora" class="form-control datetimepicker-input" data-target="#requerimientodatetime" onkeydown="return false"/>
+                                  <div class="input-group-append" data-target="#requerimientodatetime" data-toggle="datetimepicker">
                                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                   </div>
                               </div>
+
 
                     </div>
 
@@ -372,7 +396,7 @@
                     <div class="form-group col-md-12">
 
                         <label for="">Motivo:</label>
-                        <input type="text" class="form-control" id="motivo" value="" maxlength="200" placeholder="Ingrese el motivo por el que se asignará nueva fecha y hora para el requerimiento" name="motivo">
+                        <input type="text" class="form-control" id="motivo" value="" maxlength="200" placeholder="Ingrese el motivo para la nueva fecha" name="motivo">
 
                     </div>
 
@@ -414,6 +438,16 @@
       <form  id="frmeditar" enctype="multipart/form-data">
 
         <input type="hidden" class="form-control" id="idregistro"  name="id">
+        <div class="form-row">
+
+            <div class="form-group col-md-12">
+                <label for="">ARCHIVO DE AUTORIZACIÓN:</label>
+
+                <a href="" id="download" class="link-info"><i class="icon-download-alt"> </i> Descargar</a>
+            </div>
+
+          </div>
+
 
         <div class="form-row" id="">
 

@@ -18,6 +18,7 @@ class Requerimiento extends Model
         'prioridad',
         'estado',
         'imagen',
+        'archivo',
         'empresa_servicio_id',
         'usuarioregist_id'
 

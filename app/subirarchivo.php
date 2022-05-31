@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
-class subirimagen extends Model
+class subirarchivo extends Model
 {
     /**
      * $imagen->  la imagen que entra por post (store)
@@ -24,7 +25,7 @@ class subirimagen extends Model
             //valida si viene un valor en el paremetro para cambiar la iamgen (update)
             if ($imgactual) {
                 //elimina la imagen anterior (update)
-                Storage::disk('public')->delete("$imgactual");
+                Storage::disk('public')->delete($ruta . $imgactual);
             }
 
             $imageName = Str::slug($nombre) . time() . '.' . $ext;
@@ -36,4 +37,27 @@ class subirimagen extends Model
             return false;
         }
     }
+
+    public static function archivo($archivo2, $nombre2, $ruta2, $archivoactual = false)
+    {
+
+        if ($archivo2) {
+            //obtenemos el nombre del archivo
+            $nombre2 = "archivo_".time().$archivo2->getClientOriginalName();
+
+            if ($archivoactual) {
+                //elimina la imagen anterior (update)
+                Storage::disk('public')->delete($ruta2 . $archivoactual);
+            }
+
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            Storage::disk('public')->put("$ruta2/$nombre2",  File::get($archivo2));
+            return $nombre2;
+
+            } else {
+                return false;
+            }
+
+    }
+
 }

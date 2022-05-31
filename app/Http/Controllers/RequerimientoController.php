@@ -14,13 +14,14 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\RequerimientoRequest;
 use App\Http\Requests\RequerimientoActualizarRequest;
-use App\subirimagen;
+use App\subirarchivo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Carbon;
-
+use Illuminate\Support\Facades\Response;
 use function PHPSTORM_META\map;
 
 class RequerimientoController extends Controller
@@ -65,14 +66,15 @@ class RequerimientoController extends Controller
                 "requerimientos.estado AS estado_requerimiento",
                 "requerimientos.prioridad AS prioridad_requerimiento",
                 "requerimientos.created_at AS fecha_creacion",
-                "requerimientos.imagen AS imagen"
+                "requerimientos.imagen AS imagen",
+                "requerimientos.archivo AS archivo"
             )
             ->join('colaboradores AS solicitante', 'solicitante.id', '=', 'requerimientos.usuarioregist_id')
             ->join('users AS usuario_solicitante', 'usuario_solicitante.colaborador_id', '=', 'solicitante.id')
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
-            ->groupBy('requerimientos.id', 'requerimientos.titulo', 'requerimientos.descripcion', 'solicitante.nombres', 'solicitante.apellidos', 'empresas.nombre', 'empresas.id', 'servicios.nombre', 'requerimientos.usuarioregist_id', 'requerimientos.avance', 'requerimientos.estado', 'requerimientos.prioridad', 'requerimientos.created_at', 'requerimientos.imagen');
+            ->groupBy('requerimientos.id', 'requerimientos.titulo', 'requerimientos.descripcion', 'solicitante.nombres', 'solicitante.apellidos', 'empresas.nombre', 'empresas.id', 'servicios.nombre', 'requerimientos.usuarioregist_id', 'requerimientos.avance', 'requerimientos.estado', 'requerimientos.prioridad', 'requerimientos.created_at', 'requerimientos.imagen','requerimientos.archivo');
 
         if ($role_id === 2) {
 
@@ -324,13 +326,20 @@ class RequerimientoController extends Controller
     public function store(RequerimientoRequest $request)
     {
 
+
+        $ruta2 = "archivo/";
+        $file2 = $request->file('archivopost');
+        $nombre2 = "archivo";
+
         $ruta = "requerimiento/";
         $file = $request->imagenpost;
-        $nombre = "requerimiento";
-        $subir = subirimagen::imagen($file, $nombre, $ruta);
 
+        $nombre = "requerimiento";
+        $subir = subirarchivo::imagen($file, $nombre, $ruta);
+        $subir2 = subirarchivo::archivo($file2, $nombre2, $ruta2);
 
         $request->request->add(['imagen' => $subir]);
+        $request->request->add(['archivo' => $subir2]);
         $request->request->add(['avance' => 0]);
         $request->request->add(['estado' => 'pendiente']);
 
@@ -357,6 +366,27 @@ class RequerimientoController extends Controller
      * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
+
+
+    // public function download($file_name) {
+    //     $file_path = public_path('files/'.$file_name);
+    //     return response()->download($file_path);
+    //   }
+
+
+
+public function getDownload($archivo)
+
+{
+
+//PDF file is stored under project/public/download/info.pdf
+
+    $file= public_path(). "/storage/archivo/".$archivo;
+
+    return response()->download($file);
+}
+
+
     public function show(Request $request, $id)
     {
         //
@@ -459,12 +489,9 @@ class RequerimientoController extends Controller
 
             // SI EXISTE LA IMAGEN NUEVA
 
-            // PRIMERO ELIMINA LA IMAGEN ANTERIOR
 
-            Storage::disk('public')->delete($ruta . $file2);
 
-            // LUEGO SUBE LA IMAGEN A LA CARPETA  STORAGE
-            $subir = subirimagen::imagen($file, $nombre, $ruta);
+            $subir = subirarchivo::imagen($file, $nombre, $ruta, $file2);
 
             // DESPUÉS GUARDA EN LA BASE DE DATOS
 

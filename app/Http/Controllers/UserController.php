@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
-use App\subirimagen;
+use App\subirarchivo;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -87,7 +87,7 @@ class UserController extends Controller
         $ruta = "foto/";
         $file = $request->imagenpost;
         $nombre = "foto";
-        $subir = subirimagen::imagen($file, $nombre, $ruta);
+        $subir = subirarchivo::imagen($file, $nombre, $ruta);
 
 
         $usuario=User::create(
@@ -185,7 +185,7 @@ class UserController extends Controller
         Storage::disk('public')->delete($ruta.$file2);
 
         // LUEGO SUBE LA IMAGEN A LA CARPETA  STORAGE
-        $subir = subirimagen::imagen($file, $nombre, $ruta);
+        $subir = subirarchivo::imagen($file, $nombre, $ruta);
 
         // DESPUÉS GUARDA EN LA BASE DE DATOS
 

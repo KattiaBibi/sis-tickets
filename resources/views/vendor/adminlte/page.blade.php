@@ -120,6 +120,8 @@
 <script src="https://bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
 <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
 
+
+
     @stack('js')
     @yield('js')
 @stop

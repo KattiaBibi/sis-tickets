@@ -473,9 +473,9 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
         let historial=data['historial'];
 
 
-        $('#reservationdatetime').datetimepicker({
+        $('#requerimientodatetime').datetimepicker({
           locale: 'es',
-          dateFormat: "mm/dd/yy",
+          dateFormat: "yy-mm-dd",
           minDate: new Date(),
           icons: { time: 'far fa-clock' }
       });
@@ -502,6 +502,31 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
 
         $("#datafecha").html(`Se creó el:  ${fechacreacion} / para el día: ${fechaprogramada}`);
 
+        console.log(fechacreacion[0])
+
+        var fecha1 = moment(''+fechaprogramada[0]+'');
+        var fechaact = moment();
+
+
+        console.log(fecha1)
+        console.log(fechaact)
+
+        if(fechaact > fecha1){
+
+        //   alert("Registro vencido");
+
+          $("#fragmento").html("¡Tu última fecha de finalización del requerimiento venció hace " + fechaact.diff(fecha1, 'days') + " día(s) /" + fechaact.diff(fecha1, 'hours') +" hora(s)!") ;
+          $(".vencimiento").show();
+        }
+
+        else{
+
+            $(".vencimiento").hide();
+        }
+
+        console.log(fecha1);
+
+
     }
 
 
@@ -522,61 +547,52 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
     });
 
 
-        // let app = document.querySelector('#app');p
 
-        // let nodes = nfechas.map(lang => {
-        //     let li = document.createElement('div');
-        //     li.className = "card text-white bg-dark mb-6";
-        //     li.textContent = lang;
-        //     return li;
-        // });
+    let dato= data.asignados;
+    let log=data.log;
 
-        // app.append(...nodes);
+    console.log(dato)
 
-        
-    let log= event.target.value;
 
-    if(log=="log"){
-      // alert("Asignado logueado")
+    let x=dato.find(object => object.id_user===log);
 
-      $('#modalfechahora').modal('show')
+    if(x=="" || x== null){
+
+        console.log("asignado no logueado")
+
+        let valor = document.getElementById("oculto");
+
+        let style = $(valor).css('display');
+
+        if ( style == 'none'){
+
+            console.log("oculto")
+
+          Swal.fire({
+            icon: 'info',
+            title: 'No hay fechas registradas',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+
+        }
+
+        else{
+          console.log("no oculto")
+          $('#ocultar').hide();
+          $('.ocult').hide();
+
+          $('#modalfechahora').modal('show')
+
+        }
+
     }
 
     else{
-
-      // alert("Asignado no logueado")
-
-      
-    let valor = document.getElementById("oculto");
-
-    let style = $(valor).css('display');
-    if ( style == 'none'){
-
-      Swal.fire({
-        icon: 'info',
-        title: 'No hay fechas registradas',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-
-    }
-
-    else{
-      // alert("no oculto")
-      $('#ocultar').hide();
-      $('.ocult').hide();
-
+      console.log(x.id_user)
       $('#modalfechahora').modal('show')
-
     }
 
-  
-
-    }
- 
-
-
- 
 
   })
 
@@ -596,6 +612,21 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
     event.preventDefault()
 
     let fecha_hora=$("#fechayhora").val();
+    let motivo=$("#motivo").val();
+
+
+    if(fecha_hora=="" || motivo==""){
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Faltan completar datos',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+    }
+
+    else{
+
     let dateComponents = fecha_hora.split(' ');
 
     var arrFecha=dateComponents[0].split("/");
@@ -624,7 +655,7 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
           Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: 'Datos guardados correctamente',
+            title: 'Fecha guardada correctamente',
             showConfirmButton: false,
             timer: 1500,
           })
@@ -649,6 +680,8 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
         })
       },
     })
+
+    } // FINAL ELSE
   });
 
 
@@ -762,6 +795,26 @@ $('#requerimientos').on('click', '.editar', function (event) {
   } else {
     document.getElementById('mostimg').src = 'storage/' + data.imagen
   }
+
+
+  $('#download').on('click', function (evento) {
+
+
+    if (data.archivo == 0 || data.archivo == null) {
+         evento.preventDefault()
+        Swal.fire({
+            icon: 'info',
+            title: 'No hay archivo subido',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+
+      } else {
+        document.getElementById('download').href = 'download/' + data.archivo
+      }
+
+  });
+
 
   $('#UsuarioResponsable').val(
     data['encargados']

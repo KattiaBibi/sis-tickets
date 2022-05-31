@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\HistorialFechaHora;
 use App\Requerimiento;
 use Illuminate\Http\Request;
+use App\Http\Requests\HistorialFechaHoraRequest;
 use App\Http\Controllers\DateTime;
 
 class HistorialFechaHoraController extends Controller
