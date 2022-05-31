@@ -33,7 +33,7 @@ class CitaEmail extends Mailable
   public function build()
   {
     return $this->view('mails.cita')
-      ->subject('Invitación a la reunion: ' . $this->cita->titulo)
+      ->subject('👉 Invitación a la reunion: ' . $this->cita->titulo)
       ->with([
         'cita' => $this->cita,
         'asistente' => $this->asistente,

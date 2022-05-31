@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } else if (asistente.confirmation === 0) {
         rpta = 'NO'
       } else {
-        rpta = 'Pendiente'
+        rpta = 'pendiente'
       }
 
       let li =
