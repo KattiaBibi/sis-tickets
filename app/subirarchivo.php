@@ -32,7 +32,7 @@ class subirarchivo extends Model
             $imagen =  Image::make($imagen)->encode($ext, 20);
             Storage::disk('public')->put("$ruta/$imageName", $imagen->stream());
             $compl = $ruta . $imageName;
-            return $compl;
+            return $imageName;
         } else {
             return false;
         }
@@ -46,7 +46,7 @@ class subirarchivo extends Model
             $nombre2 = "archivo_".time().$archivo2->getClientOriginalName();
 
             if ($archivoactual) {
-                //elimina la imagen anterior (update)
+                //elimina el archivo anterior (update)
                 Storage::disk('public')->delete($ruta2 . $archivoactual);
             }
 

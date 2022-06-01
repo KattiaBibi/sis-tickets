@@ -244,12 +244,13 @@ $('#btnagregar').on('click', function (e) {
   $('#prev').removeAttr('src')
 
   $('.retirar').hide()
+  $('.retirararch').hide()
 })
 
 $('.retirar').on('click', function (e) {
   $('#imn').val(null)
 
-  $('#xy').val(null)
+  $('#fileimg').val(null)
 
   $('#imag').hide()
   $('#imag').removeAttr('src')
@@ -259,6 +260,24 @@ $('.retirar').on('click', function (e) {
 
   $('.retirar').hide()
 })
+
+
+$('.retirararch').on('click', function (e) {
+    $('#arch').val(null)
+
+    $('#filearch').val(null)
+
+    $('.retirararch').hide()
+  })
+
+
+  $('.archfile').on('change', function () {
+
+
+      $('.retirararch').show()
+
+  })
+
 
 $('#imag').on('error', function (event) {
   $(event.target).css('display', 'none')
@@ -787,20 +806,23 @@ $('#requerimientos').on('click', '.editar', function (event) {
   $('#imn').val('')
   $('#imag').hide()
   $('.retirar').hide()
+  $('.retirararch').hide()
   $('#imag').removeAttr('src')
 
   if (data.imagen == 0 || data.imagen == null) {
     document.getElementById('mostimg').src =
       'vendor/adminlte/dist/img/sinimg.jpg'
   } else {
-    document.getElementById('mostimg').src = 'storage/' + data.imagen
+    document.getElementById('mostimg').src = 'storage/requerimiento/' + data.imagen
   }
 
 
   $('#download').on('click', function (evento) {
 
 
-    if (data.archivo == 0 || data.archivo == null) {
+    if (data.archivo == 0 || data.archivo == null || data.archivo =="") {
+
+        alert(data.archivo)
          evento.preventDefault()
         Swal.fire({
             icon: 'info',
@@ -921,16 +943,6 @@ $('#btnactualizar').on('click', (event) => {
   let _CSRF = { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
   var formData = new FormData($('#frmeditar')[0])
 
-  let valor = $('#mostimg').attr('src')
-
-  let divisiones = valor.split('/', -2)
-
-  let extraer = divisiones.slice(-1)
-
-  let x = $('.editar').val()
-  console.log(x)
-
-  formData.append('imganterior', extraer)
   formData.append('_method', 'PUT')
 
   let val = document.getElementById('personal').value

@@ -256,7 +256,7 @@
 
             <label for="">IMAGEN</label>
 
-            <input type="file"  accept="image/*" class="img form-control-file" id="xy" name="imagenpost">
+            <input type="file"  accept="image/*" class="img form-control-file" id="fileimg" name="imagenpost">
 
             <img id="prev" class="imagenPrevisualizacion mt-2" style="width: 350px;height: 200;">
 
@@ -275,10 +275,9 @@
 
         <label for="">ARCHIVO</label>
 
-        <input type="file"  accept="" class="form-control-file" id="" name="archivopost">
+        <input type="file"  accept="" class="archfile form-control-file" id="filearch" name="archivopost">
 
-
-        <button type="button" id="" class="btn btn-info" style="display: none; border-radius: 0px;">QUITAR ARCHIVO</button>
+        <button type="button" id="" class="retirararch btn btn-sm mt-2 btn-info" style="display: none;border-radius: 0px;">QUITAR ARCHIVO</button>
 
     </div>
 
@@ -417,16 +416,16 @@
       </div>
     </div>
   </div>
-
+<</div>
 
   <!-- Modal editar -->
 
 
-<div class="modal fade" id="modaleditar" tabindex="-1" role="dialog" aria-labelledby="modaleditar" aria-hidden="true">
+<div class="modal fade" id="modaleditar" tabindex="-1" role="dialog" aria-labelledby="modaleditarlabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><span class="div divoculto divocult">ACTUALIZA </span>REGISTRO DE MANTENIMIENTO</h5>
+            <h5 class="modal-title" id="modaleditarlabel"><span class="div divoculto divocult">ACTUALIZA </span>REGISTRO DE MANTENIMIENTO</h5>
 
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -438,16 +437,27 @@
       <form  id="frmeditar" enctype="multipart/form-data">
 
         <input type="hidden" class="form-control" id="idregistro"  name="id">
+
         <div class="form-row">
 
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-4">
                 <label for="">ARCHIVO DE AUTORIZACIÓN:</label>
 
                 <a href="" id="download" class="link-info"><i class="icon-download-alt"> </i> Descargar</a>
             </div>
 
-          </div>
 
+    <div class="form-group col-md-8">
+
+        <label for="">ACTUALIZAR ARCHIVO DE AUTORIZACIÓN:</label>
+
+        <input type="file"  accept="" class="archfile form-control-file" id="arch" name="archivonue">
+
+        <button type="button" id="consarch" class="retirararch btn btn-sm mt-1 btn-info" style="display:none;border-radius: 0px;">QUITAR ARCHIVO</button>
+    </div>
+
+          </div>
+        <hr>
 
         <div class="form-row" id="">
 
@@ -470,7 +480,7 @@
 
             <div class="form-group text-center row justify-content-center align-items-center col-md-4">
 
-                <button type="button" id="consim" class="retirar btn btn-info" style="display: none;">CONSERVAR IMAGEN</button>
+                <button type="button" id="consim" class="retirar btn btn-info" style="display: none;">QUITAR IMAGEN</button>
 
             </div>
 
@@ -590,8 +600,6 @@
 
       </div>
     </div>
-  </div>
-
   </div>
 
 

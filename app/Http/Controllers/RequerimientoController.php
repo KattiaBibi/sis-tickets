@@ -330,7 +330,7 @@ class RequerimientoController extends Controller
         $ruta2 = "archivo/";
         $file2 = $request->file('archivopost');
         $nombre2 = "archivo";
-
+    $subir2 = subirarchivo::archivo($file2, $nombre2, $ruta2);
         $ruta = "requerimiento/";
         $file = $request->imagenpost;
 
@@ -471,27 +471,36 @@ public function getDownload($archivo)
 
         $requerimiento = Requerimiento::findOrfail($id);
 
-        //  RUTA DE LA IMAGEN
+        //  RUTA DE LA IMAGEN / ARCHIVO
         $ruta = "requerimiento/";
 
-        // IMAGEN NUEVA
+        $ruta2="archivo/";
+
+        // IMAGEN Y ARCHIVO NUEVO
         $file = $request->imagennue;
+        $filearch= $request->archivonue;
+
 
         // IMAGEN ANTERIOR
 
-        $file2 = $request->imganterior;
+        $file2 = $requerimiento->imagen;
+        $filearch2 = $requerimiento->archivo;
 
-        // NOMBRE PARA CONCATENAR A LA NUEVA IMAGEN
+        // NOMBRE PARA CONCATENAR A LA NUEVA IMAGEN Y ARCHIVO
         $nombre = "requerimiento";
+        $nombre2 = "archivo";
         // return response()->json($file2);
 
-        if ($file) {
-
-            // SI EXISTE LA IMAGEN NUEVA
+        // dd($filearch2);
 
 
+        if ($file && $filearch) {
+
+            // SI EXISTE LA IMAGEN NUEVA Y TMB EL ARCHIVO NUEVO
 
             $subir = subirarchivo::imagen($file, $nombre, $ruta, $file2);
+            $subir2 = subirarchivo::archivo($filearch, $nombre2, $ruta2, $filearch2);
+
 
             // DESPUÉS GUARDA EN LA BASE DE DATOS
 
@@ -502,9 +511,41 @@ public function getDownload($archivo)
                     'prioridad' => $request->prioridad,
                     'estado' => $request->estado,
                     'imagen' => $subir,
+                    'archivo' => $subir2
                 ]
             );
-        } else {
+        }
+
+        else if($file){
+
+            $subir = subirarchivo::imagen($file, $nombre, $ruta, $file2);
+
+            $requerimiento->update(
+                [
+                    'titulo' => $request->titulo,
+                    'descripcion' => $request->descripcion,
+                    'prioridad' => $request->prioridad,
+                    'estado' => $request->estado,
+                    'imagen' => $subir
+                ]
+            );
+        }
+
+        else if($filearch){
+
+            $subir2 = subirarchivo::archivo($filearch, $nombre2, $ruta2, $filearch2);
+
+            $requerimiento->update(
+                [
+                    'titulo' => $request->titulo,
+                    'descripcion' => $request->descripcion,
+                    'prioridad' => $request->prioridad,
+                    'estado' => $request->estado,
+                    'archivo' => $subir2
+                ]
+            );
+        }
+        else {
 
             // SI NO MANDA IMAGEN NUEVA
 
@@ -517,6 +558,8 @@ public function getDownload($archivo)
                 ]
             );
         }
+
+
 
         $colab = $request->usuario_colab_id;
 
