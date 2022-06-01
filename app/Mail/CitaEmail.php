@@ -32,8 +32,17 @@ class CitaEmail extends Mailable
    */
   public function build()
   {
+    $subject = "";
+    if ($this->tipoAsunto === 'INVITACION') {
+      $subject = "👉 Invitación a la reunión " . strtoupper($this->cita->tipo) . " " . $this->cita->titulo;
+    } elseif ($this->tipoAsunto === 'REPROGRAMACION') {
+      $subject = "👉 Reprogramación de la reunión " . strtoupper($this->cita->tipo) . " " . $this->cita->titulo;
+    } else {
+      $subject = "👉 Se te eliminó de la reunión " . strtoupper($this->cita->tipo) . " " . $this->cita->titulo;
+    }
+
     return $this->view('mails.cita')
-      ->subject('👉 Invitación a la reunion: ' . $this->cita->titulo)
+      ->subject($subject)
       ->with([
         'cita' => $this->cita,
         'asistente' => $this->asistente,
