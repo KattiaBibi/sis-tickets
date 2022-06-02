@@ -817,25 +817,15 @@ $('#requerimientos').on('click', '.editar', function (event) {
   }
 
 
-  $('#download').on('click', function (evento) {
-
 
     if (data.archivo == 0 || data.archivo == null || data.archivo =="") {
 
-        alert(data.archivo)
-         evento.preventDefault()
-        Swal.fire({
-            icon: 'info',
-            title: 'No hay archivo subido',
-            showConfirmButton: false,
-            timer: 1500,
-          })
+          $("#download").removeAttr("href");
+          $("#download").html("No hay archivo")
 
       } else {
         document.getElementById('download').href = 'download/' + data.archivo
       }
-
-  });
 
 
   $('#UsuarioResponsable').val(
@@ -846,7 +836,7 @@ $('#requerimientos').on('click', '.editar', function (event) {
       .toString()
   )
 
-  $('#avance').width(data['avance_requerimiento'] + '%')
+  $('#avancepogre').width(data['avance_requerimiento'] + '%')
   document.getElementById('avan').innerHTML = data['avance_requerimiento'] + '%'
   $('#estado').val(data['estado_requerimiento'])
   $('#prioridad').val(data['prioridad_requerimiento'])

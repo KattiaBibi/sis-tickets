@@ -275,7 +275,7 @@
 
         <label for="">ARCHIVO</label>
 
-        <input type="file"  accept="" class="archfile form-control-file" id="filearch" name="archivopost">
+        <input type="file"  accept=".doc,.pdf,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="archfile form-control-file" id="filearch" name="archivopost">
 
         <button type="button" id="" class="retirararch btn btn-sm mt-2 btn-info" style="display: none;border-radius: 0px;">QUITAR ARCHIVO</button>
 
@@ -440,18 +440,18 @@
 
         <div class="form-row">
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
                 <label for="">ARCHIVO DE AUTORIZACIÓN:</label>
 
                 <a href="" id="download" class="link-info"><i class="icon-download-alt"> </i> Descargar</a>
             </div>
 
 
-    <div class="form-group col-md-8">
+    <div class="divoculto divocult form-group col-md-6">
 
         <label for="">ACTUALIZAR ARCHIVO DE AUTORIZACIÓN:</label>
 
-        <input type="file"  accept="" class="archfile form-control-file" id="arch" name="archivonue">
+        <input type="file"  accept=".doc,.pdf,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="archfile form-control-file" id="arch" name="archivonue">
 
         <button type="button" id="consarch" class="retirararch btn btn-sm mt-1 btn-info" style="display:none;border-radius: 0px;">QUITAR ARCHIVO</button>
     </div>
@@ -540,7 +540,7 @@
                 <label for="">AVANCE:</label>
 
             <div class="progress progress-md">
-              <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" id="avance" style="width: 100%" value="30" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" id="avancepogre" style="width: 100%" value="30" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <span id="avan">0</span>
                 {{-- <input class="progress-bar bg-primary progress-bar-striped progress-bar-animated" name="avance" role="progressbar" id="avance" min="0" value="0" max="100" step="5" style="width: 100%;"> --}}
