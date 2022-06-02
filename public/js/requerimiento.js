@@ -233,12 +233,11 @@ function listar() {
 
 $(document).ready(function(){
 
-
-
 });
 
 $('#btnagregar').on('click', function (e) {
   $('#frmguardar')[0].reset()
+  Utils.cleanSelects2(['#gerente'])
 
   $('#prev').hide()
   $('#prev').removeAttr('src')
@@ -259,6 +258,7 @@ $('.retirar').on('click', function (e) {
   $('#prev').removeAttr('src')
 
   $('.retirar').hide()
+
 })
 
 
@@ -334,6 +334,8 @@ $('#empresa').on('change', function (e) {
   }
 
   $.get('/requerimiento/' + valor + '/listado', function (data) {
+
+
     if (data.length == 0) {
       $('#servicio').html('<option value="a">No hay servicios ...</option>')
     } else {
@@ -356,27 +358,38 @@ $('#empresa').on('change', function (e) {
   })
 
   $.get('/gerente/' + valor + '/listado', function (data) {
-    if (data.length == 0) {
-      $('#gerente').html('<option value="a">No hay gerentes ...</option>')
-    } else {
-      var html_select = '<option value="a" disabled>Seleccione ...</option>'
 
-      for (var i = 0; i < data.length; ++i)
-        html_select +=
-          '<option value="' +
-          data[i].id +
-          '">' +
-          data[i].nombres +
-          ' ' +
-          data[i].apellidos +
-          '</option>'
+    $('#gerente').find('option').remove()
+    data.forEach((item) => {
+      Utils.establecerOpcionSelect2('#gerente', {
+        id: item.id,
+        text: `${item.nombres} ${item.apellidos}`,
+      })
+    })
 
-      $('#gerente').html(html_select)
+    // $('#gerente').find('option').remove()
 
-      console.log(data.length)
-      console.log(valor)
-      console.log(data)
-    }
+    // if (data.length == 0) {
+    //   $('#gerente').html('<option value="a">No hay gerentes ...</option>')
+    // } else {
+    //   var html_select = '<option value="a" disabled>Seleccione ...</option>'
+
+    //   for (var i = 0; i < data.length; ++i)
+    //     html_select +=
+    //       '<option value="' +
+    //       data[i].id +
+    //       '">' +
+    //       data[i].nombres +
+    //       ' ' +
+    //       data[i].apellidos +
+    //       '</option>'
+
+    //   $('#gerente').html(html_select)
+
+    //   console.log(data.length)
+    //   console.log(valor)
+    //   console.log(data)
+    // }
   })
 })
 
@@ -825,6 +838,7 @@ $('#requerimientos').on('click', '.editar', function (event) {
 
       } else {
         document.getElementById('download').href = 'download/' + data.archivo
+        $("#download").html("Descargar")
       }
 
 
@@ -976,6 +990,7 @@ $('#btnactualizar').on('click', (event) => {
     },
   })
 })
+
 
 $('#filtros').on('change', function (e) {
   datatable.ajax.reload(null, false)

@@ -146,6 +146,7 @@ class Utils {
     }
     return bytes;
   }
+  
 
   static saveByteArray(reportName, byte) {
     var blob = new Blob([byte], {

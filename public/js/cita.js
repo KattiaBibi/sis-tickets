@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         },
         failure: function () {
-          alert('Ocurrio un error al conectarse con el servidor!')
+          alert('¡Ocurrió un error al conectarse con el servidor!')
         },
       },
     ],
