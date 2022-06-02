@@ -106,11 +106,11 @@ class CitaRequest extends FormRequest
       'link_reu' => 'nullable|max:150',
       'empresa_id' => [
         'nullable',
-        Rule::requiredIf(empty(request()->input('lugarreu'))),
+        // Rule::requiredIf(empty(request()->input('lugarreu'))),
         'exists:empresas,id',
       ],
       'lugarreu' => [
-        Rule::requiredIf(empty(request()->input('empresa_id'))),
+        // Rule::requiredIf(empty(request()->input('empresa_id'))),s
         'max:150',
       ],
       'asistentes' => 'required|exists:colaboradores,id|custom_rule'
@@ -135,9 +135,9 @@ class CitaRequest extends FormRequest
       'hora_fin.date_format' => 'El campo Hora Fin debe tener formato hora/minutos',
       'hora_fin.after' => 'El campo Hora Fin debe ser mayor al campo Hora Inicio',
       'link_reu.max' => 'El campo Link debe contener max. 150 caracteres.',
-      'empresa_id.required' => 'El campo Oficina es obligatorio si el campo Otra Oficina esta vacio.',
+      // 'empresa_id.required' => 'El campo Oficina es obligatorio si el campo Otra Oficina esta vacio.',
       'empresa_id.exists' => 'El campo Oficina debe estar previamente registrado.',
-      'lugarreu.required' => 'El campo Otra Oficina es obligatorio si el campo Oficina esta vacio.',
+      // 'lugarreu.required' => 'El campo Otra Oficina es obligatorio si el campo Oficinas esta vacio.',
       'lugarreu.max' => 'El campo Otra Oficina debe contener max. 150 caracteres.',
       'asistentes.required' => 'El campo Asistentes es obligatorio.',
       'asistentes.exists' => 'El campo Asistentes debe estar previamente registrado.',
