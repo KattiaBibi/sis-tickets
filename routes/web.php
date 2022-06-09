@@ -20,6 +20,20 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('storage-link', function(){
+
+    if(file_exists(public_path('storage'))){
+
+        return 'The "public-storage" directory already exists.';
+    }
+
+    app('files')->link(
+        storage_path('app/public'), public_path('storage')
+    );
+
+    return 'The [public/storage] directory has been linked.';
+});
+
 
 Route::get('/dashboard', 'HomeController@index')->middleware('can:admin.home')->name('dashboard');
 Route::get('/dashboard/getLastRequerimientos', 'HomeController@getLastRequerimientos');
