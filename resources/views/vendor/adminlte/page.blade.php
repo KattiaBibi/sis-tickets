@@ -121,6 +121,27 @@
 <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
 
 
+<script>
+
+$(".solonros").bind('keypress', function(event) {
+  var regex = new RegExp("^[0-9]+$");
+  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+  if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+  }
+});
+
+$(".sololetras").bind('keypress', function(event) {
+  var regex = new RegExp("^[a-zA-Z ]+$");
+  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+  if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+  }
+});
+
+</script>
 
     @stack('js')
     @yield('js')

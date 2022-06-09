@@ -99,103 +99,7 @@
               <div class="card-body">
                 <div class="tab-content">
 
-                  <!-- /.tab-pane -->
-                  {{-- <div class="active tab-pane" id="requerimientos">
-                    <!-- The timeline -->
-                    <div class="timeline timeline-inverse">
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- requerimientos item -->
-                      <div>
-                        <i class="fas fa-envelope bg-primary"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 12:05</span>
-
-                          <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
-                          <div class="timeline-body">
-                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                            weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                            jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                            quora plaxo ideeli hulu weebly balihoo...
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-user bg-info"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                          <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
-                          </h3>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-comments bg-warning"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                          <div class="timeline-body">
-                            Take me to your leader!
-                            Switzerland is small and neutral!
-                            We are more like Germany, ambitious and misunderstood!
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-camera bg-purple"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                          <div class="timeline-body">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END requerimientos item -->
-                      <div>
-                        <i class="far fa-clock bg-gray"></i>
-                      </div>
-                    </div>
-                  </div> --}}
-                  <!-- /.tab-usuario -->
-
+  
                   <div class="active tab-pane" id="datosusuario">
 
                         <form class="form-horizontal" id="frmeditar" enctype="multipart/form-data">
@@ -225,20 +129,20 @@
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-4 col-form-label">Nombre usuario</label>
                         <div class="col-sm-8">
-                          <input type="text"  value="{{ $usuario->uname }}" name="name" class="form-control" id="inputName" placeholder="Nombre usuario">
+                          <input type="text"  value="{{ $usuario->uname }}" name="name" maxlength="50" class="form-control" id="inputName" placeholder="Nombre usuario">
                         </div>
                       </div>
 
                       <div class="form-group row">
                         <label for="inputEmail" class="col-sm-4 col-form-label">Correo</label>
                         <div class="col-sm-8">
-                          <input type="email" value="{{ $usuario->uemail }}" name="email" class="form-control" id="inputEmail" placeholder="Correo">
+                          <input type="email" value="{{ $usuario->uemail }}" name="email" maxlength="80" class="form-control" id="inputEmail" placeholder="Correo">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputName2" class="col-sm-4 col-form-label">Contraseña nueva</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" id="inputName2" name="password" placeholder="Nueva contraseña">
+                          <input type="text" class="form-control" id="inputName2" name="password" maxlength="50"  placeholder="Nueva contraseña">
                         </div>
                       </div>
 
@@ -274,21 +178,21 @@
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-4 col-form-label">N° documento:</label>
                         <div class="col-sm-8">
-                          <input type="number"  value="{{ $usuario->nrodoc }}" class="form-control" id="inputName" name="nrodocumento" placeholder="N° documento">
+                          <input type="number"  value="{{ $usuario->nrodoc }}"  maxlength="11" class="form-control" id="inputName" name="nrodocumento" placeholder="N° documento">
                         </div>
                       </div>
 
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-4 col-form-label">Nombre(s):</label>
                         <div class="col-sm-8">
-                          <input type="text" value="{{ $usuario->cnombres }}" class="form-control" id="inputNombre" name="nombres" placeholder="Nombre(s) colaborador">
+                          <input type="text" value="{{ $usuario->cnombres }}" class="sololetras form-control" maxlength="50" id="inputNombre" name="nombres" placeholder="Nombre(s) colaborador">
                         </div>
                       </div>
 
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-4 col-form-label">Apellidos:</label>
                         <div class="col-sm-8">
-                          <input type="text" value="{{ $usuario->capellidos }}"b class="form-control" id="inputApellidos" name="apellidos" placeholder="Apellidos colaborador">
+                          <input type="text" value="{{ $usuario->capellidos }}"b class="sololetras form-control" maxlength="50" id="inputApellidos" name="apellidos" placeholder="Apellidos colaborador">
                         </div>
                       </div>
 
@@ -303,14 +207,14 @@
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-4 col-form-label">Dirección:</label>
                         <div class="col-sm-8">
-                          <input type="text" name="direccion" value="{{ $usuario->direccion }}" class="form-control" id="inputNombre" placeholder="Dirección">
+                          <input type="text" name="direccion" value="{{ $usuario->direccion }}" maxlength="50" class="form-control" id="inputNombre" placeholder="Dirección">
                         </div>
                       </div>
 
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-4 col-form-label">Teléfono:</label>
                         <div class="col-sm-8">
-                          <input type="text" name="telefono" value="{{ $usuario->tf }}" class="form-control" id="inputNombre" placeholder="Teléfono colaborador">
+                          <input type="text" name="telefono" value="{{ $usuario->tf }}" class="solonros form-control" maxlength="12" id="inputNombre" placeholder="Teléfono colaborador">
                         </div>
                       </div>
 

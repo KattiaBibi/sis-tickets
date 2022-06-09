@@ -59,6 +59,7 @@ class RequerimientoController extends Controller
                 "requerimientos.descripcion AS descripcion_requerimiento",
                 DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
+                 DB::raw("empresas.id AS id_empresa"),
                 DB::raw("empresas.id AS id_empresa"),
                 DB::raw("servicios.nombre AS nombre_servicio"),
                 "requerimientos.usuarioregist_id AS usuario_que_registro",

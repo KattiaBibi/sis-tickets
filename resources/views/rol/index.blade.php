@@ -90,7 +90,7 @@
 
         <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="name">
+            <input type="text" class="sololetras form-control" id="txtNombre" maxlength="50" placeholder="Ingrese el nombre" name="name">
         </div>
 
         <div class="form-group">
@@ -149,7 +149,7 @@
               <label for="">Nombre:</label>
               <input type="hidden" class="form-control" id="idregistro"  name="id">
 
-              <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="name">
+              <input type="text" class="sololetras form-control" id="editarNombre" maxlength="50" placeholder="Ingrese el nombre" name="name">
           </div>
 
 

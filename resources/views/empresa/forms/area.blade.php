@@ -15,7 +15,7 @@
 
           <div class="form-group">
             <label for="inputNombreArea">Nombre:</label>
-            <input type="text" class="form-control" id="inputNombreArea" name="nombre">
+            <input type="text" class="form-control" maxlength="50"  id="inputNombreArea" name="nombre">
           </div>
 
           <div class="form-group">

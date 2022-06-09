@@ -13,19 +13,19 @@
           <input type="hidden" id="inputEmpresaID" name="id">
           <div class="form-group">
             <label for="">RUC:</label>
-            <input type="text" class="form-control" id="inputRuc" maxlength="11"  name="ruc" autocomplete="off">
+            <input type="text" class="solonros form-control" id="inputRuc"  maxlength="11" minlength="8"  name="ruc" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="inputNombre" name="nombre" autocomplete="off">
+            <input type="text" class="form-control" id="inputNombre"  maxlength="50" name="nombre" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="">Dirección:</label>
-            <input type="text" class="form-control" id="inputDireccion" name="direccion" autocomplete="off">
+            <input type="text" class="form-control" id="inputDireccion" maxlength="80" name="direccion" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="">Teléfono:</label>
-            <input type="text" class="form-control" id="inputTelefono" name="telefono" autocomplete="off">
+            <input type="text" class="solonros form-control" id="inputTelefono" maxlength="12" name="telefono" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="inputColor">Color:</label>

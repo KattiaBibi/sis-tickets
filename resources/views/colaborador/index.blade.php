@@ -90,17 +90,17 @@
 
       <div class="form-group">
         <label for="">N° DE DOCUMENTO:</label>
-        <input type="text" class="form-control" id="txtNroDocumento" placeholder="Ingrese el nombre" name="nrodocumento">
+        <input type="text" class="solonros form-control" id="txtNroDocumento" maxlength="11" minlength="11" placeholder="Ingrese el número de documento" name="nrodocumento">
     </div>
 
         <div class="form-group">
             <label for="">Nombres:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="nombres">
+            <input type="text" class="sololetras form-control" maxlength="50" minlength="50" id="txtNombre" placeholder="Ingrese el nombre" name="nombres">
         </div>
 
         <div class="form-group">
           <label for="">Apellidos:</label>
-          <input type="text" class="form-control" id="txtApellido" placeholder="Ingrese el nombre" name="apellidos">
+          <input type="text" class="sololetras form-control" maxlength="50" minlength="50" id="txtApellido" placeholder="Ingrese el nombre" name="apellidos">
       </div>
 
       <div class="form-group">
@@ -110,11 +110,11 @@
 
         <div class="form-group">
             <label for="">Dirección:</label>
-            <input type="text" class="form-control" id="txtDireccion" placeholder="Ingrese la dirección" name="direccion">
+            <input type="text" class="form-control" id="txtDireccion" maxlength="50" minlength="50" placeholder="Ingrese la dirección" name="direccion">
         </div>
         <div class="form-group">
             <label for="">Teléfono:</label>
-            <input type="text" class="form-control" id="txtTelefono" placeholder="Ingrese la dirección" name="telefono">
+            <input type="text" class="solonros form-control" id="txtTelefono" maxlength="12" minlength="9" placeholder="Ingrese la dirección" name="telefono">
         </div>
 
         <div class="form-group">
@@ -173,17 +173,17 @@
 
           <div class="form-group">
             <label for="">N° DOCUMENTO:</label>
-          <input type="text" class="form-control" id="editarNrodoc" placeholder="Ingrese su DNI" name="nrodocumento">
+          <input type="text" class="solonros form-control" id="editarNrodoc" maxlength="11" minlength="8" placeholder="Ingrese su DNI" name="nrodocumento">
         </div>
 
           <div class="form-group">
             <label for="">Nombres:</label>
-            <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese su(s) nombre(s)" name="nombres">
+            <input type="text" class="sololetras form-control" id="editarNombre" maxlength="50" minlength="50" placeholder="Ingrese su(s) nombre(s)" name="nombres">
         </div>
 
           <div class="form-group">
               <label for="">Apellidos:</label>
-              <input type="text" class="form-control" id="editarApellido" placeholder="Ingrese sus apellidos" name="apellidos">
+              <input type="text" class="sololetras form-control" maxlength="50" minlength="50" id="editarApellido" placeholder="Ingrese sus apellidos" name="apellidos">
           </div>
 
           <div class="form-group">
@@ -193,11 +193,11 @@
 
           <div class="form-group">
               <label for="">Dirección:</label>
-              <input type="text" class="form-control" id="editarDireccion" placeholder="Ingrese su dirección" name="direccion">
+              <input type="text" class="form-control" id="editarDireccion" maxlength="50" minlength="50" placeholder="Ingrese su dirección" name="direccion">
           </div>
           <div class="form-group">
               <label for="">Teléfono:</label>
-              <input type="text" class="form-control" id="editarTelefono" placeholder="Ingrese su teléfono" name="telefono">
+              <input type="text" class="solonros form-control" id="editarTelefono" maxlength="12" minlength="9" placeholder="Ingrese su teléfono" name="telefono">
 
 
 

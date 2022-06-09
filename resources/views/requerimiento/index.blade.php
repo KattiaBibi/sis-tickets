@@ -214,8 +214,6 @@
 
           <select style="width:100%" class="js-example-basic-multiple" id="gerente" name="usuarioencarg_id[]" multiple="multiple" lang="es">
 
-
-
             </select>
 
             </div>
@@ -370,6 +368,8 @@
                             <p id="fragmento"></p>
 
                 </div>
+                </div>
+
                 <hr class="vencimiento">
                 <div class="ocult form-row" id="">
 
@@ -406,7 +406,7 @@
                 <input type="hidden" name="idrequerimiento" id="id_requerimiento">
 
 
-        </div>
+       
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="" data-dismiss="modal">Cerrar</button>
           <button type="" id="btnfechahora" class="ocult btn btn-primary">Guardar</button>
@@ -506,7 +506,11 @@
             <div class="form-group col-md-12">
                 <label for="">GERENTE(S) RESPONSABLE(S)</label>
             <input class="form-control"  type="text" name="" id="UsuarioResponsable" readonly>
+<!-- 
+            
+          <select style="width:100%" class="js-example-basic-multiple" id="gerenteeditar" name="usuarioencarg_id[]" multiple="multiple" lang="es">
 
+        </select> -->
             </div>
 
 

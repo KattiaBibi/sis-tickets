@@ -512,12 +512,14 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
           icons: { time: 'far fa-clock' }
       });
 
+
     if(fechahora==""){
 
-        // alert("No hay fechas programadas");
+        console.log("No hay fechas programadas");
         $("#fecha").show();
         $("#fechanueva").hide();
         $("#oculto").hide();
+        $(".vencimiento").hide();
         $("#ocultar").hide();
         $("#motivo").val("Primer registro de fecha");
 
@@ -525,9 +527,9 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
 
     else{
 
-        // alert("hay fechas programadas");
+      console.log("Hay fechas programadas");
         $("#fecha").hide();
-        $("#fechanueva").show();
+        $("#fechanueva").show();  
         $("#oculto").show();
         $("#motivo").val("");
         $("#ocultar").show();
@@ -621,6 +623,8 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
     }
 
     else{
+
+         console.log("asignado no logueado")
       console.log(x.id_user)
       $('#modalfechahora').modal('show')
     }
@@ -810,6 +814,7 @@ $('#requerimientos').on('click', '.editar', function (event) {
     var data = datatable.row(this).data()
   }
 
+
   console.log(data)
   $('#idregistro').val(data['id'])
   $('#editarTitulo').val(data['titulo_requerimiento'])
@@ -840,6 +845,7 @@ $('#requerimientos').on('click', '.editar', function (event) {
         document.getElementById('download').href = 'download/' + data.archivo
         $("#download").html("Descargar")
       }
+
 
 
   $('#UsuarioResponsable').val(

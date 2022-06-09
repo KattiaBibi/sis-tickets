@@ -116,16 +116,16 @@
 
         <div class="form-group">
             <label for="">Nombre:</label>
-            <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre" name="name">
+            <input type="text" class="form-control" id="txtNombre" maxlength="50" placeholder="Ingrese el nombre" name="name">
         </div>
         <div class="form-group">
             <label for="">Email:</label>
-            <input type="email" class="form-control" id="txtEmail" placeholder="Ingrese el correo" name="email">
+            <input type="email" class="form-control" id="txtEmail" maxlength="80" placeholder="Ingrese el correo" name="email">
         </div>
 
         <div class="form-group">
             <label for="">Contraseña:</label>
-            <input type="text" class="form-control" id="txtPassword" placeholder="Ingrese una contraseña" name="password">
+            <input type="text" class="form-control" id="txtPassword" maxlength="50" placeholder="Ingrese una contraseña" name="password">
         </div>
 
 
@@ -234,7 +234,7 @@
               <label for="">Nombre:</label>
 
 
-              <input type="text" class="form-control" id="editarNombre" placeholder="Ingrese el nombre" name="name">
+              <input type="text" class="form-control" id="editarNombre" maxlength="50" placeholder="Ingrese el nombre" name="name">
           </div>
 
 
@@ -243,14 +243,14 @@
             <div class="form-group col-md-6">
 
               <label for="">Email:</label>
-              <input type="email" class="form-control" id="editarEmail" placeholder="Ingrese el email" name="email">
+              <input type="email" class="form-control" id="editarEmail" maxlength="80" placeholder="Ingrese el email" name="email">
 
             </div>
 
             <div class="form-group col-md-6">
 
             <label for="">Contraseña:</label>
-            <input type="text" class="form-control" id="editarContrasena" placeholder="Ingrese la nueva contraseña" name="password">
+            <input type="text" class="form-control" id="editarContrasena" maxlength="50" placeholder="Ingrese la nueva contraseña" name="password">
 
             </div>
 

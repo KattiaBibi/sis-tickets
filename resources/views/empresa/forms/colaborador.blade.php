@@ -14,17 +14,17 @@
 
           <div class="form-group">
             <label for="">N° De Documento:</label>
-            <input type="text" class="form-control" id="inputNroDocumentoColaborador" name="nrodocumento">
+            <input type="text" class="solonros form-control"  maxlength="11" minlength="8" id="inputNroDocumentoColaborador" name="nrodocumento">
           </div>
 
           <div class="form-group">
             <label for="">Nombres:</label>
-            <input type="text" class="form-control" id="inputNombreColaborador" name="nombres">
+            <input type="text" class="sololetras form-control" maxlength="50" minlength="50" id="inputNombreColaborador" name="nombres">
           </div>
 
           <div class="form-group">
             <label for="">Apellidos:</label>
-            <input type="text" class="form-control" id="inputApellidoColaborador" name="apellidos">
+            <input type="text" class="sololetras form-control" maxlength="50" minlength="50" id="inputApellidoColaborador" name="apellidos">
           </div>
 
           <div class="form-group">
@@ -34,12 +34,12 @@
 
           <div class="form-group">
             <label for="">Dirección:</label>
-            <input type="text" class="form-control" id="inputDireccionColaborador" name="direccion">
+            <input type="text" class="form-control" id="inputDireccionColaborador" maxlength="50" minlength="50" name="direccion">
           </div>
 
           <div class="form-group">
             <label for="">Teléfono:</label>
-            <input type="text" class="form-control" id="inputTelefonoColaborador" name="telefono">
+            <input type="text" class="solonros form-control" maxlength="12" minlength="9" id="inputTelefonoColaborador" name="telefono">
           </div>
 
           <div class="form-group">
