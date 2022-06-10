@@ -584,51 +584,68 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
 
     let dato= data.asignados;
 
-    console.log(dato)
+    console.log(dato.length)
 
     let x=dato.find(object => object.logeado);
 
-    console.log(x.logeado)
+   console.log(x)
 
+if(dato.length==0){
+  
+  Swal.fire({
+    icon: 'error',
+    title: 'No hay asignados',
+    showConfirmButton: false,
+    timer: 1500,
+  })
 
-    if(x.logeado==2){
+}
 
-        console.log("asignado no logueado")
+else{
 
-        let valor = document.getElementById("oculto");
+  console.log("Hay asignados")
 
-        let style = $(valor).css('display');
+  if(x.logeado==2){
 
-        if ( style == 'none'){
+    console.log("asignado no logueado")
 
-            console.log("oculto")
+    let valor = document.getElementById("oculto");
 
-          Swal.fire({
-            icon: 'info',
-            title: 'No hay fechas registradas',
-            showConfirmButton: false,
-            timer: 1500,
-          })
+    let style = $(valor).css('display');
 
-        }
+    if ( style == 'none'){
 
-        else{
-          console.log("no oculto")
-          $('#ocultar').hide();
-          $('.ocult').hide();
+        console.log("oculto")
 
-          $('#modalfechahora').modal('show')
-
-        }
+      Swal.fire({
+        icon: 'info',
+        title: 'No hay fechas registradas',
+        showConfirmButton: false,
+        timer: 1500,
+      })
 
     }
 
     else{
+      console.log("no oculto")
+      $('#ocultar').hide();
+      $('.ocult').hide();
 
-      console.log("asignado logueado")
-      console.log(x.id_user)
       $('#modalfechahora').modal('show')
+
     }
+
+}
+
+else{
+
+  console.log("asignado logueado")
+  console.log(x.id_user)
+  $('#modalfechahora').modal('show')
+}
+
+}
+
 
 
   })
