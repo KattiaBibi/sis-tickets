@@ -587,9 +587,9 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
 
     console.log(dato.length)
 
-    let x=dato.find(object => object.logeado===1);
+    console.log(dato)
 
-    console.log(x)
+
 if(dato.length==0){
   
   Swal.fire({
@@ -603,9 +603,15 @@ if(dato.length==0){
 
 else{
 
+  let x=dato.find(object => object.logeado);
+
+  console.log(x.logeado)
+
+  console.log(x)
+
   console.log("Hay asignados")
 
-  if(x===undefined){
+  if(x.logeado==2){
 
     console.log("asignado no logueado")
 
@@ -637,7 +643,7 @@ else{
 
 }
 
-else{
+else if(x.logeado==1){
 
   console.log("asignado logueado")
   $('#modalfechahora').modal('show')
