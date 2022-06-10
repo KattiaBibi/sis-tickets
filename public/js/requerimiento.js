@@ -11,11 +11,10 @@ function listar() {
     responsive: true,
     autoWidth: false,
     dom: 'Bfrtip',
-
+    buttons: ['copy', 'excel', 'csv', 'print'],
     language: {
       url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json',
     },
-
 
     ajax: {
       url: 'datatable/requerimientos',
@@ -89,18 +88,15 @@ function listar() {
           if (data.filter((i) => i === 'log').length) {
             return `<button type='button' value="log" id='ButtonEditarFechaHora' class='guardarfechahora edit-modal btn btn-secondary'><span class='fa fa-clock'></span><span class='hidden-xs'>Fecha y hora </span></button>`
           } else {
-
             return `<button type='button' value="nolog" id='ButtonEditarFechaHora' class='guardarfechahora edit-modal btn btn-secondary'><span class='fa fa-clock'></span><span class='hidden-xs'>Historial </span></button>`
-
           }
         },
       },
 
-
-    //   {
-    //     data: 'id',
-    //     orderable: false,
-    //   },
+      //   {
+      //     data: 'id',
+      //     orderable: false,
+      //   },
 
       {
         data: 'titulo_requerimiento',
@@ -198,25 +194,21 @@ function listar() {
         data: 'historial',
         orderable: false,
         render: function (data, type, row, meta) {
-
-
           let historial = data.map((item) => {
-            return `[${new Date(item.fechahoraprogramada).toLocaleDateString()} ${new Date(item.fechahoraprogramada).toLocaleTimeString('es-PE', { hour12: true })}]`
-            });
+            return `[${new Date(
+              item.fechahoraprogramada
+            ).toLocaleDateString()} ${new Date(
+              item.fechahoraprogramada
+            ).toLocaleTimeString('es-PE', { hour12: true })}]`
+          })
 
-
-        if(historial==""){
+          if (historial == '') {
             return `<span>Falta asignar fecha y hora</span>`
-
-        }
-
-        else{
+          } else {
             return `<span>${historial}</span>`
-        }
-
+          }
         },
       },
-
     ],
     order: [[9, 'desc']],
   })
@@ -229,11 +221,7 @@ function listar() {
   // } );
 }
 
-
-
-$(document).ready(function(){
-
-});
+$(document).ready(function () {})
 
 $('#btnagregar').on('click', function (e) {
   $('#frmguardar')[0].reset()
@@ -258,26 +246,19 @@ $('.retirar').on('click', function (e) {
   $('#prev').removeAttr('src')
 
   $('.retirar').hide()
-
 })
 
-
 $('.retirararch').on('click', function (e) {
-    $('#arch').val(null)
+  $('#arch').val(null)
 
-    $('#filearch').val(null)
+  $('#filearch').val(null)
 
-    $('.retirararch').hide()
-  })
+  $('.retirararch').hide()
+})
 
-
-  $('.archfile').on('change', function () {
-
-
-      $('.retirararch').show()
-
-  })
-
+$('.archfile').on('change', function () {
+  $('.retirararch').show()
+})
 
 $('#imag').on('error', function (event) {
   $(event.target).css('display', 'none')
@@ -334,8 +315,6 @@ $('#empresa').on('change', function (e) {
   }
 
   $.get('/requerimiento/' + valor + '/listado', function (data) {
-
-
     if (data.length == 0) {
       $('#servicio').html('<option value="a">No hay servicios ...</option>')
     } else {
@@ -358,7 +337,6 @@ $('#empresa').on('change', function (e) {
   })
 
   $.get('/gerente/' + valor + '/listado', function (data) {
-
     $('#gerente').find('option').remove()
     data.forEach((item) => {
       Utils.establecerOpcionSelect2('#gerente', {
@@ -441,260 +419,231 @@ $('#requerimientos').on('click', '.editaravance', function (event) {
     var data = datatable.row(this).data()
   }
 
-  if(data.avance_requerimiento==100){
-
-      Swal.fire({
-        icon: 'info',
-        html:
-          '¡Su requerimiento está culminado, si desea volver al estado <b>EN PROCESO</b> debe asignar nueva fecha de finalización!',
-        showCloseButton: true,
-        timer: 6000,
-        timerProgressBar: true,
-      }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-          console.log('I was closed by the timer')
-        }
+  if (data.avance_requerimiento == 100) {
+    Swal.fire({
+      icon: 'info',
+      html: '¡Su requerimiento está culminado, si desea volver al estado <b>EN PROCESO</b> debe asignar nueva fecha de finalización!',
+      showCloseButton: true,
+      timer: 6000,
+      timerProgressBar: true,
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log('I was closed by the timer')
+      }
+    })
+  } else {
+    let iddetalle = data['usuariodetalle']
+      .map((item) => {
+        return item.detalle_id
       })
+      .toString()
 
+    $('#idregistroavance').val(data['id'])
+    $('#editavance').val(data['avance_requerimiento'])
+    $('#iddetallereq').val(iddetalle)
+    document.getElementById('editavan').innerHTML =
+      data['avance_requerimiento'] + '%'
+
+    $('#modaleditaravance').modal('show')
   }
-
-  else{
-
-      let iddetalle=data['usuariodetalle'].map((item) => {return item.detalle_id}).toString();
-
-
-
-  $('#idregistroavance').val(data['id'])
-  $('#editavance').val(data['avance_requerimiento'])
-  $('#iddetallereq').val(iddetalle)
-  document.getElementById('editavan').innerHTML =
-    data['avance_requerimiento'] + '%'
-
-  $('#modaleditaravance').modal('show')
-
-  }
-
 })
 
-
 $('#requerimientos').on('click', '.guardarfechahora', function (event) {
-    event.preventDefault()
+  event.preventDefault()
 
-    document.getElementById("divhisto").innerHTML = "";
+  document.getElementById('divhisto').innerHTML = ''
 
+  var data = datatable.row($(this).parents('tr')).data() //Detecta a que fila hago click y me captura los datos en la variable data.
+  if (datatable.row(this).child.isShown()) {
+    //Cuando esta en tamaño responsive
 
-    var data = datatable.row($(this).parents('tr')).data() //Detecta a que fila hago click y me captura los datos en la variable data.
-    if (datatable.row(this).child.isShown()) {
-      //Cuando esta en tamaño responsive
+    var data = datatable.row(this).data()
+  }
 
-      var data = datatable.row(this).data()
-    }
+  let fechahora = data['historial']
+    .map((item) => {
+      return item.fechahoraprogramada
+    })
+    .toString()
+  let fechacreacion = data['ultimafecha'].map((item) => {
+    return item.created_at
+  })
+  let fechaprogramada = data['ultimafecha'].map((item) => {
+    return item.fechahoraprogramada
+  })
+  let iddetalle = data['usuariodetalle']
+    .map((item) => {
+      return item.detalle_id
+    })
+    .toString()
 
+  $('#iddetalle').val(iddetalle)
+  $('#avance').val(data.avance_requerimiento)
+  $('#id_requerimiento').val(data.id)
 
-        let fechahora = data['historial'].map((item) => {return item.fechahoraprogramada}).toString();
-        let fechacreacion = data['ultimafecha'].map((item) => {return item.created_at});
-        let fechaprogramada=data['ultimafecha'].map((item) => {return item.fechahoraprogramada});
-        let iddetalle=data['usuariodetalle'].map((item) => {return item.detalle_id}).toString();
+  let historial = data['historial']
 
-
-        $("#iddetalle").val(iddetalle);
-        $("#avance").val(data.avance_requerimiento);
-        $("#id_requerimiento").val(data.id);
-
-        let historial=data['historial'];
-
-
-        $('#requerimientodatetime').datetimepicker({
-          locale: 'es',
-          dateFormat: "yy-mm-dd",
-          minDate: new Date(),
-          icons: { time: 'far fa-clock' }
-      });
-
-
-    if(fechahora==""){
-
-        console.log("No hay fechas programadas");
-        $("#fecha").show();
-        $("#fechanueva").hide();
-        $("#oculto").hide();
-        $(".vencimiento").hide();
-        $("#ocultar").hide();
-        $("#motivo").val("Primer registro de fecha");
-
-    }
-
-    else{
-
-      console.log("Hay fechas programadas");
-        $("#fecha").hide();
-        $("#fechanueva").show();  
-        $("#oculto").show();
-        $("#motivo").val("");
-        $("#ocultar").show();
-
-        $("#datafecha").html(`Se creó el:  ${fechacreacion} / para el día: ${fechaprogramada}`);
-
-        console.log(fechacreacion[0])
-
-        var fecha1 = moment(''+fechaprogramada[0]+'');
-        var fechaact = moment();
-
-
-        console.log(fecha1)
-        console.log(fechaact)
-
-        if(fechaact > fecha1){
-
-        //   alert("Registro vencido");
-
-          $("#fragmento").html("¡Tu última fecha de finalización del requerimiento venció hace " + fechaact.diff(fecha1, 'days') + " día(s) /" + fechaact.diff(fecha1, 'hours') +" hora(s)!") ;
-          $(".vencimiento").show();
-        }
-
-        else{
-
-            $(".vencimiento").hide();
-        }
-
-        console.log(fecha1);
-
-
-    }
-
-
-
-      historial.find(object =>{
-
-            moment.locale('es');
-            let date = moment(object.fechahoraprogramada);
-            let date2 = moment(object.created_at);
-            let  fechaprogr=  date.format('LL')
-            let  horaprogr=   date.format('LTS');
-
-            let  fecharegis=  date2.format('LL')
-            let  horaregis=   date2.format('LTS');
-
-        $("#divhisto").append(
-          `<div class="card text-white bg-dark mb-6"><div class="card-header" style="text-decoration: underline;">HISTORIAL:</div><div class="card-body"><h1 class="card-title">El COLABORADOR ASIGNADO: ${object.nom_ape}</h1><p class="card-text">REGISTRÓ EL DÍA: ${fecharegis} / HORA - ${horaregis}</p><p class="card-text">PARA EL DÍA: ${fechaprogr} / HORA - ${horaprogr}</p><p class="card-text">DETALLE: ${object.motivo}</p></div></div>`);
-    });
-
-
-
-    let dato= data.asignados;
-
-    console.log(dato.length)
-
-    let x=dato.find(object => object.logeado);
-
-   console.log(x)
-
-if(dato.length==0){
-  
-  Swal.fire({
-    icon: 'error',
-    title: 'No hay asignados',
-    showConfirmButton: false,
-    timer: 1500,
+  $('#requerimientodatetime').datetimepicker({
+    locale: 'es',
+    dateFormat: 'yy-mm-dd',
+    minDate: new Date(),
+    icons: { time: 'far fa-clock' },
   })
 
-}
+  if (fechahora == '') {
+    console.log('No hay fechas programadas')
+    $('#fecha').show()
+    $('#fechanueva').hide()
+    $('#oculto').hide()
+    $('.vencimiento').hide()
+    $('#ocultar').hide()
+    $('#motivo').val('Primer registro de fecha')
+  } else {
+    console.log('Hay fechas programadas')
+    $('#fecha').hide()
+    $('#fechanueva').show()
+    $('#oculto').show()
+    $('#motivo').val('')
+    $('#ocultar').show()
 
-else{
+    $('#datafecha').html(
+      `Se creó el:  ${fechacreacion} / para el día: ${fechaprogramada}`
+    )
 
-  console.log("Hay asignados")
+    console.log(fechacreacion[0])
 
-  if(x.logeado==2){
+    var fecha1 = moment('' + fechaprogramada[0] + '')
+    var fechaact = moment()
 
-    console.log("asignado no logueado")
+    console.log(fecha1)
+    console.log(fechaact)
 
-    let valor = document.getElementById("oculto");
+    if (fechaact > fecha1) {
+      //   alert("Registro vencido");
 
-    let style = $(valor).css('display');
-
-    if ( style == 'none'){
-
-        console.log("oculto")
-
-      Swal.fire({
-        icon: 'info',
-        title: 'No hay fechas registradas',
-        showConfirmButton: false,
-        timer: 1500,
-      })
-
+      $('#fragmento').html(
+        '¡Tu última fecha de finalización del requerimiento venció hace ' +
+          fechaact.diff(fecha1, 'days') +
+          ' día(s) /' +
+          fechaact.diff(fecha1, 'hours') +
+          ' hora(s)!'
+      )
+      $('.vencimiento').show()
+    } else {
+      $('.vencimiento').hide()
     }
 
-    else{
-      console.log("no oculto")
-      $('#ocultar').hide();
-      $('.ocult').hide();
+    console.log(fecha1)
+  }
 
-      $('#modalfechahora').modal('show')
+  historial.find((object) => {
+    moment.locale('es')
+    let date = moment(object.fechahoraprogramada)
+    let date2 = moment(object.created_at)
+    let fechaprogr = date.format('LL')
+    let horaprogr = date.format('LTS')
 
-    }
+    let fecharegis = date2.format('LL')
+    let horaregis = date2.format('LTS')
 
-}
-
-else{
-
-  console.log("asignado logueado")
-  console.log(x.id_user)
-  $('#modalfechahora').modal('show')
-}
-
-}
-
-
-
+    $('#divhisto').append(
+      `<div class="card text-white bg-dark mb-6"><div class="card-header" style="text-decoration: underline;">HISTORIAL:</div><div class="card-body"><h1 class="card-title">El COLABORADOR ASIGNADO: ${object.nom_ape}</h1><p class="card-text">REGISTRÓ EL DÍA: ${fecharegis} / HORA - ${horaregis}</p><p class="card-text">PARA EL DÍA: ${fechaprogr} / HORA - ${horaprogr}</p><p class="card-text">DETALLE: ${object.motivo}</p></div></div>`
+    )
   })
 
+  let dato = data.asignados
 
-  $('.btnhistorial').on('click', (event) => {
+  console.log(dato.length)
 
-    event.preventDefault()
+  let x = dato.find((object) => object.logeado)
 
+  console.log(x)
 
+  if (dato.length == 0) {
+    Swal.fire({
+      icon: 'error',
+      title: 'No hay asignados',
+      showConfirmButton: false,
+      timer: 1500,
+    })
+  } else {
+    console.log('Hay asignados')
 
-  $('#modalhistorial').modal('show');
+    if (x.logeado == 2) {
+      console.log('asignado no logueado')
 
-  });
+      let valor = document.getElementById('oculto')
 
+      let style = $(valor).css('display')
 
-  $('#btnfechahora').on('click', (event) => {
-    event.preventDefault()
-
-    let fecha_hora=$("#fechayhora").val();
-    let motivo=$("#motivo").val();
-
-
-    if(fecha_hora=="" || motivo==""){
+      if (style == 'none') {
+        console.log('oculto')
 
         Swal.fire({
-            icon: 'error',
-            title: 'Faltan completar datos',
-            showConfirmButton: false,
-            timer: 1500,
-          })
+          icon: 'info',
+          title: 'No hay fechas registradas',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      } else {
+        console.log('no oculto')
+        $('#ocultar').hide()
+        $('.ocult').hide()
+
+        $('#modalfechahora').modal('show')
+      }
+    } else {
+      console.log('asignado logueado')
+      console.log(x.id_user)
+      $('#modalfechahora').modal('show')
     }
+  }
+})
 
-    else{
+$('.btnhistorial').on('click', (event) => {
+  event.preventDefault()
 
-    let dateComponents = fecha_hora.split(' ');
+  $('#modalhistorial').modal('show')
+})
 
-    var arrFecha=dateComponents[0].split("/");
-    var arrHora=dateComponents[1].split(":");
+$('#btnfechahora').on('click', (event) => {
+  event.preventDefault()
 
-    let fecha=new Date(arrFecha[2]+"/"+arrFecha[1]+"/"+arrFecha[0]);
+  let fecha_hora = $('#fechayhora').val()
+  let motivo = $('#motivo').val()
 
-    let formatted_date = fecha.getFullYear() + "-" + (fecha.getMonth() + 1) + "-" + fecha.getDate() + " " + arrHora[0] + ":" + arrHora[1] + ":00";
+  if (fecha_hora == '' || motivo == '') {
+    Swal.fire({
+      icon: 'error',
+      title: 'Faltan completar datos',
+      showConfirmButton: false,
+      timer: 1500,
+    })
+  } else {
+    let dateComponents = fecha_hora.split(' ')
+
+    var arrFecha = dateComponents[0].split('/')
+    var arrHora = dateComponents[1].split(':')
+
+    let fecha = new Date(arrFecha[2] + '/' + arrFecha[1] + '/' + arrFecha[0])
+
+    let formatted_date =
+      fecha.getFullYear() +
+      '-' +
+      (fecha.getMonth() + 1) +
+      '-' +
+      fecha.getDate() +
+      ' ' +
+      arrHora[0] +
+      ':' +
+      arrHora[1] +
+      ':00'
 
     let route = $('#frmguardarfechahora').attr('action')
 
     let dataArray = new FormData($('#frmguardarfechahora')[0])
-    dataArray.append("fechahora", formatted_date);
-
+    dataArray.append('fechahora', formatted_date)
 
     $.ajax({
       method: 'POST',
@@ -719,7 +668,6 @@ else{
           $('#frmguardarfechahora')[0].reset()
 
           $('#modalfechahora').modal('hide')
-
         } else {
           alert('no guardado')
         }
@@ -734,10 +682,8 @@ else{
         })
       },
     })
-
-    } // FINAL ELSE
-  });
-
+  } // FINAL ELSE
+})
 
 $('#btnactualizaravance').on('click', (event) => {
   event.preventDefault()
@@ -783,8 +729,6 @@ $('#btnactualizaravance').on('click', (event) => {
 })
 
 $('#requerimientos').on('click', '.editar', function (event) {
-
-
   console.log(event)
   let valorboton = $(this).val()
 
@@ -832,7 +776,6 @@ $('#requerimientos').on('click', '.editar', function (event) {
     var data = datatable.row(this).data()
   }
 
-
   console.log(data)
   $('#idregistro').val(data['id'])
   $('#editarTitulo').val(data['titulo_requerimiento'])
@@ -849,22 +792,17 @@ $('#requerimientos').on('click', '.editar', function (event) {
     document.getElementById('mostimg').src =
       'vendor/adminlte/dist/img/sinimg.jpg'
   } else {
-    document.getElementById('mostimg').src = 'storage/requerimiento/' + data.imagen
+    document.getElementById('mostimg').src =
+      'storage/requerimiento/' + data.imagen
   }
 
-
-
-    if (data.archivo == 0 || data.archivo == null || data.archivo =="") {
-
-          $("#download").removeAttr("href");
-          $("#download").html("No hay archivo")
-
-      } else {
-        document.getElementById('download').href = 'download/' + data.archivo
-        $("#download").html("Descargar")
-      }
-
-
+  if (data.archivo == 0 || data.archivo == null || data.archivo == '') {
+    $('#download').removeAttr('href')
+    $('#download').html('No hay archivo')
+  } else {
+    document.getElementById('download').href = 'download/' + data.archivo
+    $('#download').html('Descargar')
+  }
 
   $('#UsuarioResponsable').val(
     data['encargados']
@@ -1015,7 +953,6 @@ $('#btnactualizar').on('click', (event) => {
   })
 })
 
-
 $('#filtros').on('change', function (e) {
   datatable.ajax.reload(null, false)
 })
@@ -1029,13 +966,11 @@ $('#filtronb').on('change', function (e) {
 })
 
 $('#btnquitarfiltros').on('click', function (e) {
-
   $('#filtros').val('todos')
   $('#filtrosempre').val('todos')
   $('#filtronb').val('todos')
 
   datatable.ajax.reload(null, false)
-
 })
 
 $('#requerimientos').on('click', '.desactivar', function () {
