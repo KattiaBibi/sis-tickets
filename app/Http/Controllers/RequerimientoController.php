@@ -42,11 +42,11 @@ class RequerimientoController extends Controller
     {
         $logueado = auth()->user()->id;
 
-        $role_id = DB::table('model_has_roles')
+        $role_id = intval(DB::table('model_has_roles')
             ->select('roles.id AS role_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('model_id', '=', $logueado)
-            ->get()->first()->role_id;
+            ->get()->first()->role_id);
 
         $empresa = request()->all()['filters']['nombre_empresa'] ?? 'todos';
         $estado = request()->all()['filters']['estado'] ?? 'todos';
@@ -59,7 +59,7 @@ class RequerimientoController extends Controller
                 "requerimientos.descripcion AS descripcion_requerimiento",
                 DB::raw("CONCAT(solicitante.nombres, ' ', solicitante.apellidos) AS nom_ape_solicitante"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
-                 DB::raw("empresas.id AS id_empresa"),
+                DB::raw("empresas.id AS id_empresa"),
                 DB::raw("empresas.id AS id_empresa"),
                 DB::raw("servicios.nombre AS nombre_servicio"),
                 "requerimientos.usuarioregist_id AS usuario_que_registro",
@@ -75,7 +75,7 @@ class RequerimientoController extends Controller
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('servicios', 'servicios.id', '=', 'empresa_servicios.servicio_id')
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
-            ->groupBy('requerimientos.id', 'requerimientos.titulo', 'requerimientos.descripcion', 'solicitante.nombres', 'solicitante.apellidos', 'empresas.nombre', 'empresas.id', 'servicios.nombre', 'requerimientos.usuarioregist_id', 'requerimientos.avance', 'requerimientos.estado', 'requerimientos.prioridad', 'requerimientos.created_at', 'requerimientos.imagen','requerimientos.archivo');
+            ->groupBy('requerimientos.id', 'requerimientos.titulo', 'requerimientos.descripcion', 'solicitante.nombres', 'solicitante.apellidos', 'empresas.nombre', 'empresas.id', 'servicios.nombre', 'requerimientos.usuarioregist_id', 'requerimientos.avance', 'requerimientos.estado', 'requerimientos.prioridad', 'requerimientos.created_at', 'requerimientos.imagen', 'requerimientos.archivo');
 
         if ($role_id === 2) {
 
@@ -136,7 +136,8 @@ class RequerimientoController extends Controller
             $req->asignados = DB::table('detalle_requerimientos')
                 ->select(
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
-                    'users.id as id_user','detalle_requerimientos.id as detalle_id',
+                    'users.id as id_user',
+                    'detalle_requerimientos.id as detalle_id',
                     DB::raw("(CASE  users.id WHEN $logueado THEN 1 ELSE 2 END) AS logeado")
 
                 )
@@ -159,33 +160,38 @@ class RequerimientoController extends Controller
                 ->get()->all();
 
 
-            $ho=$req->historial = DB::table('historial_requerimientos as his_req')
-                    ->select('his_req.id','his_req.fechahoraprogramada as fechahoraprogramada', 'his_req.motivo as motivo', 'his_req.created_at as created_at',
-                    DB::raw("CONCAT(c.nombres,' ' ,c.apellidos) AS nom_ape"))
-                    ->join('detalle_requerimientos as det_req','det_req.id','=','his_req.detalle_requerimiento_id')
-                    ->join('users as u','det_req.usuario_colab_id','=','u.id')
-                    ->join('colaboradores as c','u.colaborador_id','=','c.id')
-                    ->where('det_req.requerimiento_id','=', $req->id)
-                    ->orderBy('created_at', 'DESC')
-                    ->get()->all();
+            $ho = $req->historial = DB::table('historial_requerimientos as his_req')
+                ->select(
+                    'his_req.id',
+                    'his_req.fechahoraprogramada as fechahoraprogramada',
+                    'his_req.motivo as motivo',
+                    'his_req.created_at as created_at',
+                    DB::raw("CONCAT(c.nombres,' ' ,c.apellidos) AS nom_ape")
+                )
+                ->join('detalle_requerimientos as det_req', 'det_req.id', '=', 'his_req.detalle_requerimiento_id')
+                ->join('users as u', 'det_req.usuario_colab_id', '=', 'u.id')
+                ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
+                ->where('det_req.requerimiento_id', '=', $req->id)
+                ->orderBy('created_at', 'DESC')
+                ->get()->all();
 
 
-        // SACAR EL ÚLTIMO REGISTRO DEL HISTORIAL DEL REQUERIMIENTO
-            $req->ultimafecha=DB::table('historial_requerimientos as his_req')
-            ->select('*')
-            ->join('detalle_requerimientos as det_req','det_req.id','=','his_req.detalle_requerimiento_id')
-            ->where('det_req.requerimiento_id','=', $req->id)
-            ->orderBy('created_at', 'desc')
-            ->take(1)
-            ->get();
+            // SACAR EL ÚLTIMO REGISTRO DEL HISTORIAL DEL REQUERIMIENTO
+            $req->ultimafecha = DB::table('historial_requerimientos as his_req')
+                ->select('*')
+                ->join('detalle_requerimientos as det_req', 'det_req.id', '=', 'his_req.detalle_requerimiento_id')
+                ->where('det_req.requerimiento_id', '=', $req->id)
+                ->orderBy('created_at', 'desc')
+                ->take(1)
+                ->get();
 
-        // SACAR EL ID DE LOS DETALLES DE REQUERIMIENTO CON EL USUARIO QUE ESTÉ LOGUEADO
-            $req->usuariodetalle= DB::table('detalle_requerimientos as deta_req')
-            ->select('deta_req.id as detalle_id')
-            ->join('users as u','deta_req.usuario_colab_id','=','u.id')
-            ->where('deta_req.requerimiento_id','=', $req->id)
-            ->where('deta_req.usuario_colab_id','=', $logueado)
-            ->get();
+            // SACAR EL ID DE LOS DETALLES DE REQUERIMIENTO CON EL USUARIO QUE ESTÉ LOGUEADO
+            $req->usuariodetalle = DB::table('detalle_requerimientos as deta_req')
+                ->select('deta_req.id as detalle_id')
+                ->join('users as u', 'deta_req.usuario_colab_id', '=', 'u.id')
+                ->where('deta_req.requerimiento_id', '=', $req->id)
+                ->where('deta_req.usuario_colab_id', '=', $logueado)
+                ->get();
 
             $encarg = $req->encargados;
             $asig = $req->asignados;
@@ -331,7 +337,7 @@ class RequerimientoController extends Controller
         $ruta2 = "archivo/";
         $file2 = $request->file('archivopost');
         $nombre2 = "archivo";
-    $subir2 = subirarchivo::archivo($file2, $nombre2, $ruta2);
+        $subir2 = subirarchivo::archivo($file2, $nombre2, $ruta2);
         $ruta = "requerimiento/";
         $file = $request->imagenpost;
 
@@ -376,16 +382,16 @@ class RequerimientoController extends Controller
 
 
 
-public function getDownload($archivo)
+    public function getDownload($archivo)
 
-{
+    {
 
-//PDF file is stored under project/public/download/info.pdf
+        //PDF file is stored under project/public/download/info.pdf
 
-    $file= public_path(). "/storage/archivo/".$archivo;
+        $file = public_path() . "/storage/archivo/" . $archivo;
 
-    return response()->download($file);
-}
+        return response()->download($file);
+    }
 
 
     public function show(Request $request, $id)
@@ -393,7 +399,7 @@ public function getDownload($archivo)
         //
 
 
-            $fechaActual = date('Y-m-d H:i:s');
+        $fechaActual = date('Y-m-d H:i:s');
 
 
         $requerimiento = Requerimiento::findOrfail($id);
@@ -415,9 +421,8 @@ public function getDownload($archivo)
             HistorialFechaHora::create([
                 "fechahoraprogramada" => $fechaActual,
                 "motivo" => "Finalización del requerimiento",
-                'detalle_requerimiento_id'=>$request->detalle_requerimiento_id
+                'detalle_requerimiento_id' => $request->detalle_requerimiento_id
             ]);
-
         } else if ($avance > "0") {
 
             $requerimiento->update(
@@ -475,11 +480,11 @@ public function getDownload($archivo)
         //  RUTA DE LA IMAGEN / ARCHIVO
         $ruta = "requerimiento/";
 
-        $ruta2="archivo/";
+        $ruta2 = "archivo/";
 
         // IMAGEN Y ARCHIVO NUEVO
         $file = $request->imagennue;
-        $filearch= $request->archivonue;
+        $filearch = $request->archivonue;
 
 
         // IMAGEN ANTERIOR
@@ -515,9 +520,7 @@ public function getDownload($archivo)
                     'archivo' => $subir2
                 ]
             );
-        }
-
-        else if($file){
+        } else if ($file) {
 
             $subir = subirarchivo::imagen($file, $nombre, $ruta, $file2);
 
@@ -530,9 +533,7 @@ public function getDownload($archivo)
                     'imagen' => $subir
                 ]
             );
-        }
-
-        else if($filearch){
+        } else if ($filearch) {
 
             $subir2 = subirarchivo::archivo($filearch, $nombre2, $ruta2, $filearch2);
 
@@ -545,8 +546,7 @@ public function getDownload($archivo)
                     'archivo' => $subir2
                 ]
             );
-        }
-        else {
+        } else {
 
             // SI NO MANDA IMAGEN NUEVA
 
@@ -564,9 +564,7 @@ public function getDownload($archivo)
 
         $colab = $request->usuario_colab_id;
 
-        if ($colab != "")
-
-        {
+        if ($colab != "") {
             foreach ($colab as $key => $value) {
                 # code...
                 $deta_requerimiento = DetalleRequerimiento::create([
@@ -577,7 +575,6 @@ public function getDownload($archivo)
         }
 
         return $requerimiento ? 1 : 0;
-
     }
 
     /**

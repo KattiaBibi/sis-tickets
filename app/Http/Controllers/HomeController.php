@@ -85,11 +85,11 @@ class HomeController extends Controller
 
     public function getLastRequerimientos()
     {
-        $role_id = DB::table('model_has_roles')
+        $role_id = intval(DB::table('model_has_roles')
             ->select('roles.id AS role_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('model_id', '=', auth()->user()->id)
-            ->get()->first()->role_id;
+            ->get()->first()->role_id);
 
         $query = DB::table('requerimientos')
             ->select(
