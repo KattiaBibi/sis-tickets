@@ -179,9 +179,9 @@ document.addEventListener('DOMContentLoaded', function () {
       let nom_ape = `${asistente.nombres} ${asistente.apellidos}`
       let rpta = null
 
-      if (asistente.confirmation === 1) {
+      if (asistente.confirmation == 1) {
         rpta = 'SI'
-      } else if (asistente.confirmation === 0) {
+      } else if (asistente.confirmation == 0) {
         rpta = 'NO'
       } else {
         rpta = 'pendiente'
