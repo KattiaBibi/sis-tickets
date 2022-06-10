@@ -583,14 +583,15 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
 
 
     let dato= data.asignados;
-    let log=data.log;
 
     console.log(dato)
 
+    let x=dato.find(object => object.logeado);
 
-    let x=dato.find(object => object.id_user===log);
+    console.log(x.logeado)
 
-    if(x=="" || x== null){
+
+    if(x.logeado==2){
 
         console.log("asignado no logueado")
 
@@ -624,7 +625,7 @@ $('#requerimientos').on('click', '.guardarfechahora', function (event) {
 
     else{
 
-         console.log("asignado no logueado")
+      console.log("asignado logueado")
       console.log(x.id_user)
       $('#modalfechahora').modal('show')
     }

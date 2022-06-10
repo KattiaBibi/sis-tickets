@@ -54,7 +54,7 @@ class User extends Authenticatable
     }
     else{
 
-        return asset('storage/'.$img);
+        return asset('storage/foto/'.$img);
 
     }
 

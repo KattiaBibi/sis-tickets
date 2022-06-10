@@ -14,7 +14,7 @@ $(document).ready(function () {
     document.getElementById('imagenuser').src =
       '/vendor/adminlte/dist/img/sinimg.jpg'
   } else {
-    document.getElementById('imagenuser').src = '/storage/' + valor
+    document.getElementById('imagenuser').src = '/storage/foto/' + valor
   }
 })
 
