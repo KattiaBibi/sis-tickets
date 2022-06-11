@@ -142,6 +142,7 @@ class CitaController extends Controller
   public function update(CitaRequest $request, $id)
   {
     $cita = Cita::find($id);
+    
     if (is_null($cita)) {
       return response()->json(['errors' => 'resource not found.'], 404);
     }
@@ -166,9 +167,10 @@ class CitaController extends Controller
     $cita->empresa_id = $request->get('empresa_id');
     $cita->lugarreu = $request->get('lugarreu');
     $cita->estado = $request->get('estado');
-
-    $asistentes = $this->getAsistentesPorTipoEnvioEmail($id, $input['asistentes']);
-
+    
+    $idsAsistentes = $this->getIdsAsistentesPorTipoEnvioEmail($id, $input['asistentes']);
+    $asistentesParaEliminacion = $this->getAsistentesPorTipoDeEnvioEmail($id, $idsAsistentes)['paraEliminacion'];
+    
     DB::transaction(function () use ($id, $cita, $input) {
       $cita->save();
       DetalleCita::where('cita_id', '=', $id)->delete();
@@ -186,7 +188,10 @@ class CitaController extends Controller
     });
 
     $citaActual = $this->model->index(null, null, ['id_cita' => $id])[0];
-
+    $asistentes = $this->getAsistentesPorTipoDeEnvioEmail($id, $idsAsistentes);
+    
+    $asistentes['paraEliminacion'] = $asistentesParaEliminacion;
+    
     $this->sendEmail($citaActual, $asistentes['paraInvitacion'], 'INVITACION');
     $this->sendEmail($citaActual, $asistentes['paraReprogramacion'], 'REPROGRAMACION');
     $this->sendEmail($citaActual, $asistentes['paraEliminacion'], 'ELIMINACION');
@@ -197,19 +202,28 @@ class CitaController extends Controller
     ]);
   }
 
-  private function getAsistentesPorTipoEnvioEmail($idCita, $idsAsistentes)
+  private function getIdsAsistentesPorTipoEnvioEmail($idCita, $idsAsistentes)
   {
     $idsAsistentesActuales = array_map(function ($asistente) {
       return $asistente->asistente_id;
     }, $this->model->index(null, null, ['id_cita' => $idCita])[0]->asistentes);
-
+    
     $idsInvitacion = array_diff($idsAsistentes, $idsAsistentesActuales);
     $idsEliminacion = array_diff($idsAsistentesActuales, $idsAsistentes);
     $idsReprogramacion = array_diff($idsAsistentesActuales, $idsEliminacion);
 
-    $paraInvitacion = $this->getAsistentesIn($idsInvitacion);
-    $paraEliminacion = $this->getAsistentesIn($idsEliminacion);
-    $paraReprogramacion = $this->getAsistentesIn($idsReprogramacion);
+    return [
+      'paraInvitacion' => $idsInvitacion,
+      'paraEliminacion' => $idsEliminacion,
+      'paraReprogramacion' => $idsReprogramacion,
+    ];
+  }
+    
+  private function getAsistentesPorTipoDeEnvioEmail($idCita, $idsAsistentes)
+  {
+    $paraInvitacion = $this->getAsistentesIn($idsAsistentes['paraInvitacion'],  $idCita);
+    $paraEliminacion = $this->getAsistentesIn($idsAsistentes['paraEliminacion'], $idCita);
+    $paraReprogramacion = $this->getAsistentesIn($idsAsistentes['paraReprogramacion'], $idCita);
 
     return [
       'paraInvitacion' => $paraInvitacion,
@@ -217,19 +231,20 @@ class CitaController extends Controller
       'paraReprogramacion' => $paraReprogramacion,
     ];
   }
-
-  private function getAsistentesIn($ids)
+    
+  private function getAsistentesIn($ids, $idCita)
   {
     return  DB::table('colaboradores')
       ->select(
+        "colaboradores.id AS id_colaborador",
         "detalle_citas.id as detalle_cita_id",
         "colaboradores.nombres AS nombres",
         "colaboradores.apellidos AS apellidos",
-        "users.email AS email",
-      )
+        "users.email AS email")
       ->join('detalle_citas', 'colaboradores.id', '=', 'detalle_citas.usuario_colab_id', 'left')
       ->join('users', 'users.colaborador_id', '=', 'colaboradores.id', 'left')
       ->whereIn('colaboradores.id', $ids)
+      ->where('detalle_citas.cita_id', $idCita)
       ->get()->all();
   }
 
@@ -240,7 +255,7 @@ class CitaController extends Controller
 
     $this->sendEmail(
       $this->model->index(null, null, ['id_cita' => $idCita])[0],
-      $this->getAsistentesIn([$id_asistente]),
+      $this->getAsistentesIn([$id_asistente], $idCita),
       'INVITACION'
     );
 
@@ -293,17 +308,17 @@ class CitaController extends Controller
     ]);
 
     if ($validation->fails()) {
-      return "¡Ocurrio un error, vuelva a intentarlo!";
+      return "¡Ocurrio un error en la validación, vuelva a intentarlo!";
     }
 
     $detalleCita = DetalleCita::find(request()->input('detalle_cita_id'));
 
-    if ($detalleCita->confirmation) {
+    if ($detalleCita->confirmation != null) {
       return "¡Su confirmación ya fue enviada!";
     }
 
     if (!password_verify(request()->input('detalle_cita_id'), request()->input('hash'))) {
-      return "¡Ocurrio un error, vuelva a intentarlo!";
+      return "¡Ocurrio un error con el hash, vuelva a intentarlo!";
     }
 
     $detalleCita->confirmation = request()->input('respuesta') === 'SI' ? 1 : 0;
