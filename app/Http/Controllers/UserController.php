@@ -91,7 +91,9 @@ class UserController extends Controller
 
 
         $usuario=User::create(
-        ['name' => $request->name,
+
+        [
+        'name' => $request->name,
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'colaborador_id' => $request->colaborador_id,
