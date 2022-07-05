@@ -27,7 +27,7 @@ class Colaborador extends Model
   private function getFilters($query, $filters)
 
   {
-    $query->where('colaboradores.estado','=', 1);
+    $query->where('colaboradores.estado', '=', 1);
 
     if (isset($filters['nom_ape']) && $filters['nom_ape'] !== '') {
       $query->where(function ($query) use ($filters) {
@@ -74,5 +74,17 @@ class Colaborador extends Model
     $resultSet['pagination'] = ['more' => ($page * $limit) < $countFiltered];
 
     return $resultSet;
+  }
+
+  static function getContactInfoByUserIds(array $userIds)
+  {
+    return DB::table('colaboradores')
+      ->select(
+        DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
+        "colaboradores.telefono AS telefono"
+      )
+      ->join('users', 'users.colaborador_id', '=', 'colaboradores.id')
+      ->whereIn('users.id', $userIds)
+      ->get()->all();
   }
 }

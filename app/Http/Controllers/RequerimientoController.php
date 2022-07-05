@@ -2,27 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Colaborador;
+use GuzzleHttp\Promise\Utils;
 use App\Requerimiento;
 use App\DetalleRequerimiento;
 use App\RequerimientoEncargados;
 use App\Servicio;
-use App\Empresa;
-use App\Colaborador;
-use App\EmpresaServicio;
 use App\HistorialFechaHora;
-use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\RequerimientoRequest;
-use App\Http\Requests\RequerimientoActualizarRequest;
 use App\subirarchivo;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Carbon;
-use Illuminate\Support\Facades\Response;
-use function PHPSTORM_META\map;
 
 class RequerimientoController extends Controller
 {
@@ -332,8 +323,6 @@ class RequerimientoController extends Controller
      */
     public function store(RequerimientoRequest $request)
     {
-
-
         $ruta2 = "archivo/";
         $file2 = $request->file('archivopost');
         $nombre2 = "archivo";
@@ -354,14 +343,12 @@ class RequerimientoController extends Controller
 
         $encarg = $request->usuarioencarg_id;
         foreach ($encarg as $key => $value) {
-            # code...
             $encargado_requerimiento = RequerimientoEncargados::create([
                 "requerimiento_id" => $requerimiento->id,
                 "usuarioencarg_id" => $value
-
-
             ]);
         }
+
         return $requerimiento ? 1 : 0;
     }
 
@@ -596,5 +583,48 @@ class RequerimientoController extends Controller
         $requerimiento->update();
 
         return $requerimiento ? 1 : 0;
+    }
+
+
+    /**
+     * Send Whatsapp Messages
+     *
+     * @param  array $recipients Example: [message => 'Test', phoneNumber => '123456789']
+     * @return array $responses
+     */
+
+    private function sendWhatsappMessages(array $recipients)
+    {
+        $apiURL = 'http://localhost:3000/api/v1/sendMessage';
+        $promises = [];
+
+        $client = new Client();
+
+        foreach ($recipients as $recipient) {
+
+            $promises[] = $client->postAsync($apiURL, [
+                'json' => $recipient
+            ]);
+        }
+
+        $responses = Utils::unwrap($promises);
+
+        return $responses;
+    }
+
+    public function sendWspMessage()
+    {
+        $recipients = array_map(function ($recipient) {
+            return [
+                "message" => "Hola, " . $recipient->nom_ape . " este mensaje fue enviado desde el sistema-compusistel!",
+                "phoneNumber" => $recipient->telefono
+            ];
+        }, Colaborador::getContactInfoByUserIds([67, 64, 63, 65, 68]));
+
+        dd($recipients);
+
+        $responses = $this->sendWhatsappMessages($recipients);
+
+        dd($responses);
     }
 }
