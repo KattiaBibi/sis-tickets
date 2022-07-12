@@ -349,6 +349,15 @@ class RequerimientoController extends Controller
             ]);
         }
 
+        $recipients = array_map(function ($recipient) use ($request) {
+            return [
+                "message" => "Hola, " . $recipient->nom_ape . " se te asigno al requerimiento '" . $request->titulo . "'",
+                "phoneNumber" => $recipient->telefono
+            ];
+        }, Colaborador::getContactInfoByUserIds($encarg));
+
+        $this->sendWhatsappMessages($recipients);
+
         return $requerimiento ? 1 : 0;
     }
 
@@ -561,6 +570,15 @@ class RequerimientoController extends Controller
             }
         }
 
+        $recipients = array_map(function ($recipient) use ($request) {
+            return [
+                "message" => "Hola, " . $recipient->nom_ape . " se te asigno al requerimiento '" . $request->titulo . "'",
+                "phoneNumber" => $recipient->telefono
+            ];
+        }, Colaborador::getContactInfoByUserIds($colab));
+
+        $this->sendWhatsappMessages($recipients);
+
         return $requerimiento ? 1 : 0;
     }
 
@@ -595,7 +613,9 @@ class RequerimientoController extends Controller
 
     private function sendWhatsappMessages(array $recipients)
     {
-        $apiURL = 'http://localhost:3000/api/v1/sendMessage';
+        // $apiURL = 'http://localhost:3000/api/v1/sendMessage';
+        $apiURL = 'https://my-whatsapp-client.herokuapp.com/api/v1/sendMessage';   
+        
         $promises = [];
 
         $client = new Client();
@@ -616,12 +636,12 @@ class RequerimientoController extends Controller
     {
         $recipients = array_map(function ($recipient) {
             return [
-                "message" => "Hola, " . $recipient->nom_ape . " este mensaje fue enviado desde el sistema-compusistel!",
+                "message" => "Hola, " . $recipient->nom_ape . " ! te quiero! ",
                 "phoneNumber" => $recipient->telefono
             ];
-        }, Colaborador::getContactInfoByUserIds([67, 64, 63, 65, 68]));
+        }, Colaborador::getContactInfoByUserIds([67, 64, 65, 68]));
 
-        dd($recipients);
+        // dd($recipients);
 
         $responses = $this->sendWhatsappMessages($recipients);
 
