@@ -14,6 +14,8 @@ use App\Http\Requests\RequerimientoRequest;
 use App\subirarchivo;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
+use Laravel\Ui\Presets\Vue;
+use Psr\Http\Message\ResponseInterface;
 
 class RequerimientoController extends Controller
 {
@@ -614,14 +616,14 @@ class RequerimientoController extends Controller
     private function sendWhatsappMessages(array $recipients)
     {
         // $apiURL = 'http://localhost:3000/api/v1/sendMessage';
-        $apiURL = 'https://my-whatsapp-client.herokuapp.com/api/v1/sendMessage';   
+        // $apiURL = 'https://my-whatsapp-client.herokuapp.com/api/v1/sendMessage';
+        $apiURL = 'https://whatsapp-client-production.up.railway.app/api/v1/sendMessage';
         
         $promises = [];
 
         $client = new Client();
 
         foreach ($recipients as $recipient) {
-
             $promises[] = $client->postAsync($apiURL, [
                 'json' => $recipient
             ]);
