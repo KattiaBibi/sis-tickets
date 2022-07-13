@@ -351,19 +351,17 @@ class RequerimientoController extends Controller
             ]);
         }
 
-        $recipients = array_map(function ($recipient) use ($request) {
-            return [
-                "message" => "Hola, " . $recipient->nom_ape . " se te asigno al requerimiento '" . $request->titulo . "'",
-                "phoneNumber" => $recipient->telefono
-            ];
-        }, Colaborador::getContactInfoByUserIds($encarg));
+        // $recipients = array_map(function ($recipient) use ($request) {
+        //     return [
+        //         "message" => "Hola, " . $recipient->nom_ape . " se te asigno al requerimiento '" . $request->titulo . "'",
+        //         "phoneNumber" => $recipient->telefono
+        //     ];
+        // }, Colaborador::getContactInfoByUserIds($encarg));
 
-        $this->sendWhatsappMessages($recipients);
+        // $this->sendWhatsappMessages($recipients);
 
         return $requerimiento ? 1 : 0;
     }
-
-
 
     /**
      * Display the specified resource.
@@ -636,17 +634,6 @@ class RequerimientoController extends Controller
 
     public function sendWspMessage()
     {
-        $recipients = array_map(function ($recipient) {
-            return [
-                "message" => "Hola, " . $recipient->nom_ape . " ! te quiero! ",
-                "phoneNumber" => $recipient->telefono
-            ];
-        }, Colaborador::getContactInfoByUserIds([67, 64, 65, 68]));
-
-        // dd($recipients);
-
-        $responses = $this->sendWhatsappMessages($recipients);
-
-        dd($responses);
+        dd(Requerimiento::getById('1'));
     }
 }
