@@ -351,14 +351,7 @@ class RequerimientoController extends Controller
             ]);
         }
 
-        // $recipients = array_map(function ($recipient) use ($request) {
-        //     return [
-        //         "message" => "Hola, " . $recipient->nom_ape . " se te asigno al requerimiento '" . $request->titulo . "'",
-        //         "phoneNumber" => $recipient->telefono
-        //     ];
-        // }, Colaborador::getContactInfoByUserIds($encarg));
-
-        // $this->sendWhatsappMessages($recipients);
+        $this->enviarMensageWsp($encarg, $requerimiento->id);
 
         return $requerimiento ? 1 : 0;
     }
@@ -466,9 +459,7 @@ class RequerimientoController extends Controller
      */
 
     public function update(RequerimientoRequest $request, $id)
-
     {
-
         DB::table('detalle_requerimientos')->where('requerimiento_id', $id)->delete();
 
         $requerimiento = Requerimiento::findOrfail($id);
@@ -570,14 +561,7 @@ class RequerimientoController extends Controller
             }
         }
 
-        $recipients = array_map(function ($recipient) use ($request) {
-            return [
-                "message" => "Hola, " . $recipient->nom_ape . " se te asigno al requerimiento '" . $request->titulo . "'",
-                "phoneNumber" => $recipient->telefono
-            ];
-        }, Colaborador::getContactInfoByUserIds($colab));
-
-        $this->sendWhatsappMessages($recipients);
+        $this->enviarMensageWsp($colab, $requerimiento->id);
 
         return $requerimiento ? 1 : 0;
     }
@@ -616,7 +600,7 @@ class RequerimientoController extends Controller
         // $apiURL = 'http://localhost:3000/api/v1/sendMessage';
         // $apiURL = 'https://my-whatsapp-client.herokuapp.com/api/v1/sendMessage';
         $apiURL = 'https://whatsapp-client-production.up.railway.app/api/v1/sendMessage';
-        
+
         $promises = [];
 
         $client = new Client();
@@ -632,8 +616,67 @@ class RequerimientoController extends Controller
         return $responses;
     }
 
+    private function enviarMensageWsp(array $idsUsuarios, string $idRequerimiento)
+    {
+        $requerimiento = Requerimiento::getById($idRequerimiento);
+
+        $encargados = "";
+        foreach ($requerimiento->encargados as $encargado) {
+            $encargados .= $encargado->nom_ape_encargado . ', ';
+        }
+
+        $asignados = "";
+        foreach ($requerimiento->asignados as $asignado) {
+            $asignados .= $asignado->nom_ape_asignado . ', ';
+        }
+
+        $recipients = array_map(function ($recipient) use ($requerimiento, $encargados, $asignados) {
+
+            $fechaRegistro = date('d/m/Y h:i A', strtotime($requerimiento->fecha_creacion));
+
+            $message = "👉 HOLA, *$recipient->nom_ape*, SE TE ASIGNO A UN REQUERIMIENTO: \n ✅ *SOLICITANTE:* $requerimiento->nom_ape_solicitante \n ✅ *TITULO:* $requerimiento->titulo \n ✅ *EMPRESA RESPONSABLE:* $requerimiento->nombre_empresa \n ✅ *SERVICIO:* $requerimiento->nombre_servicio \n ✅ *PRIORIDAD:* $requerimiento->prioridad \n 📅 *FECHA REGISTRO:* $fechaRegistro \n ✅ *ENCARGADOS:* $encargados \n ✅ *ASIGNADOS:* $asignados [TEST]";
+
+            return [
+                "message" => $message,
+                "phoneNumber" => $recipient->telefono
+            ];
+        }, Colaborador::getContactInfoByUserIds($idsUsuarios));
+
+        $responses = $this->sendWhatsappMessages($recipients);
+    }
+
     public function sendWspMessage()
     {
-        dd(Requerimiento::getById('1'));
+        $requerimiento = Requerimiento::getById('1');
+
+        // dd($requerimiento);
+
+        $encargados = "";
+        foreach ($requerimiento->encargados as $encargado) {
+            $encargados .= $encargado->nom_ape_encargado . ', ';
+        }
+
+        $asignados = "";
+        foreach ($requerimiento->asignados as $asignado) {
+            $asignados .= $asignado->nom_ape_asignado . ', ';
+        }
+
+        $recipients = array_map(function ($recipient) use ($requerimiento, $encargados, $asignados) {
+
+            $fechaRegistro = date('d/m/Y h:i A', strtotime($requerimiento->fecha_creacion));
+
+            $message = "👉 HOLA, *$recipient->nom_ape*, SE TE ASIGNO A UN REQUERIMIENTO: \n ✅ *SOLICITANTE:* $requerimiento->nom_ape_solicitante \n ✅ *TITULO:* $requerimiento->titulo \n ✅ *EMPRESA RESPONSABLE:* $requerimiento->nombre_empresa \n ✅ *SERVICIO:* $requerimiento->nombre_servicio \n ✅ *PRIORIDAD:* $requerimiento->prioridad \n 📅 *FECHA REGISTRO:* $fechaRegistro \n ✅ *ENCARGADOS:* $encargados \n ✅ *ASIGNADOS:* $asignados";
+
+            return [
+                "message" => $message,
+                "phoneNumber" => $recipient->telefono
+            ];
+        }, Colaborador::getContactInfoByUserIds([66]));
+
+        dd($recipients);
+
+        $responses = $this->sendWhatsappMessages($recipients);
+
+        dd($responses);
     }
 }
