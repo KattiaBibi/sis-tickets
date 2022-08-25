@@ -39,6 +39,7 @@ Route::get('/dashboard', 'HomeController@index')->middleware('can:admin.home')->
 Route::get('/dashboard/getLastRequerimientos', 'HomeController@getLastRequerimientos');
 
 
+Route::delete('requerimiento/delete/{id}', 'RequerimientoController@delete');
 Route::get('requerimiento/sendWspMessage', 'RequerimientoController@sendWspMessage');
 Route::resource('requerimiento','RequerimientoController');
 Route::resource('historialfechahora','HistorialFechaHoraController');
@@ -90,3 +91,7 @@ Route::get('cita/confirmar-asistencia', 'CitaController@confirmarAsistencia');
 Route::get('cita/getForFullCalendar', 'CitaController@getForFullCalendar');
 Route::resource('cita','CitaController');
 Route::get('cita/{id}', 'CitaController@show');
+
+
+Route::get('requerimiento_respuestas/getByRequerimientoId/{id}','RequerimientoRespuestaController@getByRequerimientoId');
+Route::resource('requerimiento_respuestas','RequerimientoRespuestaController');

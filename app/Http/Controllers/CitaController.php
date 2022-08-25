@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use GuzzleHttp\Client;
+use GuzzleHttp\Promise\Utils;
 
 class CitaController extends Controller
 {
@@ -96,6 +98,7 @@ class CitaController extends Controller
       DetalleCita::insert($detallesCita);
       $cita = $this->model->index(null, null, ['id_cita' => $cita->id])[0];
       $this->sendEmail($cita, $cita->asistentes, 'INVITACION');
+      $this->sendWsp($cita->id, 'invitacion');
     });
 
     return response()->json([
@@ -196,6 +199,8 @@ class CitaController extends Controller
     $this->sendEmail($citaActual, $asistentes['paraReprogramacion'], 'REPROGRAMACION');
     $this->sendEmail($citaActual, $asistentes['paraEliminacion'], 'ELIMINACION');
 
+    $this->sendWsp($id, 'reprog');
+
     return response()->json([
       "messages" => "Resource updated successfully.",
       "data" => $input
@@ -292,6 +297,7 @@ class CitaController extends Controller
     });
 
     $this->sendEmail($citaActual, $citaActual->asistentes, 'ELIMINACION');
+    $this->sendWsp(null, 'eliminacion', $citaActual);
 
     return response()->json([
       "messages" => "Resource deleted successfully.",
@@ -327,4 +333,58 @@ class CitaController extends Controller
 
     return "¡Gracias, su confirmación fue registrada!";
   }
+
+  private function sendWsp($id, $accion = 'invitacion', $cita = null)
+  {
+    $reunion = ($id !== null) ? $this->model->index(0, 0, [], ['id_cita' => $id])[0] : $cita;
+    
+    $accionText = ($accion === 'invitacion') ? 'SE TE ASIGNO A LA REUNIÓN' : ($accion === 'reprog' ? 'SE REPROGRAMO LA REUNIÓN' : 'SE TE ELIMINO DE LA REUNIÓN');
+
+    $recipients = array_map(function($asistente) use ($reunion, $accionText) {
+
+      $fecha = date('d/m/Y', strtotime($reunion->fecha));
+      $horaInicio = date('h:i A', strtotime($reunion->hora_inicio));
+      $horaFin = date('h:i A', strtotime($reunion->hora_fin));
+
+      $message = "👉 HOLA, *$asistente->nombres $asistente->apellidos*, $accionText: \n ✅ *SOLICITANTE:* $reunion->registrado_por \n ✅ *TITULO:* $reunion->titulo \n 📅 *FECHA:* $fecha \n 📅 *HORA INICIO:* $horaInicio \n 📅 *HORA FIN:* $horaFin \n ✅ *TIPO:* $reunion->tipo \n ✅ *EMPRESA:* $reunion->descripcion_empresa \n ***Revisa tu correo $asistente->email para mas información***";
+
+      return [
+        'message' => $message,
+        'phoneNumber' => $asistente->telefono
+      ];
+
+    }, $reunion->asistentes);
+
+    // dd($recipients);
+
+    $this->sendWhatsappMessages($recipients);
+  }
+
+  /**
+     * Send Whatsapp Messages
+     *
+     * @param  array $recipients Example: [message => 'Test', phoneNumber => '123456789']
+     * @return array $responses
+     */
+
+    private function sendWhatsappMessages(array $recipients)
+    {
+        $apiURL = 'http://localhost:3000/api/v1/sendMessage';
+        // $apiURL = 'https://my-whatsapp-client.herokuapp.com/api/v1/sendMessage';
+        // $apiURL = 'https://whatsapp-client-production.up.railway.app/api/v1/sendMessage';
+
+        $promises = [];
+
+        $client = new Client();
+
+        foreach ($recipients as $recipient) {
+            $promises[] = $client->postAsync($apiURL, [
+                'json' => $recipient
+            ]);
+        }
+
+        $responses = Utils::unwrap($promises);
+
+        return $responses;
+    }
 }

@@ -95,12 +95,12 @@
 
         <div class="form-group">
             <label for="">Nombres:</label>
-            <input type="text" class="sololetras form-control" maxlength="50" minlength="50" id="txtNombre" placeholder="Ingrese el nombre" name="nombres">
+            <input type="text" class="form-control" maxlength="50" minlength="50" id="txtNombre" placeholder="Ingrese el nombre" name="nombres">
         </div>
 
         <div class="form-group">
           <label for="">Apellidos:</label>
-          <input type="text" class="sololetras form-control" maxlength="50" minlength="50" id="txtApellido" placeholder="Ingrese el nombre" name="apellidos">
+          <input type="text" class="form-control" maxlength="50" minlength="50" id="txtApellido" placeholder="Ingrese el nombre" name="apellidos">
       </div>
 
       <div class="form-group">
@@ -178,12 +178,12 @@
 
           <div class="form-group">
             <label for="">Nombres:</label>
-            <input type="text" class="sololetras form-control" id="editarNombre" maxlength="50" minlength="50" placeholder="Ingrese su(s) nombre(s)" name="nombres">
+            <input type="text" class="form-control" id="editarNombre" maxlength="50" minlength="50" placeholder="Ingrese su(s) nombre(s)" name="nombres">
         </div>
 
           <div class="form-group">
               <label for="">Apellidos:</label>
-              <input type="text" class="sololetras form-control" maxlength="50" minlength="50" id="editarApellido" placeholder="Ingrese sus apellidos" name="apellidos">
+              <input type="text" class="form-control" maxlength="50" minlength="50" id="editarApellido" placeholder="Ingrese sus apellidos" name="apellidos">
           </div>
 
           <div class="form-group">

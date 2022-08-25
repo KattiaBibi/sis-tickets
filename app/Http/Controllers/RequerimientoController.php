@@ -11,11 +11,15 @@ use App\Servicio;
 use App\HistorialFechaHora;
 use Illuminate\Http\Request;
 use App\Http\Requests\RequerimientoRequest;
+use App\Mail\RequerimientoEmail;
+use App\RequerimientoRespuesta;
 use App\subirarchivo;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Ui\Presets\Vue;
 use Psr\Http\Message\ResponseInterface;
+use stdClass;
 
 class RequerimientoController extends Controller
 {
@@ -144,6 +148,7 @@ class RequerimientoController extends Controller
             $req->encargados = DB::table('requerimiento_encargados')
 
                 ->select(
+                    "users.id AS id_usuario",
                     DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
                     DB::raw("(CASE WHEN users.id = $logueado THEN 1 ELSE 2 END) AS logeado")
                 )
@@ -238,6 +243,10 @@ class RequerimientoController extends Controller
             }
         }
 
+        foreach ($requerimientos as &$req) {
+            $req->respuestas = RequerimientoRespuesta::where('requerimiento_id', $req->id)->get()->all();
+        }
+
         return datatables()->of($requerimientos)->toJson();
     }
 
@@ -295,8 +304,12 @@ class RequerimientoController extends Controller
 
 
     public function index()
-
     {
+        $role_id = intval(DB::table('model_has_roles')
+            ->select('roles.id AS role_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('model_id', '=', auth()->user()->id)
+            ->get()->first()->role_id);
 
         $servicios = Servicio::all();
         $empresas = DB::table('empresas')->where('estado', '=', '1')->get();
@@ -304,7 +317,7 @@ class RequerimientoController extends Controller
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->select('u.id as usuario_id', 'c.id as colaborador_id', 'c.nombres', 'c.apellidos')->get();
 
-        return view('requerimiento.index', compact('servicios', 'empresas', 'usuarios'));
+        return view('requerimiento.index', compact('servicios', 'empresas', 'usuarios', 'role_id'));
     }
 
     /**
@@ -352,55 +365,27 @@ class RequerimientoController extends Controller
         }
 
         $this->enviarMensageWsp($encarg, $requerimiento->id);
+        $this->sendEmail($requerimiento->id);
 
         return $requerimiento ? 1 : 0;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Requerimiento  $requerimiento
-     * @return \Illuminate\Http\Response
-     */
-
-
-    // public function download($file_name) {
-    //     $file_path = public_path('files/'.$file_name);
-    //     return response()->download($file_path);
-    //   }
-
-
-
     public function getDownload($archivo)
-
     {
-
         //PDF file is stored under project/public/download/info.pdf
-
         $file = public_path() . "/storage/archivo/" . $archivo;
-
         return response()->download($file);
     }
-
 
     public function show(Request $request, $id)
     {
         //
-
-
         $fechaActual = date('Y-m-d H:i:s');
-
-
         $requerimiento = Requerimiento::findOrfail($id);
-
-
         $avance = $request->avance;
 
-
         if ($avance == "100") {
-
             $requerimiento->update(
-
                 [
                     'avance' => $request->avance,
                     'estado' => "culminado"
@@ -415,14 +400,12 @@ class RequerimientoController extends Controller
         } else if ($avance > "0") {
 
             $requerimiento->update(
-
                 [
                     'avance' => $request->avance,
                     'estado' => "en proceso"
                 ]
             );
         } else {
-
             $requerimiento->update(
                 [
                     'avance' => $request->avance,
@@ -432,22 +415,7 @@ class RequerimientoController extends Controller
             );
         }
 
-
         return $requerimiento ? 1 : 0;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Requerimiento  $requerimiento
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, Requerimiento $requerimiento)
-    {
-        //
-
-
-
     }
 
     /**
@@ -562,8 +530,32 @@ class RequerimientoController extends Controller
         }
 
         $this->enviarMensageWsp($colab, $requerimiento->id);
+        $this->sendEmail($requerimiento->id);
 
         return $requerimiento ? 1 : 0;
+    }
+
+    public function sendEmail($id)
+    {
+        $req = Requerimiento::getById($id);
+
+        // dd($req);
+
+        $solicitante = new stdClass();
+        $solicitante->id = $req->id_solicitante;
+        $solicitante->nombre = $req->apellido_solicitante;
+        $solicitante->apellido = $req->apellido_solicitante;
+        $solicitante->email = $req->email_solicitante;
+
+        $merged_keyed = array_column(array_merge($req->encargados, $req->asignados, [$solicitante]), NULL, 'id');
+        ksort($merged_keyed);
+        $colaboradores = array_values($merged_keyed);
+
+        // dd($colaboradores);
+
+        foreach ($colaboradores as $colaborador) {
+            Mail::to($colaborador->email)->send(new RequerimientoEmail($req, $colaborador));
+        }
     }
 
     /**
@@ -572,7 +564,6 @@ class RequerimientoController extends Controller
      * @param  \App\Requerimiento  $requerimiento
      * @return \Illuminate\Http\Response
      */
-
 
     public function destroy(Request $request, $id)
     {
@@ -587,6 +578,25 @@ class RequerimientoController extends Controller
         return $requerimiento ? 1 : 0;
     }
 
+    public function delete($id)
+    {
+        $detalleRequ = DB::table('detalle_requerimientos')
+            ->where('requerimiento_id', $id)->get()->all();
+
+        // dd($detalleRequ);
+
+        foreach ($detalleRequ as $value) {
+            DB::table('historial_requerimientos')
+                ->where('detalle_requerimiento_id', $value->id)->delete();
+        }
+
+        DB::table('detalle_requerimientos')->where('requerimiento_id', $id)->delete();
+        DB::table('requerimiento_encargados')->where('requerimiento_id', $id)->delete();
+        DB::table('requerimientos')->where('id', $id)->delete();
+
+        return 1;
+    }
+
 
     /**
      * Send Whatsapp Messages
@@ -597,9 +607,9 @@ class RequerimientoController extends Controller
 
     private function sendWhatsappMessages(array $recipients)
     {
-        // $apiURL = 'http://localhost:3000/api/v1/sendMessage';
+        $apiURL = 'http://localhost:3000/api/v1/sendMessage';
         // $apiURL = 'https://my-whatsapp-client.herokuapp.com/api/v1/sendMessage';
-        $apiURL = 'https://whatsapp-client-production.up.railway.app/api/v1/sendMessage';
+        // $apiURL = 'https://whatsapp-client-production.up.railway.app/api/v1/sendMessage';
 
         $promises = [];
 
@@ -634,7 +644,7 @@ class RequerimientoController extends Controller
 
             $fechaRegistro = date('d/m/Y h:i A', strtotime($requerimiento->fecha_creacion));
 
-            $message = "👉 HOLA, *$recipient->nom_ape*, SE TE ASIGNO A UN REQUERIMIENTO: \n ✅ *SOLICITANTE:* $requerimiento->nom_ape_solicitante \n ✅ *TITULO:* $requerimiento->titulo \n ✅ *EMPRESA RESPONSABLE:* $requerimiento->nombre_empresa \n ✅ *SERVICIO:* $requerimiento->nombre_servicio \n ✅ *PRIORIDAD:* $requerimiento->prioridad \n 📅 *FECHA REGISTRO:* $fechaRegistro \n ✅ *ENCARGADOS:* $encargados \n ✅ *ASIGNADOS:* $asignados [TEST]";
+            $message = "👉 HOLA, *$recipient->nom_ape*, TIENES UN REQUERIMIENTO: \n ✅ *SOLICITANTE:* $requerimiento->nom_ape_solicitante \n ✅ *TITULO:* $requerimiento->titulo \n ✅ *EMPRESA RESPONSABLE:* $requerimiento->nombre_empresa \n ✅ *SERVICIO:* $requerimiento->nombre_servicio \n ✅ *PRIORIDAD:* $requerimiento->prioridad \n 📅 *FECHA REGISTRO:* $fechaRegistro \n ✅ *ENCARGADOS:* $encargados \n ✅ *ASIGNADOS:* $asignados";
 
             return [
                 "message" => $message,

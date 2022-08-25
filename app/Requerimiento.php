@@ -34,7 +34,11 @@ class Requerimiento extends Model
                 DB::raw("requerimientos.prioridad AS prioridad"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
                 DB::raw("servicios.nombre AS nombre_servicio"),
-                DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_solicitante")
+                "colaboradores.id AS id_solicitante",
+                DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_solicitante"),
+                "solicitante.email AS email_solicitante",
+                "colaboradores.nombres AS nombre_solicitante",
+                "colaboradores.apellidos AS apellido_solicitante",
             )
             ->join('empresa_servicios', 'empresa_servicios.id', '=', 'requerimientos.empresa_servicio_id')
             ->join('empresas', 'empresas.id', '=', 'empresa_servicios.empresa_id')
@@ -45,14 +49,26 @@ class Requerimiento extends Model
             ->get()->first();
 
         $requerimiento->encargados = DB::table('requerimiento_encargados')
-            ->select(DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_encargado"))
+            ->select(
+                "colaboradores.id AS id",
+                DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_encargado"),
+                "colaboradores.nombres AS nombre",
+                "colaboradores.apellidos AS apellido",
+                "encargado.email AS email"
+            )
             ->join('users AS encargado', 'encargado.id', '=', 'requerimiento_encargados.usuarioencarg_id')
             ->join('colaboradores', 'colaboradores.id', '=', 'encargado.colaborador_id')
             ->where("requerimiento_encargados.requerimiento_id", "=", $id)
             ->get()->all();
 
         $requerimiento->asignados = DB::table('detalle_requerimientos')
-            ->select(DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_asignado"))
+            ->select(
+                "colaboradores.id AS id",
+                DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_asignado"),
+                "colaboradores.nombres AS nombre",
+                "colaboradores.apellidos AS apellido",
+                "asignado.email AS email"
+            )
             ->join('users AS asignado', 'asignado.id', '=', 'detalle_requerimientos.usuario_colab_id')
             ->join('colaboradores', 'colaboradores.id', '=', 'asignado.colaborador_id')
             ->where("detalle_requerimientos.requerimiento_id", "=", $id)
