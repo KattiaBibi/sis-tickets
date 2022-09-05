@@ -54,7 +54,7 @@ $('#btnactualizaruser').on('click', (event) => {
           timer: 1500,
         })
 
-        datatable.ajax.reload(null, false)
+        // datatable.ajax.reload(null, false)
       } else {
         alert('no editado')
       }
@@ -94,7 +94,7 @@ $('#btnactualizarcolab').on('click', (event) => {
           timer: 1500,
         })
 
-        datatable.ajax.reload(null, false)
+        // datatable.ajax.reload(null, false)
       } else {
         alert('no editado')
       }
