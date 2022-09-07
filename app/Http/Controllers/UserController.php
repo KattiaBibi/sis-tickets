@@ -149,6 +149,9 @@ class UserController extends Controller
             ->first();
 
         $roles = Role::all();
+
+                // dd($usuario, $empresa_areas, $roles);
+
         return view('usuario.perfil', compact('usuario', 'empresa_areas', 'roles'));
     }
 

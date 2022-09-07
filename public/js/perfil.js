@@ -5,7 +5,7 @@ $(document).ready(function () {
   let valor = $('#imagenuser').attr('value')
 
   let rol = $('#rol').attr('value')
-  let empresa_area = $('#rol').attr('value')
+  let empresa_area = $('#empresa_area').attr('value')
 
   $('#rol').val(rol)
   $('#empresa_area').val(empresa_area)

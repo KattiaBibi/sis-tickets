@@ -122,7 +122,7 @@
                         <div class="col-sm-2 row justify-content-center align-items-center" style="text-align: center;">
            
 
-                          <button type="button" id="consim" style="display: none;" class="retirar btn btn-info btn-sm" style="">QUITAR IMAGEN</button>
+                          <button type="button" id="consim" style="display: none;" class="retirar btn btn-info btn-sm" >QUITAR IMAGEN</button>
                         </div>
                       </div>
 
