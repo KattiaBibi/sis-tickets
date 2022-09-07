@@ -98,7 +98,7 @@ class CitaController extends Controller
       DetalleCita::insert($detallesCita);
       $cita = $this->model->index(null, null, ['id_cita' => $cita->id])[0];
       $this->sendEmail($cita, $cita->asistentes, 'INVITACION');
-      $this->sendWsp($cita->id, 'invitacion');
+      $this->sendWsp(null, 'invitacion', $cita);
     });
 
     return response()->json([
@@ -199,7 +199,7 @@ class CitaController extends Controller
     $this->sendEmail($citaActual, $asistentes['paraReprogramacion'], 'REPROGRAMACION');
     $this->sendEmail($citaActual, $asistentes['paraEliminacion'], 'ELIMINACION');
 
-    $this->sendWsp($id, 'reprog');
+    $this->sendWsp(null, 'reprog', $citaActual);
 
     return response()->json([
       "messages" => "Resource updated successfully.",

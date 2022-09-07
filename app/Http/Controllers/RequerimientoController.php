@@ -428,7 +428,24 @@ class RequerimientoController extends Controller
 
     public function update(RequerimientoRequest $request, $id)
     {
-        DB::table('detalle_requerimientos')->where('requerimiento_id', $id)->delete();
+        $userColabActual = DB::table('detalle_requerimientos')->where('requerimiento_id', $id)->get()->all();
+        $userColabReq = $request->usuario_colab_id;
+        $userColabDelete = [];
+
+        foreach ($userColabActual as $i) {
+            if (array_search($i->usuario_colab_id, $userColabReq) === false) {
+                $userColabDelete[] = $i;
+            } else {
+                unset($userColabReq[array_search($i->usuario_colab_id, $userColabReq)]);
+            }
+        }
+
+        if ($userColabDelete) {
+            foreach ($userColabDelete as $e) {
+                DB::table('historial_requerimientos')->where('detalle_requerimiento_id', $e->id)->delete();
+                DB::table('detalle_requerimientos')->where('id', $e->id)->delete();
+            }
+        }
 
         $requerimiento = Requerimiento::findOrfail($id);
 
@@ -517,16 +534,13 @@ class RequerimientoController extends Controller
 
 
 
-        $colab = $request->usuario_colab_id;
+        $colab = $userColabReq;
 
-        if ($colab != "") {
-            foreach ($colab as $key => $value) {
-                # code...
-                $deta_requerimiento = DetalleRequerimiento::create([
-                    "usuario_colab_id" => $value,
-                    "requerimiento_id" => $requerimiento->id
-                ]);
-            }
+        foreach ($colab as $key => $value) {
+            $deta_requerimiento = DetalleRequerimiento::create([
+                "usuario_colab_id" => $value,
+                "requerimiento_id" => $requerimiento->id
+            ]);
         }
 
         $this->enviarMensageWsp($colab, $requerimiento->id);

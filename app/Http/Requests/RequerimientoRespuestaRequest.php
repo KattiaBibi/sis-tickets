@@ -28,9 +28,10 @@ class RequerimientoRespuestaRequest extends FormRequest
         $request = request();
         return [
             'pdf' => [
-                Rule::requiredIf(function () use ($request) {
-                    return $request->method == 'POST';
-                }),
+                // Rule::requiredIf(function () use ($request) {
+                //     return $request->method == 'POST';
+                // }),
+                'nullable',
                 'mimes:pdf',
                 'max:5120'
             ],
@@ -42,7 +43,7 @@ class RequerimientoRespuestaRequest extends FormRequest
     public function messages()
     {
         return [
-            'pdf.required' => 'El campo pdf es requerido',
+            // 'pdf.required' => 'El campo pdf es requerido',
             'pdf.mimes' => 'El campo pdf debe ser formato PDF',
             'pdf.max' => 'El campo pdf deber ser max. 5mb',
             'descripcion.max' => 'El campo descripcion deber ser max. 1000 caracteres',
