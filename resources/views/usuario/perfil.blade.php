@@ -219,13 +219,13 @@
                       </div>
 
                       <div class="form-group row">
-                        <label for="inputName" class="col-sm-4 col-form-label">Empresa y área:</label>
+                        <label for="inputName" class="col-sm-4 col-form-label">Empresa(s):</label>
                         <div class="col-sm-8">
 
-                            <select class="form-control disabled_class"  value="{{ $usuario->empresa_area_id }}" id="empresa_area" name="empresa_area_id">
+                            <select class="form-control" id="empresa_area" name="empresa_area_id" disabled multiple>
 
-                                @foreach ($empresa_areas as $e)
-                                <option value="{{ $e->eaid }}">{{$e->enombre}} - {{$e->anombre}}</option>
+                                @foreach ($usuario->empresas as $e)
+                                  <option value="{{ $e->id }}">{{$e->nombre_empresa_area}}</option>
                                 @endforeach
 
                             </select>

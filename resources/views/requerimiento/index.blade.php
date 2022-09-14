@@ -5,13 +5,6 @@
 @endsection
 
 @section('css')
-
-<!-- Alertify css cdn -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-
-<!-- Alertify bootstrap theme css cdn -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
-
 <style>
   .select2-container--default .select2-selection--multiple .select2-selection__choice {
 
@@ -669,11 +662,6 @@
 
 
 @section('js')
-
-<!-- Alertify js cdn -->
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-
-<script src="{{asset('js/Utils.js')}}"></script>
 <script src="{{asset('js/requerimiento.js')}}"></script>
 
 <script>

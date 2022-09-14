@@ -4,44 +4,44 @@
 
 @section('adminlte_css')
 
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"/> --}}
-    <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" rel="stylesheet"/>
-  <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap4.min.css" rel="stylesheet"/>
+{{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"/> --}}
+<link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap4.min.css" rel="stylesheet" />
 
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-    <!-- Tree View CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<!-- Alertify css cdn -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+
+<!-- Alertify bootstrap theme css cdn -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+
+<link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.12.0/features/searchHighlight/dataTables.searchHighlight.css" />
 
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.12.0/features/searchHighlight/dataTables.searchHighlight.css" />
+@stack('css')
+@yield('css')
 
+<style>
+  .disabled_class {
 
-    @stack('css')
-    @yield('css')
-
-    <style>
-
-        .disabled_class{
-
-          pointer-events: none;
-            opacity: 0.7;
-            background: #e9e9e9;
-            color: black;
-            border-color: rgba(118, 118, 118, 0.3);
-        }
-
-        </style>
+    pointer-events: none;
+    opacity: 0.7;
+    background: #e9e9e9;
+    color: black;
+    border-color: rgba(118, 118, 118, 0.3);
+  }
+</style>
 @stop
 
 @section('classes_body', $layoutHelper->makeBodyClasses())
@@ -49,38 +49,38 @@
 @section('body_data', $layoutHelper->makeBodyData())
 
 @section('body')
-    <div class="wrapper">
+<div class="wrapper">
 
-        {{-- Top Navbar --}}
-        @if($layoutHelper->isLayoutTopnavEnabled())
-            @include('adminlte::partials.navbar.navbar-layout-topnav')
-        @else
-            @include('adminlte::partials.navbar.navbar')
-        @endif
+  {{-- Top Navbar --}}
+  @if($layoutHelper->isLayoutTopnavEnabled())
+  @include('adminlte::partials.navbar.navbar-layout-topnav')
+  @else
+  @include('adminlte::partials.navbar.navbar')
+  @endif
 
-        {{-- Left Main Sidebar --}}
-        @if(!$layoutHelper->isLayoutTopnavEnabled())
-            @include('adminlte::partials.sidebar.left-sidebar')
-        @endif
+  {{-- Left Main Sidebar --}}
+  @if(!$layoutHelper->isLayoutTopnavEnabled())
+  @include('adminlte::partials.sidebar.left-sidebar')
+  @endif
 
-        {{-- Content Wrapper --}}
-        @empty($iFrameEnabled)
-            @include('adminlte::partials.cwrapper.cwrapper-default')
-        @else
-            @include('adminlte::partials.cwrapper.cwrapper-iframe')
-        @endempty
+  {{-- Content Wrapper --}}
+  @empty($iFrameEnabled)
+  @include('adminlte::partials.cwrapper.cwrapper-default')
+  @else
+  @include('adminlte::partials.cwrapper.cwrapper-iframe')
+  @endempty
 
-        {{-- Footer --}}
-        @hasSection('footer')
-            @include('adminlte::partials.footer.footer')
-        @endif
+  {{-- Footer --}}
+  @hasSection('footer')
+  @include('adminlte::partials.footer.footer')
+  @endif
 
-        {{-- Right Control Sidebar --}}
-        @if(config('adminlte.right_sidebar'))
-            @include('adminlte::partials.sidebar.right-sidebar')
-        @endif
+  {{-- Right Control Sidebar --}}
+  @if(config('adminlte.right_sidebar'))
+  @include('adminlte::partials.sidebar.right-sidebar')
+  @endif
 
-    </div>
+</div>
 @stop
 
 @section('adminlte_js')
@@ -93,7 +93,6 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
@@ -109,9 +108,6 @@
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
 
-<!-- Tree View JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-
 <!-- Axios -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -120,29 +116,36 @@
 <script src="https://bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
 <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
 
+<!-- Alertify js cdn -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
+<script src="js/Utils.js"></script>
 <script>
+  $(".solonros").bind('keypress', function(event) {
+    var regex = new RegExp("^[0-9]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (!regex.test(key)) {
+      event.preventDefault();
+      return false;
+    }
+  });
 
-$(".solonros").bind('keypress', function(event) {
-  var regex = new RegExp("^[0-9]+$");
-  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-  if (!regex.test(key)) {
-    event.preventDefault();
-    return false;
-  }
-});
+  $(".sololetras").bind('keypress', function(event) {
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (!regex.test(key)) {
+      event.preventDefault();
+      return false;
+    }
+  });
 
-$(".sololetras").bind('keypress', function(event) {
-  var regex = new RegExp("^[a-zA-Z ]+$");
-  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-  if (!regex.test(key)) {
-    event.preventDefault();
-    return false;
-  }
-});
-
+  // CONFIGURACION PREDETERMINADA PARA ALERTIFY
+  alertify.defaults.transition = "slide";
+  alertify.defaults.theme.ok = "btn btn-primary";
+  alertify.defaults.theme.cancel = "btn btn-danger";
+  alertify.defaults.theme.input = "form-control";
 </script>
 
-    @stack('js')
-    @yield('js')
+@stack('js')
+@yield('js')
 @stop

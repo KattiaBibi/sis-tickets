@@ -1,247 +1,450 @@
 /* ACA LA USO PARA HACER EL POST Y TRAER LA DATA AHORA SI ME ENTIUENDES ? */
-var datatable;
+var datatable
 function listar() {
-    datatable = $("#colaboradores").DataTable({
-        pageLength: 5,
-        destroy: true,
-        async: false,
-        responsive: true,
-        autoWidth: false,
-        dom: "Bfrtip",
-        lengthChange: false,
+  datatable = $('#colaboradores').DataTable({
+    pageLength: 25,
+    destroy: true,
+    async: false,
+    responsive: true,
+    autoWidth: false,
+    dom: 'Bfrtip',
+    lengthChange: false,
 
-        language: {
-            url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+    language: {
+      url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json',
+    },
+
+    buttons: [
+      {
+        extend: 'copy',
+        text: 'Copiar',
+      },
+
+      {
+        extend: 'colvis',
+        text: 'Visibilidad',
+      },
+
+      'excel',
+      'pdf',
+    ],
+
+    columnDefs: [
+      {
+        searchable: false,
+        orderable: false,
+        targets: 0,
+      },
+    ],
+
+    ajax: {
+      url: '/datatable/colaboradores',
+      method: 'get',
+    },
+
+    columns: [
+      {
+        data: 'estado',
+        render: function (data) {
+          if (data == '1') {
+            return "<button type='button'  id='ButtonDesactivar' class='desactivar text-truncate edit-modal btn btn-sm btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>"
+          }
+
+          if (data == '0') {
+            return "<button type='button'  id='ButtonActivar' class='desactivar text-truncate edit-modal btn-sm btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>"
+          }
         },
+      },
 
-        buttons: [
-            {
-                extend: "copy",
-                text: "Copiar",
-            },
-
-            {
-                extend: "colvis",
-                text: "Visibilidad",
-            },
-
-            "excel",
-            "pdf",
-        ],
-
-        columnDefs: [
-            {
-                searchable: false,
-                orderable: false,
-                targets: 0,
-            },
-        ],
-
-        ajax: {
-            url: "/datatable/colaboradores",
-            method: "post",
-            data: { _token: token_ },
+      {
+        data: null,
+        render: function (data) {
+          return "<button type='button'  id='ButtonEditar'  class='editar btn-sm text-truncate edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>"
         },
-
-        columns: [
-            {
-                data: "colaborador_estado",
-                render: function (data) {
-                    if (data == "1") {
-                        return "<button type='button'  id='ButtonDesactivar' class='desactivar edit-modal btn btn-danger botonDesactivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Desactivar</span></button>";
-                    }
-
-                    if (data == "0") {
-                        return "<button type='button'  id='ButtonActivar' class='desactivar edit-modal btn btn-info botonActivar'><span class='fa fa-edit'></span><span class='hidden-xs'>Activar</span></button>";
-                    }
-                },
-            },
-
-            {
-                data: null,
-                render: function (data) {
-                    return "<button type='button'  id='ButtonEditar'  class='editar edit-modal btn btn-warning botonEditar'><span class='fa fa-edit'></span><span class='hidden-xs'> Editar</span></button>";
-                },
-            },
-
-            {
-                data: "id",
-                render: function (data, type, row, meta) {
-                    return meta.row + 1;
-                },
-            },
-            { data: "nrodocumento" },
-            { data: "nombres" },
-            { data: "apellidos" },
-            { data: "fechanacimiento" },
-            { data: "direccion" },
-            { data: "telefono" },
-            { data: "e.nombre" },
-            { data: "a.nombre" },
-        ],
-    });
+      },
+      { data: 'nrodocumento' },
+      { data: 'nombres' },
+      { data: 'apellidos' },
+      { data: 'fechanacimiento' },
+      { data: 'direccion' },
+      { data: 'telefono' },
+      {
+        data: 'empresas',
+        render: function (data, type, row, meta) {
+          return data.reduce(
+            (acumulador, valorActual) =>
+              acumulador + valorActual.nombre_empresa_area + ', ',
+            ''
+          )
+        },
+      },
+    ],
+  })
 }
 
-$("#colaboradores").on("click", ".editar", function () {
-    var data = datatable.row($(this).parents("tr")).data(); //Detecta a que fila hago click y me captura los datos en la variable data.
-    if (datatable.row(this).child.isShown()) {
-        //Cuando esta en tamaño responsive
+// MULTIEMPRESA
+const DATATABLE_MULTIEMPRESA = $('#tablaMultiempresa').DataTable({
+  ordering: false,
+  paging: false,
+  searching: false,
+  info: false,
+  language: {
+    url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json',
+  },
+  columns: [
+    {
+      data: 'id',
+      visible: false,
+    },
+    {
+      data: 'empresa_area',
+    },
+    {
+      data: 'correo',
+    },
+    {
+      defaultContent: `
+      <td style="text-align: center;" class="text-truncate">
+        <button class="btn btn-sm btn-editar-item" style="color: #007BE8;">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="btn btn-sm btn-eliminar-item" style="color: #9E0F20;">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>`,
+    },
+  ],
+})
 
-        var data = datatable.row(this).data();
+$('#colaboradores').on('click', '.editar', function () {
+  COLABORADOR_FORM_ACTION = 'UPDATE'
+  modalColaboradorLabel.textContent = 'EDITAR'
+
+  var data = datatable.row($(this).parents('tr')).data()
+  if (datatable.row(this).child.isShown()) {
+    var data = datatable.row(this).data()
+  }
+
+  $('#inputIdColaborador').val(data['id'])
+  $('#inputNrodoc').val(data['nrodocumento'])
+  $('#inputNombre').val(data['nombres'])
+  $('#inputApellido').val(data['apellidos'])
+  $('#inputFechanac').val(data['fechanacimiento'])
+  $('#inputDireccion').val(data['direccion'])
+  $('#inputTelefono').val(data['telefono'])
+
+  data.empresas.forEach((element) => {
+    DATATABLE_MULTIEMPRESA.row
+      .add({
+        id: element.id,
+        empresa_area: element.nombre_empresa_area,
+        correo: element.correo_corporativo,
+        id_empresa_area: element.id_empresa_area,
+      })
+      .draw()
+  })
+
+  $('#modalColaborador').modal('show')
+})
+
+let MULTIEMPRESA_FORM_ACTION = 'STORE'
+let COLABORADOR_FORM_ACTION = 'STORE'
+let DATATABLE_MULTIEMPRESA_ROW_EDIT = null
+
+btnNuevoMultiempresa.addEventListener('click', function (e) {
+  e.preventDefault()
+  MULTIEMPRESA_FORM_ACTION = 'STORE'
+  collapseMultiempresaLabel.textContent = 'AÑADIR'
+  btnSendFrmMultiempresaText.textContent = 'Añadir'
+  $('#collapseFrmMultiempresa').collapse('show')
+})
+
+$('#tablaMultiempresa tbody').on('click', '.btn-editar-item', function (e) {
+  e.preventDefault()
+  let data = Utils.obtenerFilaSeleccionada(DATATABLE_MULTIEMPRESA, this)
+  console.log(data)
+
+  DATATABLE_MULTIEMPRESA_ROW_EDIT = $(this).closest('tr')
+  MULTIEMPRESA_FORM_ACTION = 'UPDATE'
+  collapseMultiempresaLabel.textContent = 'EDITAR'
+  btnSendFrmMultiempresaText.textContent = 'Editar'
+
+  $('#inputIdMultiEmpresa').val(data.id)
+  $('#inputEmpresaAreaMultiempresa').val(data.id_empresa_area)
+  $('#inputCorreoMultiempresa').val(data.correo)
+
+  $('#collapseFrmMultiempresa').collapse('show')
+})
+
+$('#tablaMultiempresa tbody').on('click', '.btn-eliminar-item', function (e) {
+  e.preventDefault()
+  let data = Utils.obtenerFilaSeleccionada(DATATABLE_MULTIEMPRESA, this)
+  console.log(data)
+  DATATABLE_MULTIEMPRESA.row($(this).parents('tr')).remove().draw()
+})
+
+function validateFrmMultiempresa() {
+  let messages = {}
+  let isValid = true
+
+  if ($('#inputEmpresaAreaMultiempresa option:selected').val() == '') {
+    messages.empresa_area = 'El campo Empresa/Area es requerido.'
+    isValid = false
+  }
+
+  if ($('#inputCorreoMultiempresa').val() == '') {
+    messages.correo = 'El campo Correo es requerido.'
+    isValid = false
+  }
+
+  if (!isValid) {
+    return {
+      isOk: false,
+      messages: messages,
     }
-    console.log(data);
-    $("#idregistro").val(data["id"]);
-    $("#editarNrodoc").val(data["nrodocumento"]);
-    $("#editarNombre").val(data["nombres"]);
-    $("#editarApellido").val(data["apellidos"]);
-    $("#editarFechanac").val(data["fechanacimiento"]);
-    $("#editarDireccion").val(data["direccion"]);
-    $("#editarTelefono").val(data["telefono"]);
+  }
 
-    console.log(data.idea);
-    $("#editarEmpresaArea").val(data.idea);
+  return {
+    isOk: true,
+    messages: messages,
+  }
+}
 
-    $("#modaleditar").modal("show");
-});
+function checkEmpresaAreaExists(id_empresa_area) {
+  if (
+    DATATABLE_MULTIEMPRESA.rows()
+      .data()
+      .filter((item) => item.id_empresa_area == id_empresa_area).length > 0
+  ) {
+    return true
+  }
 
-$("#btnguardar").on("click", (event) => {
-    event.preventDefault();
+  return false
+}
 
-    let route = $("#frmguardar").attr("action");
-    let dataArray = $("#frmguardar").serializeArray();
-    dataArray.push({ name: "_token", value: token_ });
-    console.log(dataArray);
+function checkCorreoExists(correo) {
+  if (
+    DATATABLE_MULTIEMPRESA.rows()
+      .data()
+      .filter((item) => item.correo == correo).length > 0
+  ) {
+    return true
+  }
 
-    $.ajax({
-        method: "POST",
-        url: route,
-        data: dataArray,
+  return false
+}
 
-        success: function (Response) {
-            if (Response == 1) {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Datos guardados correctamente",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
+frmMultiempresa.addEventListener('submit', function (e) {
+  e.preventDefault()
 
-                datatable.ajax.reload(null, false);
-                $("#frmguardar")[0].reset();
+  let empresaArea = $('#inputEmpresaAreaMultiempresa option:selected').val()
+  let correo = $('#inputCorreoMultiempresa').val()
 
-                $("#modalagregar").modal("hide");
-            } else {
-                alert("no guardado");
-            }
-        },
-        error: (response) => {
-            console.log(response);
-            $.each(response.responseJSON.errors, function (key, value) {
-                response.responseJSON.errors[key].forEach((element) => {
-                    console.log(element);
-                    toastr.error(element);
-                });
-            });
-        },
-    });
-});
+  let validation = validateFrmMultiempresa();
 
-$("#btnactualizar").on("click", (event) => {
-    event.preventDefault();
+  if (!validation.isOk) {
+    Utils.showValidationMessages(
+      '#frmMultiempresaContainer',
+      validation.messages
+    )
+  } else if (
+    checkEmpresaAreaExists(empresaArea) &&
+    MULTIEMPRESA_FORM_ACTION === 'STORE'
+  ) {
+    alertify.warning('La Empresa/Area ya fue añadida.')
+  } else if (
+    checkCorreoExists(correo) &&
+    MULTIEMPRESA_FORM_ACTION === 'STORE'
+  ) {
+    alertify.warning('El correo ya fue añadido.')
+  } else {
+    if (MULTIEMPRESA_FORM_ACTION == 'STORE') {
+      DATATABLE_MULTIEMPRESA.row
+        .add({
+          id: '',
+          empresa_area: $(
+            '#inputEmpresaAreaMultiempresa option:selected'
+          ).text(),
+          correo: inputCorreoMultiempresa.value,
+          id_empresa_area: $(
+            '#inputEmpresaAreaMultiempresa option:selected'
+          ).val(),
+        })
+        .draw()
+      frmMultiempresa.reset()
+    } else {
+      DATATABLE_MULTIEMPRESA.row(DATATABLE_MULTIEMPRESA_ROW_EDIT)
+        .data({
+          id: inputIdMultiEmpresa.value,
+          empresa_area: $(
+            '#inputEmpresaAreaMultiempresa option:selected'
+          ).text(),
+          correo: inputCorreoMultiempresa.value,
+          id_empresa_area: $(
+            '#inputEmpresaAreaMultiempresa option:selected'
+          ).val(),
+        })
+        .draw()
+      frmMultiempresa.reset()
+    }
+    Utils.cleanValidationMessages('#frmMultiempresaContainer')
+  }
 
-    let dataArray = $("#frmeditar").serializeArray();
-    let route = "/colaborador/" + dataArray[0].value;
-    dataArray.push({ name: "_token", value: token_ });
-    console.log(dataArray[0].value);
+  MULTIEMPRESA_FORM_ACTION = 'STORE'
+  collapseMultiempresaLabel.textContent = 'AÑADIR'
+  btnSendFrmMultiempresaText.textContent = 'Añadir'
+})
 
-    $.ajax({
-        method: "put",
-        url: route,
-        data: dataArray,
+$('#modalColaborador').on('hidden.bs.modal', function (event) {
+  frmColaborador.reset()
+  Utils.cleanValidationMessages('#frmColaborador')
+  frmMultiempresa.reset()
+  Utils.cleanValidationMessages('#frmMultiempresaContainer')
+  DATATABLE_MULTIEMPRESA.clear().draw()
+})
 
-        success: function (Response) {
-            if (Response == 1) {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Editado correctamente",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
+$('#collapseFrmMultiempresa').on('hidden.bs.collapse', function (event) {
+  frmMultiempresa.reset()
+  Utils.cleanValidationMessages('#frmMultiempresaContainer')
+})
 
-                datatable.ajax.reload(null, false);
-                $("#frmguardar")[0].reset();
+btnAgregarColaborador.addEventListener('click', function (e) {
+  COLABORADOR_FORM_ACTION = 'STORE'
+  modalColaboradorLabel.textContent = 'REGISTRAR'
+})
 
-                $("#modaleditar").modal("hide");
-            } else {
-                alert("no editado");
-            }
-        },
-        error: (response) => {
-            console.log(response);
-            $.each(response.responseJSON.errors, function (key, value) {
-                response.responseJSON.errors[key].forEach((element) => {
-                    console.log(element);
-                    toastr.error(element);
-                });
-            });
-        },
-    });
-});
+frmColaborador.addEventListener('submit', function (e) {
+  e.preventDefault()
+  btnSendFrmColaborador.disabled = true
+  loaderBtnSendFrmColaborador.style.display = 'inline-block'
 
-$("#colaboradores").on("click", ".desactivar", function () {
-    Swal.fire({
-        title: "¿Estás seguro(a)?",
-        text: "¡No podrás revertir esto!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "¡Sí!",
-        cancelButtonText: "Cancelar",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            var data = datatable.row($(this).parents("tr")).data();
-            if (datatable.row(this).child.isShown()) {
-                var data = datatable.row(this).data();
-            }
+  let data = new FormData(this)
+  data.append('_token', token_)
 
-            console.log(data);
-            let route = "/colaborador/" + data["id"];
-            let data2 = {
-                id: data.id,
-                _token: token_,
-            };
+  let i = 0
+  DATATABLE_MULTIEMPRESA.data().each(function (item) {
+    data.append(`empresas[${i}][id]`, item.id)
+    data.append(`empresas[${i}][id_empresa_area]`, item.id_empresa_area)
+    data.append(`empresas[${i}][correo]`, item.correo)
+    i++
+  })
 
-            $.ajax({
-                method: "delete",
-                url: route,
-                data: data2,
+  let url = 'colaborador'
 
-                success: function (Response) {
-                    if (Response == 1) {
-                        Swal.fire(
-                            "¡Desactivado!",
-                            "Su registro ha sido actualizado.",
-                            "success"
-                        );
+  if (COLABORADOR_FORM_ACTION == 'UPDATE') {
+    url = `colaborador/${inputIdColaborador.value}`
+    data.append('_method', 'PUT')
+  }
 
-                        datatable.ajax.reload(null, false);
-                    } else {
-                        alert("no editado");
-                    }
-                },
-                error: (response) => {
-                    console.log(response);
-                    $.each(response.responseJSON.errors, function (key, value) {
-                        response.responseJSON.errors[key].forEach((element) => {
-                            console.log(element);
-                            toastr.error(element);
-                        });
-                    });
-                },
-            });
+  axios
+    .request({
+      method: 'post',
+      url: url,
+      data: data,
+    })
+    .then((response) => {
+      console.log(response)
+      alertify.success('Registrado con exito.')
+      datatable.ajax.reload(null, false)
+      $('#modalColaborador').modal('hide')
+    })
+    .catch((error) => {
+      console.log(error)
+      if (error.response) {
+        if (error.response.status === 422) {
+          Utils.showValidationMessages(
+            '#frmColaborador',
+            error.response.data.errors
+          )
+          showValidationMessagesInTable(error.response.data.errors)
+        } else {
+          alert('Ocurrio un error inesperado!')
         }
-    });
-});
+      }
+    })
+    .then(() => {
+      btnSendFrmColaborador.disabled = false
+      loaderBtnSendFrmColaborador.style.display = 'none'
+    })
+})
+
+function showValidationMessagesInTable(errors) {
+  document
+    .querySelectorAll('#tablaMultiempresa tbody tr')
+    .forEach((element) => {
+      element.style.backgroundColor = 'transparent'
+    })
+
+  Object.entries(errors).forEach((error) => {
+    console.log(error)
+    if (error[0].search('empresas.*') != -1) {
+      let index = error[0].split('.')[1]
+      document.querySelectorAll('#tablaMultiempresa tbody tr')[
+        index
+      ].style.backgroundColor = '#dc3545'
+      alertify.error(
+        error[1][0].replace(
+          `empresas.${index}.correo`,
+          // $('#tablaMultiempresa').DataTable().rows(index).data()[0].correo
+          'correo'
+        )
+      )
+    }
+  })
+}
+
+$('#colaboradores').on('click', '.desactivar', function () {
+  Swal.fire({
+    title: '¿Estás seguro(a)?',
+    text: '¡No podrás revertir esto!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '¡Sí!',
+    cancelButtonText: 'Cancelar',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = datatable.row($(this).parents('tr')).data()
+      if (datatable.row(this).child.isShown()) {
+        var data = datatable.row(this).data()
+      }
+
+      console.log(data)
+      let route = '/colaborador/' + data['id']
+      let data2 = {
+        id: data.id,
+        _token: token_,
+      }
+
+      $.ajax({
+        method: 'delete',
+        url: route,
+        data: data2,
+
+        success: function (Response) {
+          if (Response == 1) {
+            Swal.fire(
+              '¡Desactivado!',
+              'Su registro ha sido actualizado.',
+              'success'
+            )
+
+            datatable.ajax.reload(null, false)
+          } else {
+            alert('no editado')
+          }
+        },
+        error: (response) => {
+          console.log(response)
+          $.each(response.responseJSON.errors, function (key, value) {
+            response.responseJSON.errors[key].forEach((element) => {
+              console.log(element)
+              toastr.error(element)
+            })
+          })
+        },
+      })
+    }
+  })
+})

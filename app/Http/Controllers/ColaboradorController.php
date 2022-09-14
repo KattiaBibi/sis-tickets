@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Colaborador;
-use App\Empresa;
+use App\ColaboradorEmpresaArea;
 use App\Http\Requests\ColaboradorRequest;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,12 +22,31 @@ class ColaboradorController extends Controller
 
   public function colaborador()
   {
+    $colaboradores = DB::table('colaboradores')
+      ->select(
+        'colaboradores.id AS id',
+        'colaboradores.estado AS estado',
+        'colaboradores.nrodocumento AS nrodocumento',
+        'nombres',
+        'apellidos',
+        'fechanacimiento',
+        'direccion',
+        'telefono'
+      )->get();
 
-    $colaboradores = DB::table('colaboradores as c')
-      ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
-      ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
-      ->join('areas as a', 'ea.area_id', '=', 'a.id')
-      ->select('c.estado as colaborador_estado', 'c.id', 'c.nrodocumento', 'c.nombres', 'c.apellidos', 'c.fechanacimiento', 'c.direccion', 'c.telefono', 'e.nombre as e.nombre', 'a.nombre as a.nombre', 'ea.id as idea', 'e.nombre as nombre_empresa', 'a.nombre as nombre_area', 'ea.id as empresa_area_id');
+    foreach ($colaboradores as $colaborador) {
+      $colaborador->empresas = DB::table('colaborador_empresa_area')
+        ->select(
+          'colaborador_empresa_area.id AS id',
+          'colaborador_empresa_area.correo_corporativo AS correo_corporativo',
+          DB::raw("CONCAT(empresas.nombre, ' (', areas.nombre, ')') AS nombre_empresa_area"),
+          'empresa_areas.id AS id_empresa_area',
+        )
+        ->join('empresa_areas', 'colaborador_empresa_area.empresa_area_id', '=', 'empresa_areas.id')
+        ->join('empresas', 'empresa_areas.empresa_id', '=', 'empresas.id')
+        ->join('areas', 'empresa_areas.area_id', '=', 'areas.id')
+        ->where('colaborador_empresa_area.colaborador_id', '=', $colaborador->id)->get();
+    }
 
     if (request()->input('empresa_area_id')) {
       $colaboradores->where('ea.id', '=', request()->input('empresa_area_id'));
@@ -39,24 +57,12 @@ class ColaboradorController extends Controller
 
   public function index()
   {
-
     $empresa_areas = DB::table('empresa_areas as ea')
       ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
       ->join('areas as a', 'ea.area_id', '=', 'a.id')
       ->select('ea.id as eaid', 'e.id as eid', 'a.id as aid', 'e.nombre as enombre', 'a.nombre as anombre')->get();
 
-
     return view('colaborador.index', compact('empresa_areas'));
-  }
-
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    //
   }
 
   /**
@@ -67,31 +73,27 @@ class ColaboradorController extends Controller
    */
   public function store(ColaboradorRequest $request)
   {
-    $colaborador =  Colaborador::create($request->all());
+    $input = $request->all();
 
-    return $colaborador ? 1 : 0;
-  }
+    DB::transaction(function () use ($input) {
+      $colaborador =  Colaborador::create($input);
+      $multiEmpresas = [];
+      foreach ($input['empresas'] as $empresa) {
+        array_push($multiEmpresas, [
+          'correo_corporativo' => $empresa['correo'],
+          'colaborador_id' => $colaborador->id,
+          'empresa_area_id' => $empresa['id_empresa_area'],
+          'created_at' => date('Y-m-d H:i:s'),
+          'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+      }
+      ColaboradorEmpresaArea::insert($multiEmpresas);
+    });
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Colaborador  $colaborador
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Colaborador $colaborador)
-  {
-    //
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Colaborador  $colaborador
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(Colaborador $colaborador)
-  {
-    //
+    return response()->json([
+      "messages" => "Resource created successfully.",
+      "data" => $input
+    ], 201);
   }
 
   /**
@@ -103,10 +105,42 @@ class ColaboradorController extends Controller
    */
   public function update(ColaboradorRequest $request, $id)
   {
-    $colaborador = Colaborador::findOrfail($id);
-    $colaborador->update($request->all());
+    $colaborador = Colaborador::find($id);
+    
+    if (is_null($colaborador)) {
+      return response()->json(['errors' => 'Resource not found.'], 404);
+    }
 
-    return $colaborador ? 1 : 0;
+    $input = $request->all();
+
+    $colaborador->nrodocumento = $input['nrodocumento'];
+    $colaborador->nombres = $input['nombres'];
+    $colaborador->apellidos = $input['apellidos'];
+    $colaborador->fechanacimiento = $input['fechanacimiento'];
+    $colaborador->direccion = $input['direccion'];
+    $colaborador->telefono = $input['telefono'];
+
+    DB::transaction(function () use ($id, $colaborador, $input) {
+      $colaborador->save();
+      ColaboradorEmpresaArea::where('colaborador_id', '=', $id)->delete();
+
+      $multiEmpresas = [];
+      foreach ($input['empresas'] as $empresa) {
+        array_push($multiEmpresas, [
+          'correo_corporativo' => $empresa['correo'],
+          'colaborador_id' => $colaborador->id,
+          'empresa_area_id' => $empresa['id_empresa_area'],
+          'created_at' => date('Y-m-d H:i:s'),
+          'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+      }
+      ColaboradorEmpresaArea::insert($multiEmpresas);
+    });
+
+    return response()->json([
+      "messages" => "Resource updated successfully.",
+      "data" => $input
+    ], 200);
   }
 
   /**

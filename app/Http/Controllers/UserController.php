@@ -40,7 +40,7 @@ class UserController extends Controller
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
             ->join('model_has_roles as mr', 'u.id', '=', 'mr.model_id')
             ->join('roles as r', 'mr.role_id', '=', 'r.id')
-            ->select('u.id as uid', 'u.name as uname', 'u.email as uemail', 'u.password as upassword', 'u.estado as uestado', 'u.colaborador_id as ucolaborador_id', 'c.nombres as cnombres', 'u.imagen as imagen', 'mr.role_id as role_id')->get();
+            ->select('u.id as uid', 'u.name as uname', 'u.email as uemail', 'u.password as upassword', 'u.estado as uestado', 'u.colaborador_id as ucolaborador_id', 'c.nombres as cnombres', 'c.apellidos as capellidos', 'u.imagen as imagen', 'mr.role_id as role_id')->get();
 
 
         return datatables()->of($usuarios)->toJson();
@@ -113,8 +113,6 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
-
         $empresa_areas = DB::table('empresa_areas as ea')
             ->join('empresas as e', 'ea.empresa_id', '=', 'e.id')
             ->join('areas as a', 'ea.area_id', '=', 'a.id')
@@ -122,7 +120,6 @@ class UserController extends Controller
 
         $usuario = DB::table('users as u')
             ->join('colaboradores as c', 'u.colaborador_id', '=', 'c.id')
-            ->join('empresa_areas as ea', 'c.empresa_area_id', '=', 'ea.id')
             ->join('model_has_roles as mr', 'u.id', '=', 'mr.model_id')
             ->join('roles as r', 'mr.role_id', '=', 'r.id')
             ->select(
@@ -142,15 +139,26 @@ class UserController extends Controller
                 'c.telefono as tf',
                 'u.imagen as imagen',
                 'mr.role_id as role_id',
-                'r.name as role_name',
-                'c.empresa_area_id as empresa_area_id'
+                'r.name as role_name'
             )
             ->where('u.id', auth()->user()->id)
             ->first();
 
         $roles = Role::all();
 
-                // dd($usuario, $empresa_areas, $roles);
+        $usuario->empresas = DB::table('colaborador_empresa_area')
+            ->select(
+                'colaborador_empresa_area.id AS id',
+                'colaborador_empresa_area.correo_corporativo AS correo_corporativo',
+                DB::raw("CONCAT(empresas.nombre, ' (', areas.nombre, ')') AS nombre_empresa_area"),
+                'empresa_areas.id AS id_empresa_area',
+            )
+            ->join('empresa_areas', 'colaborador_empresa_area.empresa_area_id', '=', 'empresa_areas.id')
+            ->join('empresas', 'empresa_areas.empresa_id', '=', 'empresas.id')
+            ->join('areas', 'empresa_areas.area_id', '=', 'areas.id')
+            ->where('colaborador_empresa_area.colaborador_id', '=', $usuario->uid)->get();
+
+        // dd($usuario, $empresa_areas, $roles);
 
         return view('usuario.perfil', compact('usuario', 'empresa_areas', 'roles'));
     }

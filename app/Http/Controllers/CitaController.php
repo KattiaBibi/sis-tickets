@@ -349,6 +349,7 @@ class CitaController extends Controller
       $message = "👉 HOLA, *$asistente->nombres $asistente->apellidos*, $accionText: \n ✅ *SOLICITANTE:* $reunion->registrado_por \n ✅ *TITULO:* $reunion->titulo \n 📅 *FECHA:* $fecha \n 📅 *HORA INICIO:* $horaInicio \n 📅 *HORA FIN:* $horaFin \n ✅ *TIPO:* $reunion->tipo \n ✅ *EMPRESA:* $reunion->descripcion_empresa \n ***Revisa tu correo $asistente->email para mas información***";
 
       return [
+        'prefijo' => $asistente->prefijo,
         'message' => $message,
         'phoneNumber' => $asistente->telefono
       ];
@@ -369,9 +370,9 @@ class CitaController extends Controller
 
     private function sendWhatsappMessages(array $recipients)
     {
-        $apiURL = 'http://localhost:3000/api/v1/sendMessage';
+        // $apiURL = 'http://localhost:3000/api/v1/sendMessage';
         // $apiURL = 'https://my-whatsapp-client.herokuapp.com/api/v1/sendMessage';
-        // $apiURL = 'https://whatsapp-client-production.up.railway.app/api/v1/sendMessage';
+        $apiURL = 'https://whatsapp-client-production.up.railway.app/api/v1/sendMessage';
 
         $promises = [];
 

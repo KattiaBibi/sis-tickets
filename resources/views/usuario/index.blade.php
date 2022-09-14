@@ -36,12 +36,13 @@
     @endif
 
 
-    <table id="usuarios" class="table table-striped table-bordered" style="">
+    <table id="usuarios" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th></th>
                 <th>USUARIO</th>
-                <th>COLABORADOR</th>
+                <th>COLAB.NOMBRE</th>
+                <th>COLAB.APELLIDOS</th>
                 <th>EMAIL</th>
                 {{-- <th>CONTRASEÑA</th> --}}
                 <th colspan="2" style="text-align: center;">ACCIONES</th>
@@ -56,7 +57,8 @@
             <tr>
                 <th></th>
                 <th>USUARIO</th>
-                <th>COLABORADOR</th>
+                <th>COLAB.NOMBRE</th>
+                <th>COLAB.APELLIDOS</th>
                 <th>EMAIL</th>
                 {{-- <th>CONTRASEÑA</th> --}}
 
@@ -139,7 +141,7 @@
               <option value="a">Elegir</option>
 
               @foreach ($colaboradores as $c)
-              <option value="{{ $c->id }}">{{$c->nombres}}</option>
+              <option value="{{ $c->id }}">{{$c->nombres}} {{$c->apellidos}}</option>
             @endforeach
 
             </select>
@@ -267,7 +269,7 @@
                   <option value="a">Elegir</option>
 
                   @foreach ($colaboradores as $c)
-                  <option value="{{ $c->id }}">{{$c->nombres}}</option>
+                  <option value="{{ $c->id }}">{{$c->nombres}} {{$c->apellidos}}</option>
                 @endforeach
                 </select>
 

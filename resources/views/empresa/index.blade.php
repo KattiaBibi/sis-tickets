@@ -119,8 +119,6 @@
 
 
 @section('js')
-
-<script src="{{asset('js/Utils.js')}}"></script>
 <script src="{{asset('js/empresa.js')}}"></script>
 
 <script>

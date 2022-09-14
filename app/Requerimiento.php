@@ -32,6 +32,7 @@ class Requerimiento extends Model
                 DB::raw("requerimientos.titulo AS titulo"),
                 DB::raw("requerimientos.created_at AS fecha_creacion"),
                 DB::raw("requerimientos.prioridad AS prioridad"),
+                DB::raw("empresas.id AS id_empresa"),
                 DB::raw("empresas.nombre AS nombre_empresa"),
                 DB::raw("servicios.nombre AS nombre_servicio"),
                 "colaboradores.id AS id_solicitante",
@@ -54,7 +55,10 @@ class Requerimiento extends Model
                 DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_encargado"),
                 "colaboradores.nombres AS nombre",
                 "colaboradores.apellidos AS apellido",
-                "encargado.email AS email"
+                DB::raw("COALESCE((SELECT colaborador_empresa_area.correo_corporativo
+                FROM colaborador_empresa_area
+                INNER JOIN empresa_areas ON empresa_areas.id = colaborador_empresa_area.empresa_area_id
+                WHERE colaborador_empresa_area.colaborador_id = colaboradores.id AND empresa_areas.empresa_id = $requerimiento->id_empresa), encargado.email) AS email")
             )
             ->join('users AS encargado', 'encargado.id', '=', 'requerimiento_encargados.usuarioencarg_id')
             ->join('colaboradores', 'colaboradores.id', '=', 'encargado.colaborador_id')
@@ -67,7 +71,10 @@ class Requerimiento extends Model
                 DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape_asignado"),
                 "colaboradores.nombres AS nombre",
                 "colaboradores.apellidos AS apellido",
-                "asignado.email AS email"
+                DB::raw("COALESCE((SELECT colaborador_empresa_area.correo_corporativo
+                FROM colaborador_empresa_area
+                INNER JOIN empresa_areas ON empresa_areas.id = colaborador_empresa_area.empresa_area_id
+                WHERE colaborador_empresa_area.colaborador_id = colaboradores.id AND empresa_areas.empresa_id = $requerimiento->id_empresa), asignado.email) AS email")
             )
             ->join('users AS asignado', 'asignado.id', '=', 'detalle_requerimientos.usuario_colab_id')
             ->join('colaboradores', 'colaboradores.id', '=', 'asignado.colaborador_id')

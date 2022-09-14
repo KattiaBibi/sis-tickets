@@ -245,7 +245,6 @@ function displayChildOfTable1(row, data) {
   <table class="DTTable2 table table-responsive table-bordered" id="" style="width: 100%; display: table; font-size: small; border: 3px solid tomato;">
     <thead>
       <tr>
-        <th></th>
         <th>ID</th>
         <th>Nombre</th>
         <th colspan='2' class='text-center'>Opciones</th>
@@ -299,13 +298,6 @@ function displayChildOfTable1(row, data) {
       data: { _token: token_, empresa_id: data.id },
     },
     columns: [
-      {
-        className: 'details-control2',
-        orderable: false,
-        data: null,
-        defaultContent: '',
-        width: '50px',
-      },
       { data: 'id' },
       { data: 'nombre' },
       {

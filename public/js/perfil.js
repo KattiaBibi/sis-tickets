@@ -2,18 +2,20 @@ console.log('¡HOLA PERFIL!')
 
 $(document).ready(function () {
   // Mi código de inicialización
-  let valor = $('#imagenuser').attr('value')
+  let valor = $('#imagenuser').attr('value')  
 
   let rol = $('#rol').attr('value')
-  let empresa_area = $('#empresa_area').attr('value')
+  // let empresa_area = $('#empresa_area').attr('value')
 
   $('#rol').val(rol)
   $('#empresa_area').val(empresa_area)
 
   if (valor == 0 || valor == null) {
+    console.log(true);
     document.getElementById('imagenuser').src =
       '/vendor/adminlte/dist/img/sinimg.jpg'
   } else {
+    console.log(false);
     document.getElementById('imagenuser').src = '/storage/foto/' + valor
   }
 })

@@ -29,7 +29,6 @@
 
 @section('js')
 <script src="{{asset('js/empresa_servicio.js')}}"></script>
-<script src="{{asset('js/Utils.js')}}"></script>
 <script>
   listar()
 </script>

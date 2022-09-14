@@ -67,7 +67,8 @@ class Cita extends Model
           "detalle_citas.confirmation AS confirmation",
           "detalle_citas.confirmation_at AS confirmation_at",
           "users.email AS email",
-          "colaboradores.telefono AS telefono"
+          "colaboradores.telefono AS telefono",
+          "colaboradores.prefijo AS prefijo"
         )
         ->join('colaboradores', 'colaboradores.id', '=', 'detalle_citas.usuario_colab_id')
         ->join('users', 'users.colaborador_id', '=', 'colaboradores.id')

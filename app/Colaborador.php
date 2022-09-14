@@ -7,12 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class Colaborador extends Model
 {
-  //
   protected $table = 'colaboradores';
   protected $primaryKey = 'id';
 
   protected $fillable = [
-
     'nrodocumento',
     'nombres',
     'apellidos',
@@ -20,8 +18,6 @@ class Colaborador extends Model
     'direccion',
     'telefono',
     'estado',
-    'empresa_area_id',
-
   ];
 
   private function getFilters($query, $filters)
@@ -81,7 +77,8 @@ class Colaborador extends Model
     return DB::table('colaboradores')
       ->select(
         DB::raw("CONCAT(colaboradores.nombres, ' ', colaboradores.apellidos) AS nom_ape"),
-        "colaboradores.telefono AS telefono"
+        "colaboradores.telefono AS telefono",
+        "colaboradores.prefijo AS prefijo"
       )
       ->join('users', 'users.colaborador_id', '=', 'colaboradores.id')
       ->whereIn('users.id', $userIds)

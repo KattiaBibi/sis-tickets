@@ -40,7 +40,8 @@ Route::get('/dashboard/getLastRequerimientos', 'HomeController@getLastRequerimie
 
 
 Route::delete('requerimiento/delete/{id}', 'RequerimientoController@delete');
-Route::get('requerimiento/sendWspMessage', 'RequerimientoController@sendWspMessage');
+// Route::get('requerimiento/sendWspMessage', 'RequerimientoController@sendWspMessage');
+Route::get('requerimiento/sendEmail/{id}', 'RequerimientoController@sendEmail');
 Route::resource('requerimiento','RequerimientoController');
 Route::resource('historialfechahora','HistorialFechaHoraController');
 Route::get('datatable/requerimientos', 'RequerimientoController@requerimiento')->name('datatable.requerimiento');
@@ -57,7 +58,7 @@ Route::post('datatable/usuarios', 'UserController@usuario')->name('datatable.usu
 Route::get('usuario/perfil', 'UserController@show')->name('usuario.perfil');
 
 Route::resource('colaborador','ColaboradorController');
-Route::post('datatable/colaboradores', 'ColaboradorController@colaborador')->name('datatable.colaborador');
+Route::get('datatable/colaboradores', 'ColaboradorController@colaborador')->name('datatable.colaborador');
 Route::get('colaboradores/search', 'ColaboradorController@search');
 
 Route::get('empresa/search', 'EmpresaController@search');
